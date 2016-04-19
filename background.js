@@ -254,5 +254,12 @@ function update(content){
 notificationUpdateTimeout = 0;
 
 $(function(){
+    chrome.contextMenus.create({
+        'title' : 'Raffraichir',
+        'contexts' : ['browser_action'],
+        'onclick' : function(info){
+            update();
+        }
+    })
     update();
 })

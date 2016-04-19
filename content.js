@@ -104,32 +104,90 @@ function send_mp() {
     }
 }
 
-iframeTpl = '<div class="quote" style="height: 500px;"><iframe id="ytplayer" height="100%" width="100%" type="text/html"\
+embedYTBTpl = '<iframe id="ytplayer" height="500" width="100%" type="text/html"\
   src="{{protocol}}//www.youtube.com/embed/{{id}}?autoplay=1&origin={{base_url}}"\
-  frameborder="0"/></div>';
-
+  frameborder="0"/>';
 YTBLogo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAYAAAB24g05AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wgFEBsGdGFydgAAAUpJREFUKM99krFKXFEQhr8598gVXAyYNApioqAQF0KKPMGKLyEWlnkOCxtJGSzEWgVLwTxBLJJHSJNCMNEQiSibe2Z+C7fY624y8DfD/3/DmTn2/fXypCX7CLwDpoEpoAYmgIrHcqAB+sAdcAN8Veh9DtgxaYv/Vx5AO8BzYB7oCv5kl3qmMZGqggiQ/kkV9FJxzZYQw2qaQmdjk7TaxfMERfDUU0IU12zyUMdDtORB/eYtC8cnzOx+IC2v4BgjvlAnuUgl4KnkDsBMb425/QN4uUjjbY+LlD0UI28L4f0+zeUl14dH/NjbI+7usSpBeyVhXxZe/QRetNoePFtf4/bzOeX6F1bXkGzcHn/nEroYAZhxdXqG5QrqejBr7DUucoTOBF1Eal8+jwaHGYYMPuXGYyeZLQErQK3H31cNgGkoGoAbFOAv4ltI2w/zrcgq2WPx2AAAAABJRU5ErkJggg==";
 
-function plugin_viewYoutubeInline() {
+embedSoundCloudTpl = '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="{{protocol}}//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{id}}&color={{color}}"></iframe>';
+SoundCloudLogo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAcFJREFUeNqUU91KG1EQ/uZ026T5qa0gBjVexUhEKNYLQShIX0JoqxcS8yK96hOUgqEv0Ps+gC/gnRGlUPGnRXrRVk3X7DnHmdlskk0DJQeGmTMz33yzc2bJN/AawB7LY4x32ix14gI/UVmYRL4wHvzmGjg5vgrYnMSjHNBxvZj3/bwBE5RoMQQDTAXq6dgU0KvtU+CkABGl7lrA/7UDQNFetRsoSF1mQ2KTavEHmnMXdQExqwB9dgIuCpHZ+gDKPYW7PETny3sm+6VgqWb6HUQKFqDLFGFqrxCsv4G9PIIpPwdl2Te7DBRLCD9uIzBxN0JqlLkdqdDqJh7uNEHzq/BSzbrUFIPFlwjW3sIV5jRfQkYjPAOzvg0q1bR/nwCtH3oHILP5DplGU+cWdyDeMIJZ2ogBytzVkcc/TyGsM1WOxdw6D/AM/MVXEDMTl1WdfMKIY/c/g27aOgeyu9zJjyfdyeeBygrcaQtUfQF3cgA8m4Yn01sgCkPQWQsPxJ7+zUQNLvAth+Rr/dA2jlqmeBdY5m/jZ6Q7q5k0AjBylZN1ZglYzpGNZvGHUkn/PUUvuefSQR1l+4kvpTF/5++CvRdgAO38yAFPFQvXAAAAAElFTkSuQmCC"
+
+embedDMTpl = '<iframe frameborder="0" width="100%" height="500" src="{{protocol}}//www.dailymotion.com/embed/video/{{id}}?autoplay=1" allowfullscreen></iframe>';
+DMLogo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAJ1BMVEUAZN33+v7a6fpCjucGbd8ceeKuz/Ts8/yEte8zhuVioeudxPLG3Pfxm23KAAAAYElEQVR42n3OSwoAMQgD0PqL2vb+553PwrYMTMDNIxDbX9RMDxAgj0I4y163oAKVAAILZBK5e4GBfAQWCNMwTRR09/6s7BDabBTkJI4eXKCd35GCW8CMMZHr0Uy7T9snFx2sAnvnbX9dAAAAAElFTkSuQmCC";
+function getSoundCloudLink(url){
+  var regexp = /^https?:\/\/(soundcloud.com|snd.sc)\/(.*)$/;
+  return url.match(regexp) && url.match(regexp)[0]
+}
+
+function getDailyMotionId(url) {
+    var m = url.match(/^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/);
+    if (m !== null) {
+        if(m[4] !== undefined) {
+            return m[4];
+        }
+        return m[2];
+    }
+    return null;
+}
+
+function hexc(colorval) {
+    var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    delete(parts[0]);
+    for (var i = 1; i <= 3; ++i) {
+        parts[i] = parseInt(parts[i]).toString(16);
+        if (parts[i].length == 1) parts[i] = '0' + parts[i];
+    }
+    color = '#' + parts.join('');
+
+    return color;
+}
+
+function plugin_embed() {
     $('a.link_a_reduce').each(function() {
         link = this.title || this.innerText;
         youtubeID = link.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i);
         if (youtubeID != null && typeof youtubeID[1] != "undefined") {
-            $(this).after(' <span data-userscript-ytb-iframe="close" data-userscript-ytb-id="' + youtubeID[1] + '"><img src="' + YTBLogo + '" alt="open or close youtube video"/></span>');
+            $(this).after(' <span data-plugin-embed-open="close" data-plugin-embed="youtube" data-plugin-id="' + youtubeID[1] + '"><img src="' + YTBLogo + '" alt="open or close youtube video"/></span>');
         }
-        //debugger;
+
+        soundcloudLink = getSoundCloudLink(link);
+        if(soundcloudLink != null){
+            $.get('http://api.soundcloud.com/resolve.json?url='+soundcloudLink+'/tracks&client_id='+SoundCloudApiKey ,
+            function (result) {
+                $(this).after(' <span data-plugin-embed-open="close" data-plugin-embed="soundcloud" data-plugin-id="' + result.id + '"><img src="' + SoundCloudLogo + '" alt="open or close soundcloud video"/></span>');
+            }.bind(this));
+        }
+
+        DMID = getDailyMotionId(link);
+        if(DMID != null){
+            $(this).after(' <span data-plugin-embed-open="close" data-plugin-embed="dailymotion" data-plugin-id="' + DMID + '"><img src="' + DMLogo + '" alt="open or close dailymotion video"/></span>');
+        }
     });
 
-    $('body').on('click', '[data-userscript-ytb-id]', function() {
-        console.log($(this).data('userscript-ytb-iframe'));
-        if ($(this).data('userscript-ytb-iframe') == "close") {
-            iframeYTB = $(iframeTpl.replace(/{{protocol}}/g, location.protocol).replace(/{{base_url}}/, location.protocol + '//' + location.hostname).replace(/{{id}}/, $(this).data('userscript-ytb-id')));
-            this.iframeYTB = iframeYTB;
-            $(this).after(iframeYTB);
-            $(this).data('userscript-ytb-iframe', "open");
+    $('body').on('click', '[data-plugin-embed-open]', function() {
+        console.log($(this).data('plugin-embed-open'));
+        if ($(this).data('plugin-embed-open') == "close") {
+            switch($(this).data('plugin-embed')){
+                case 'youtube':
+                    embedIframe = $(embedYTBTpl.replace(/{{protocol}}/g, location.protocol).replace(/{{base_url}}/, location.protocol + '//' + location.hostname).replace(/{{id}}/, $(this).data('plugin-id')));
+                break;
+                case 'soundcloud':
+                    $quoteDiv = $('<div class="quote"></div>');
+                    $('body').append($quoteDiv);
+                    color = hexc($quoteDiv.css('backgroundColor'));
+                    $quoteDiv.remove();
+                    embedIframe = $(embedSoundCloudTpl.replace(/{{protocol}}/g, location.protocol).replace(/{{color}}/g, color).replace(/{{id}}/g, $(this).data('plugin-id')))
+                break;
+                case 'dailymotion':
+                    embedIframe = $(embedDMTpl.replace(/{{protocol}}/g, location.protocol).replace(/{{id}}/g, $(this).data('plugin-id')))
+                break;
+            }
+            this.embedIframe = embedIframe;
+            $(this).after(embedIframe);
+            $(this).data('plugin-embed-open', "open");
         } else {
-            $(this.iframeYTB).remove();
-            $(this).data('userscript-ytb-iframe', "close");
+            $(this.embedIframe).remove();
+            $(this).data('plugin-embed-open', "close");
         }
     });
 }
@@ -329,7 +387,7 @@ $(function() {
 
     plugin_update_emoticone_textarea();
     $body = $('body');
-    plugin_viewYoutubeInline();
+    plugin_embed();
     //settings
     if (plugin_getParameterByName('tab', location.href) == "settings") {
         // #contener_profil_param .content_profil_param .profil_param_notification

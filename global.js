@@ -7,6 +7,8 @@ theme_list = {
 
 theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/master/themes/';
 
+SoundCloudApiKey = '048a40b1f3413b2e8097221375a5aa1b';
+
 //start with default settings
 defaultSettings = {
     time_between_refresh : 60000,
