@@ -1,3 +1,8 @@
+1.1.5 :
+ - soundcloud api error with https
+
+----------------------------------------
+
 1.1.4 :
  - add embed for dailymotion and  soundcloud
 

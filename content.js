@@ -152,7 +152,7 @@ function plugin_embed() {
 
         soundcloudLink = getSoundCloudLink(link);
         if(soundcloudLink != null){
-            $.get('http://api.soundcloud.com/resolve.json?url='+soundcloudLink+'/tracks&client_id='+SoundCloudApiKey ,
+            $.get(location.protocol+'//api.soundcloud.com/resolve.json?url='+soundcloudLink+'/tracks&client_id='+SoundCloudApiKey ,
             function (result) {
                 $(this).after(' <span data-plugin-embed-open="close" data-plugin-embed="soundcloud" data-plugin-id="' + result.id + '"><img src="' + SoundCloudLogo + '" alt="open or close soundcloud video"/></span>');
             }.bind(this));
