@@ -1,4 +1,4 @@
-1.1.3 :
+1.1.4 :
  - add embed for dailymotion and  soundcloud
 
 ----------------------------------------
