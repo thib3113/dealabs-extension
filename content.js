@@ -104,15 +104,6 @@ function send_mp() {
     }
 }
 
-inject(validate_comment);
-inject(send_reply);
-inject(send_mp);
-inject(validate_edit_comment);
-inject(plugin_escapeRegExp);
-
-inject(plugin_update_emoticone_textarea);
-inject(plugin_insertSmiley);
-
 iframeTpl = '<div class="quote" style="height: 500px;"><iframe id="ytplayer" height="100%" width="100%" type="text/html"\
   src="{{protocol}}//www.youtube.com/embed/{{id}}?autoplay=1&origin={{base_url}}"\
   frameborder="0"/></div>';
@@ -327,6 +318,15 @@ observer.observe(document, {
 })
 
 $(function() {
+    inject(validate_comment);
+    inject(send_reply);
+    inject(send_mp);
+    inject(validate_edit_comment);
+    inject(plugin_escapeRegExp);
+
+    inject(plugin_update_emoticone_textarea);
+    inject(plugin_insertSmiley);
+
     plugin_update_emoticone_textarea();
     $body = $('body');
     plugin_viewYoutubeInline();
