@@ -4,7 +4,7 @@
   "name": "Dealabs Notifier - unofficial",
   "short_name": "Dealabs Notifier",
   "description": "This extension is a notifier for dealabs",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "options_page": "options.html",
   "icons": { "16": "icon_16.png",
            "48": "icon_48.png",

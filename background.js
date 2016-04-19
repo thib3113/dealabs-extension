@@ -222,6 +222,13 @@ function update(content){
             success:function(resp){
                 resp = resp.replace(/src=["|']\/\//g, 'https://');
                 parseUpdate(resp, function(){
+                    popup = chrome.extension.getViews({type:'popup'});
+                    if(popup.length >0){
+                        for (var i = 0; i < popup.length; i++) {
+                            console.log(popup);
+                            popup[i].generate_popup();
+                        }
+                    }
                     notificationUpdateTimeout = setTimeout(update, plugin_settings.time_between_refresh);
                 });
 
@@ -233,6 +240,12 @@ function update(content){
     }
     else{
         parseUpdate(content, function(){
+            popup = chrome.extension.getViews({type:'popup'});
+            if(popup.length >0){
+                for (var i = 0; i < popup.length; i++) {
+                    popup[i].generate_popup();
+                }
+            }
             notificationUpdateTimeout = setTimeout(update, plugin_settings.time_between_refresh);
         });
     }

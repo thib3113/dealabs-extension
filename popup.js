@@ -1,17 +1,13 @@
 var port = chrome.extension.connect({name: "update Communication"});
 
-$(function(){
-    $('body').on('click', '[data-href]', function(){
-        newUrl = this.dataset.href;
-        port.postMessage({"action" : "open_tab", "url":newUrl});
-    })
-
+function generate_popup(){
     //recup notifications
     chrome.storage.local.get(['notifications', 'nbNotifications', 'profil_link'], function(value){
         notifications = value.notifications;
         nbNotifications = value.nbNotifications;
         profil_link = value.profil_link;
 
+        $('#notifications').html('');
         nb_add = 0;
         for(categorie in notifications){
             nb_add++;
@@ -56,4 +52,21 @@ $(function(){
         }
         $('body').css('height', nb_add*32)
     })
+}
+
+$(function(){
+    $('body').on('click', '[data-href]', function(){
+        newUrl = this.dataset.href;
+        port.postMessage({"action" : "open_tab", "url":newUrl});
+    })
+
+    generate_popup();  
+
+    chrome.extension.onConnect.addListener(function(port) {
+        port.onMessage.addListener(function(msg) {
+            if(msg.action == "update_popup"){
+                generate_popup();
+            }
+        });
+    });  
 })
