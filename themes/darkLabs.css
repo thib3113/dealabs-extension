@@ -1,0 +1,489 @@
+/*============================================*/
+/*      Dark Dealabs - MonsieurCro - V0.9     */
+/*============================================*/
+
+/*============================================*/
+/*                    INDEX                   */
+/*============================================*/
+
+
+body {/* arrière-plan du site*/
+    background-color: #444 !important;}
+
+
+/*============================================*/
+
+
+article {/* arrière-plan deal*/
+    background-color: #222 !important;}
+
+#title_contener {
+    background-color: #222 !important;}
+
+#search_page_contener {
+    background-color: #222 !important;} 
+
+#validate_div {
+    background-color: #333 !important;} 
+
+.content_part_div {
+    background-color: #222 !important;}
+
+
+.contener_liste_deal_index .content_div_deal_index .title a { /* texte titre deal*/
+    color: #fff !important;}
+
+.text_color_777777 {/* texte description deal*/
+    color : #bbb !important;}
+
+div.voucher_code_title {/* titre code promo*/
+    background-color: #222 !important;}
+
+input.voucher_code {/* code promo*/
+    background-color: #222 !important;}
+
+
+/*============================================*/
+
+
+nav {
+    background-color: #222 !important;}
+
+.structure.white {
+    background: #222 !important;}   
+
+#menu_white_background {
+    background-color: #222 !important;}
+
+/*============================================*/
+
+
+.body_pagination {/* barre numéros page*/
+background: #333 !important;}
+
+.right_part {
+    background-color: #222 !important;}
+    
+
+/*============================================*/
+    
+    
+
+#footer_white_background {/* footer bords*/
+    background-color: #222 !important;}
+
+#bottom_footer {
+    background-color: #222 !important;}
+
+.text_color_333333 {/* membres en ligne etc*/
+    color: #bbb !important;}
+/* ATTENTION lié aux spoilers et aux topics !!!*/
+
+
+/*============================================*/
+
+
+.bloc_rightbar div.selection_top a {
+    background: #222 !important;
+    color: #fff !important;}
+
+.bloc_rightbar div.div_liste_alert {
+    background: #222 !important;}
+
+.bloc_rightbar {
+    background-color: #222 !important;}
+
+.bloc_rightbar div.padding_div_thread {
+    background: #222 !important;}
+
+.bloc_rightbar div.padding_div_deal_hot {
+     background: #222 !important;}
+
+#left_global {
+    background-color: #222 !important;}
+
+/*============================================*/
+
+.body_pagination a.suivant {
+    background-image: url("https://static.dealabs.com/images/all/icon_pagination_next.png") !important;
+    background: #444 !important;}
+
+.body_pagination a.precedent {
+    background-image: url("https://static.dealabs.com/images/all/icon_pagination_previous.png") !important;
+    background: #444 !important;}
+
+.body_pagination a.active {
+    background-color: #777 !important;}
+
+.body_pagination a {
+    background-color: #444 !important;}
+
+
+/*============================================*/
+
+
+.departement_div div.list_div label {
+    background-color: #444 !important;}
+
+.departement_div div.list_div p {
+    background-color: #444 !important;}
+
+input[type="text"] {
+    background-color: #222 !important;
+    color: #fff !important;}
+
+input[type="tel"] {
+    background-color: #222 !important;
+    color: #fff !important;}
+
+#post_left .selection_type_div label {
+    background-color: #222 !important;}
+
+.drop_down_list_contener label select {
+    background-color: #222 !important;
+    color: #fff !important;}
+
+
+/*============================================*/
+
+
+.block_notif_contener {
+    background-color: #222 !important;}
+
+a.part_notif {
+    background: #222 !important;}
+
+
+#custom_tab {
+    background: #222 !important;}
+
+a#top_custom_tab {
+    background-image: url("https://static.dealabs.com/images/all/icon_customtab_settings.png") !important;
+    background: #333 !important;}
+
+#validate_div {
+    background: #222 !important;}
+
+.liste_div div.button a {
+    background: #222 !important;}
+
+
+/*=======REGISTER/CONNEXION POPUP=========*/
+
+.sub_header_popup {
+    background-color: #333 !important;}
+
+.body_login_register {
+    background-color: #222 !important;}
+
+.padding_content_logreg {
+    background: #222 none repeat scroll 0% 0% !important;}
+
+/*============================================*/
+/*               FORUM + DEAL                 */
+/*============================================*/
+
+
+a.button_chemin_deal {
+    color: #fff !important;}
+    
+.padding_part_contener.no_padding_left_right {
+    background-color: #222 !important;}
+
+.center_part_contener {
+    background-color: #222 !important;}
+
+.center_part_contener h1 {
+    color: #fff !important;}
+
+#comment_contener {
+    background-color: #222 !important;}
+
+div.maj_div {
+    background: #666 !important;}
+
+    
+/*============================================*/
+    
+    
+.padding_comment_contener {
+    background-color: #444 !important;}
+    
+.comment_text_part {
+    background-color: #444 !important;}
+
+div.quote {
+    background-color: #222 !important;}
+    
+.commentaire_div {
+    color: #fff !important;}
+
+div.quote_message {
+    color: #bbb !important;}
+
+    
+/*============================================*/
+
+
+#add_comment_contener {
+    background-color: #444 !important;}
+
+
+textarea {
+    background-color: #222 !important;
+    color: #fff !important;}
+
+
+/*============================================*/
+
+
+.body_detail_page.blue_border {
+    background: #222 !important;}
+
+    
+/*============================================*/
+
+
+.poster_profil_div {
+    background-color: #222 !important;}
+
+.option_deal_div div.partage {
+    background-color: #444 !important;}
+
+/*a.signaler { LIMITE PAR LE SITE : LIE à "J'aime" et "Signaler" ! (Modifié plus loin) :/
+    background: #444 url("//static.dealabs.com/images/deal_detail/icon_deal_report.png") no-repeat scroll 15px center !important;}*/
+
+a.facebook {
+    background: #444 url("https://static.dealabs.com/images/deal_detail/icon_all_facebook_grey.png") no-repeat scroll center center !important;}
+
+a.twitter {
+    background: #444 url("https://static.dealabs.com/images/deal_detail/icon_all_twitter_grey.png") no-repeat scroll center center !important;}
+
+a.mail {
+    background: #444 url("https://static.dealabs.com/images/deal_detail/icon_all_mail_grey.png") no-repeat scroll center center !important;}
+
+a.google {
+    background: #444 url("https://static.dealabs.com/images/deal_detail/icon_all_google_grey.png") no-repeat scroll center center !important;}
+
+
+/*============================================*/
+
+
+div.spoiler {
+    background-color: #333 !important;}
+
+
+/*============================================*/
+
+
+
+.padding_part_contener {
+    background-color: #222 !important;}
+
+a.expirer {
+    background: #444 url("https://static.dealabs.com/images/deal_detail/icon_deal_expire.png") no-repeat scroll 15px center !important;}
+
+a.signaler {
+    background: #444 url("https://static.dealabs.com/images/deal_detail/icon_deal_report.png") no-repeat scroll 15px center !important;}
+
+a.sauvegarder {
+    background: #444 url("https://static.dealabs.com/images/deal_detail/icon_all_save_white.png") no-repeat scroll 15px center !important;}
+
+a.resoudre {
+    background: #444 url("https://static.dealabs.com/images/deal_detail/icon_forum_solved.png") no-repeat scroll 15px center !important;}
+
+/*==============ALERTES================*/
+
+
+.bloc_rightbar div.div_liste_alert {
+    background-color: #222 !important;}
+
+/*============================================*/
+
+#floatant_title {
+    background-color: #222 !important;}
+
+.input_search {
+    background-color: #333 !important;
+    color: #fff !important;}    
+
+.button_grey_structure {
+    background-color: #333 !important;} 
+
+#contener_menu {
+    background-color: #333 !important;}
+
+#cat_contener {
+    background-color: #333 !important;} 
+
+#contener_menu a.active {
+    background-color: #555 !important;}
+
+.subcat_contener {
+    background-color: #333 !important;} 
+
+#contener_plus {
+    background-color: #333 !important;} 
+
+#contener_plus a {
+    background-color: #333 !important;}
+
+#contener_type #contener_parametre {
+    background-color: #333 !important;} 
+
+
+/*============================================*/
+
+
+div.contener_profil_hover_header {
+    background: #333 !important;}   
+
+.contener_profil_hover_stats {
+    background: #444 !important;}   
+
+.contener_profil_hover_button {
+    background: #444 !important;}   
+
+input[type="password"] {
+    background: #222 !important;
+    color: #fff !important;}
+
+input[type="email"] {
+    background: #222 !important;
+    color: #fff !important;}
+
+
+/*============================================*/
+/*                   PROFIL                   */
+/*============================================*/
+
+/*                   GAUCHE                   */
+/*============================================*/
+
+#content_profil_padding {
+    background-color: #222 !important;}
+
+p.description {
+    color: #fff !important;}
+
+.time_profil_contener {
+    color: #ddd !important;}
+
+#left_profil .badge_div {
+    background-color: #222 !important;}
+
+#left_profil .padding_badge_div {
+    background-color: #222 !important;}
+
+
+/*============================================*/
+
+
+.timeline_profil_div {
+    background-color: #222 !important;}
+
+.padding_timeline_left_contener {
+    background-color: #111 !important;}
+
+#timeline_profil p.time {
+    background-color: #111 !important;}
+
+.white_triangle_timeline {
+    background-color: #111 !important;}
+
+a {
+    color: #bbb !important;}
+
+span {
+    color: #ddd !important;}
+p {
+    color: #ccc !important;}
+
+#menu_profil_contener {
+background-color: #222 !important;}
+
+#username_lookup {
+    background-color: #222 !important;}
+
+.background_color_f4f4f4 {
+    background-color: #555 !important;}
+/*============================================*/
+
+
+.stats_profil {
+    background-color: #222 !important;}
+
+
+#liste_profil_messagerie {
+    background-color: #222 !important;}
+
+.menu_message {
+    background-color: #444 !important;}
+
+a.tab_header_messagerie.inbox.active {
+    background-image: url("https://static.dealabs.com/images/profil/icon_profile_messages_inbox_active.png") !important;
+    background: #666 !important;}
+    
+
+.background_color_white {
+    background-color: #444 !important;} 
+
+.content_profil_messagerie {
+    background-color: #444 !important;} 
+
+
+
+.padding_right_profil_param {
+    background-color: #444 !important;} 
+        
+
+p.time {
+    background-color: #222 !important;} 
+
+
+.menu_div_param {
+    background-color: #222 !important;} 
+
+div.div_tab_selector {
+    background-color: #222 !important;} 
+
+div.div_tab_selector.active {
+    background-color: #555 !important;} 
+
+#contener_profil_param {
+    background: #222 !important;}
+
+
+
+a.unsubscribe_button {
+    background: #222 !important;}
+
+.background_color_button_blue {
+    background-color: #666 !important;}
+
+
+#header_black a.logo {
+    margin: 0px 40px 0px 0px !important;
+    float: left;
+    padding: 0px;
+    height: 70px;
+    width: 230px !important;
+    background: transparent url("http://img11.hostingpics.net/pics/748224DarkLabsLogoLQ.png") no-repeat scroll center center !important;}
+
+/* Taille normale Logo : http://img15.hostingpics.net/pics/142222DarkLabsLogo.png*/
+
+/*============================================*/
+/*             PAGES D'AIDE, ETC              */
+/*============================================*/
+
+#body.white {
+    background: #222 !important;}
+
+.content_faq {
+    background: #222 !important;}   
+
+#floating_left_menu {
+    background: #222 !important;}   
+
+#body {
+    background: #444 !important;}
