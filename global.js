@@ -1,4 +1,12 @@
 time_between_refresh_list = [15,30,60,120,240];
+
+theme_list = {
+  'DeaLabs' : 'default',
+  'DarkLabs' : 'darkLabs'
+}
+
+theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/master/themes/';
+
 //start with default settings
 defaultSettings = {
     time_between_refresh : 60000,

@@ -275,14 +275,32 @@ function plugin_update_emoticone_textarea() {
     });
 }
 
-//add darklabs theme
-// var link = document.createElement( "link" );
-// link.href = chrome.extension.getURL('themes/darklabs.css');
-// link.type = "text/css";
-// link.rel = "stylesheet";
-// link.media = "screen,print";
-// debugger;
-// document.getElementsByTagName("head")[0].appendChild( link );
+function update_theme(theme){
+    theme_css = document.querySelectorAll('[data-plugin-role="theme_css"]');
+    for (var i = 0; i < theme_css.length; i++) {
+        theme_css[i].parentNode.removeChild(theme_css[i]);
+    }
+
+    if(theme != "default"){
+        // add darklabs theme
+        var link = document.createElement( "link" );
+        link.href = theme_url+theme+'.css';
+        link.type = "text/css";
+        link.rel = "stylesheet";
+        link.dataset.pluginRole = 'theme_css';
+        link.media = "screen,print";
+        document.getElementsByTagName("head")[0].appendChild( link );
+        if(window.location.pathname.match(/^\/forum/)){
+            var link = document.createElement( "link" );
+            link.href = theme_url+theme+'-forum.css';
+            link.type = "text/css";
+            link.dataset.pluginRole = 'theme_css';
+            link.rel = "stylesheet";
+            link.media = "screen,print";
+            document.getElementsByTagName("head")[0].appendChild( link );
+        }
+    }
+}
 
 var observer = new MutationObserver(function(mutations) {
 
@@ -290,16 +308,12 @@ var observer = new MutationObserver(function(mutations) {
     if (!mutation.addedNodes) return
     for (var i = 0; i < mutation.addedNodes.length; i++) {
       // do things to your newly added nodes here
-      var node = mutation.addedNodes[i]
+      var node = mutation.addedNodes[i];
       if(node.nodeName == "HEAD"){
-        //add darklabs theme
-        var link = document.createElement( "link" );
-        link.href = chrome.extension.getURL('themes/darklabs.css');
-        link.type = "text/css";
-        link.rel = "stylesheet";
-        link.media = "screen,print";
-        document.getElementsByTagName("head")[0].appendChild( link );
-        observer.disconnect()        
+        chrome.storage.sync.get('settings', function(value){
+            update_theme(value.settings.theme);
+        });
+        observer.disconnect();        
       }
     }
   })
@@ -311,7 +325,6 @@ observer.observe(document, {
   , attributes: false
   , characterData: false
 })
-
 
 $(function() {
     plugin_update_emoticone_textarea();
@@ -402,6 +415,21 @@ $(function() {
                         </div>\
                     </div>\
                     <div class="subtitle_tab_contener">\
+                        <p>Theme</p>\
+                    </div>\
+                    <div class="profil_param_notification border_grey_bottom">\
+                        <div class="left_profil_param_champs" style="width:50%;">\
+                            <p>Theme&thinsp;:</p>\
+                        </div>\
+                        <div class="content_profil_param_champs">\
+                            <div class="input_left flag">\
+                                <select name="plugin_theme" id="plugin_theme">\
+                                    <option value="">Chargement...</option>\
+                                </select>\
+                            </div>\
+                        </div>\
+                    </div>\
+                    <div class="subtitle_tab_contener">\
                         <p>Smileys</p>\
                     </div>\
                     <div class="profil_param_notification border_grey_bottom">\
@@ -426,6 +454,15 @@ $(function() {
         $('#plugin_time_between_refresh').html("");
         for (var i = 0; i < time_between_refresh_list.length; i++) {
             $('#plugin_time_between_refresh').append('<option value="' + time_between_refresh_list[i] * 1000 + '"' + (plugin_settings.time_between_refresh == time_between_refresh_list[i] * 1000 ? ' selected' : '') + '>' + time_between_refresh_list[i] + '</option>');
+        }
+
+        //load time_between_refresh
+        $('#plugin_theme').on('change', function(){
+            update_theme($(this).val());
+        })
+        $('#plugin_theme').html("");
+        for(name in theme_list){
+            $('#plugin_theme').append('<option value="' + theme_list[name] + '"' + (plugin_settings.theme == theme_list[name] ? ' selected' : '') + '>' + name + '</option>');
         }
 
         $('#plugin_desktop_notifications').attr('checked', plugin_settings.notifications_manage.desktop);
@@ -453,7 +490,6 @@ $(function() {
 
         //update settings
         $body.on('click', '[data-plugin-role="update_settings"]', function() {
-            time_between_refresh = parseInt($('#plugin_time_between_refresh').val());
             var save_smileys = {};
             $('#plugin_smileys_list tbody tr').each(function() {
                 smiley_url = $(this).find('[data-plugin-role="smiley_url"]').val();
@@ -464,6 +500,7 @@ $(function() {
 
             newSettings = {
                 time_between_refresh: parseInt($('#plugin_time_between_refresh').val()),
+                theme: $('#plugin_theme').val(),
                 notifications_manage: {
                     desktop : $('#plugin_desktop_notifications').is(':checked'),
                     forum : $('#plugin_forum_notifications').is(':checked'),
@@ -497,7 +534,7 @@ $(function() {
 
         // #plugin_tab_content .content_tab_contener
         if (plugin_getParameterByName('what', location.href) == "plugin") {
-            $('#plugin_tab').get(0).click();
+            setTimeout(function(){$('#plugin_tab').get(0).click();}, 500);
         }
     }
 
