@@ -250,9 +250,6 @@ textarea {
 .option_deal_div div.partage {
     background-color: #444 !important;}
 
-/*a.signaler { LIMITE PAR LE SITE : LIE à "J'aime" et "Signaler" ! (Modifié plus loin) :/
-    background: #444 url("//static.dealabs.com/images/deal_detail/icon_deal_report.png") no-repeat scroll 15px center !important;}*/
-
 a.facebook {
     background: #444 url("https://static.dealabs.com/images/deal_detail/icon_all_facebook_grey.png") no-repeat scroll center center !important;}
 
@@ -265,7 +262,9 @@ a.mail {
 a.google {
     background: #444 url("https://static.dealabs.com/images/deal_detail/icon_all_google_grey.png") no-repeat scroll center center !important;}
 
-
+a.reactiver {
+    background: #444 url("https://static.dealabs.com/images/deal_detail/icon_deal_unexpire.png") no-repeat scroll 15px center !important;}
+    
 /*============================================*/
 
 
@@ -407,6 +406,10 @@ background-color: #222 !important;}
 
 .background_color_f4f4f4 {
     background-color: #555 !important;}
+    
+#timeline_profil {
+    background-color: #222 !important;
+    
 /*============================================*/
 
 
