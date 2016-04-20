@@ -255,10 +255,26 @@ notificationUpdateTimeout = 0;
 
 $(function(){
     chrome.contextMenus.create({
-        'title' : 'Raffraichir',
+        'title' : 'Ouvrir dealabs',
+        'contexts' : ['browser_action'],
+        'onclick' : function(info){
+            chrome.tabs.create({ url:'https://www.dealabs.com', active : true }, function(tab){});
+        }
+    })
+    chrome.contextMenus.create({
+        'title' : 'Rafraichir',
         'contexts' : ['browser_action'],
         'onclick' : function(info){
             update();
+        }
+    })
+    chrome.contextMenus.create({
+        'title' : 'Ouvrir votre profil',
+        'contexts' : ['browser_action'],
+        'onclick' : function(info){
+            chrome.storage.local.get(['profil_link'], function(value){
+                chrome.tabs.create({ url:value.profil_link+'?tab=settings&what=plugin', active : true }, function(tab){});
+            })
         }
     })
     update();

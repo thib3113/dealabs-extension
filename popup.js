@@ -15,7 +15,7 @@ function generate_popup(){
             icon = 'https://static.dealabs.com/images/header/icon_header_notif.png';
             switch(categorie){
                 case 'notification':
-                    title = 'Deal'+(curCat.length>0?'s':'');
+                    title = 'Nouveau'+(curCat.length>0?'x':'')+' commentaire'+(curCat.length>0?'x':'');
                     more_link = 'https://www.dealabs.com/notifications.html';
                     nb_notif = nbNotifications.nb_notifs;
                 break;

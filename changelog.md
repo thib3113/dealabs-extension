@@ -1,3 +1,9 @@
+1.1.6 :
+ - text correction
+ - add 2 buttons for open profile or open dealabs
+
+----------------------------------------
+
 1.1.5 :
  - soundcloud api error with https
 
