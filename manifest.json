@@ -3,7 +3,7 @@
   "name": "Dealabs Notifier - unofficial",
   "short_name": "Dealabs Notifier",
   "description": "This extension is a notifier for dealabs",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "options_page": "options.html",
   "icons": {
     "16": "icon_16.png",
@@ -16,6 +16,7 @@
   },
   "background": {
     "scripts": [
+      "async.min.js",
       "jquery.min.js",
       "global.js",
       "background.js"

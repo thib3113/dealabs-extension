@@ -277,5 +277,39 @@ $(function(){
             })
         }
     })
+    chrome.contextMenus.create({
+        'title' : 'Tout marquer comme vus',
+        'contexts' : ['browser_action'],
+        'onclick' : function(info){
+            chrome.storage.local.get(['notifications'], function(value){
+                notifications = value.notifications;
+
+                function upload_file(file, callback) {
+                    // Do funky stuff with file
+                    callback();
+                }
+
+                var queue = async.queue(function(link, cb){
+                    $.ajax({
+                        url : link,
+                        complete:cb
+                    })
+                }, 10); // Run ten simultaneous uploads
+
+                queue.drain = function() {
+                    update();
+                };
+
+                // Queue your files for upload
+
+                for(categorie in notifications){
+                    curCat = notifications[categorie];
+                    for (var i = 0; i < curCat.length; i++) {
+                        queue.push(curCat[i].url);
+                    }
+                }
+            });
+        }
+    })
     update();
 })

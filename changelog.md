@@ -1,3 +1,8 @@
+1.1.7 :
+ - mark all read
+ 
+----------------------------------------
+
 1.1.6 :
  - text correction
  - add 2 buttons for open profile or open dealabs
