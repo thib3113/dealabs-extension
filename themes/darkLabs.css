@@ -1,7 +1,6 @@
 /*============================================*/
-/*      Dark Dealabs - MonsieurCro - V0.9     */
+/*         Dark Dealabs - MonsieurCro         */
 /*============================================*/
-
 /*============================================*/
 /*                    INDEX                   */
 /*============================================*/
@@ -262,8 +261,7 @@ a.mail {
 a.google {
     background: #444 url("https://static.dealabs.com/images/deal_detail/icon_all_google_grey.png") no-repeat scroll center center !important;}
 
-a.reactiver {
-    background: #444 url("https://static.dealabs.com/images/deal_detail/icon_deal_unexpire.png") no-repeat scroll 15px center !important;}
+
     
 /*============================================*/
 
@@ -288,6 +286,9 @@ a.signaler {
 a.sauvegarder {
     background: #444 url("https://static.dealabs.com/images/deal_detail/icon_all_save_white.png") no-repeat scroll 15px center !important;}
 
+a.reactiver {
+    background: #444 url("https://static.dealabs.com/images/deal_detail/icon_deal_unexpire.png") no-repeat scroll 15px center !important;}
+    
 a.resoudre {
     background: #444 url("https://static.dealabs.com/images/deal_detail/icon_forum_solved.png") no-repeat scroll 15px center !important;}
 
@@ -355,7 +356,6 @@ input[type="email"] {
 /*============================================*/
 /*                   PROFIL                   */
 /*============================================*/
-
 /*                   GAUCHE                   */
 /*============================================*/
 
@@ -415,7 +415,6 @@ background-color: #222 !important;}
 
 .stats_profil {
     background-color: #222 !important;}
-
 
 #liste_profil_messagerie {
     background-color: #222 !important;}
