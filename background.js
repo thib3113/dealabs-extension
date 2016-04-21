@@ -174,6 +174,13 @@ function parseUpdate(response, cb){
 
         var saveNotifications = {};
         for (var i = tempNotifs.length - 1; i >= 0; i--) {
+            if(linkInfo = tempNotifs[i].url.match(/\.com\/([^\/]+)\/.*\/([0-9]+)$/)){
+                if(typeof plugin_settings.blacklist[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
+                    $.get(tempNotifs[i].url);
+                    return;
+                }
+            }
+
             if(typeof saveNotifications[tempNotifs[i].categorie] == "undefined")
                 saveNotifications[tempNotifs[i].categorie] = [];
             saveNotifications[tempNotifs[i].categorie].push(tempNotifs[i]);
@@ -251,65 +258,89 @@ function update(content){
     }
 }
 
+function openInTab(url, loadedCB){
+    cb = loadedCB || function(){};
+    chrome.tabs.create({ url:url, active : true }, cb);
+}
+
+function cleanNotifications(){
+    chrome.notifications.getAll(function(notifications){
+        for(id in notifications){
+            chrome.notifications.clear(id);
+        }
+    })
+}
+
 notificationUpdateTimeout = 0;
 
-$(function(){
-    chrome.contextMenus.create({
-        'title' : 'Ouvrir dealabs',
-        'contexts' : ['browser_action'],
-        'onclick' : function(info){
-            chrome.tabs.create({ url:'https://www.dealabs.com', active : true }, function(tab){});
-        }
-    })
-    chrome.contextMenus.create({
-        'title' : 'Rafraichir',
-        'contexts' : ['browser_action'],
-        'onclick' : function(info){
-            update();
-        }
-    })
-    chrome.contextMenus.create({
-        'title' : 'Ouvrir votre profil',
-        'contexts' : ['browser_action'],
-        'onclick' : function(info){
-            chrome.storage.local.get(['profil_link'], function(value){
-                chrome.tabs.create({ url:value.profil_link+'?tab=settings&what=plugin', active : true }, function(tab){});
-            })
-        }
-    })
-    chrome.contextMenus.create({
-        'title' : 'Tout marquer comme vus',
-        'contexts' : ['browser_action'],
-        'onclick' : function(info){
-            chrome.storage.local.get(['notifications'], function(value){
-                notifications = value.notifications;
+chrome.contextMenus.create({
+    title : 'Ouvrir ...',
+    id: 'open',
+    contexts : ['browser_action']
+});
+chrome.contextMenus.create({
+    title : 'Dealabs',
+    id: 'home',
+    parentId: 'open',
+    contexts : ['browser_action'],
+    onclick : function(info){
+        openInTab('https://www.dealabs.com');
+    }
+});
+chrome.contextMenus.create({
+    title : 'Mon profil',
+    id: 'profile',
+    parentId: 'open',
+    contexts : ['browser_action'],
+    onclick : function(info){
+        chrome.storage.local.get(['profil_link'], function(value){
+            openInTab(value.profil_link);
+        });
+    }
+});
 
-                function upload_file(file, callback) {
-                    // Do funky stuff with file
-                    callback();
-                }
+chrome.contextMenus.create({
+    title : 'Rafraichir',
+    contexts : ['browser_action'],
+    id: 'refresh',
+    onclick : function(info){
+        update();
+    }
+});
 
-                var queue = async.queue(function(link, cb){
+chrome.contextMenus.create({
+    title : 'Tout marquer comme vus',
+    contexts : ['browser_action'],
+    id: 'mark_all_read',
+    onclick : function(info){
+        cleanNotifications();
+        chrome.storage.local.get(['notifications'], function(value){
+            notifications = value.notifications;
+            var queue = async.queue(function(link, cb){
+                setTimeout(function(){
                     $.ajax({
                         url : link,
                         complete:cb
                     })
-                }, 10); // Run ten simultaneous uploads
+                },500)
+            }, 1); // Run one simultaneous request
 
-                queue.drain = function() {
-                    update();
-                };
-
-                // Queue your files for upload
-
-                for(categorie in notifications){
-                    curCat = notifications[categorie];
-                    for (var i = 0; i < curCat.length; i++) {
-                        queue.push(curCat[i].url);
-                    }
+            queue.drain = function() {
+                update();
+            };
+            for(categorie in notifications){
+                curCat = notifications[categorie];
+                for (var i = 0; i < curCat.length; i++) {
+                    queue.push(curCat[i].url);
                 }
-            });
-        }
-    })
+            }
+        });
+    }
+})
+
+
+
+
+$(function(){
     update();
 })

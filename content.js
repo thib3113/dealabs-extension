@@ -25,84 +25,159 @@ function inject(func) {
 }
 
 //override
-function validate_edit_comment(comment_id) {
-    error = false;
-    $("#commentaire_div_textarea_" + comment_id + " .flag.obligatoire").each(function() {
-        verif_champs_obligatoire(this)
-    });
-    if (!error) {
-        $("#commentaire_div_textarea_" + comment_id + " .validate_form a").attr('onclick', "");
-        $("#commentaire_div_textarea_" + comment_id + " .spinner_validate").show();
-        $("#formedit_" + comment_id).trigger('submit');
-    } else {
-        alert("Vous devez entrer un commentaire.")
-    }
-}
-
-function validate_comment() {
+function validate_thread() {
     error = false;
     error_text = "Des champs obligatoires n’ont pas été remplis, ou l’ont été incorrectement.";
-    $("#discussed .flag.obligatoire").each(function() {
+    $("#add_thread_form .flag.obligatoire").each(function() {
         verif_champs_obligatoire(this)
     });
+    if ($('#add_thread_form #categories').length && $('#add_thread_form #sous_categories').length) {
+        $('#add_thread_form #categories').removeClass("error");
+        if (!$('#add_thread_form #forum_id_select').val() || $('#add_thread_form #forum_id_select').val() == "0") {
+            error = true;
+            $('#add_thread_form #categories').addClass("error")
+        }
+        $('#add_thread_form #sous_categories').removeClass("error");
+        if ((!$('#add_thread_form #subforum_id_select').attr('disabled') && (!$('#add_thread_form #subforum_id_select').val() || $('#add_thread_form #subforum_id_select').val() == "0")) ) {
+            error = true;
+            $('#add_thread_form #sous_categories').addClass("error")
+        }
+    }
     if (!error) {
-        $("#discussed .message_erreur_header").hide();
-        $("#discussed .validate_form a").attr('onclick', "");
-        $("#discussed .spinner_validate").show();
-        if (typeof document.forms.comment_form.deal_id != 'undefined') {
-            var v = sessionStorage.getItem('comment_for_deal_' + document.forms.comment_form.deal_id.value);
-            if (v) {
-                sessionStorage.removeItem('comment_for_deal_' + document.forms.comment_form.deal_id.value)
+        $("#add_thread_form #message_erreur_header").slideUp("fast");
+        $("#add_thread_form .spinner_validate").show();
+        $("#add_thread_form .enter_validate").attr('onclick', "");
+        $(document.add_thread_form).trigger('submit');
+    } else {
+        $("#add_thread_form #message_erreur_header").slideDown("fast");
+        $("#add_thread_form #message_erreur_header p").text(error_text)
+    }
+}
+function validate_deal() {
+    error = false;
+    error_text = "Des champs obligatoires n’ont pas été remplis, ou l’ont été incorrectement.";
+    $("#add_deal_form .flag.obligatoire").each(function() {
+        if ($('#add_deal_form #type_deal').val() == 1) {
+            if ($(this).hasClass("bon_plan") && $(this).hasClass('obligatoire')) {
+                verif_champs_obligatoire(this)
             }
-        } else if (typeof document.forms.comment_form.thread_id != 'undefined') {
-            var v = sessionStorage.getItem('comment_for_thread_' + document.forms.comment_form.thread_id.value);
-            if (v) {
-                sessionStorage.removeItem('comment_for_thread_' + document.forms.comment_form.thread_id.value)
+        } else if ($('#add_deal_form #type_deal').val() == 2) {
+            if ($(this).hasClass("bon_de_reduction") && $(this).hasClass('obligatoire')) {
+                verif_champs_obligatoire(this)
+            }
+        } else if ($('#add_deal_form #type_deal').val() == 3) {
+            if ($(this).hasClass("gratuit") && $(this).hasClass('obligatoire')) {
+                verif_champs_obligatoire(this)
             }
         }
-        $(document.comment_form).trigger('submit')
-    } else {
-        $("#discussed .message_erreur_header").slideDown("fast");
-        $("#discussed .message_erreur_header p").text(error_text)
-    }
-}
-
-function send_reply(number_form) {
-    error = false;
-    var error_text = "Des champs obligatoires n’ont pas été remplis.";
-    $("#reply_MP_form_" + number_form + " .flag.obligatoire").each(function() {
-        verif_champs_obligatoire(this)
     });
-    if (!error) {
-        $("#reply_message.message_erreur_header").hide();
-        $("#reply_MP_form_" + number_form + " .enter_validate").attr('onclick', "");
-        $("#reply_MP_form_" + number_form + " .spinner_validate").show();
-        $(document.forms["reply_MP_form_" + number_form]).trigger('submit');
+    $('#add_deal_form #categories').removeClass("error");
+    if (!$('#add_deal_form #master1_id').val() || $('#add_deal_form #master1_id').val() == "0") {
+        error = true;
+        $('#add_deal_form #categories').addClass("error")
+    }
+    $('#add_deal_form #sous_categories').removeClass("error");
+    if ((!$('#add_deal_form #master2_id').attr('disabled') && (!$('#add_deal_form #master2_id').val() || $('#add_deal_form #master2_id').val() == "0")) && if_subcategory_verif == 0) {
+        error = true;
+        $('#add_deal_form #sous_categories').addClass("error")
+    }
+    check_region_checked($("#add_deal_form #online_status").val());
+    validate_date("date_debut");
+    validate_date("date_fin");
+    if (is_valide_date["date_debut"] && is_valide_date["date_fin"]) {
+        coherent_date("date_debut", "date_fin")
     } else {
-        $("#reply_message.message_erreur_header").slideDown("fast");
-        $("#reply_message.message_erreur_header p").text(error_text)
+        error = true
+    }
+    if (!error) {
+        $("#add_deal_form #message_erreur_header").slideUp("fast");
+        $("#add_deal_form .spinner_validate").show();
+        $("#add_deal_form .enter_validate").attr('onclick', "");
+        $(document.add_deal_form).trigger('submit');
+    } else {
+        $("#add_deal_form #message_erreur_header").slideDown("fast");
+        $("#add_deal_form #message_erreur_header p").text(error_text)
     }
 }
 
+// function validate_edit_comment(comment_id) {
+//     error = false;
+//     $("#commentaire_div_textarea_" + comment_id + " .flag.obligatoire").each(function() {
+//         verif_champs_obligatoire(this)
+//     });
+//     if (!error) {
+//         $("#commentaire_div_textarea_" + comment_id + " .validate_form a").attr('onclick', "");
+//         $("#commentaire_div_textarea_" + comment_id + " .spinner_validate").show();
+//         $("#formedit_" + comment_id).trigger('submit');
+//     } else {
+//         alert("Vous devez entrer un commentaire.")
+//     }
+// }
+
+// function validate_comment() {
+//     error = false;
+//     error_text = "Des champs obligatoires n’ont pas été remplis, ou l’ont été incorrectement.";
+//     $("#discussed .flag.obligatoire").each(function() {
+//         verif_champs_obligatoire(this)
+//     });
+//     if (!error) {
+//         $("#discussed .message_erreur_header").hide();
+//         $("#discussed .validate_form a").attr('onclick', "");
+//         $("#discussed .spinner_validate").show();
+//         if (typeof document.forms.comment_form.deal_id != 'undefined') {
+//             var v = sessionStorage.getItem('comment_for_deal_' + document.forms.comment_form.deal_id.value);
+//             if (v) {
+//                 sessionStorage.removeItem('comment_for_deal_' + document.forms.comment_form.deal_id.value)
+//             }
+//         } else if (typeof document.forms.comment_form.thread_id != 'undefined') {
+//             var v = sessionStorage.getItem('comment_for_thread_' + document.forms.comment_form.thread_id.value);
+//             if (v) {
+//                 sessionStorage.removeItem('comment_for_thread_' + document.forms.comment_form.thread_id.value)
+//             }
+//         }
+//         $(document.comment_form).trigger('submit')
+//     } else {
+//         $("#discussed .message_erreur_header").slideDown("fast");
+//         $("#discussed .message_erreur_header p").text(error_text)
+//     }
+// }
+
+// function send_reply(number_form) {
+//     error = false;
+//     var error_text = "Des champs obligatoires n’ont pas été remplis.";
+//     $("#reply_MP_form_" + number_form + " .flag.obligatoire").each(function() {
+//         verif_champs_obligatoire(this)
+//     });
+//     if (!error) {
+//         $("#reply_message.message_erreur_header").hide();
+//         $("#reply_MP_form_" + number_form + " .enter_validate").attr('onclick', "");
+//         $("#reply_MP_form_" + number_form + " .spinner_validate").show();
+//         $(document.forms["reply_MP_form_" + number_form]).trigger('submit');
+//     } else {
+//         $("#reply_message.message_erreur_header").slideDown("fast");
+//         $("#reply_message.message_erreur_header p").text(error_text)
+//     }
+// }
+
+// function send_mp() {
+//     error = false;
+//     var error_text = "Des champs obligatoires n’ont pas été remplis, ou l’ont été incorrectement.";
+//     $("#new_MP_form .flag.obligatoire").each(function() {
+//         verif_champs_obligatoire(this)
+//     });
+//     if (!error) {
+//         $("#all_contener_content_messagerie .message_erreur_header").hide();
+//         $("#new_MP_form .enter_validate").attr('onclick', "");
+//         $("#new_MP_form .spinner_validate").show();
+//         console.log('trigger submit !');
+//         jQuery(document.forms["new_MP_form"]).trigger('submit')
+//     } else {
+//         $("#all_contener_content_messagerie .message_erreur_header").slideDown("fast");
+//         $("#all_contener_content_messagerie .message_erreur_header p").text(error_text)
+//     }
+// }
 
 
-function send_mp() {
-    error = false;
-    var error_text = "Des champs obligatoires n’ont pas été remplis, ou l’ont été incorrectement.";
-    $("#new_MP_form .flag.obligatoire").each(function() {
-        verif_champs_obligatoire(this)
-    });
-    if (!error) {
-        $("#all_contener_content_messagerie .message_erreur_header").hide();
-        $("#new_MP_form .enter_validate").attr('onclick', "");
-        $("#new_MP_form .spinner_validate").show();
-        console.log('trigger submit !');
-        jQuery(document.forms["new_MP_form"]).trigger('submit')
-    } else {
-        $("#all_contener_content_messagerie .message_erreur_header").slideDown("fast");
-        $("#all_contener_content_messagerie .message_erreur_header p").text(error_text)
-    }
-}
 
 embedYTBTpl = '<iframe id="ytplayer" height="500" width="100%" type="text/html"\
   src="{{protocol}}//www.youtube.com/embed/{{id}}?autoplay=1&origin={{base_url}}"\
@@ -376,10 +451,12 @@ observer.observe(document, {
 })
 
 $(function() {
-    inject(validate_comment);
-    inject(send_reply);
-    inject(send_mp);
-    inject(validate_edit_comment);
+    inject(validate_thread);
+    inject(validate_deal);
+    // inject(validate_comment); override repair
+    // inject(send_reply);
+    // inject(send_mp);
+    // inject(validate_edit_comment);
     inject(plugin_escapeRegExp);
 
     inject(plugin_update_emoticone_textarea);
@@ -743,11 +820,9 @@ $(function() {
 
         })
     })
-    
 })
 
 $(function(){
-
     // console.log(jQuery._data( $(document)[0], "events" ));
     inject("$(document).on('submit', 'form', function(event) {\
         text = $(this).find('[name=\"post_content\"]').val();\
@@ -758,5 +833,39 @@ $(function(){
         };\
         $(this).find('[name=\"post_content\"]').val(text);\
     })");
+
+    if(linkInfos = location.pathname.match(/^\/([^\/]+)\/.*\/([0-9]+)$/)){
+        blacklisted =  (typeof plugin_settings.blacklist[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
+        $('#bloc_option .bloc_option_white').prepend('<div class="button_part">\
+                <div class="bouton_contener_border" data-plugin-link-info="'+linkInfos[1]+'-'+linkInfos[2]+'" id="plugin-blacklist-notification">\
+                    <div class="yes_part '+(blacklisted?'yes':'')+'"></div>\
+                    <div class="no_part '+(blacklisted?'':'no')+'"></div>\
+                </div>\
+            </div>\
+            \
+            <div class="title_button_part">\
+                <p>bloquer les notifications</p>\
+                <p>Cacher les notifications des nouvelles réponses</p>\
+            </div>');
+
+        $('#plugin-blacklist-notification').on('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            if($(this).find('.yes').length == 0){// => is not already blacklisted
+                plugin_settings.blacklist[$(this).data('plugin-link-info')] = true;
+            }
+            else{
+                delete plugin_settings.blacklist[$(this).data('plugin-link-info')];
+            }
+            chrome.storage.sync.set({
+                'settings': plugin_settings
+            });
+            blacklisted = (typeof plugin_settings.blacklist[$(this).data('plugin-link-info')] != "undefined");
+            $(this).html('<div class="yes_part '+(blacklisted?'yes':'')+'"></div>\
+                    <div class="no_part '+(blacklisted?'':'no')+'"></div>');
+
+            return false;
+        });
+    }
     // console.log(jQuery._data( $(document)[0], "events" ));
 })
