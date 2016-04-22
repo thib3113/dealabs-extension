@@ -174,10 +174,10 @@ function parseUpdate(response, cb){
 
         var saveNotifications = {};
         for (var i = tempNotifs.length - 1; i >= 0; i--) {
-            if(linkInfo = tempNotifs[i].url.match(/\.com\/([^\/]+)\/.*\/([0-9]+)$/)){
+            if(linkInfo = tempNotifs[i].url.match(/\.com\/([^\/]+)\/.*\/([0-9]+)[#|\?]/)){
                 if(typeof plugin_settings.blacklist[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
                     $.get(tempNotifs[i].url);
-                    return;
+                    continue;
                 }
             }
 

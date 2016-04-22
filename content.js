@@ -860,6 +860,8 @@ $(function(){
             chrome.storage.sync.set({
                 'settings': plugin_settings
             });
+            port.postMessage({"action" : "update_settings"});
+            
             blacklisted = (typeof plugin_settings.blacklist[$(this).data('plugin-link-info')] != "undefined");
             $(this).html('<div class="yes_part '+(blacklisted?'yes':'')+'"></div>\
                     <div class="no_part '+(blacklisted?'':'no')+'"></div>');

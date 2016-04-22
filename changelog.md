@@ -1,4 +1,9 @@
-1.1.8 :
+1.1.9 :
+ - add blacklist -> repair bugs
+
+----------------------------------------
+
+ 1.1.8 :
  - add blacklist -> need some tests before upload
  
 ----------------------------------------
