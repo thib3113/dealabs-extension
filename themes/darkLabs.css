@@ -1,5 +1,5 @@
 /*============================================*/
-/*       Dark Dealabs - MonsieurCro - 1.1.002 */
+/*       Dark Dealabs - MonsieurCro - 1.1.003 */
 /*============================================*/
 /*============================================*/
 /*                    INDEX                   */
@@ -8,7 +8,9 @@
 
 body {/* arrière-plan du site*/
     background-color: #444 !important;}
-
+    
+a#register_green {/* la plupart des boutons*/
+	color: #FFF !important;}
 
 /*============================================*/
 
