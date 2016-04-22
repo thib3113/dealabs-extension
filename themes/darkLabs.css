@@ -183,6 +183,10 @@ a#top_custom_tab {
 /*============================================*/
 
 
+.background_color_button_green{
+    color: #fff;
+} 
+
 a.button_chemin_deal {
     color: #fff !important;}
     
