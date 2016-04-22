@@ -280,9 +280,12 @@ div.spoiler {
 a.expirer {
     background: #444 url("https://static.dealabs.com/images/deal_detail/icon_deal_expire.png") no-repeat scroll 15px center !important;}
 
-a.signaler {
+.option_deal_div > a.signaler{
     background: #444 url("https://static.dealabs.com/images/deal_detail/icon_deal_report.png") no-repeat scroll 15px center !important;}
-
+}
+/*a.signaler {
+    background: #444 url("https://static.dealabs.com/images/deal_detail/icon_deal_report.png") no-repeat scroll 15px center !important;}
+*/
 a.sauvegarder {
     background: #444 url("https://static.dealabs.com/images/deal_detail/icon_all_save_white.png") no-repeat scroll 15px center !important;}
 
