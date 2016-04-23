@@ -1,4 +1,4 @@
-function embed($urls){
+function Embed($urls){
     this.$urls = $urls;
     this.tpl = {
         mojvideo : '<iframe width="100%" height="500" src="{{protocol}}//www.mojvideo.com/embed/v/{{id}}" frameborder="0" allowfullscreen></iframe>',

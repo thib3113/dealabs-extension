@@ -1,18 +1,18 @@
 //sync setting all 30minutes
-setInterval(syncSettings, 1.8e6);
+// setInterval(syncSettings, 1.8e6);
 
-chrome.notifications.onClicked.addListener(function(notificationID){
-    if(typeof notificationsLinks[notificationID] != "undefined" && notificationsLinks[notificationID] != null){
-        chrome.tabs.create({ url: notificationsLinks[notificationID], active : true }, function(tab){
-            waitingTabs[tab.id] = update;
-        });
-        chrome.notifications.clear(notificationID);
-        chrome.windows.getCurrent({}, function(window){
-            chrome.windows.update(window.id, {focused:true});
-        });
-        setTimeout(update, 500);
-    }
-});
+// chrome.notifications.onClicked.addListener(function(notificationID){
+//     if(typeof notificationsLinks[notificationID] != "undefined" && notificationsLinks[notificationID] != null){
+//         chrome.tabs.create({ url: notificationsLinks[notificationID], active : true }, function(tab){
+//             waitingTabs[tab.id] = update;
+//         });
+//         chrome.notifications.clear(notificationID);
+//         chrome.windows.getCurrent({}, function(window){
+//             chrome.windows.update(window.id, {focused:true});
+//         });
+//         setTimeout(update, 500);
+//     }
+// });
 
 var waitingTabs = {};
 chrome.tabs.onUpdated.addListener(function(tabId , info) {
@@ -64,12 +64,12 @@ function parseUpdate(response, cb){
 
         //notifications
         current_deals = [];
-// plugin_settings.notifications_manage.alertes
-// plugin_settings.notifications_manage.MPs
-// plugin_settings.notifications_manage.forum
-// 
+        // settingsManager.notifications_manage.alertes
+        // settingsManager.notifications_manage.MPs
+        // settingsManager.notifications_manage.forum
+        // 
         nb_notifs_deal = 0;    
-        if(plugin_settings.notifications_manage.deals){
+        if(settingsManager.notifications_manage.deals){
             $notif_container = $page.find("#commentaires_part .item a.left_part_list");
             try{
                 nb_notifs_deal = parseInt($page.find("#commentaires").text().match(/\(([0-9]*)\)/)[1]);
@@ -92,7 +92,7 @@ function parseUpdate(response, cb){
         // alertes
         current_alertes = [];
         nb_alertes = 0;
-        if(plugin_settings.notifications_manage.alertes){
+        if(settingsManager.notifications_manage.alertes){
             $alert_container = $page.find("#alertes_part .item a.left_part_list");
             try{
                 nb_alertes = parseInt($page.find("#alertes").text().match(/\(([0-9]*)\)/)[1]);
@@ -115,7 +115,7 @@ function parseUpdate(response, cb){
         //mps
         current_MPs = [];
         nb_mps = 0;
-        if(plugin_settings.notifications_manage.MPs){
+        if(settingsManager.notifications_manage.MPs){
             $MPs_container = $page.find("#messagerie_popup .item");
             nb_mps = parseInt($page.find('.notif_right_header_contener.mp ').text());
             for (var i = $MPs_container.length - 1; i >= 0; i--) {
@@ -137,7 +137,7 @@ function parseUpdate(response, cb){
 
         //forums notifications
         current_forum_notifs = [];
-        if(plugin_settings.notifications_manage.forum){
+        if(settingsManager.notifications_manage.forum){
             $forum_notifs_container = $page.find(".title_thread_contener");
             for (var i = $forum_notifs_container.length - 1; i >= 0; i--) {
                 notifUrl = $($forum_notifs_container[i]).find('.title a:last').attr('href');
@@ -175,7 +175,7 @@ function parseUpdate(response, cb){
         var saveNotifications = {};
         for (var i = tempNotifs.length - 1; i >= 0; i--) {
             if(linkInfo = tempNotifs[i].url.match(/\.com\/([^\/]+)\/.*\/([0-9]+)[#|\?]/)){
-                if(typeof plugin_settings.blacklist[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
+                if(typeof settingsManager.settings.blacklist[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
                     $.get(tempNotifs[i].url);
                     continue;
                 }
@@ -186,8 +186,8 @@ function parseUpdate(response, cb){
             saveNotifications[tempNotifs[i].categorie].push(tempNotifs[i]);
 
             if(typeof notificationsNotified[tempNotifs[i].slug] == "undefined" || notificationsNotified[tempNotifs[i].slug] == null){
-                if(plugin_settings.notifications_manage.desktop)
-                    notify(tempNotifs[i].title, tempNotifs[i].text, tempNotifs[i].icon, tempNotifs[i].url);
+                if(settingsManager.notifications_manage.desktop)
+                    notify(tempNotifs[i].title, tempNotifs[i].text, tempNotifs[i].icon, tempNotifs[i].url, tempNotifs[i].slug);
             }
             newNotificationsNotified[tempNotifs[i].slug] = tempNotifs[i];
         }
@@ -232,16 +232,15 @@ function update(content){
                     popup = chrome.extension.getViews({type:'popup'});
                     if(popup.length >0){
                         for (var i = 0; i < popup.length; i++) {
-                            console.log(popup);
                             popup[i].generate_popup();
                         }
                     }
-                    notificationUpdateTimeout = setTimeout(update, plugin_settings.time_between_refresh);
+                    notificationUpdateTimeout = setTimeout(update, settingsManager.settings.time_between_refresh);
                 });
 
             },
             error:function(){
-                notificationUpdateTimeout = setTimeout(update, plugin_settings.time_between_refresh);
+                notificationUpdateTimeout = setTimeout(update, settingsManager.settings.time_between_refresh);
             }
         });
     }
@@ -253,7 +252,7 @@ function update(content){
                     popup[i].generate_popup();
                 }
             }
-            notificationUpdateTimeout = setTimeout(update, plugin_settings.time_between_refresh);
+            notificationUpdateTimeout = setTimeout(update, settingsManager.settings.time_between_refresh);
         });
     }
 }

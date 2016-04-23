@@ -100,83 +100,6 @@ function validate_deal() {
     }
 }
 
-// function validate_edit_comment(comment_id) {
-//     error = false;
-//     $("#commentaire_div_textarea_" + comment_id + " .flag.obligatoire").each(function() {
-//         verif_champs_obligatoire(this)
-//     });
-//     if (!error) {
-//         $("#commentaire_div_textarea_" + comment_id + " .validate_form a").attr('onclick', "");
-//         $("#commentaire_div_textarea_" + comment_id + " .spinner_validate").show();
-//         $("#formedit_" + comment_id).trigger('submit');
-//     } else {
-//         alert("Vous devez entrer un commentaire.")
-//     }
-// }
-
-// function validate_comment() {
-//     error = false;
-//     error_text = "Des champs obligatoires n’ont pas été remplis, ou l’ont été incorrectement.";
-//     $("#discussed .flag.obligatoire").each(function() {
-//         verif_champs_obligatoire(this)
-//     });
-//     if (!error) {
-//         $("#discussed .message_erreur_header").hide();
-//         $("#discussed .validate_form a").attr('onclick', "");
-//         $("#discussed .spinner_validate").show();
-//         if (typeof document.forms.comment_form.deal_id != 'undefined') {
-//             var v = sessionStorage.getItem('comment_for_deal_' + document.forms.comment_form.deal_id.value);
-//             if (v) {
-//                 sessionStorage.removeItem('comment_for_deal_' + document.forms.comment_form.deal_id.value)
-//             }
-//         } else if (typeof document.forms.comment_form.thread_id != 'undefined') {
-//             var v = sessionStorage.getItem('comment_for_thread_' + document.forms.comment_form.thread_id.value);
-//             if (v) {
-//                 sessionStorage.removeItem('comment_for_thread_' + document.forms.comment_form.thread_id.value)
-//             }
-//         }
-//         $(document.comment_form).trigger('submit')
-//     } else {
-//         $("#discussed .message_erreur_header").slideDown("fast");
-//         $("#discussed .message_erreur_header p").text(error_text)
-//     }
-// }
-
-// function send_reply(number_form) {
-//     error = false;
-//     var error_text = "Des champs obligatoires n’ont pas été remplis.";
-//     $("#reply_MP_form_" + number_form + " .flag.obligatoire").each(function() {
-//         verif_champs_obligatoire(this)
-//     });
-//     if (!error) {
-//         $("#reply_message.message_erreur_header").hide();
-//         $("#reply_MP_form_" + number_form + " .enter_validate").attr('onclick', "");
-//         $("#reply_MP_form_" + number_form + " .spinner_validate").show();
-//         $(document.forms["reply_MP_form_" + number_form]).trigger('submit');
-//     } else {
-//         $("#reply_message.message_erreur_header").slideDown("fast");
-//         $("#reply_message.message_erreur_header p").text(error_text)
-//     }
-// }
-
-// function send_mp() {
-//     error = false;
-//     var error_text = "Des champs obligatoires n’ont pas été remplis, ou l’ont été incorrectement.";
-//     $("#new_MP_form .flag.obligatoire").each(function() {
-//         verif_champs_obligatoire(this)
-//     });
-//     if (!error) {
-//         $("#all_contener_content_messagerie .message_erreur_header").hide();
-//         $("#new_MP_form .enter_validate").attr('onclick', "");
-//         $("#new_MP_form .spinner_validate").show();
-//         console.log('trigger submit !');
-//         jQuery(document.forms["new_MP_form"]).trigger('submit')
-//     } else {
-//         $("#all_contener_content_messagerie .message_erreur_header").slideDown("fast");
-//         $("#all_contener_content_messagerie .message_erreur_header p").text(error_text)
-//     }
-// }
-
 function plugin_generatePreview(commentContainer, commentaire) {
     userData = jQuery('#pseudo_right_header_contener');
 
@@ -362,10 +285,6 @@ observer.observe(document, {
 $(function() {
     inject(validate_thread);
     inject(validate_deal);
-    // inject(validate_comment); override repair
-    // inject(send_reply);
-    // inject(send_mp);
-    // inject(validate_edit_comment);
     inject(plugin_escapeRegExp);
 
     inject(plugin_update_emoticone_textarea);
@@ -374,7 +293,7 @@ $(function() {
     plugin_update_emoticone_textarea();
     $body = $('body');
 
-    new embed($('a.link_a_reduce'));
+    new Embed($('a.link_a_reduce'));
     
     //settings
     if (plugin_getParameterByName('tab', location.href) == "settings") {

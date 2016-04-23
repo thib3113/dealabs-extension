@@ -13,49 +13,30 @@ theme_url = dev_theme_url;
 
 SoundCloudApiKey = '048a40b1f3413b2e8097221375a5aa1b';
 
-//start with default settings
-defaultSettings = {
-    time_between_refresh : 60000,
-    notifications_manage : {
-      desktop : true,
-      forum : true,
-      MPs : true,
-      deals : true,
-      alertes : true
-    },
-    theme : "default",
-    blacklist: {},
-    smileys : {
-        "siffle" : "http://www.turbopix.fr/i/RZAK5VBi4M.gif",
-        "fouet"  : "http://www.turbopix.fr/i/BpU1pU7Onm.gif",
-        "troll"  : "http://www.turbopix.fr/i/7FU50TeJ5C.png",
-        "jaime"  : "http://www.turbopix.fr/i/hb4xtAwWjK.png"
-    }
+if(typeof chrome != "undefined"){
+  extension = new ChromeExtension();
 }
 
-//start by defaultSettings
-var plugin_settings = defaultSettings;
-function syncSettings(){
-    chrome.storage.sync.get('settings', function(value){
-        // console.log("sync");
-        // console.log(value);
-        // debugger;
-        //update settings
-        before_settings = value.settings || {};
-        newSettings = plugin_deepmerge(defaultSettings, before_settings);
-        chrome.storage.sync.set({'settings':newSettings});
-        plugin_settings = newSettings;
-    });
-}
-syncSettings();
+settingsManager = new SettingsManager();
 
-var notificationsLinks = {};
-function notify(title, text, icon, url){
-    var notif = chrome.notifications.create(null, {title:title, 'message':text, 'type':'basic', 'iconUrl':icon, 'isClickable':true}, function(id){
-        notificationsLinks[id] = this.link;
-    }.bind({link:url}));
+function notify(title, text, icon, url, slug){
+  extension.sendNotification({
+    type : 'basic',
+    iconUrl : icon,
+    title : title,
+    message : text,
+    slug : slug,
+    onClick : function(){
+      extension.openTab({
+        active : true,
+        url : url,
+        onOpen: function(){
+          setTimeout(update, 500);
+        }
+      })
+    }.bind(this)
+  });
 }
-
 
 Object.size = function(obj) {
     var size = 0, key;

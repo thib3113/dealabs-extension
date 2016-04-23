@@ -16,8 +16,10 @@
   },
   "background": {
     "scripts": [
-      "async.min.js",
-      "jquery.min.js",
+      "class/ChromeExtension.inc.js",
+      "class/Settings.inc.js",
+      "third/async.min.js",
+      "third/jquery.min.js",
       "global.js",
       "background.js"
     ]
@@ -40,8 +42,9 @@
         "*://*.dealabs.com/*"
       ],
       "js": [
-        "embed.inc.js",
-        "jquery.min.js",
+        "class/ChromeExtension.inc.js",
+        "class/Embed.inc.js",
+        "third/jquery.min.js",
         "global.js",
         "content.js"
       ],
