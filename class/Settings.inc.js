@@ -37,8 +37,8 @@ function SettingsManager(){
         for(index in this._settings){
             Object.defineProperty(this, index, {
                 get: function() {
-                    return this.settings[this.property];
-                }.bind({settings:this.settings, property:index}),
+                    return this.context.settings[this.property];
+                }.bind({context:this, property:index}),
                 set: function(value) {
                     newSettings = this.context.settings;
                     newSettings[this.property] = value;
@@ -66,7 +66,7 @@ function SettingsManager(){
     });
 
     this.updateSettings=function(){
-        extension.setStorage('settings', {settings:this._settings}, true);
+        extension.setStorage({settings:this._settings}, true);
     }
 
     this._deepmerge = function (target, src) {

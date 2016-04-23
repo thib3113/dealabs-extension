@@ -1,8 +1,9 @@
 function ChromeExtension(){
     this._notifications = {};
     this._tabs = {};
+    this._messageListener = {};
 
-    this.setStorage = function(name, object, sync){
+    this.setStorage = function(object, sync){
         object = object || null;
         sync = sync || false;
         if(object == null) return null;
@@ -15,13 +16,21 @@ function ChromeExtension(){
         }
     }
 
-    this.getStorage = function(name, cb, sync){
+    this.getStorage = function(names, cb, sync){
         if(sync){
-            chrome.storage.sync.get(name, cb);
+            chrome.storage.sync.get(names, cb);
         }
         else{
-            chrome.storage.local.get(name, cb);
+            chrome.storage.local.get(names, cb);
         }
+    }
+
+    this.onMessage=function(message, cb){
+        this._messageListener[message] = cb;
+    }
+
+    this.sendMessage=function(event, datas){
+        this._messagePort.postMessage({"event":event, datas:datas});
     }
 
     //notification object
@@ -30,9 +39,10 @@ function ChromeExtension(){
         this.pOnLoad = pOnLoad;
 
         this.close=function(cb){
+            cb = cb || function(){}
             chrome.notifications.clear(this.pId, cb);
         }
-        this.onClick = function(){
+        this.onLoad = function(){
             this.close();
 
             if(this.pOnLoad != undefined)
@@ -50,21 +60,35 @@ function ChromeExtension(){
             pinned : undefined,
             openerTabId :undefined,
 
-            onOpen: undefined
+            onOpen: undefined,
+            onLoad: undefined,
         }
 
         pOptions = $.extend(defaultOption, pOptions);
 
         onOpen = pOptions.onOpen;
-        delete pOptions.onOpen;        
+        delete pOptions.onOpen;   
+
+        onLoad = pOptions.onLoad;
+        delete pOptions.onLoad;        
         
         chrome.tabs.create(pOptions, function(tab){
-            newTab = new tabObject(tab.id, onOpen);
+            newTab = new tabObject(tab.id, onLoad);
             this._tabs[tab.id] = newTab;
 
             if(typeof onOpen != "undefined")
                 onOpen(newTab);
         }.bind(this));
+    }
+
+    this.getAllExtensions=function(cb){
+        chrome.notifications.getAll(function(notifications){
+            for(index in notifications){
+                notifications[index] = this._notifications[index];
+            }
+
+            cb(notifications);
+        }.bind(this))
     }
 
     //notification object
@@ -129,23 +153,37 @@ function ChromeExtension(){
         }.bind(this))
     }
 
-
+    this.browserAction = chrome.browserAction;
 
     this.init=function(){
-        chrome.notifications.onClicked.addListener(function(notificationID){
-
-            this._notifications[notificationID].onClick();
-
-            // if(typeof notificationsLinks[notificationID] != "undefined" && notificationsLinks[notificationID] != null){
-                // chrome.tabs.create({ url: notificationsLinks[notificationID], active : true }, function(tab){
-                //     waitingTabs[tab.id] = update;
-                // });
-                // chrome.notifications.clear(notificationID);
-                // chrome.windows.getCurrent({}, function(window){
-                //     chrome.windows.update(window.id, {focused:true});
-                // });
-            // }
+        chrome.extension.onConnect.addListener(function(port) {
+            port.onMessage.addListener(function(msg) {
+                if(this._messageListener[msg.event] != undefined){
+                    this._messageListener[msg.event](msg.datas);
+                }
+            }.bind(this));
         }.bind(this));
+
+        if(chrome.tabs != undefined){
+            chrome.tabs.onUpdated.addListener(function(tabId , info) {
+                if(this._tabs[tabId] != undefined){
+                    if (info.status != "complete") return;
+                    console.log(this._tabs[tabId]);
+                    this._tabs[tabId].onLoad();
+                }
+            }.bind(this));
+        }
+
+        this._messagePort = chrome.extension.connect({name: "message"});
+        if(chrome.notifications == undefined){
+            //notifications are not available
+            this._notificationPort = chrome.extension.connect({name: "notify"});
+        }
+        else{
+            chrome.notifications.onClicked.addListener(function(notificationID){
+                this._notifications[notificationID].onClick();
+            }.bind(this));
+        }
     }
 
     this.init();

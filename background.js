@@ -14,53 +14,65 @@
 //     }
 // });
 
-var waitingTabs = {};
-chrome.tabs.onUpdated.addListener(function(tabId , info) {
-    if(typeof waitingTabs[tabId] != "undefined" && waitingTabs[tabId] != null){
-        if (info.status == "complete") {
-            fn = waitingTabs[tabId];
-            waitingTabs[tabId] = null; 
-            fn();
-        }
-    }
-});
+// var waitingTabs = {};
+// chrome.tabs.onUpdated.addListener(function(tabId , info) {
+//     if(typeof waitingTabs[tabId] != "undefined" && waitingTabs[tabId] != null){
+//         if (info.status == "complete") {
+//             fn = waitingTabs[tabId];
+//             waitingTabs[tabId] = null; 
+//             fn();
+//         }
+//     }
+// });
 
 notificationsNotified = {};
 
-chrome.extension.onConnect.addListener(function(port) {
-    port.onMessage.addListener(function(msg) {
-        if(msg.action == "open_tab"){
-            if(typeof msg.url != "undefined" && msg.url != null){
-                chrome.tabs.create({ url: msg.url, active : true }, function(tab){
-                    waitingTabs[tab.id] = update;
-                });
-            }
-        }
+extension.onMessage('open_tab', function(datas){
+    datas = datas || {};
+    datas.onLoad = function(tab){
+        update();
+    };
+    extension.openTab(datas);
+})
 
-        if(msg.action == "update_settings"){
-            syncSettings();
-        }
-    });
-});
+extension.onMessage('update_settings', function(datas){
+    syncSettings();
+})
+
+// chrome.extension.onConnect.addListener(function(port) {
+//     port.onMessage.addListener(function(msg) {
+//         if(msg.action == "open_tab"){
+//             if(typeof msg.url != "undefined" && msg.url != null){
+//                 chrome.tabs.create({ url: msg.url, active : true }, function(tab){
+//                     waitingTabs[tab.id] = update;
+//                 });
+//             }
+//         }
+
+//         if(msg.action == "update_settings"){
+//             syncSettings();
+//         }
+//     });
+// });
 
 function parseUpdate(response, cb){
     $page = $(response);
     if($page.find('#login_blue').length > 0){
-        chrome.browserAction.setTitle({title:'Vous n\'êtes pas connecté'});
-        chrome.browserAction.setBadgeText({text:'!'});
-        chrome.browserAction.setPopup({popup:''});
-        chrome.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
-        chrome.browserAction.onClicked.addListener(function(tab){
+        extension.browserAction.setTitle({title:'Vous n\'êtes pas connecté'});
+        extension.browserAction.setBadgeText({text:'!'});
+        extension.browserAction.setPopup({popup:''});
+        extension.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
+        extension.browserAction.onClicked.addListener(function(tab){
             var newURL = "https://www.dealabs.com";
             chrome.tabs.create({ url: newURL });
         });
         chrome.storage.local.set({'notifications':{}});
     }
     else{
-        chrome.browserAction.setTitle({title:'pas de notifications'});
-        chrome.browserAction.setBadgeText({text:''});
-        chrome.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
-        chrome.browserAction.setPopup({popup:'popup.html'});
+        extension.browserAction.setTitle({title:'pas de notifications'});
+        extension.browserAction.setBadgeText({text:''});
+        extension.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
+        extension.browserAction.setPopup({popup:'popup.html'});
 
         //notifications
         current_deals = [];
@@ -201,11 +213,11 @@ function parseUpdate(response, cb){
         plus = nb_forum.plus?"+":"";
         nb_notifs = nb_add<1000? nb_add + plus :"999+";
         if(nb_notifs > 0){
-            chrome.browserAction.setTitle({title:nb_notifs+' notification'+(nb_notifs>1?'s':'')});
-            chrome.browserAction.setBadgeText({text:''+nb_notifs});
-            chrome.browserAction.setBadgeBackgroundColor({color:'#0012FF'});
+            extension.browserAction.setTitle({title:nb_notifs+' notification'+(nb_notifs>1?'s':'')});
+            extension.browserAction.setBadgeText({text:''+nb_notifs});
+            extension.browserAction.setBadgeBackgroundColor({color:'#0012FF'});
         }
-        chrome.storage.local.set(
+        extension.setStorage(
         {
             'notifications':saveNotifications,
             'nbNotifications':{
@@ -259,13 +271,19 @@ function update(content){
 
 function openInTab(url, loadedCB){
     cb = loadedCB || function(){};
-    chrome.tabs.create({ url:url, active : true }, cb);
+    extension.openTab(
+        { 
+            url : url, 
+            active : true, 
+            onLoad : cb 
+        }
+    );
 }
 
 function cleanNotifications(){
-    chrome.notifications.getAll(function(notifications){
+    extension.getAllExtensions(function(notifications){
         for(id in notifications){
-            chrome.notifications.clear(id);
+            notifications[id].close();
         }
     })
 }
@@ -273,16 +291,16 @@ function cleanNotifications(){
 notificationUpdateTimeout = 0;
 
 chrome.contextMenus.create({
-    title : 'Ouvrir ...',
-    id: 'open',
+    title    : 'Ouvrir ...',
+    id       : 'open',
     contexts : ['browser_action']
 });
 chrome.contextMenus.create({
-    title : 'Dealabs',
-    id: 'home',
-    parentId: 'open',
+    title    : 'Dealabs',
+    id       : 'home',
+    parentId : 'open',
     contexts : ['browser_action'],
-    onclick : function(info){
+    onclick  : function(info){
         openInTab('https://www.dealabs.com');
     }
 });

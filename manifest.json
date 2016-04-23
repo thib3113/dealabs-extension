@@ -43,6 +43,7 @@
       ],
       "js": [
         "class/ChromeExtension.inc.js",
+        "class/Settings.inc.js",
         "class/Embed.inc.js",
         "third/jquery.min.js",
         "global.js",

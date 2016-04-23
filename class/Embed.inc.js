@@ -16,6 +16,8 @@ function Embed($urls){
         vimeo : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAn1BMVEWGye+Hye+Iyu+Jyu+Ly++NzO+NzPCPzfCQzfCRzfCTzvCTz/CUz/CW0PGX0PGc0vGc0/Kl1/Op2POr2fOs2vSu2/Sy3PSz3fW03fW43/W54PW64PW+4vbH5vfV7PnW7Pnb7/rc7/rd7/rf8Pri8vvk8/vl8/vo9Pzq9fzr9vzs9vzu9/zx+P3z+f3z+v30+v33+/75/P76/P7+/v7///+Tt8ndAAAAc0lEQVR4AY3BVRbCMABFwReCU6QIFHf35u5/bfRQpJ+ZkR/TtJJyYbeot2DHWqoe4WSUaF3BBVoANCQV7nugbaMlUFOiZC8wkUZwUGoKM2kLfaVCuJkINvqwMcxjHnV9rQBcRz9DwI31lz/zHCir0ivL1wvTcw2/sm8juwAAAABJRU5ErkJggg=='
     }
 
+    this.soundCloudApiKey = '048a40b1f3413b2e8097221375a5aa1b';
+
     this.getLink = {
         mojvideo:function(url, cb){
             mojvideoID = url.match(/www\.mojvideo\.com\/[^\/]*\/([a-z0-9]+)/);
@@ -30,7 +32,7 @@ function Embed($urls){
                 return url.match(regexp) && url.match(regexp)[0]
             }
             if((soundcloudLink = getId(url)) != null ){
-                $.get(location.protocol+'//api.soundcloud.com/resolve.json?url='+soundcloudLink+'/tracks&client_id='+SoundCloudApiKey ,
+                $.get(location.protocol+'//api.soundcloud.com/resolve.json?url='+soundcloudLink+'/tracks&client_id='+this.soundCloudApiKey ,
                 function (result) {
                     this.cb(result.id, 'soundcloud');
                 }.bind({cb:cb}));
