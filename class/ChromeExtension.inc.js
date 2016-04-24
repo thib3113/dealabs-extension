@@ -3,6 +3,12 @@ function ChromeExtension(){
     this._tabs = {};
     this._messageListener = {};
 
+    /**
+     * save in local or sync storage
+     * @author Thibaut SEVERAC (thib3113@gmail.com)
+     * @param  object object save object key is the name in the storage
+     * @param  boolean sync   sync or not
+     */
     this.setStorage = function(object, sync){
         object = object || null;
         sync = sync || false;
@@ -16,10 +22,22 @@ function ChromeExtension(){
         }
     }
 
+    /**
+     * get the popup window object
+     * @author Thibaut SEVERAC (thib3113@gmail.com)
+     * @return window the popup window
+     */
     this.getPopup = function(){
         return chrome.extension.getViews({type:'popup'})
     }
 
+    /**
+     * get storage
+     * @author Thibaut SEVERAC (thib3113@gmail.com)
+     * @param  array or string   names names of storage values
+     * @param  function cb    callback function
+     * @param  boolean   sync  get from sync storage or local
+     */
     this.getStorage = function(names, cb, sync){
         if(sync){
             chrome.storage.sync.get(names, cb);

@@ -7,6 +7,8 @@
   <script src="third/jquery.min.js"></script>
   <script src="global.js"></script>
   <script src="popup.js"></script>
+  <!-- <link rel="stylesheet" href="third/font-awesome/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="/third/material-design-iconic-font/css/material-design-iconic-font.min.css">
   <style>
     body{
       margin: 0;
@@ -44,7 +46,7 @@
     .title_MP{
       background-color: rgba(96, 179, 92, 1);
     }
-    .title_notification{
+    .title_deals{
       background-color: #02a5c1;
     }
     .title_alerte{
@@ -58,10 +60,33 @@
         top: 2px;
         padding-left: 5px;
     }
+    header{
+        height:29px;/*
+        background: #000;
+        color: white;*/
+        font-size: 15pt;
+    }
+    header span{
+        width: 33%;
+        text-align: center;
+        display: block;
+        float: left;
+    }
+    header span i{
+        cursor: pointer;
+    }
+    header span i:hover{
+        color: #A09C9C;
+    }
   </style>
 </head>
 <body>
-  <table id="notifications">
-  </table>
+    <header>
+        <span><i data-btn="see_profil" class="zmdi zmdi-account-circle" title="mon profil"></i></span>
+        <span><i data-btn="refresh" class="zmdi zmdi-refresh" title="rafraichir"></i></span>
+        <span><i data-btn="remove_all" class="zmdi zmdi-format-clear-all" style="transform: scaleX(-1);" title="Tout supprimer"></i></span>
+    </header>
+    <table id="notifications">
+    </table>
 </body>
 </html>

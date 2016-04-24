@@ -1,8 +1,8 @@
 function generate_popup(){
     //recup notifications
-    extension.getStorage(['notifications', 'nbNotifications', 'profil_link'], function(value){
+    extension.getStorage(['notifications', 'notifications_counter', 'profil_link'], function(value){
         notifications = value.notifications;
-        nbNotifications = value.nbNotifications;
+        notifications_counter = value.notifications_counter;
         profil_link = value.profil_link;
 
         $('#notifications').html('');
@@ -12,26 +12,26 @@ function generate_popup(){
             curCat = notifications[categorie];
             icon = 'https://static.dealabs.com/images/header/icon_header_notif.png';
             switch(categorie){
-                case 'notification':
-                    title = 'Nouveau'+(curCat.length>0?'x':'')+' commentaire'+(curCat.length>0?'x':'');
+                case 'deals':
+                    title = 'Nouveau'+(curCat.length>1?'x':'')+' commentaire'+(curCat.length>1?'x':'');
                     more_link = 'https://www.dealabs.com/notifications.html';
-                    nb_notif = nbNotifications.nb_notifs;
+                    nb_notif = notifications_counter.deals.value;
                 break;
                 case 'alerte':
-                    title = 'Alerte'+(curCat.length>0?'s':'');
+                    title = 'Alerte'+(curCat.length>1?'s':'');
                     more_link = 'https://www.dealabs.com/alerts/alerts.html';
-                    nb_notif = nbNotifications.nb_alertes;
+                    nb_notif = notifications_counter.alerte.value;
                 break;
                 case 'MP':
-                    title = 'Message'+(curCat.length>0?'s':'')+' privé'+(curCat.length>0?'s':'');
+                    title = 'Message'+(curCat.length>1?'s':'')+' privé'+(curCat.length>1?'s':'');
                     icon = 'https://static.dealabs.com/images/header/icon_all_messages.png';
                     more_link = profil_link+'?tab=messaging&what=inbox';
-                    nb_notif = nbNotifications.nb_mps;
+                    nb_notif = notifications_counter.MP.value;
                 break;
                 case 'forum':
-                    title = 'Notification'+(curCat.length>0?'s':'')+' du forum';
+                    title = 'Notification'+(curCat.length>1?'s':'')+' du forum';
                     more_link = 'https://www.dealabs.com/forum/notifications.html';
-                    nb_notif = nbNotifications.nb_forum.value;
+                    nb_notif = notifications_counter.forum.value;
                 break;
             }
 
@@ -53,14 +53,33 @@ function generate_popup(){
 }
 
 $(function(){
+    $('body').on('click', '[data-btn]', function(event){
+        switch($(this).data('btn')){
+            case 'see_profil' :
+                extension.getStorage(['profil'], function(value){
+                    extension.sendMessage('open_tab', {
+                        url : value.profil.link,
+                        active : !event.ctrlKey                    
+                    })
+                }.bind(this));
+            break;
+            case 'refresh' :
+                extension.sendMessage("update");
+            break;
+            case 'remove_all' :
+                extension.sendMessage('remove_all');
+            break;
+        }
+    });
+
     $('body').on('click', '[data-href]', function(){
         debugger;
         newUrl = this.dataset.href;
         extension.sendMessage("open_tab", {
             url : newUrl,
-            active : true
+            active : !event.ctrlKey
         });
-    })
+    });
 
     generate_popup();  
 
