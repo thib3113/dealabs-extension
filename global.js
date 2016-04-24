@@ -28,7 +28,7 @@ function notify(title, text, icon, url, slug){
       extension.openTab({
         active : true,
         url : url,
-        onOpen: function(){
+        onLoad: function(){
           setTimeout(update, 500);
         }
       })

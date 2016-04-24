@@ -16,6 +16,10 @@ function ChromeExtension(){
         }
     }
 
+    this.getPopup = function(){
+        return chrome.extension.getViews({type:'popup'})
+    }
+
     this.getStorage = function(names, cb, sync){
         if(sync){
             chrome.storage.sync.get(names, cb);
@@ -23,6 +27,27 @@ function ChromeExtension(){
         else{
             chrome.storage.local.get(names, cb);
         }
+    }
+
+    this.addContextMenu= function(pOptions){
+        defaultOption = {
+            type : undefined,
+            id : undefined,
+            title : undefined,
+            checked : undefined,
+            contexts : undefined,
+            onclick : pOptions.onClick,
+            
+            onOpen : undefined
+        }
+
+        pOptions = $.extend(defaultOption, pOptions);
+
+        onOpen = pOptions.onOpen;
+        delete pOptions.onOpen;
+        delete pOptions.onClick;
+
+        chrome.contextMenus.create(defaultOption);
     }
 
     this.onMessage=function(message, cb){
@@ -38,13 +63,7 @@ function ChromeExtension(){
         this.pId = pId;
         this.pOnLoad = pOnLoad;
 
-        this.close=function(cb){
-            cb = cb || function(){}
-            chrome.notifications.clear(this.pId, cb);
-        }
         this.onLoad = function(){
-            this.close();
-
             if(this.pOnLoad != undefined)
                 this.pOnLoad();
         }
@@ -168,7 +187,6 @@ function ChromeExtension(){
             chrome.tabs.onUpdated.addListener(function(tabId , info) {
                 if(this._tabs[tabId] != undefined){
                     if (info.status != "complete") return;
-                    console.log(this._tabs[tabId]);
                     this._tabs[tabId].onLoad();
                 }
             }.bind(this));

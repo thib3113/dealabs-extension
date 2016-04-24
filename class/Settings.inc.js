@@ -60,7 +60,7 @@ function SettingsManager(){
             return this._settings;
         },
         set: function(value) {
-            this._settings = value;
+            this._settings = $.extend(this._settings, value);
             this.updateSettings();
         }
     });

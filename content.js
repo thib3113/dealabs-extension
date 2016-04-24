@@ -1,4 +1,4 @@
-var port = chrome.extension.connect({name: "send to background"});
+// var port = chrome.extension.connect({name: "send to background"});
 Object.size = function(obj) {
     var size = 0,
         key;
@@ -108,7 +108,7 @@ function plugin_generatePreview(commentContainer, commentaire) {
     if (typeof commentaire == "undefined")
         return;
 
-    current_smileys = plugin_settings.smileys
+    current_smileys = settingsManager.smileys
     for (var nom in current_smileys) {
         commentaire = commentaire.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size="300px"]' + current_smileys[nom] + '[/img]');
     }
@@ -219,12 +219,12 @@ function plugin_update_emoticone_textarea() {
     jQuery('.third_part_button').each(function(index, value) {
         c = this;
 
-        for (var title in plugin_settings.smileys) {
+        for (var title in settingsManager.smileys) {
             mm = document.createElement("a");
             mm.href = "javascript:;";
             mm.setAttribute("style", 'text-decoration:none');
             mm.dataset.role = "emoticone_add_userscript";
-            mm.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + plugin_settings.smileys[title] + '" alt="' + title + '"/>';
+            mm.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + settingsManager.smileys[title] + '" alt="' + title + '"/>';
             mm.addEventListener("click", plugin_insertSmiley, true);
             c.appendChild(mm);
         }
@@ -266,9 +266,9 @@ var observer = new MutationObserver(function(mutations) {
       // do things to your newly added nodes here
       var node = mutation.addedNodes[i];
       if(node.nodeName == "HEAD"){
-        chrome.storage.sync.get('settings', function(value){
+        extension.getStorage('settings', function(value){
             update_theme(value.settings.theme);
-        });
+        }, true);
         observer.disconnect();        
       }
     }
@@ -413,12 +413,12 @@ $(function() {
                 </div>\
             </div>');
         //load version
-        $('[data-plugin-role="version"]').text(chrome.runtime.getManifest().version);
+        $('[data-plugin-role="version"]').text(extension.getManifest().version);
 
         //load time_between_refresh
         $('#plugin_time_between_refresh').html("");
         for (var i = 0; i < time_between_refresh_list.length; i++) {
-            $('#plugin_time_between_refresh').append('<option value="' + time_between_refresh_list[i] * 1000 + '"' + (plugin_settings.time_between_refresh == time_between_refresh_list[i] * 1000 ? ' selected' : '') + '>' + time_between_refresh_list[i] + '</option>');
+            $('#plugin_time_between_refresh').append('<option value="' + time_between_refresh_list[i] * 1000 + '"' + (settingsManager.time_between_refresh == time_between_refresh_list[i] * 1000 ? ' selected' : '') + '>' + time_between_refresh_list[i] + '</option>');
         }
 
         //load time_between_refresh
@@ -427,19 +427,19 @@ $(function() {
         })
         $('#plugin_theme').html("");
         for(name in theme_list){
-            $('#plugin_theme').append('<option value="' + theme_list[name] + '"' + (plugin_settings.theme == theme_list[name] ? ' selected' : '') + '>' + name + '</option>');
+            $('#plugin_theme').append('<option value="' + theme_list[name] + '"' + (settingsManager.theme == theme_list[name] ? ' selected' : '') + '>' + name + '</option>');
         }
 
-        $('#plugin_desktop_notifications').attr('checked', plugin_settings.notifications_manage.desktop);
-        $('#plugin_deals_notifications').attr('checked', plugin_settings.notifications_manage.deals);
-        $('#plugin_alertes_notifications').attr('checked', plugin_settings.notifications_manage.alertes);
-        $('#plugin_mp_notifications').attr('checked', plugin_settings.notifications_manage.MPs);
-        $('#plugin_forum_notifications').attr('checked', plugin_settings.notifications_manage.forum);
+        $('#plugin_desktop_notifications').attr('checked', settingsManager.notifications_manage.desktop);
+        $('#plugin_deals_notifications').attr('checked', settingsManager.notifications_manage.deals);
+        $('#plugin_alertes_notifications').attr('checked', settingsManager.notifications_manage.alertes);
+        $('#plugin_mp_notifications').attr('checked', settingsManager.notifications_manage.MPs);
+        $('#plugin_forum_notifications').attr('checked', settingsManager.notifications_manage.forum);
 
         //load smileys
         smileyTPL = '<tr><td>{{img}}</td><td style="padding-right: 20px;"><input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_url" value="{{smiley_url}}" /></td><td style="padding-right: 20px;"><input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_name" value="{{smiley_name}}" /></td><td onclick="$(this).parent(\'tr\').remove();" style="cursor:pointer;" ><img src="https://static.dealabs.com/images/profil/icon_profile_messages_delete.png"></td></tr>';
         $('#plugin_smileys_list tbody').html("");
-        smileyList = plugin_settings.smileys;
+        smileyList = settingsManager.smileys;
         for (smiley in smileyList) {
             tpl = smileyTPL.replace(/{{img}}/g, '<img style="max-height:40px;" src="{{smiley_url}}" alt=":{{smiley_name}}:" />').replace(/{{smiley_url}}/g, smileyList[smiley]).replace(/{{smiley_name}}/g, smiley);
             $('#plugin_smileys_list tbody').append(tpl);
@@ -475,7 +475,7 @@ $(function() {
                 },
                 smileys: save_smileys
             }
-            newSettings = plugin_deepmerge(defaultSettings, newSettings);
+            // newSettings = plugin_deepmerge(defaultSettings, newSettings);
 
             cb = function(){$success_message.slideDown(500);}
             if($(this).parents('#right_profil_param').find('.message_success').length > 0){
@@ -490,11 +490,11 @@ $(function() {
                 cb();
             }
 
-            chrome.storage.sync.set({
-                'settings': newSettings
-            });
-            plugin_settings = newSettings;
-            port.postMessage({"action" : "update_settings"});
+            // chrome.storage.sync.set({
+            //     'settings': newSettings
+            // });
+            settingsManager.settings = newSettings;
+            extension.sendMessage("update_settings", {});
         });
 
         // #plugin_tab_content .content_tab_contener
@@ -657,7 +657,7 @@ $(function(){
     inject("$(document).on('submit', 'form', function(event) {\
         text = $(this).find('[name=\"post_content\"]').val();\
         if (typeof text == 'undefined') return;\
-        current_smileys = JSON.parse('"+JSON.stringify(plugin_settings.smileys)+"');\
+        current_smileys = JSON.parse('"+JSON.stringify(settingsManager.smileys)+"');\
         for (var nom in current_smileys) {\
             text = text.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size=\"300px\"]' + current_smileys[nom] + '[/img]');\
         };\
@@ -665,7 +665,7 @@ $(function(){
     })");
 
     if(linkInfos = location.pathname.match(/^\/([^\/]+)\/.*\/([0-9]+)$/)){
-        blacklisted =  (typeof plugin_settings.blacklist[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
+        blacklisted =  (typeof settingsManager.blacklist[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
         $('#bloc_option .bloc_option_white').prepend('<div class="button_part">\
                 <div class="bouton_contener_border" data-plugin-link-info="'+linkInfos[1]+'-'+linkInfos[2]+'" id="plugin-blacklist-notification">\
                     <div class="yes_part '+(blacklisted?'yes':'')+'"></div>\
@@ -681,18 +681,21 @@ $(function(){
         $('#plugin-blacklist-notification').on('click', function(e){
             e.preventDefault();
             e.stopPropagation();
+            blacklist = settingsManager.blacklist
             if($(this).find('.yes').length == 0){// => is not already blacklisted
-                plugin_settings.blacklist[$(this).data('plugin-link-info')] = true;
+                blacklist[$(this).data('plugin-link-info')] = true;
             }
             else{
-                delete plugin_settings.blacklist[$(this).data('plugin-link-info')];
+                delete blacklist[$(this).data('plugin-link-info')];
             }
-            chrome.storage.sync.set({
-                'settings': plugin_settings
-            });
-            port.postMessage({"action" : "update_settings"});
+            // chrome.storage.sync.set({
+            //     'settings': settingsManager
+            // });
+
+            settingsManager.blacklist = blacklist;
+            extension.sendMessage('update_settings', {});
             
-            blacklisted = (typeof plugin_settings.blacklist[$(this).data('plugin-link-info')] != "undefined");
+            blacklisted = (typeof settingsManager.blacklist[$(this).data('plugin-link-info')] != "undefined");
             $(this).html('<div class="yes_part '+(blacklisted?'yes':'')+'"></div>\
                     <div class="no_part '+(blacklisted?'':'no')+'"></div>');
 

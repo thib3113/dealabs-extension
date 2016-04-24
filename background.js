@@ -64,9 +64,9 @@ function parseUpdate(response, cb){
         extension.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
         extension.browserAction.onClicked.addListener(function(tab){
             var newURL = "https://www.dealabs.com";
-            chrome.tabs.create({ url: newURL });
+            extension.openTab({ url: newURL });
         });
-        chrome.storage.local.set({'notifications':{}});
+        extension.setStorage({'notifications':{}});
     }
     else{
         extension.browserAction.setTitle({title:'pas de notifications'});
@@ -217,6 +217,21 @@ function parseUpdate(response, cb){
             extension.browserAction.setBadgeText({text:''+nb_notifs});
             extension.browserAction.setBadgeBackgroundColor({color:'#0012FF'});
         }
+
+        //profil informations
+        profil = {
+            link : $page.find('#pseudo_right_header_contener').attr('href')
+        }
+        try{
+            profilInfos = profil.link.match(/\/([0-9]+)\/(.*)$/);
+            profil.id = profilInfos[1];
+            profil.name = profilInfos[2];
+        }
+        catch(e){
+            profil.id = null;
+            profil.name = null;
+        }
+
         extension.setStorage(
         {
             'notifications':saveNotifications,
@@ -226,7 +241,7 @@ function parseUpdate(response, cb){
                 nb_mps : nb_mps ,
                 nb_forum : nb_forum
             },
-            'profil_link':$page.find('#pseudo_right_header_contener').attr('href')
+            profil : profil
         });
     }
     cb();
@@ -241,7 +256,7 @@ function update(content){
             success:function(resp){
                 resp = resp.replace(/src=["|']\/\//g, 'https://');
                 parseUpdate(resp, function(){
-                    popup = chrome.extension.getViews({type:'popup'});
+                    popup = extension.getPopup();
                     if(popup.length >0){
                         for (var i = 0; i < popup.length; i++) {
                             popup[i].generate_popup();
@@ -258,7 +273,7 @@ function update(content){
     }
     else{
         parseUpdate(content, function(){
-            popup = chrome.extension.getViews({type:'popup'});
+            popup = extension.getPopup();
             if(popup.length >0){
                 for (var i = 0; i < popup.length; i++) {
                     popup[i].generate_popup();
@@ -290,12 +305,12 @@ function cleanNotifications(){
 
 notificationUpdateTimeout = 0;
 
-chrome.contextMenus.create({
+extension.addContextMenu({
     title    : 'Ouvrir ...',
     id       : 'open',
     contexts : ['browser_action']
 });
-chrome.contextMenus.create({
+extension.addContextMenu({
     title    : 'Dealabs',
     id       : 'home',
     parentId : 'open',
@@ -304,19 +319,19 @@ chrome.contextMenus.create({
         openInTab('https://www.dealabs.com');
     }
 });
-chrome.contextMenus.create({
+extension.addContextMenu({
     title : 'Mon profil',
     id: 'profile',
     parentId: 'open',
     contexts : ['browser_action'],
     onclick : function(info){
-        chrome.storage.local.get(['profil_link'], function(value){
-            openInTab(value.profil_link);
+        extension.getStorage(['profil'], function(value){
+            openInTab(value.profil.link);
         });
     }
 });
 
-chrome.contextMenus.create({
+extension.addContextMenu({
     title : 'Rafraichir',
     contexts : ['browser_action'],
     id: 'refresh',
@@ -325,13 +340,13 @@ chrome.contextMenus.create({
     }
 });
 
-chrome.contextMenus.create({
+extension.addContextMenu({
     title : 'Tout marquer comme vus',
     contexts : ['browser_action'],
     id: 'mark_all_read',
     onclick : function(info){
         cleanNotifications();
-        chrome.storage.local.get(['notifications'], function(value){
+        extension.getStorage(['notifications'], function(value){
             notifications = value.notifications;
             var queue = async.queue(function(link, cb){
                 setTimeout(function(){
