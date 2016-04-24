@@ -1,75 +1,87 @@
 //sync setting all 30minutes
-setInterval(syncSettings, 1.8e6);
+// setInterval(syncSettings, 1.8e6);
 
-chrome.notifications.onClicked.addListener(function(notificationID){
-    if(typeof notificationsLinks[notificationID] != "undefined" && notificationsLinks[notificationID] != null){
-        chrome.tabs.create({ url: notificationsLinks[notificationID], active : true }, function(tab){
-            waitingTabs[tab.id] = update;
-        });
-        chrome.notifications.clear(notificationID);
-        chrome.windows.getCurrent({}, function(window){
-            chrome.windows.update(window.id, {focused:true});
-        });
-        setTimeout(update, 500);
-    }
-});
+// chrome.notifications.onClicked.addListener(function(notificationID){
+//     if(typeof notificationsLinks[notificationID] != "undefined" && notificationsLinks[notificationID] != null){
+//         chrome.tabs.create({ url: notificationsLinks[notificationID], active : true }, function(tab){
+//             waitingTabs[tab.id] = update;
+//         });
+//         chrome.notifications.clear(notificationID);
+//         chrome.windows.getCurrent({}, function(window){
+//             chrome.windows.update(window.id, {focused:true});
+//         });
+//         setTimeout(update, 500);
+//     }
+// });
 
-var waitingTabs = {};
-chrome.tabs.onUpdated.addListener(function(tabId , info) {
-    if(typeof waitingTabs[tabId] != "undefined" && waitingTabs[tabId] != null){
-        if (info.status == "complete") {
-            fn = waitingTabs[tabId];
-            waitingTabs[tabId] = null; 
-            fn();
-        }
-    }
-});
+// var waitingTabs = {};
+// chrome.tabs.onUpdated.addListener(function(tabId , info) {
+//     if(typeof waitingTabs[tabId] != "undefined" && waitingTabs[tabId] != null){
+//         if (info.status == "complete") {
+//             fn = waitingTabs[tabId];
+//             waitingTabs[tabId] = null; 
+//             fn();
+//         }
+//     }
+// });
 
 notificationsNotified = {};
 
-chrome.extension.onConnect.addListener(function(port) {
-    port.onMessage.addListener(function(msg) {
-        if(msg.action == "open_tab"){
-            if(typeof msg.url != "undefined" && msg.url != null){
-                chrome.tabs.create({ url: msg.url, active : true }, function(tab){
-                    waitingTabs[tab.id] = update;
-                });
-            }
-        }
+extension.onMessage('open_tab', function(datas){
+    datas = datas || {};
+    datas.onLoad = function(tab){
+        update();
+    };
+    extension.openTab(datas);
+})
 
-        if(msg.action == "update_settings"){
-            syncSettings();
-        }
-    });
-});
+extension.onMessage('update_settings', function(datas){
+    syncSettings();
+})
+
+// chrome.extension.onConnect.addListener(function(port) {
+//     port.onMessage.addListener(function(msg) {
+//         if(msg.action == "open_tab"){
+//             if(typeof msg.url != "undefined" && msg.url != null){
+//                 chrome.tabs.create({ url: msg.url, active : true }, function(tab){
+//                     waitingTabs[tab.id] = update;
+//                 });
+//             }
+//         }
+
+//         if(msg.action == "update_settings"){
+//             syncSettings();
+//         }
+//     });
+// });
 
 function parseUpdate(response, cb){
     $page = $(response);
     if($page.find('#login_blue').length > 0){
-        chrome.browserAction.setTitle({title:'Vous n\'êtes pas connecté'});
-        chrome.browserAction.setBadgeText({text:'!'});
-        chrome.browserAction.setPopup({popup:''});
-        chrome.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
-        chrome.browserAction.onClicked.addListener(function(tab){
+        extension.browserAction.setTitle({title:'Vous n\'êtes pas connecté'});
+        extension.browserAction.setBadgeText({text:'!'});
+        extension.browserAction.setPopup({popup:''});
+        extension.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
+        extension.browserAction.onClicked.addListener(function(tab){
             var newURL = "https://www.dealabs.com";
-            chrome.tabs.create({ url: newURL });
+            extension.openTab({ url: newURL });
         });
-        chrome.storage.local.set({'notifications':{}});
+        extension.setStorage({'notifications':{}});
     }
     else{
-        chrome.browserAction.setTitle({title:'pas de notifications'});
-        chrome.browserAction.setBadgeText({text:''});
-        chrome.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
-        chrome.browserAction.setPopup({popup:'popup.html'});
+        extension.browserAction.setTitle({title:'pas de notifications'});
+        extension.browserAction.setBadgeText({text:''});
+        extension.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
+        extension.browserAction.setPopup({popup:'popup.html'});
 
         //notifications
         current_deals = [];
-// plugin_settings.notifications_manage.alertes
-// plugin_settings.notifications_manage.MPs
-// plugin_settings.notifications_manage.forum
-// 
+        // settingsManager.notifications_manage.alertes
+        // settingsManager.notifications_manage.MPs
+        // settingsManager.notifications_manage.forum
+        // 
         nb_notifs_deal = 0;    
-        if(plugin_settings.notifications_manage.deals){
+        if(settingsManager.notifications_manage.deals){
             $notif_container = $page.find("#commentaires_part .item a.left_part_list");
             try{
                 nb_notifs_deal = parseInt($page.find("#commentaires").text().match(/\(([0-9]*)\)/)[1]);
@@ -92,7 +104,7 @@ function parseUpdate(response, cb){
         // alertes
         current_alertes = [];
         nb_alertes = 0;
-        if(plugin_settings.notifications_manage.alertes){
+        if(settingsManager.notifications_manage.alertes){
             $alert_container = $page.find("#alertes_part .item a.left_part_list");
             try{
                 nb_alertes = parseInt($page.find("#alertes").text().match(/\(([0-9]*)\)/)[1]);
@@ -115,7 +127,7 @@ function parseUpdate(response, cb){
         //mps
         current_MPs = [];
         nb_mps = 0;
-        if(plugin_settings.notifications_manage.MPs){
+        if(settingsManager.notifications_manage.MPs){
             $MPs_container = $page.find("#messagerie_popup .item");
             nb_mps = parseInt($page.find('.notif_right_header_contener.mp ').text());
             for (var i = $MPs_container.length - 1; i >= 0; i--) {
@@ -137,7 +149,7 @@ function parseUpdate(response, cb){
 
         //forums notifications
         current_forum_notifs = [];
-        if(plugin_settings.notifications_manage.forum){
+        if(settingsManager.notifications_manage.forum){
             $forum_notifs_container = $page.find(".title_thread_contener");
             for (var i = $forum_notifs_container.length - 1; i >= 0; i--) {
                 notifUrl = $($forum_notifs_container[i]).find('.title a:last').attr('href');
@@ -175,7 +187,7 @@ function parseUpdate(response, cb){
         var saveNotifications = {};
         for (var i = tempNotifs.length - 1; i >= 0; i--) {
             if(linkInfo = tempNotifs[i].url.match(/\.com\/([^\/]+)\/.*\/([0-9]+)[#|\?]/)){
-                if(typeof plugin_settings.blacklist[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
+                if(typeof settingsManager.settings.blacklist[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
                     $.get(tempNotifs[i].url);
                     continue;
                 }
@@ -186,8 +198,8 @@ function parseUpdate(response, cb){
             saveNotifications[tempNotifs[i].categorie].push(tempNotifs[i]);
 
             if(typeof notificationsNotified[tempNotifs[i].slug] == "undefined" || notificationsNotified[tempNotifs[i].slug] == null){
-                if(plugin_settings.notifications_manage.desktop)
-                    notify(tempNotifs[i].title, tempNotifs[i].text, tempNotifs[i].icon, tempNotifs[i].url);
+                if(settingsManager.notifications_manage.desktop)
+                    notify(tempNotifs[i].title, tempNotifs[i].text, tempNotifs[i].icon, tempNotifs[i].url, tempNotifs[i].slug);
             }
             newNotificationsNotified[tempNotifs[i].slug] = tempNotifs[i];
         }
@@ -201,11 +213,26 @@ function parseUpdate(response, cb){
         plus = nb_forum.plus?"+":"";
         nb_notifs = nb_add<1000? nb_add + plus :"999+";
         if(nb_notifs > 0){
-            chrome.browserAction.setTitle({title:nb_notifs+' notification'+(nb_notifs>1?'s':'')});
-            chrome.browserAction.setBadgeText({text:''+nb_notifs});
-            chrome.browserAction.setBadgeBackgroundColor({color:'#0012FF'});
+            extension.browserAction.setTitle({title:nb_notifs+' notification'+(nb_notifs>1?'s':'')});
+            extension.browserAction.setBadgeText({text:''+nb_notifs});
+            extension.browserAction.setBadgeBackgroundColor({color:'#0012FF'});
         }
-        chrome.storage.local.set(
+
+        //profil informations
+        profil = {
+            link : $page.find('#pseudo_right_header_contener').attr('href')
+        }
+        try{
+            profilInfos = profil.link.match(/\/([0-9]+)\/(.*)$/);
+            profil.id = profilInfos[1];
+            profil.name = profilInfos[2];
+        }
+        catch(e){
+            profil.id = null;
+            profil.name = null;
+        }
+
+        extension.setStorage(
         {
             'notifications':saveNotifications,
             'nbNotifications':{
@@ -214,7 +241,7 @@ function parseUpdate(response, cb){
                 nb_mps : nb_mps ,
                 nb_forum : nb_forum
             },
-            'profil_link':$page.find('#pseudo_right_header_contener').attr('href')
+            profil : profil
         });
     }
     cb();
@@ -229,77 +256,82 @@ function update(content){
             success:function(resp){
                 resp = resp.replace(/src=["|']\/\//g, 'https://');
                 parseUpdate(resp, function(){
-                    popup = chrome.extension.getViews({type:'popup'});
+                    popup = extension.getPopup();
                     if(popup.length >0){
                         for (var i = 0; i < popup.length; i++) {
-                            console.log(popup);
                             popup[i].generate_popup();
                         }
                     }
-                    notificationUpdateTimeout = setTimeout(update, plugin_settings.time_between_refresh);
+                    notificationUpdateTimeout = setTimeout(update, settingsManager.settings.time_between_refresh);
                 });
 
             },
             error:function(){
-                notificationUpdateTimeout = setTimeout(update, plugin_settings.time_between_refresh);
+                notificationUpdateTimeout = setTimeout(update, settingsManager.settings.time_between_refresh);
             }
         });
     }
     else{
         parseUpdate(content, function(){
-            popup = chrome.extension.getViews({type:'popup'});
+            popup = extension.getPopup();
             if(popup.length >0){
                 for (var i = 0; i < popup.length; i++) {
                     popup[i].generate_popup();
                 }
             }
-            notificationUpdateTimeout = setTimeout(update, plugin_settings.time_between_refresh);
+            notificationUpdateTimeout = setTimeout(update, settingsManager.settings.time_between_refresh);
         });
     }
 }
 
 function openInTab(url, loadedCB){
     cb = loadedCB || function(){};
-    chrome.tabs.create({ url:url, active : true }, cb);
+    extension.openTab(
+        { 
+            url : url, 
+            active : true, 
+            onLoad : cb 
+        }
+    );
 }
 
 function cleanNotifications(){
-    chrome.notifications.getAll(function(notifications){
+    extension.getAllExtensions(function(notifications){
         for(id in notifications){
-            chrome.notifications.clear(id);
+            notifications[id].close();
         }
     })
 }
 
 notificationUpdateTimeout = 0;
 
-chrome.contextMenus.create({
-    title : 'Ouvrir ...',
-    id: 'open',
+extension.addContextMenu({
+    title    : 'Ouvrir ...',
+    id       : 'open',
     contexts : ['browser_action']
 });
-chrome.contextMenus.create({
-    title : 'Dealabs',
-    id: 'home',
-    parentId: 'open',
+extension.addContextMenu({
+    title    : 'Dealabs',
+    id       : 'home',
+    parentId : 'open',
     contexts : ['browser_action'],
-    onclick : function(info){
+    onclick  : function(info){
         openInTab('https://www.dealabs.com');
     }
 });
-chrome.contextMenus.create({
+extension.addContextMenu({
     title : 'Mon profil',
     id: 'profile',
     parentId: 'open',
     contexts : ['browser_action'],
     onclick : function(info){
-        chrome.storage.local.get(['profil_link'], function(value){
-            openInTab(value.profil_link);
+        extension.getStorage(['profil'], function(value){
+            openInTab(value.profil.link);
         });
     }
 });
 
-chrome.contextMenus.create({
+extension.addContextMenu({
     title : 'Rafraichir',
     contexts : ['browser_action'],
     id: 'refresh',
@@ -308,13 +340,13 @@ chrome.contextMenus.create({
     }
 });
 
-chrome.contextMenus.create({
+extension.addContextMenu({
     title : 'Tout marquer comme vus',
     contexts : ['browser_action'],
     id: 'mark_all_read',
     onclick : function(info){
         cleanNotifications();
-        chrome.storage.local.get(['notifications'], function(value){
+        extension.getStorage(['notifications'], function(value){
             notifications = value.notifications;
             var queue = async.queue(function(link, cb){
                 setTimeout(function(){

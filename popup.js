@@ -1,8 +1,6 @@
-var port = chrome.extension.connect({name: "update Communication"});
-
 function generate_popup(){
     //recup notifications
-    chrome.storage.local.get(['notifications', 'nbNotifications', 'profil_link'], function(value){
+    extension.getStorage(['notifications', 'nbNotifications', 'profil_link'], function(value){
         notifications = value.notifications;
         nbNotifications = value.nbNotifications;
         profil_link = value.profil_link;
@@ -42,7 +40,7 @@ function generate_popup(){
                 nb_add++;
                 $('#notifications').append('<tr class="notification" data-href="'+curCat[i].url+'"><td><img src="'+curCat[i].icon+'" alt="'+curCat[i].text+'"></td><td>'+curCat[i].text+'</td></tr>');
             }
-            console.log(nb_notif, curCat.length);
+
             if(nb_notif > curCat.length)
                 $('#notifications').append('<tr class="notification" data-href="'+more_link+'"><td style="text-align:center;">...</td><td>Voir plus de '+title.toLowerCase()+'</td></tr>');
         }
@@ -56,17 +54,21 @@ function generate_popup(){
 
 $(function(){
     $('body').on('click', '[data-href]', function(){
+        debugger;
         newUrl = this.dataset.href;
-        port.postMessage({"action" : "open_tab", "url":newUrl});
+        extension.sendMessage("open_tab", {
+            url : newUrl,
+            active : true
+        });
     })
 
     generate_popup();  
 
-    chrome.extension.onConnect.addListener(function(port) {
-        port.onMessage.addListener(function(msg) {
-            if(msg.action == "update_popup"){
-                generate_popup();
-            }
-        });
-    });  
+    // chrome.extension.onConnect.addListener(function(port) {
+    //     port.onMessage.addListener(function(msg) {
+    //         if(msg.action == "update_popup"){
+    //             generate_popup();
+    //         }
+    //     });
+    // });  
 })

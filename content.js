@@ -1,4 +1,4 @@
-var port = chrome.extension.connect({name: "send to background"});
+// var port = chrome.extension.connect({name: "send to background"});
 Object.size = function(obj) {
     var size = 0,
         key;
@@ -100,83 +100,6 @@ function validate_deal() {
     }
 }
 
-// function validate_edit_comment(comment_id) {
-//     error = false;
-//     $("#commentaire_div_textarea_" + comment_id + " .flag.obligatoire").each(function() {
-//         verif_champs_obligatoire(this)
-//     });
-//     if (!error) {
-//         $("#commentaire_div_textarea_" + comment_id + " .validate_form a").attr('onclick', "");
-//         $("#commentaire_div_textarea_" + comment_id + " .spinner_validate").show();
-//         $("#formedit_" + comment_id).trigger('submit');
-//     } else {
-//         alert("Vous devez entrer un commentaire.")
-//     }
-// }
-
-// function validate_comment() {
-//     error = false;
-//     error_text = "Des champs obligatoires n’ont pas été remplis, ou l’ont été incorrectement.";
-//     $("#discussed .flag.obligatoire").each(function() {
-//         verif_champs_obligatoire(this)
-//     });
-//     if (!error) {
-//         $("#discussed .message_erreur_header").hide();
-//         $("#discussed .validate_form a").attr('onclick', "");
-//         $("#discussed .spinner_validate").show();
-//         if (typeof document.forms.comment_form.deal_id != 'undefined') {
-//             var v = sessionStorage.getItem('comment_for_deal_' + document.forms.comment_form.deal_id.value);
-//             if (v) {
-//                 sessionStorage.removeItem('comment_for_deal_' + document.forms.comment_form.deal_id.value)
-//             }
-//         } else if (typeof document.forms.comment_form.thread_id != 'undefined') {
-//             var v = sessionStorage.getItem('comment_for_thread_' + document.forms.comment_form.thread_id.value);
-//             if (v) {
-//                 sessionStorage.removeItem('comment_for_thread_' + document.forms.comment_form.thread_id.value)
-//             }
-//         }
-//         $(document.comment_form).trigger('submit')
-//     } else {
-//         $("#discussed .message_erreur_header").slideDown("fast");
-//         $("#discussed .message_erreur_header p").text(error_text)
-//     }
-// }
-
-// function send_reply(number_form) {
-//     error = false;
-//     var error_text = "Des champs obligatoires n’ont pas été remplis.";
-//     $("#reply_MP_form_" + number_form + " .flag.obligatoire").each(function() {
-//         verif_champs_obligatoire(this)
-//     });
-//     if (!error) {
-//         $("#reply_message.message_erreur_header").hide();
-//         $("#reply_MP_form_" + number_form + " .enter_validate").attr('onclick', "");
-//         $("#reply_MP_form_" + number_form + " .spinner_validate").show();
-//         $(document.forms["reply_MP_form_" + number_form]).trigger('submit');
-//     } else {
-//         $("#reply_message.message_erreur_header").slideDown("fast");
-//         $("#reply_message.message_erreur_header p").text(error_text)
-//     }
-// }
-
-// function send_mp() {
-//     error = false;
-//     var error_text = "Des champs obligatoires n’ont pas été remplis, ou l’ont été incorrectement.";
-//     $("#new_MP_form .flag.obligatoire").each(function() {
-//         verif_champs_obligatoire(this)
-//     });
-//     if (!error) {
-//         $("#all_contener_content_messagerie .message_erreur_header").hide();
-//         $("#new_MP_form .enter_validate").attr('onclick', "");
-//         $("#new_MP_form .spinner_validate").show();
-//         console.log('trigger submit !');
-//         jQuery(document.forms["new_MP_form"]).trigger('submit')
-//     } else {
-//         $("#all_contener_content_messagerie .message_erreur_header").slideDown("fast");
-//         $("#all_contener_content_messagerie .message_erreur_header p").text(error_text)
-//     }
-// }
-
 function plugin_generatePreview(commentContainer, commentaire) {
     userData = jQuery('#pseudo_right_header_contener');
 
@@ -185,7 +108,7 @@ function plugin_generatePreview(commentContainer, commentaire) {
     if (typeof commentaire == "undefined")
         return;
 
-    current_smileys = plugin_settings.smileys
+    current_smileys = settingsManager.smileys
     for (var nom in current_smileys) {
         commentaire = commentaire.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size="300px"]' + current_smileys[nom] + '[/img]');
     }
@@ -296,12 +219,12 @@ function plugin_update_emoticone_textarea() {
     jQuery('.third_part_button').each(function(index, value) {
         c = this;
 
-        for (var title in plugin_settings.smileys) {
+        for (var title in settingsManager.smileys) {
             mm = document.createElement("a");
             mm.href = "javascript:;";
             mm.setAttribute("style", 'text-decoration:none');
             mm.dataset.role = "emoticone_add_userscript";
-            mm.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + plugin_settings.smileys[title] + '" alt="' + title + '"/>';
+            mm.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + settingsManager.smileys[title] + '" alt="' + title + '"/>';
             mm.addEventListener("click", plugin_insertSmiley, true);
             c.appendChild(mm);
         }
@@ -343,9 +266,9 @@ var observer = new MutationObserver(function(mutations) {
       // do things to your newly added nodes here
       var node = mutation.addedNodes[i];
       if(node.nodeName == "HEAD"){
-        chrome.storage.sync.get('settings', function(value){
+        extension.getStorage('settings', function(value){
             update_theme(value.settings.theme);
-        });
+        }, true);
         observer.disconnect();        
       }
     }
@@ -362,10 +285,6 @@ observer.observe(document, {
 $(function() {
     inject(validate_thread);
     inject(validate_deal);
-    // inject(validate_comment); override repair
-    // inject(send_reply);
-    // inject(send_mp);
-    // inject(validate_edit_comment);
     inject(plugin_escapeRegExp);
 
     inject(plugin_update_emoticone_textarea);
@@ -374,7 +293,7 @@ $(function() {
     plugin_update_emoticone_textarea();
     $body = $('body');
 
-    new embed($('a.link_a_reduce'));
+    new Embed($('a.link_a_reduce'));
     
     //settings
     if (plugin_getParameterByName('tab', location.href) == "settings") {
@@ -494,12 +413,12 @@ $(function() {
                 </div>\
             </div>');
         //load version
-        $('[data-plugin-role="version"]').text(chrome.runtime.getManifest().version);
+        $('[data-plugin-role="version"]').text(extension.getManifest().version);
 
         //load time_between_refresh
         $('#plugin_time_between_refresh').html("");
         for (var i = 0; i < time_between_refresh_list.length; i++) {
-            $('#plugin_time_between_refresh').append('<option value="' + time_between_refresh_list[i] * 1000 + '"' + (plugin_settings.time_between_refresh == time_between_refresh_list[i] * 1000 ? ' selected' : '') + '>' + time_between_refresh_list[i] + '</option>');
+            $('#plugin_time_between_refresh').append('<option value="' + time_between_refresh_list[i] * 1000 + '"' + (settingsManager.time_between_refresh == time_between_refresh_list[i] * 1000 ? ' selected' : '') + '>' + time_between_refresh_list[i] + '</option>');
         }
 
         //load time_between_refresh
@@ -508,19 +427,19 @@ $(function() {
         })
         $('#plugin_theme').html("");
         for(name in theme_list){
-            $('#plugin_theme').append('<option value="' + theme_list[name] + '"' + (plugin_settings.theme == theme_list[name] ? ' selected' : '') + '>' + name + '</option>');
+            $('#plugin_theme').append('<option value="' + theme_list[name] + '"' + (settingsManager.theme == theme_list[name] ? ' selected' : '') + '>' + name + '</option>');
         }
 
-        $('#plugin_desktop_notifications').attr('checked', plugin_settings.notifications_manage.desktop);
-        $('#plugin_deals_notifications').attr('checked', plugin_settings.notifications_manage.deals);
-        $('#plugin_alertes_notifications').attr('checked', plugin_settings.notifications_manage.alertes);
-        $('#plugin_mp_notifications').attr('checked', plugin_settings.notifications_manage.MPs);
-        $('#plugin_forum_notifications').attr('checked', plugin_settings.notifications_manage.forum);
+        $('#plugin_desktop_notifications').attr('checked', settingsManager.notifications_manage.desktop);
+        $('#plugin_deals_notifications').attr('checked', settingsManager.notifications_manage.deals);
+        $('#plugin_alertes_notifications').attr('checked', settingsManager.notifications_manage.alertes);
+        $('#plugin_mp_notifications').attr('checked', settingsManager.notifications_manage.MPs);
+        $('#plugin_forum_notifications').attr('checked', settingsManager.notifications_manage.forum);
 
         //load smileys
         smileyTPL = '<tr><td>{{img}}</td><td style="padding-right: 20px;"><input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_url" value="{{smiley_url}}" /></td><td style="padding-right: 20px;"><input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_name" value="{{smiley_name}}" /></td><td onclick="$(this).parent(\'tr\').remove();" style="cursor:pointer;" ><img src="https://static.dealabs.com/images/profil/icon_profile_messages_delete.png"></td></tr>';
         $('#plugin_smileys_list tbody').html("");
-        smileyList = plugin_settings.smileys;
+        smileyList = settingsManager.smileys;
         for (smiley in smileyList) {
             tpl = smileyTPL.replace(/{{img}}/g, '<img style="max-height:40px;" src="{{smiley_url}}" alt=":{{smiley_name}}:" />').replace(/{{smiley_url}}/g, smileyList[smiley]).replace(/{{smiley_name}}/g, smiley);
             $('#plugin_smileys_list tbody').append(tpl);
@@ -556,7 +475,7 @@ $(function() {
                 },
                 smileys: save_smileys
             }
-            newSettings = plugin_deepmerge(defaultSettings, newSettings);
+            // newSettings = plugin_deepmerge(defaultSettings, newSettings);
 
             cb = function(){$success_message.slideDown(500);}
             if($(this).parents('#right_profil_param').find('.message_success').length > 0){
@@ -571,11 +490,11 @@ $(function() {
                 cb();
             }
 
-            chrome.storage.sync.set({
-                'settings': newSettings
-            });
-            plugin_settings = newSettings;
-            port.postMessage({"action" : "update_settings"});
+            // chrome.storage.sync.set({
+            //     'settings': newSettings
+            // });
+            settingsManager.settings = newSettings;
+            extension.sendMessage("update_settings", {});
         });
 
         // #plugin_tab_content .content_tab_contener
@@ -738,7 +657,7 @@ $(function(){
     inject("$(document).on('submit', 'form', function(event) {\
         text = $(this).find('[name=\"post_content\"]').val();\
         if (typeof text == 'undefined') return;\
-        current_smileys = JSON.parse('"+JSON.stringify(plugin_settings.smileys)+"');\
+        current_smileys = JSON.parse('"+JSON.stringify(settingsManager.smileys)+"');\
         for (var nom in current_smileys) {\
             text = text.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size=\"300px\"]' + current_smileys[nom] + '[/img]');\
         };\
@@ -746,7 +665,7 @@ $(function(){
     })");
 
     if(linkInfos = location.pathname.match(/^\/([^\/]+)\/.*\/([0-9]+)$/)){
-        blacklisted =  (typeof plugin_settings.blacklist[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
+        blacklisted =  (typeof settingsManager.blacklist[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
         $('#bloc_option .bloc_option_white').prepend('<div class="button_part">\
                 <div class="bouton_contener_border" data-plugin-link-info="'+linkInfos[1]+'-'+linkInfos[2]+'" id="plugin-blacklist-notification">\
                     <div class="yes_part '+(blacklisted?'yes':'')+'"></div>\
@@ -762,18 +681,21 @@ $(function(){
         $('#plugin-blacklist-notification').on('click', function(e){
             e.preventDefault();
             e.stopPropagation();
+            blacklist = settingsManager.blacklist
             if($(this).find('.yes').length == 0){// => is not already blacklisted
-                plugin_settings.blacklist[$(this).data('plugin-link-info')] = true;
+                blacklist[$(this).data('plugin-link-info')] = true;
             }
             else{
-                delete plugin_settings.blacklist[$(this).data('plugin-link-info')];
+                delete blacklist[$(this).data('plugin-link-info')];
             }
-            chrome.storage.sync.set({
-                'settings': plugin_settings
-            });
-            port.postMessage({"action" : "update_settings"});
+            // chrome.storage.sync.set({
+            //     'settings': settingsManager
+            // });
+
+            settingsManager.blacklist = blacklist;
+            extension.sendMessage('update_settings', {});
             
-            blacklisted = (typeof plugin_settings.blacklist[$(this).data('plugin-link-info')] != "undefined");
+            blacklisted = (typeof settingsManager.blacklist[$(this).data('plugin-link-info')] != "undefined");
             $(this).html('<div class="yes_part '+(blacklisted?'yes':'')+'"></div>\
                     <div class="no_part '+(blacklisted?'':'no')+'"></div>');
 
