@@ -1,9 +1,19 @@
+oldNotifs = {};
+
 function generate_popup(){
+
     //recup notifications
     extension.getStorage(['notifications', 'notifications_counter', 'profil_link'], function(value){
         notifications = value.notifications;
         notifications_counter = value.notifications_counter;
         profil_link = value.profil_link;
+        
+        $('[data-btn="refresh"]').removeClass('zmdi-hc-spin');
+
+        if(JSON.stringify(oldNotifs) == JSON.stringify(notifications))
+            return
+
+        oldNotifs = notifications;
 
         $('#notifications').html('');
         nb_add = 0;
@@ -64,6 +74,7 @@ $(function(){
                 }.bind(this));
             break;
             case 'refresh' :
+                $('[data-btn="refresh"]').addClass('zmdi-hc-spin');
                 extension.sendMessage("update");
             break;
             case 'remove_all' :

@@ -36,7 +36,7 @@ extension.onMessage('open_tab', function(datas){
 })
 
 extension.onMessage('update_settings', function(datas){
-    syncSettings();
+    settingsManager.syncSettings();
 });
 
 extension.onMessage('remove_all', function(datas){
@@ -45,12 +45,25 @@ extension.onMessage('remove_all', function(datas){
 
 
 extension.onMessage('update', function(datas){
+    if(datas!=undefined)
+        cb = datas.cb || function(){};
+    else
+        cb = function(){};
+
+    console.log('event update');
+    // cb = function(){
+    //     extension.sendMessage('finish_update');
+    // }
+
     try{
         if(datas.content != undefined)
-            update(datas.content);
+            update(datas.content, cb);
+        else
+            update(null, cb);
+            
     }
     catch(e){
-        update();
+        update(null, cb);
     }
 });
 
@@ -86,12 +99,13 @@ function remove_all(){
                             nb_add += notifications_counter['forum'].value;
                             plus = notifications_counter['forum'].plus?"+":"";
                             nb_notifs = nb_add<1000? nb_add + plus :"999+";
+                            console.log(nb_notifs);
                             extension.browserAction.setBadgeText({text:''+nb_notifs});
                             this.cb();
-                        }.bind(this))
-                    }.bind(this)
+                        }.bind({cb:cb}))
+                    }.bind({cb:cb})
                 })
-            }.bind(this),500)
+            }.bind({cb:cb}),500)
         }, 1); // Run one simultaneous request
 
         queue.drain = function() {
@@ -295,8 +309,10 @@ function parseUpdate(response, cb){
     cb();
 }
 
-function update(content){
+function update(content, cb){
     content = content || null;
+    cb = cb || function(){};
+
     clearTimeout(notificationUpdateTimeout);
     if(content == null){
         $.ajax({
@@ -310,13 +326,15 @@ function update(content){
                             popup[i].generate_popup();
                         }
                     }
+                    this.cb(true);
                     notificationUpdateTimeout = setTimeout(update, settingsManager.settings.time_between_refresh);
-                });
+                }.bind({cb:cb}));
 
-            },
+            }.bind({cb:cb}),
             error:function(){
+                this.cb(false);
                 notificationUpdateTimeout = setTimeout(update, settingsManager.settings.time_between_refresh);
-            }
+            }.bind({cb:cb})
         });
     }
     else{
@@ -327,6 +345,7 @@ function update(content){
                     popup[i].generate_popup();
                 }
             }
+            cb(true);
             notificationUpdateTimeout = setTimeout(update, settingsManager.settings.time_between_refresh);
         });
     }

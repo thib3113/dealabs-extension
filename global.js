@@ -24,15 +24,18 @@ function notify(title, text, icon, url, slug){
     title : title,
     message : text,
     slug : slug,
-    onClick : function(){
+    datas : {
+      url:url
+    },
+    onClick : function(datas){
       extension.openTab({
         active : true,
-        url : url,
+        url : datas.url,
         onLoad: function(){
           setTimeout(update, 500);
         }
       })
-    }.bind(this)
+    }
   });
 }
 

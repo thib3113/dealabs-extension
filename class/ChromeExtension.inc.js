@@ -68,8 +68,16 @@ function ChromeExtension(){
         chrome.contextMenus.create(defaultOption);
     }
 
+    this.getManifest=function(){
+        return chrome.runtime.getManifest();
+    }
+
     this.onMessage=function(message, cb){
         this._messageListener[message] = cb;
+    }
+
+    this.off=function(message){
+        delete this._messageListener[message];
     }
 
     this.sendMessage=function(event, datas){
@@ -129,9 +137,10 @@ function ChromeExtension(){
     }
 
     //notification object
-    function NotificationObject(pId, pOnClick){
+    function NotificationObject(pId, pOnClick, datas){
         this.pId = pId;
         this.pOnClick = pOnClick;
+        this.datas = datas;
 
         this.close=function(cb){
             chrome.notifications.clear(this.pId, cb);
@@ -140,7 +149,7 @@ function ChromeExtension(){
             this.close();
 
             if(this.pOnClick != undefined)
-                this.pOnClick();
+                this.pOnClick(this.datas);
         }
     }
 
@@ -161,6 +170,7 @@ function ChromeExtension(){
             isClickable : undefined,
             requireInteraction : undefined,
 
+            datas : undefined,
             slug : undefined,
             onOpen: undefined,
             onClick: undefined
@@ -174,6 +184,9 @@ function ChromeExtension(){
 
         onClick = pOptions.onClick;
         delete pOptions.onClick;
+
+        datas = pOptions.datas;
+        delete pOptions.datas;
         
         if(onClick != undefined)
             pOptions.isClickable = true;
@@ -182,12 +195,17 @@ function ChromeExtension(){
         delete pOptions.slug;
 
         chrome.notifications.create(slug, pOptions, function(id){
-            notif = new NotificationObject(id, onClick);
+            notif = new NotificationObject(id, this.onClick, this.datas);
             this._notifications[id] = notif;
 
-            if(typeof onOpen != "undefined")
-                onOpen(notif);
-        }.bind(this))
+            if(typeof this.onOpen != "undefined")
+                this.onOpen(notif);
+        }.bind({
+            _notifications:this._notifications,
+            onOpen:onOpen,
+            onClick: onClick,
+            datas: datas
+        }))
     }
 
     this.browserAction = chrome.browserAction;
