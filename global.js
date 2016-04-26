@@ -17,6 +17,12 @@ if(typeof chrome != "undefined"){
 
 settingsManager = new SettingsManager();
 
+function soundAlert(){
+  audio = new Audio('sounds/alert.mp3');
+  audio.play();
+  audio = null;
+}
+
 function notify(title, text, icon, url, slug){
   extension.sendNotification({
     type : 'basic',

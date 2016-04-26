@@ -674,7 +674,7 @@ $(function(){
             </div>\
             \
             <div class="title_button_part">\
-                <p>bloquer les notifications</p>\
+                <p>Bloquer les notifications</p>\
                 <p>Cacher les notifications des nouvelles réponses</p>\
             </div>');
 
@@ -698,6 +698,42 @@ $(function(){
             blacklisted = (typeof settingsManager.blacklist[$(this).data('plugin-link-info')] != "undefined");
             $(this).html('<div class="yes_part '+(blacklisted?'yes':'')+'"></div>\
                     <div class="no_part '+(blacklisted?'':'no')+'"></div>');
+
+            return false;
+        });
+        notifications_with_sound =  (typeof settingsManager.notifications_with_sound[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
+        $('#bloc_option .bloc_option_white').prepend('<div class="button_part">\
+                <div class="bouton_contener_border" data-plugin-link-info="'+linkInfos[1]+'-'+linkInfos[2]+'" id="plugin-sounded-notification">\
+                    <div class="yes_part '+(notifications_with_sound?'yes':'')+'"></div>\
+                    <div class="no_part '+(notifications_with_sound?'':'no')+'"></div>\
+                </div>\
+            </div>\
+            \
+            <div class="title_button_part">\
+                <p>Jouer un son</p>\
+                <p>Jouer un son lors d\'une nouvelle réponse</p>\
+            </div>');
+
+        $('#plugin-sounded-notification').on('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            notifications_with_sound = settingsManager.notifications_with_sound
+            if($(this).find('.yes').length == 0){// => is not already notifications_with_sound
+                notifications_with_sound[$(this).data('plugin-link-info')] = true;
+            }
+            else{
+                delete notifications_with_sound[$(this).data('plugin-link-info')];
+            }
+            // chrome.storage.sync.set({
+            //     'settings': settingsManager
+            // });
+
+            settingsManager.notifications_with_sound = notifications_with_sound;
+            extension.sendMessage('update_settings', {});
+            
+            notifications_with_sound = (typeof settingsManager.notifications_with_sound[$(this).data('plugin-link-info')] != "undefined");
+            $(this).html('<div class="yes_part '+(notifications_with_sound?'yes':'')+'"></div>\
+                    <div class="no_part '+(notifications_with_sound?'':'no')+'"></div>');
 
             return false;
         });

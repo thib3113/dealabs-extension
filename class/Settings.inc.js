@@ -12,6 +12,7 @@ function SettingsManager(){
         },
         theme : "default",
         blacklist: {},
+        notifications_with_sound :{},
         smileys : {
             "siffle" : "http://www.turbopix.fr/i/RZAK5VBi4M.gif",
             "fouet"  : "http://www.turbopix.fr/i/BpU1pU7Onm.gif",

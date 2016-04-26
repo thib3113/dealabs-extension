@@ -25,7 +25,8 @@
     ]
   },
   "web_accessible_resources": [
-    "themes/*"
+    "themes/*",
+    "sounds/*"
   ],
   "permissions": [
     "notifications",

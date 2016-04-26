@@ -263,6 +263,9 @@ function parseUpdate(response, cb){
                     notifications_counter[tempNotifs[i].categorie].value -= 1;
                     continue;
                 }
+                if(typeof settingsManager.settings.notifications_with_sound[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
+                    soundAlert();
+                }
             }
 
             if(typeof saveNotifications[tempNotifs[i].categorie] == "undefined")
@@ -270,8 +273,9 @@ function parseUpdate(response, cb){
             saveNotifications[tempNotifs[i].categorie].push(tempNotifs[i]);
 
             if(typeof notificationsNotified[tempNotifs[i].slug] == "undefined" || notificationsNotified[tempNotifs[i].slug] == null){
-                if(settingsManager.notifications_manage.desktop)
+                if(settingsManager.notifications_manage.desktop){
                     notify(tempNotifs[i].title, tempNotifs[i].text, tempNotifs[i].icon, tempNotifs[i].url, tempNotifs[i].slug);
+                }
             }
             newNotificationsNotified[tempNotifs[i].slug] = tempNotifs[i];
         }
