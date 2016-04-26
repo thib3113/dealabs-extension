@@ -1,4 +1,6 @@
-1.1.12 :
+1.1.13 :
+ - sound with some notifications
+ 1.1.12 :
  - bug with ignored topics
 1.1.11 :
  - refactoring all extension API (for port to FF)
