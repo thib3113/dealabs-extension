@@ -264,7 +264,9 @@ function parseUpdate(response, cb){
                     continue;
                 }
                 if(typeof settingsManager.settings.notifications_with_sound[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
-                    soundAlert();
+                    if(typeof notificationsNotified[tempNotifs[i].slug] == "undefined" || notificationsNotified[tempNotifs[i].slug] == null){
+                        soundAlert();
+                    }
                 }
             }
 

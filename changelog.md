@@ -1,4 +1,6 @@
-1.1.13 :
+1.1.14 :
+ - bug with sound
+ 1.1.13 :
  - sound with some notifications
  1.1.12 :
  - bug with ignored topics
