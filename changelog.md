@@ -1,3 +1,7 @@
+1.1.11 :
+ - refactoring all extension API (for port to FF)
+ - add some controls in popup
+ - add ctrl key for click in popup (open in background)
 1.1.10 :
  - refactoring embed
  - add embed for mojvideo & vimeo
