@@ -50,7 +50,6 @@ extension.onMessage('update', function(datas){
     else
         cb = function(){};
 
-    console.log('event update');
     // cb = function(){
     //     extension.sendMessage('finish_update');
     // }
@@ -141,7 +140,12 @@ function parseUpdate(response, cb){
 
         //notifications
         current_deals = [];
-        notifications_counter = {};
+        notifications_counter = {
+            'deals': {value:0},
+            'alerte': {value:0},
+            'MP': {value:0},
+            'forum': {value:0}
+        }
         // settingsManager.notifications_manage.alertes
         // settingsManager.notifications_manage.MPs
         // settingsManager.notifications_manage.forum
@@ -255,7 +259,8 @@ function parseUpdate(response, cb){
             if(linkInfo = tempNotifs[i].url.match(/\.com\/([^\/]+)\/.*\/([0-9]+)[#|\?]/)){
                 if(typeof settingsManager.settings.blacklist[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
                     $.get(tempNotifs[i].url);
-                    notifications_counter[tempNotifs.categorie].value -= 1;
+                    console.log(tempNotifs[i].categorie);
+                    notifications_counter[tempNotifs[i].categorie].value -= 1;
                     continue;
                 }
             }

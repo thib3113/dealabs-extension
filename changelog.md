@@ -1,3 +1,5 @@
+1.1.12 :
+ - bug with ignored topics
 1.1.11 :
  - refactoring all extension API (for port to FF)
  - add some controls in popup
