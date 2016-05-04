@@ -2,6 +2,8 @@ function ChromeExtension(){
     this._notifications = {};
     this._tabs = {};
     this._messageListener = {};
+    this._waitFor = {};
+    this._waitForWaiter = {};
 
     /**
      * save in local or sync storage
@@ -31,6 +33,33 @@ function ChromeExtension(){
         return chrome.extension.getViews({type:'popup'})
     }
 
+    this.stopWaitFor = function(event){
+        if(this._waitForWaiter[event] != undefined){
+            for (var i = this._waitForWaiter[event].length - 1; i >= 0; i--) {
+                this._waitForWaiter[event][i]();
+            }
+            delete this._waitForWaiter[event];
+        }
+        this._waitFor[event] = true;
+    }
+
+    this.removeWaitFor = function(event){
+        if(this._waitForWaiter[event] != undefined){
+            delete this._waitForWaiter[event];
+        }
+    }
+
+    this.waitFor= function(event, cb){
+        if(this._waitFor[event] != undefined){
+            cb();
+        }
+        else{
+            if(this._waitForWaiter[event] == undefined)
+                this._waitForWaiter[event] = [];
+            this._waitForWaiter[event].push(cb);
+        }
+    }
+
     /**
      * get storage
      * @author Thibaut SEVERAC (thib3113@gmail.com)
@@ -45,6 +74,12 @@ function ChromeExtension(){
         else{
             chrome.storage.local.get(names, cb);
         }
+    }
+
+    this.removeContextMenu = function(name, cb){
+        cb = cb || function(){};
+
+        chrome.contextMenus.remove(name,cb);
     }
 
     this.addContextMenu= function(pOptions){
@@ -84,7 +119,7 @@ function ChromeExtension(){
         this._messagePort.postMessage({"event":event, datas:datas});
     }
 
-    //notification object
+    //tabObject object
     function tabObject(pId, pOnLoad){
         this.pId = pId;
         this.pOnLoad = pOnLoad;
@@ -168,7 +203,6 @@ function ChromeExtension(){
             items : undefined,
             progress : undefined,
             isClickable : undefined,
-            requireInteraction : undefined,
 
             datas : undefined,
             slug : undefined,

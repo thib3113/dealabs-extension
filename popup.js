@@ -1,7 +1,6 @@
 oldNotifs = {};
 
 function generate_popup(){
-
     //recup notifications
     extension.getStorage(['notifications', 'notifications_counter', 'profil_link'], function(value){
         notifications = value.notifications;
@@ -63,13 +62,13 @@ function generate_popup(){
 }
 
 $(function(){
-    $('body').on('click', '[data-btn]', function(event){
+    $('body').on('mouseup', '[data-btn]', function(event){
         switch($(this).data('btn')){
             case 'see_profil' :
                 extension.getStorage(['profil'], function(value){
                     extension.sendMessage('open_tab', {
                         url : value.profil.link,
-                        active : !event.ctrlKey                    
+                        active : !(event.ctrlKey||event.which==2)                    
                     })
                 }.bind(this));
             break;
@@ -83,12 +82,11 @@ $(function(){
         }
     });
 
-    $('body').on('click', '[data-href]', function(){
-        debugger;
+    $('body').on('mouseup', '[data-href]', function(event){
         newUrl = this.dataset.href;
         extension.sendMessage("open_tab", {
             url : newUrl,
-            active : !event.ctrlKey
+            active : !(event.ctrlKey||event.which==2)
         });
     });
 

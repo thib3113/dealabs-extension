@@ -11,6 +11,9 @@ dev_theme_url = 'https://rawgit.com/thib3113/dealabs-extension/master/themes/';
 //for dev time
 theme_url = dev_theme_url;
 
+dealabs_protocol = "http://";
+
+
 if(typeof chrome != "undefined"){
   extension = new ChromeExtension();
 }
@@ -23,7 +26,84 @@ function soundAlert(){
   audio = null;
 }
 
-function notify(title, text, icon, url, slug){
+addImageInFormCounter = 0;
+function addImageInForm(form, item, cursorPos){
+  textarea = $(form).find("textarea").get(0);
+  blob = item.getAsFile(); 
+
+  cursorPos = cursorPos || $(textarea).val().length;
+
+  v = $(textarea).val();
+  var textBefore = v.substring(0, cursorPos);
+  var textAfter = v.substring(cursorPos, v.length);
+  $(textarea).val(textBefore +'[img_wait_upload:'+(++addImageInFormCounter)+']'+ textAfter);
+
+  // $(textarea).val($(textarea).val()+'[img_wait_upload:'+(++addImageInFormCounter)+']');
+  sendToTurboPix(blob, function(error, response){
+    failcb = function(textarea, id){
+
+    }
+
+    if(error == null){
+      if(response.error){
+        alert('Une erreur est apparue lors de l\'envoi de l\'image : '+response.error);
+        failcb(this.textarea, this.id);
+      }
+      oldValue = $(textarea).val();
+      newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+this.id+'\\]'), '[img size=300px]'+response.url.direct+'[/img]');
+      $(textarea).val(newValue);
+    }
+    else{
+      alert('Une erreur est apparue lors de l\'envoi de l\'image : '+error);
+      failcb(this.textarea, this.id);
+    }
+  }.bind({textarea:textarea, id:addImageInFormCounter}), item.name)
+}
+
+function sendToTurboPix(img, cb, imgName){
+  switch(img.type){ 
+    case "image/gif": 
+        extension = ".gif"; 
+        break; 
+    case "image/jpeg": 
+        extension = ".jpeg"; 
+        break; 
+    case "image/png": 
+        extension = ".png"; 
+        break; 
+    case "image/bmp": 
+        extension = ".bmp"; 
+        break; 
+    default :
+      cb('unknow type');
+    break;
+  }
+  imgName = imgName || "dealabs-paste-image"+extension;
+
+  var data = new FormData();
+  data.append("k", "FORMODULE");
+  data.append("ku", settingsManager.turbopixAPIKey);
+  data.append("f", img, imgName);
+
+  if(location.protocol == "https:")
+    cb('cette fonctionnalitée ne fonctionne pas en sécurisée !');
+
+  $.ajax({
+      url : 'http://www.turbopix.fr/api',
+      data: data,
+      method: 'POST',
+      processData: false,  // tell jQuery not to process the data
+      contentType: false,   // tell jQuery not to set contentType
+      success:function(response){
+          cb(null, response)
+      },
+      error:function(qXHR, textStatus, errorThrown ){
+          cb(textStatus+' '+errorThrown);
+      }
+  });
+}
+
+function send_desktop_notification(title, text, icon, url, slug){
   extension.sendNotification({
     type : 'basic',
     iconUrl : icon,

@@ -187,7 +187,7 @@ function plugin_insertSmiley() {
     //add smiley at cursor position
     var cursorPos = jQuery(textarea).prop('selectionStart');
     var v = jQuery(textarea).val()
-    v = v.slice(0, textarea.selectionStart) + v.slice(textarea.selectionEnd);;
+    v = v.slice(0, textarea.selectionStart) + v.slice(textarea.selectionEnd);
     var textBefore = v.substring(0, cursorPos);
     var textAfter = v.substring(cursorPos, v.length);
     $(textarea).val(textBefore + ':' + nom + ":" + textAfter);
@@ -294,6 +294,29 @@ $(function() {
     $body = $('body');
 
     new Embed($('a.link_a_reduce'));
+
+    $('body').on('paste drop', 'form', function(e){
+
+        if(e.type == "paste"){
+            var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+        }
+        else if(e.type == "drop"){
+            e.stopPropagation();
+            e.preventDefault();
+            
+            var items = (e.dataTransfer || e.originalEvent.dataTransfer).items;
+        }
+        else{
+            alert("error");
+        }
+
+        for (index in items) {
+            var item = items[index];
+            if (item.kind === 'file') {
+                addImageInForm(this, item, $(this).find("textarea").prop('selectionStart'));
+            }
+        }
+    });
     
     //settings
     if (plugin_getParameterByName('tab', location.href) == "settings") {
@@ -395,6 +418,20 @@ $(function() {
                         </div>\
                     </div>\
                     <div class="subtitle_tab_contener">\
+                        <p>Images</p>\
+                    </div>\
+                    <div class="profil_param_notification border_grey_bottom">\
+                        <div class="left_profil_param_champs" style="width:50%;">\
+                            <p>Clef utilisateur Turbopix&thinsp;:</p>\
+                        </div>\
+                        <div class="content_profil_param_champs">\
+                            <div class="input_left flag">\
+                                <input name="plugin_turbopix_key" id="plugin_turbopix_key" />\
+                            </div>\
+                            <span>Les images seront reliées à votre compte . Vous trouverez la clef utilisateur <a target="_blank" href="http://www.turbopix.fr/profile">ici</a> &thinsp;</span>\
+                        </div>\
+                    </div>\
+                    <div class="subtitle_tab_contener">\
                         <p>Smileys</p>\
                     </div>\
                     <div class="profil_param_notification border_grey_bottom">\
@@ -436,6 +473,9 @@ $(function() {
         $('#plugin_mp_notifications').attr('checked', settingsManager.notifications_manage.MPs);
         $('#plugin_forum_notifications').attr('checked', settingsManager.notifications_manage.forum);
 
+        //load turbopix key
+        $('#plugin_turbopix_key').val(settingsManager.turbopixAPIKey);
+
         //load smileys
         smileyTPL = '<tr><td>{{img}}</td><td style="padding-right: 20px;"><input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_url" value="{{smiley_url}}" /></td><td style="padding-right: 20px;"><input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_name" value="{{smiley_name}}" /></td><td onclick="$(this).parent(\'tr\').remove();" style="cursor:pointer;" ><img src="https://static.dealabs.com/images/profil/icon_profile_messages_delete.png"></td></tr>';
         $('#plugin_smileys_list tbody').html("");
@@ -466,6 +506,7 @@ $(function() {
             newSettings = {
                 time_between_refresh: parseInt($('#plugin_time_between_refresh').val()),
                 theme: $('#plugin_theme').val(),
+                turbopixAPIKey: $('#plugin_turbopix_key').val(),
                 notifications_manage: {
                     desktop : $('#plugin_desktop_notifications').is(':checked'),
                     forum : $('#plugin_forum_notifications').is(':checked'),
@@ -475,24 +516,16 @@ $(function() {
                 },
                 smileys: save_smileys
             }
-            // newSettings = plugin_deepmerge(defaultSettings, newSettings);
 
-            cb = function(){$success_message.slideDown(500);}
-            if($(this).parents('#right_profil_param').find('.message_success').length > 0){
-                $(this).parents('#right_profil_param').find('.message_success').slideUp(500,function(){
-                    $(this).find('p').text('Vos paramètres ont bien été enregistrés.');
-                    cb();
-                })
-            }
-            else{
-                $success_message = $('<div class="message_success" style="display:none"><p>Vos paramètres ont bien été enregistrés.</p></div>');
-                $(this).parents('#right_profil_param').prepend($success_message);
-                cb();
-            }
+            noty({
+                layout: 'topRight',
+                type: 'success',
+                text: 'Vos paramètres ont bien été enregistrés.',
+                dismissQueue: true,
+                timeout: 2000,
+                maxVisible: 1
+            });
 
-            // chrome.storage.sync.set({
-            //     'settings': newSettings
-            // });
             settingsManager.settings = newSettings;
             extension.sendMessage("update_settings", {});
         });
@@ -542,14 +575,10 @@ $(function() {
         )
             return;
 
-        // debugger;
         clone = $(this).clone(false).attr('onclick', null).clone(false).attr('accesskey', 'p').text("Prévisualiser");
         // console.log(clone);
         $(this).after(clone);
         clone.on('click', function(e) {
-            // e.preventDefault();
-            // e.stopPropagation();
-            // debugger;
             if ($(this).parents('#discussed').length > 0) {
                 $putContainer = $('#comment_contener');
                 func = "append";

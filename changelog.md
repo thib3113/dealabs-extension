@@ -1,4 +1,12 @@
-1.1.14 :
+1.1.18 :
+ - easy add an image
+ 1.1.17 :
+ - some bugs
+ 1.1.16 :
+ - some bugs
+ 1.1.15 :
+ - some bugs
+ 1.1.14 :
  - bug with sound
  1.1.13 :
  - sound with some notifications

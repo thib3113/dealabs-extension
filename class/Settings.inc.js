@@ -10,6 +10,7 @@ function SettingsManager(){
           deals : true,
           alertes : true
         },
+        turbopixAPIKey : "",
         theme : "default",
         blacklist: {},
         notifications_with_sound :{},
