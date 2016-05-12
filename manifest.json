@@ -1,9 +1,11 @@
 {
   "manifest_version": 2,
-  "name": "Dealabs Notifier - unofficial",
-  "short_name": "Dealabs Notifier",
-  "description": "This extension is a notifier for dealabs",
-  "version": "1.1.18",
+  "name": "Dealabs - unofficial",
+  "short_name": "Dealabs",
+  "description": "Cette extension apporte plusieurs nouvelles fonctionnalités au site dealabs . Plus d'information sur le topic de l'extension",
+  "version": "1.2.1",
+  "author": "thib3113",
+  "minimum_chrome_version": "50.0",
   "options_page": "options.html",
   "icons": {
     "16": "icon_16.png",
@@ -27,7 +29,8 @@
   },
   "web_accessible_resources": [
     "themes/*",
-    "sounds/*"
+    "sounds/*",
+    "third/*"
   ],
   "permissions": [
     "notifications",

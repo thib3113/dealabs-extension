@@ -9,7 +9,7 @@ theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/master/themes/';
 dev_theme_url = 'https://rawgit.com/thib3113/dealabs-extension/master/themes/';
 
 //for dev time
-theme_url = dev_theme_url;
+// theme_url = dev_theme_url;
 
 dealabs_protocol = "http://";
 
@@ -26,11 +26,15 @@ function soundAlert(){
   audio = null;
 }
 
-addImageInFormCounter = 0;
-function addImageInForm(form, item, cursorPos){
-  textarea = $(form).find("textarea").get(0);
-  blob = item.getAsFile(); 
+function isDataURL(s) {
+    s = s||"";
+    return !!s.match(isDataURL.regex);
+}
+isDataURL.regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
 
+
+addImageInFormCounter = 0;
+function addImageInForm(textarea, img, cursorPos, pUpload){
   cursorPos = cursorPos || $(textarea).val().length;
 
   v = $(textarea).val();
@@ -39,9 +43,11 @@ function addImageInForm(form, item, cursorPos){
   $(textarea).val(textBefore +'[img_wait_upload:'+(++addImageInFormCounter)+']'+ textAfter);
 
   // $(textarea).val($(textarea).val()+'[img_wait_upload:'+(++addImageInFormCounter)+']');
-  sendToTurboPix(blob, function(error, response){
+  cbFunction = function(error, response){
     failcb = function(textarea, id){
-
+      oldValue = $(textarea).val();
+      newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+this.id+'\\]'), '');
+      $(textarea).val(newValue);
     }
 
     if(error == null){
@@ -57,46 +63,94 @@ function addImageInForm(form, item, cursorPos){
       alert('Une erreur est apparue lors de l\'envoi de l\'image : '+error);
       failcb(this.textarea, this.id);
     }
-  }.bind({textarea:textarea, id:addImageInFormCounter}), item.name)
+  }.bind({textarea:textarea, id:addImageInFormCounter});
+  
+  if(pUpload){
+    sendToTurboPix(img, cbFunction)
+  }
+  else{
+    cbFunction(null, {
+      error : false,
+      url:{
+        direct : img
+      }
+    })
+  }
 }
 
 function sendToTurboPix(img, cb, imgName){
-  switch(img.type){ 
-    case "image/gif": 
-        extension = ".gif"; 
-        break; 
-    case "image/jpeg": 
-        extension = ".jpeg"; 
-        break; 
-    case "image/png": 
-        extension = ".png"; 
-        break; 
-    case "image/bmp": 
-        extension = ".bmp"; 
-        break; 
-    default :
-      cb('unknow type');
-    break;
-  }
-  imgName = imgName || "dealabs-paste-image"+extension;
+  isBlob = img instanceof Blob;
 
-  var data = new FormData();
-  data.append("k", "FORMODULE");
-  data.append("ku", settingsManager.turbopixAPIKey);
-  data.append("f", img, imgName);
+  if(isBlob){
+    switch(img.type){ 
+      case "image/gif": 
+          image_extension = ".gif"; 
+          break; 
+      case "image/jpeg": 
+          image_extension = ".jpeg"; 
+          break; 
+      case "image/png": 
+          image_extension = ".png"; 
+          break; 
+      case "image/bmp": 
+          image_extension = ".bmp"; 
+          break; 
+      default :
+        cb('unknow type');
+      break;
+    }
+    imgName = imgName || "dealabs-paste-image"+image_extension;
+  
+    var data = new FormData();
+    data.append("k", "FORMODULE");
+    data.append("ku", settingsManager.turbopixAPIKey);
+    data.append("f", img, imgName);
+  }
+  else{
+    data = {
+      k : "FORMODULE",
+      ku : settingsManager.turbopixAPIKey,
+      f : img
+    }
+  }
+
 
   if(location.protocol == "https:")
-    cb('cette fonctionnalitée ne fonctionne pas en sécurisée !');
+    cb('cette fonctionnalitée ne fonctionne pas en https !');
 
+    // extension.sendMessage("upload_image")
+      
   $.ajax({
       url : 'http://www.turbopix.fr/api',
       data: data,
       method: 'POST',
-      processData: false,  // tell jQuery not to process the data
-      contentType: false,   // tell jQuery not to set contentType
+      processData: !isBlob,  // tell jQuery not to process the data
+      contentType: !isBlob,   // tell jQuery not to set contentType
       success:function(response){
           cb(null, response)
       },
+      // beforeSend: function (xhr) {
+      //     var opt = {
+      //       type: "progress",
+      //       title: "upload",
+      //       message: "Image en cours d'envoi",
+      //       iconUrl: "https://image.freepik.com/free-icon/upload-arrow_318-26670.png",
+      //       progress: 0
+      //     }
+          
+      //     notification = extension.sendNotification(opt);
+      //     //Download progress
+      //     xhr.upload.addEventListener("progress", function (evt) {
+      //         debugger;
+      //         console.log(evt.lengthComputable);
+      //         console.log(evt);
+      //         if (evt.lengthComputable) {
+      //             var percentComplete = evt.loaded / evt.total;
+      //             console.log(Math.round(percentComplete * 100) + "%");
+      //         }
+      //     }.bind({notification:notification}));
+      //     return xhr;
+      // },
       error:function(qXHR, textStatus, errorThrown ){
           cb(textStatus+' '+errorThrown);
       }

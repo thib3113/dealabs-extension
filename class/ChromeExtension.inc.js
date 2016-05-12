@@ -186,6 +186,48 @@ function ChromeExtension(){
             if(this.pOnClick != undefined)
                 this.pOnClick(this.datas);
         }
+
+        this.update=function(pOptions, cb){
+            defaultOption = {
+                type : undefined,
+                iconUrl : undefined,
+                appIconMaskUrl : undefined,
+                title : undefined,
+                message : undefined,
+                contextMessage : undefined,
+                priority : undefined,
+                eventTime : undefined,
+                buttons : undefined,
+                imageUrl : undefined,
+                items : undefined,
+                progress : undefined,
+                isClickable : undefined,
+
+                datas : undefined,
+                slug : undefined,
+                onOpen: undefined,
+                onClick: undefined
+            }
+
+            pOptions = $.extend(defaultOption, pOptions)
+
+            delete pOptions.onOpen;
+
+            this.onClick = pOptions.onClick;
+            delete pOptions.onClick;
+
+            this.datas = pOptions.datas;
+            delete pOptions.datas;
+            
+            if(onClick != undefined)
+                pOptions.isClickable = true;
+
+            delete pOptions.slug;
+
+            cb = cb || function(){};
+
+            chrome.extension.update(this.pId, pOptions, cb);
+        }
     }
 
     this.sendNotification = function(pOptions){

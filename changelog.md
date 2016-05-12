@@ -1,4 +1,8 @@
-1.1.18 :
+1.2.1 :
+ - some bugs
+ 1.2.0 :
+ - some bugs
+ 1.1.18 :
  - easy add an image
  1.1.17 :
  - some bugs

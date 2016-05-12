@@ -295,7 +295,8 @@ $(function() {
 
     new Embed($('a.link_a_reduce'));
 
-    $('body').on('paste drop', 'form', function(e){
+    $('body').on('paste drop', 'textarea', function(e){
+        reUpload = e.ctrlKey;
 
         if(e.type == "paste"){
             var items = (e.clipboardData || e.originalEvent.clipboardData).items;
@@ -312,8 +313,33 @@ $(function() {
 
         for (index in items) {
             var item = items[index];
-            if (item.kind === 'file') {
-                addImageInForm(this, item, $(this).find("textarea").prop('selectionStart'));
+            if (item.type != undefined && item.type.indexOf("image") !== -1) {
+                blob = item.getAsFile(); 
+                addImageInForm(this, blob, $(this).find("textarea").prop('selectionStart'), true);
+            }
+            if (item.kind === "string"){
+                item.getAsString(function(str) {
+                    try{
+                        is_image = $(str).is('img');
+                    }
+                    catch(e){
+                        is_image = false;
+                    }
+
+                    if(is_image){
+                        src = $(str).attr('src');
+                        if(src != undefined){
+                            if(isDataURL(src)){
+                                fetch(src)
+                                .then(res => res.blob())
+                                .then(blob => addImageInForm(this, blob, $(this).find("textarea").prop('selectionStart'), true))
+                            }
+                            else{
+                                addImageInForm(this, src, $(this).find("textarea").prop('selectionStart'), reUpload);
+                            }
+                        }
+                    }
+                }.bind(this));
             }
         }
     });
@@ -666,6 +692,20 @@ $(function() {
             }
 
             commentaire = $(this).parents('form').find('textarea').val();
+            
+            if(commentaire.match(/\[img_wait_upload:[0-9]+\]/)){
+
+                noty({
+                    layout: 'bottom',
+                    type: 'error',
+                    text: "une image est en cours d'upload, reessayer plus tard",
+                    dismissQueue: true,
+                    timeout: 2000,
+                    maxVisible: 1
+                });
+                return;
+            }
+
             if ($('#_userscript_preview_container').length > 0) {
                 $('#_userscript_preview_container').slideUp(500, function() {
                     $(this).remove()
@@ -683,8 +723,26 @@ $(function() {
 
 $(function(){
     // console.log(jQuery._data( $(document)[0], "events" ));
+    var script = document.createElement('script');
+    script.src = '//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.8/packaged/jquery.noty.packaged.min.js';
+    (document.body || document.head || document.documentElement).appendChild(script);
+
     inject("$(document).on('submit', 'form', function(event) {\
         text = $(this).find('[name=\"post_content\"]').val();\
+        if(text != undefined && text.match(/\\[img_wait_upload:[0-9]+\\]/)){\
+            event.stopPropagation();\
+            $('.spinner_validate').hide(0);\
+            $(this).find('.spinner_validate').parent('a').attr('onclick', 'validate_comment();');\
+            noty({\
+                layout: 'bottom',\
+                type: 'error',\
+                text: 'une image est en cours d\\'upload, reessayer plus tard',\
+                dismissQueue: true,\
+                timeout: 2000,\
+                maxVisible: 1\
+            });\
+            return false;\
+        }\
         if (typeof text == 'undefined') return;\
         current_smileys = JSON.parse('"+JSON.stringify(settingsManager.smileys)+"');\
         for (var nom in current_smileys) {\
