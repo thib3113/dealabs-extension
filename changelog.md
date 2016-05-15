@@ -1,4 +1,6 @@
-1.2.1 :
+1.2.2 :
+ - bugs with option link
+ 1.2.1 :
  - some bugs
  1.2.0 :
  - some bugs
