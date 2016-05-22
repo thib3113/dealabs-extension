@@ -67,7 +67,7 @@
         font-size: 15pt;
     }
     header span{
-        width: 33%;
+        width: 25%;
         text-align: center;
         display: block;
         float: left;
@@ -78,15 +78,23 @@
     header span i:hover{
         color: #A09C9C;
     }
+    .no_notification{
+      cursor: initial;
+    }
+    .no_notification:hover{
+      background: whitesmoke;
+    }
   </style>
 </head>
 <body>
     <header>
-        <span><i data-btn="see_profil" class="zmdi zmdi-account-circle" title="mon profil"></i></span>
+        <span class="link"><i data-btn="see_dealabs_home" class="zmdi zmdi-home" title="Accueil"></i></span>
+        <span class="link"><i data-btn="see_profil" class="zmdi zmdi-account-circle" title="mon profil"></i></span>
         <span><i data-btn="refresh" class="zmdi zmdi-refresh" title="rafraichir"></i></span>
         <span><i data-btn="remove_all" class="zmdi zmdi-format-clear-all" style="transform: scaleX(-1);" title="Tout supprimer"></i></span>
     </header>
     <table id="notifications">
+      <tr class="notification"><td class="no_notification" colspan="">Aucune notification</td></tr>
     </table>
 </body>
 </html>

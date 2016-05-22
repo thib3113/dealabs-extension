@@ -54,7 +54,7 @@ function generate_popup(){
                 $('#notifications').append('<tr class="notification" data-href="'+more_link+'"><td style="text-align:center;">...</td><td>Voir plus de '+title.toLowerCase()+'</td></tr>');
         }
         if(nb_add == 0){
-            $('#notifications').append('<tr class="notification"><td colspan="">Aucune notification</td></tr>');
+            $('#notifications').append('<tr class="notification"><td class="no_notification" colspan="">Aucune notification</td></tr>');
             nb_add++;
         }
         $('body').css('height', nb_add*32)
@@ -63,6 +63,8 @@ function generate_popup(){
 
 $(function(){
     $('body').on('mouseup', '[data-btn]', function(event){
+        if(event.which == 3) return;
+
         switch($(this).data('btn')){
             case 'see_profil' :
                 extension.getStorage(['profil'], function(value){
@@ -71,6 +73,12 @@ $(function(){
                         active : !(event.ctrlKey||event.which==2)                    
                     })
                 }.bind(this));
+            break;
+            case 'see_dealabs_home' :
+                extension.sendMessage('open_tab', {
+                    url : dealabs_protocol+'www.dealabs.com',
+                    active : !(event.ctrlKey||event.which==2)                    
+                })
             break;
             case 'refresh' :
                 $('[data-btn="refresh"]').addClass('zmdi-hc-spin');
