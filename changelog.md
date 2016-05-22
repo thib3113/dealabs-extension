@@ -1,3 +1,5 @@
+1.2.3 :
+ - links to home + bugs
 1.2.2 :
  - bugs with option link
  1.2.1 :
