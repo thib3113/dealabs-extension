@@ -187,6 +187,14 @@ function ChromeExtension(){
                 this.pOnClick(this.datas);
         }
 
+        this.onOpen = function(){
+            if(this.pOnOpen != undefined)
+                this.pOnOpen();
+            
+            if(this.createTime > Date.now()+120000)
+                this.close();
+        }
+
         this.update=function(pOptions, cb){
             defaultOption = {
                 type : undefined,
@@ -211,6 +219,7 @@ function ChromeExtension(){
 
             pOptions = $.extend(defaultOption, pOptions)
 
+            this.pOnOpen = pOptions.onOpen;
             delete pOptions.onOpen;
 
             this.onClick = pOptions.onClick;
@@ -231,6 +240,7 @@ function ChromeExtension(){
     }
 
     this.sendNotification = function(pOptions){
+        console.log("sendNotification()");
         defaultOption = {
             type : undefined,
             iconUrl : undefined,
@@ -270,16 +280,21 @@ function ChromeExtension(){
         slug = pOptions.slug;
         delete pOptions.slug;
 
+        createTime = Date.now(); 
         chrome.notifications.create(slug, pOptions, function(id){
             notif = new NotificationObject(id, this.onClick, this.datas);
-            this._notifications[id] = notif;
+            notif.createTime = this.createTime;
 
-            if(typeof this.onOpen != "undefined")
-                this.onOpen(notif);
+            notif.pOnOpen = this.onOpen;
+            
+            this._notifications[id] = notif;
+            notif.onOpen();
+
         }.bind({
             _notifications:this._notifications,
             onOpen:onOpen,
             onClick: onClick,
+            createTime:createTime,
             datas: datas
         }))
     }

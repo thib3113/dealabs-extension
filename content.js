@@ -310,12 +310,11 @@ $(function() {
         else{
             alert("error");
         }
-
         for (index in items) {
             var item = items[index];
             if (item.type != undefined && item.type.indexOf("image") !== -1) {
                 blob = item.getAsFile(); 
-                addImageInForm(this, blob, $(this).find("textarea").prop('selectionStart'), true);
+                addImageInForm(this, blob, $(this).prop('selectionStart'), true);
             }
             if (item.kind === "string"){
                 item.getAsString(function(str) {
@@ -332,10 +331,10 @@ $(function() {
                             if(isDataURL(src)){
                                 fetch(src)
                                 .then(res => res.blob())
-                                .then(blob => addImageInForm(this, blob, $(this).find("textarea").prop('selectionStart'), true))
+                                .then(blob => addImageInForm(this, blob, $(this).prop('selectionStart'), true))
                             }
                             else{
-                                addImageInForm(this, src, $(this).find("textarea").prop('selectionStart'), reUpload);
+                                addImageInForm(this, src, $(this).prop('selectionStart'), reUpload);
                             }
                         }
                     }

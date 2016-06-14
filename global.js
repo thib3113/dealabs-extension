@@ -43,12 +43,30 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
   $(textarea).val(textBefore +'[img_wait_upload:'+(++addImageInFormCounter)+']'+ textAfter);
 
   // $(textarea).val($(textarea).val()+'[img_wait_upload:'+(++addImageInFormCounter)+']');
+
+  //check if it's an https? url
+  if(typeof img == "string" && img.match(/(https?:\/\/[^\]\s]+)(?: ([^\]]*))?/)){
+    imageUrl = img;
+  }
+  else{
+    var urlCreator = window.URL || window.webkitURL;
+    var imageUrl = urlCreator.createObjectURL(img);
+  }
+  
+  var oImg=document.createElement("img");
+  oImg.setAttribute('src', imageUrl);
+  oImg.setAttribute('alt', 'image in wait');
+  oImg.setAttribute('style', 'height:100px');
+  var $image_progress = $('<div style="margin:10px;display:inline-block;position:relative;height:100px;" id="plugin_upload_image_'+addImageInFormCounter+'"><div class="float_loader" style="width:100%;background:white;bottom:0;opacity:0.5;height:100px;position:absolute;"></div></div>');
+  $image_progress.append(oImg);
   cbFunction = function(error, response){
     failcb = function(textarea, id){
       oldValue = $(textarea).val();
-      newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+this.id+'\\]'), '');
+      newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+id+'\\]'), '');
       $(textarea).val(newValue);
     }
+
+    $image_progress.remove();
 
     if(error == null){
       if(response.error){
@@ -63,10 +81,18 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
       alert('Une erreur est apparue lors de l\'envoi de l\'image : '+error);
       failcb(this.textarea, this.id);
     }
-  }.bind({textarea:textarea, id:addImageInFormCounter});
+  }.bind({textarea:textarea, id:addImageInFormCounter,$image_progress:$image_progress});
   
+  $(textarea).after($image_progress);
+  cbProgress = function(evt) {
+    if (evt.lengthComputable) {
+      var percentComplete = evt.loaded / evt.total;
+      $image_progress.find('.float_loader').height((100-Math.round(percentComplete * 100))+"px");
+    }
+  }.bind({$image_progress:$image_progress})
+
   if(pUpload){
-    sendToTurboPix(img, cbFunction)
+    sendToTurboPix(img, cbFunction, null, cbProgress)
   }
   else{
     cbFunction(null, {
@@ -78,7 +104,7 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
   }
 }
 
-function sendToTurboPix(img, cb, imgName){
+function sendToTurboPix(img, cb, imgName, cbProgress){
   isBlob = img instanceof Blob;
 
   if(isBlob){
@@ -95,8 +121,13 @@ function sendToTurboPix(img, cb, imgName){
       case "image/bmp": 
           image_extension = ".bmp"; 
           break; 
+      case "image/svg+xml": 
+          cb('type d\'image refusé');
+          return;
+          break; 
       default :
         cb('unknow type');
+        return;
       break;
     }
     imgName = imgName || "dealabs-paste-image"+image_extension;
@@ -114,7 +145,6 @@ function sendToTurboPix(img, cb, imgName){
     }
   }
 
-
   if(location.protocol == "https:")
     cb('cette fonctionnalitée ne fonctionne pas en https !');
 
@@ -129,30 +159,30 @@ function sendToTurboPix(img, cb, imgName){
       success:function(response){
           cb(null, response)
       },
-      // beforeSend: function (xhr) {
-      //     var opt = {
-      //       type: "progress",
-      //       title: "upload",
-      //       message: "Image en cours d'envoi",
-      //       iconUrl: "https://image.freepik.com/free-icon/upload-arrow_318-26670.png",
-      //       progress: 0
-      //     }
-          
-      //     notification = extension.sendNotification(opt);
-      //     //Download progress
-      //     xhr.upload.addEventListener("progress", function (evt) {
-      //         debugger;
-      //         console.log(evt.lengthComputable);
-      //         console.log(evt);
-      //         if (evt.lengthComputable) {
-      //             var percentComplete = evt.loaded / evt.total;
-      //             console.log(Math.round(percentComplete * 100) + "%");
-      //         }
-      //     }.bind({notification:notification}));
-      //     return xhr;
-      // },
+      xhr: function() {
+        var myXhr = $.ajaxSettings.xhr();
+        if(myXhr.upload){
+          myXhr.upload.addEventListener('progress', cbProgress, false);
+        }
+        return myXhr;
+      },
       error:function(qXHR, textStatus, errorThrown ){
-          cb(textStatus+' '+errorThrown);
+        try{
+          response = JSON.parse(qXHR.responseText);
+          if(response.error != ""){
+            cb(response.error);
+          }
+        }
+        catch(e){
+          switch(qXHR.status){
+            case 413:
+              cb('l\'image est trop grosse pour le serveur');
+            break;
+            default:
+              cb(textStatus+' '+errorThrown);
+            break;
+          }
+        }
       }
   });
 }

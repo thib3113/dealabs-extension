@@ -1,3 +1,8 @@
+1.2.4 :
+ - remove wait text if error when upload image
+ - display image loading under the textarea
+ - resolve some bugs with selection in textarea
+ - don't display notification, if it's your message in forum
 1.2.3 :
  - links to home + bugs
 1.2.2 :

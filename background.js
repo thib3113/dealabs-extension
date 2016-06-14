@@ -34,6 +34,7 @@ extension.onMessage('open_tab', function(datas){
     extension.openTab(datas);
 })
 
+
 extension.onMessage('update_settings', function(datas){
     settingsManager.syncSettings();
 });
@@ -125,6 +126,20 @@ function parseUpdate(response, cb){
 
         extension.browserAction.setPopup({popup:'popup.html'});
 
+        //profil informations
+        profil = {
+            link : $page.find('#pseudo_right_header_contener').attr('href')
+        }
+        try{
+            profilInfos = profil.link.match(/\/([0-9]+)\/(.*)$/);
+            profil.id = profilInfos[1];
+            profil.name = profilInfos[2];
+        }
+        catch(e){
+            profil.id = null;
+            profil.name = null;
+        }
+
         //notifications
         current_deals = [];
         notifications_counter = {
@@ -214,6 +229,9 @@ function parseUpdate(response, cb){
                 title = $($forum_notifs_container[i]).find('.title').text().trim();
                 author = $($forum_notifs_container[i]).find('.info_bloc a').text().trim();
 
+                if(author == profil.name)
+                    continue;
+
                 current_forum_notifs.push({
                     title: 'Nouveau message sur le forum' ,
                     text : title+" par "+author,
@@ -292,20 +310,8 @@ function parseUpdate(response, cb){
             extension.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
         }
 
-        //profil informations
-        profil = {
-            link : $page.find('#pseudo_right_header_contener').attr('href')
-        }
-        try{
-            profilInfos = profil.link.match(/\/([0-9]+)\/(.*)$/);
-            profil.id = profilInfos[1];
-            profil.name = profilInfos[2];
-        }
-        catch(e){
-            profil.id = null;
-            profil.name = null;
-        }
-// nbNotifications
+
+        // nbNotifications
         extension.setStorage(
         {
             'notifications':saveNotifications,
