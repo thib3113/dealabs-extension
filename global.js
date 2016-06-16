@@ -60,26 +60,43 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
   var $image_progress = $('<div style="margin:10px;display:inline-block;position:relative;height:100px;" id="plugin_upload_image_'+addImageInFormCounter+'"><div class="float_loader" style="width:100%;background:white;bottom:0;opacity:0.5;height:100px;position:absolute;"></div></div>');
   $image_progress.append(oImg);
   cbFunction = function(error, response){
-    failcb = function(textarea, id){
+    failcb = function(textarea, id, error, img){
+        // console.log('noty : '+error);
+        noty({
+          layout: 'bottom',
+          type: 'error',
+          text: '<span style="height:100px;line-height:100px;display:inline-flex;"><span style="margin:5px">'+img+'</span> '+error+'</span>',
+          timeout: 20000
+        });
+
       oldValue = $(textarea).val();
       newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+id+'\\]'), '');
       $(textarea).val(newValue);
     }
 
+    imgHtml = $image_progress.find('img').get(0).outerHTML;
+
     $image_progress.remove();
 
     if(error == null){
       if(response.error){
-        alert('Une erreur est apparue lors de l\'envoi de l\'image : '+response.error);
-        failcb(this.textarea, this.id);
+        // alert('Une erreur est apparue lors de l\'envoi de l\'image : '+response.error);
+        failcb(this.textarea, this.id, response.error, imgHtml);
       }
       oldValue = $(textarea).val();
       newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+this.id+'\\]'), '[img size=300px]'+response.url.direct+'[/img]');
       $(textarea).val(newValue);
     }
     else{
-      alert('Une erreur est apparue lors de l\'envoi de l\'image : '+error);
-      failcb(this.textarea, this.id);
+      // console.log('noty : '+error+' '+imgHtml);
+      // noty({
+      //   layout: 'bottom',
+      //   type: 'error',
+      //   text: error+' '+imgHtml,
+      //   timeout: 20000
+      // });
+      // alert('Une erreur est apparue lors de l\'envoi de l\'image : '+error);
+      failcb(this.textarea, this.id, error, imgHtml);
     }
   }.bind({textarea:textarea, id:addImageInFormCounter,$image_progress:$image_progress});
   
@@ -147,8 +164,6 @@ function sendToTurboPix(img, cb, imgName, cbProgress){
 
   if(location.protocol == "https:")
     cb('cette fonctionnalitée ne fonctionne pas en https !');
-
-    // extension.sendMessage("upload_image")
       
   $.ajax({
       url : 'http://www.turbopix.fr/api',
@@ -156,8 +171,10 @@ function sendToTurboPix(img, cb, imgName, cbProgress){
       method: 'POST',
       processData: !isBlob,  // tell jQuery not to process the data
       contentType: !isBlob,   // tell jQuery not to set contentType
+      dataType: 'JSON',
+      cb : cb,
       success:function(response){
-          cb(null, response)
+        this.cb(null, response)
       },
       xhr: function() {
         var myXhr = $.ajaxSettings.xhr();
@@ -170,16 +187,23 @@ function sendToTurboPix(img, cb, imgName, cbProgress){
         try{
           response = JSON.parse(qXHR.responseText);
           if(response.error != ""){
-            cb(response.error);
+            this.cb(response.error);
           }
         }
         catch(e){
           switch(qXHR.status){
             case 413:
-              cb('l\'image est trop grosse pour le serveur');
+              this.cb('l\'image est trop grosse pour le serveur');
+            break;
+            case 200:
+              if(textStatus == "parsererror"){
+                if(qXHR.responseText.match(/Allowed memory size of/)){
+                  cb('erreur du serveur, merci de reessayer');
+                }
+              }
             break;
             default:
-              cb(textStatus+' '+errorThrown);
+              this.cb(textStatus+' '+errorThrown);
             break;
           }
         }
