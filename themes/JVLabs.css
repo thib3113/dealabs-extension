@@ -242,8 +242,8 @@ footer .footer_part div img {
 	float: left !important;
 	text-align: center !important;
 	color: white !important;
-	padding: 8px 0px 7px 0px !important;
-	border-bottom: 0px solid #d9d9d9 !important;
+	padding: 8px 0 7px 0 !important;
+	border-bottom: 0 solid #d9d9d9 !important;
 }
 
 .bloc_rightbar div.padding_div_liste_widget,
@@ -295,7 +295,7 @@ footer .footer_part div img {
 }
 
 .body_pagination a {
-	padding: 0px 11px !important;
+	padding: 0 11px !important;
 	line-height: 30px !important;
 	border: none !important;
 	display: inline-block !important;
@@ -630,8 +630,27 @@ a.open_profil:hover:after {
 
 .block_notif_contener_absolute .switcher a.part_notif:hover,
 .block_notif_contener_absolute .switcher a.part_notif.active {
-	padding: 8px 0px 4px 0px !important;
+	padding: 8px 0 4px 0 !important;
 	border-bottom: 4px solid rgb(241, 73, 32) !important;
 	color: rgb(241, 73, 32) !important;
 	text-align: center !important;
+}
+
+#comment_contener .comment_text_part .option_div .option_part {
+	float: right;
+	opacity: 0.6 !important;
+}
+
+#comment_contener .comment_text_part .option_div:hover .option_part {
+	float: right;
+	opacity: 1 !important;
+}
+
+#comment_contener .comment_text_part .option_div a {
+	color: #5a5a5a;
+	margin-left: 15px;
+}
+
+p.gesture {
+	color: #7a7a7a;
 }
