@@ -3,7 +3,8 @@ time_between_refresh_list = [15,30,60,120,240];
 theme_list = {
   'DeaLabs' : 'default',
   'DarkLabs' : 'darkLabs',
-  'JVLabs.com' : 'JVLabs'
+  'JVLabs.com' : 'JVLabs',
+  'dealabs-euro' : 'dealabs-euro',
 }
 
 theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/master/themes/';
