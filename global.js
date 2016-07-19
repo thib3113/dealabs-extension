@@ -3,8 +3,8 @@ time_between_refresh_list = [15,30,60,120,240];
 theme_list = {
   'DeaLabs' : 'default',
   'DarkLabs' : 'darkLabs',
-  'JVLabs.com' : 'JVLabs',
-  'dealabs-euro' : 'dealabs-euro',
+  'JVLabs.com' : 'JVLabs'
+  // 'dealabs-euro' : 'dealabs-euro',
 }
 
 theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/master/themes/';
@@ -15,6 +15,7 @@ dev_theme_url = 'https://rawgit.com/thib3113/dealabs-extension/master/themes/';
 
 dealabs_protocol = "http://";
 
+ImgurApiKey = "9c5bf06791861cb";
 
 if(typeof chrome != "undefined"){
   extension = new ChromeExtension();
@@ -86,7 +87,7 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
         failcb(this.textarea, this.id, response.error, imgHtml);
       }
       oldValue = $(textarea).val();
-      newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+this.id+'\\]'), '[img size=300px]'+response.url.direct+'[/img]');
+      newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+this.id+'\\]'), '[img size=300px]'+response.link+'[/img]');
       $(textarea).val(newValue);
     }
     else{
@@ -111,19 +112,17 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
   }.bind({$image_progress:$image_progress})
 
   if(pUpload){
-    sendToTurboPix(img, cbFunction, null, cbProgress)
+    sendToImgur(img, cbFunction, null, cbProgress)
   }
   else{
     cbFunction(null, {
       error : false,
-      url:{
-        direct : img
-      }
+      link: img
     })
   }
 }
 
-function sendToTurboPix(img, cb, imgName, cbProgress){
+function sendToImgur(img, cb, imgName, cbProgress){
   isBlob = img instanceof Blob;
 
   if(isBlob){
@@ -152,31 +151,31 @@ function sendToTurboPix(img, cb, imgName, cbProgress){
     imgName = imgName || "dealabs-paste-image"+image_extension;
   
     var data = new FormData();
-    data.append("k", "FORMODULE");
-    data.append("ku", settingsManager.turbopixAPIKey);
-    data.append("f", img, imgName);
+    data.append("image", img, imgName);
   }
   else{
-    data = {
-      k : "FORMODULE",
-      ku : settingsManager.turbopixAPIKey,
-      f : img
-    }
+    cb('Hum, Oh, sometings is pas bon là :P');
   }
 
-  if(location.protocol == "https:")
-    cb('cette fonctionnalitée ne fonctionne pas en https !');
+  // if(location.protocol == "https:")
+  //   cb('cette fonctionnalitée ne fonctionne pas en https !');
       
   $.ajax({
-      url : 'http://www.turbopix.fr/api',
+      url : 'https://api.imgur.com/3/image',
       data: data,
       method: 'POST',
       processData: !isBlob,  // tell jQuery not to process the data
       contentType: !isBlob,   // tell jQuery not to set contentType
       dataType: 'JSON',
       cb : cb,
+      beforeSend: function (request){
+          request.setRequestHeader("Authorization", 'Client-ID ' + ImgurApiKey);
+      },
       success:function(response){
-        this.cb(null, response)
+        if(response.success){
+          this.cb(null, response.data)
+        }
+        
       },
       xhr: function() {
         var myXhr = $.ajaxSettings.xhr();
@@ -188,6 +187,7 @@ function sendToTurboPix(img, cb, imgName, cbProgress){
       error:function(qXHR, textStatus, errorThrown ){
         try{
           response = JSON.parse(qXHR.responseText);
+          debugger;
           if(response.error != ""){
             this.cb(response.error);
           }

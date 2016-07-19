@@ -1,3 +1,10 @@
+1.2.7 : 
+ - use imgur to upload images
+ 1.2.6 :
+ - add euro 2016 logo (with new theme)
+1.2.5 :
+ - better error when error with image upload
+ - add JVlabs theme
 1.2.4 :
  - remove wait text if error when upload image
  - display image loading under the textarea

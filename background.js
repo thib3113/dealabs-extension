@@ -1,29 +1,3 @@
-//sync setting all 30minutes
-// setInterval(syncSettings, 1.8e6);
-
-// chrome.notifications.onClicked.addListener(function(notificationID){
-//     if(typeof notificationsLinks[notificationID] != "undefined" && notificationsLinks[notificationID] != null){
-//         chrome.tabs.create({ url: notificationsLinks[notificationID], active : true }, function(tab){
-//             waitingTabs[tab.id] = update;
-//         });
-//         chrome.notifications.clear(notificationID);
-//         chrome.windows.getCurrent({}, function(window){
-//             chrome.windows.update(window.id, {focused:true});
-//         });
-//         setTimeout(update, 500);
-//     }
-// });
-
-// var waitingTabs = {};
-// chrome.tabs.onUpdated.addListener(function(tabId , info) {
-//     if(typeof waitingTabs[tabId] != "undefined" && waitingTabs[tabId] != null){
-//         if (info.status == "complete") {
-//             fn = waitingTabs[tabId];
-//             waitingTabs[tabId] = null; 
-//             fn();
-//         }
-//     }
-// });
 notificationsNotified = {};
 
 extension.onMessage('open_tab', function(datas){

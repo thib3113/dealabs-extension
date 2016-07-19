@@ -10,7 +10,8 @@ function SettingsManager(){
           deals : true,
           alertes : true
         },
-        turbopixAPIKey : "",
+        // turbopixAPIKey : "",
+        imgurAPIKey : "",
         theme : "default",
         blacklist: {},
         notifications_with_sound :{},

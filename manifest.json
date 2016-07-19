@@ -3,7 +3,7 @@
   "name": "Dealabs - unofficial",
   "short_name": "Dealabs",
   "description": "Cette extension apporte plusieurs nouvelles fonctionnalités au site dealabs . Plus d'information sur le topic de l'extension",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "author": "thib3113",
   "minimum_chrome_version": "50.0",
   "options_page": "options.html",
