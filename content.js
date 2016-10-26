@@ -1,4 +1,6 @@
-// var port = chrome.extension.connect({name: "send to background"});
+if(["rss", "xml", "css", "js", "pdf"].indexOf(location.pathname.split('.').pop()) > 0)
+    throw new Error("extension not supported !");
+
 Object.size = function(obj) {
     var size = 0,
         key;

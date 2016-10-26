@@ -47,6 +47,13 @@
       "matches": [
         "*://*.dealabs.com/*"
       ],
+      "exclude_matches": [
+          "*://*.dealabs.com/*.pdf",
+          "*://*.dealabs.com/*.rss",
+          "*://*.dealabs.com/*.xml",
+          "*://*.dealabs.com/*.css",
+          "*://*.dealabs.com/*.js"
+      ],
       "js": [
         "class/ChromeExtension.inc.js",
         "class/Settings.inc.js",
