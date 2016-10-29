@@ -4,7 +4,7 @@ theme_list = {
   'DeaLabs' : 'default',
   'DarkLabs' : 'darkLabs',
   'JVLabs.com' : 'JVLabs',
-  'DealabSkin' : 'DealabSkin';
+  'DealabSkin' : 'DealabSkin',
   'Laboween' : 'laboween.css'
 }
 
