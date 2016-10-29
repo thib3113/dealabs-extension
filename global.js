@@ -5,7 +5,7 @@ theme_list = {
   'DarkLabs' : 'darkLabs',
   'JVLabs.com' : 'JVLabs',
   'DealabSkin' : 'DealabSkin',
-  'Laboween' : 'laboween.css'
+  'Laboween' : 'laboween'
 }
 
 theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/master/themes/';

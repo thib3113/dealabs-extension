@@ -1,3 +1,5 @@
+1.2.9 : 
+ - add new theme, laboween
 1.2.8 : 
  - add new theme, DealabSkin by oOKaMiZuKOo
 1.2.7 : 
