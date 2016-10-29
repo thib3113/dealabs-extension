@@ -4,7 +4,8 @@ theme_list = {
   'DeaLabs' : 'default',
   'DarkLabs' : 'darkLabs',
   'JVLabs.com' : 'JVLabs',
-  'DealabSkin' : 'DealabSkin'
+  'DealabSkin' : 'DealabSkin',
+  'Laboween' : 'laboween.css'
 }
 
 theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/master/themes/';
@@ -55,7 +56,7 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
     var urlCreator = window.URL || window.webkitURL;
     var imageUrl = urlCreator.createObjectURL(img);
   }
-  
+
   var oImg=document.createElement("img");
   oImg.setAttribute('src', imageUrl);
   oImg.setAttribute('alt', 'image in wait');
@@ -102,7 +103,7 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
       failcb(this.textarea, this.id, error, imgHtml);
     }
   }.bind({textarea:textarea, id:addImageInFormCounter,$image_progress:$image_progress});
-  
+
   $(textarea).after($image_progress);
   cbProgress = function(evt) {
     if (evt.lengthComputable) {
@@ -126,30 +127,30 @@ function sendToImgur(img, cb, imgName, cbProgress){
   isBlob = img instanceof Blob;
 
   if(isBlob){
-    switch(img.type){ 
-      case "image/gif": 
-          image_extension = ".gif"; 
-          break; 
-      case "image/jpeg": 
-          image_extension = ".jpeg"; 
-          break; 
-      case "image/png": 
-          image_extension = ".png"; 
-          break; 
-      case "image/bmp": 
-          image_extension = ".bmp"; 
-          break; 
-      case "image/svg+xml": 
+    switch(img.type){
+      case "image/gif":
+          image_extension = ".gif";
+          break;
+      case "image/jpeg":
+          image_extension = ".jpeg";
+          break;
+      case "image/png":
+          image_extension = ".png";
+          break;
+      case "image/bmp":
+          image_extension = ".bmp";
+          break;
+      case "image/svg+xml":
           cb('type d\'image refusé');
           return;
-          break; 
+          break;
       default :
         cb('unknow type');
         return;
       break;
     }
     imgName = imgName || "dealabs-paste-image"+image_extension;
-  
+
     var data = new FormData();
     data.append("image", img, imgName);
   }
@@ -159,7 +160,7 @@ function sendToImgur(img, cb, imgName, cbProgress){
 
   // if(location.protocol == "https:")
   //   cb('cette fonctionnalitée ne fonctionne pas en https !');
-      
+
   $.ajax({
       url : 'https://api.imgur.com/3/image',
       data: data,
@@ -175,7 +176,7 @@ function sendToImgur(img, cb, imgName, cbProgress){
         if(response.success){
           this.cb(null, response.data)
         }
-        
+
       },
       xhr: function() {
         var myXhr = $.ajaxSettings.xhr();
@@ -299,12 +300,12 @@ function plugin_match_all(re, str){
   return retour;
 }
 
-function plugin_nl2br(str) {  
+function plugin_nl2br(str) {
   return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ '<br>' +'$2');
 }
 
 function plugin_getUrls(content){
-  var re = /((?:http|ftp|https):\/\/[\w-]+(?:\.[\w-]+)+(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?)/g; 
+  var re = /((?:http|ftp|https):\/\/[\w-]+(?:\.[\w-]+)+(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?)/g;
   return content.match(re) || [];
 }
 
@@ -325,7 +326,7 @@ plugin_BBcodes = [
     name : 'img'
   },
   {
-    regex : /\[citer pseudo="?([^"]*)"?\]/gi, 
+    regex : /\[citer pseudo="?([^"]*)"?\]/gi,
     html : '<div class="quote">\
     <div class="quote_pseudo text_color_777777">\
         <p class="pseudo_tag">\
@@ -336,7 +337,7 @@ plugin_BBcodes = [
     name : 'quote_start'
   },
   {
-    regex : /\[citer\s*\]/gi, 
+    regex : /\[citer\s*\]/gi,
     html : '<div class="quote">\
     <div class="quote_pseudo text_color_777777">\
         <p class="pseudo_tag">\
@@ -347,144 +348,144 @@ plugin_BBcodes = [
     name : 'quote_start'
   },
   {
-    regex : /\[\/citer\]/gi, 
+    regex : /\[\/citer\]/gi,
     html : '</div></div>',
     name : 'quote_end'
   },
   {
-    regex : /\[spoiler\s*\]/gi, 
+    regex : /\[spoiler\s*\]/gi,
     html : '<div class="spoiler">\
           <a href="javascript:;" class="click_div_spoiler text_color_333333">Ce message a été masqué par son auteur. Cliquez pour l’afficher.</a>\
           <div class="spoiler_hide text_color_777777" style="display: none;">',
     name : 'spoil_start'
   },
   {
-    regex : /\[\/spoiler\]/gi, 
+    regex : /\[\/spoiler\]/gi,
     html : '</div></div>',
     name : 'spoil_end'
   },
   {
-    regex : /\[b\]/gi, 
+    regex : /\[b\]/gi,
     html : '<b>',
     name : 'b_end'
   },
   {
-    regex : /\[\/b\]/gi, 
+    regex : /\[\/b\]/gi,
     html : '</b>',
     name : 'b_end'
   },
   {
-    regex : /\[i\]/gi, 
+    regex : /\[i\]/gi,
     html : '<i>',
     name : 'i_end'
   },
   {
-    regex : /\[\/i\]/gi, 
+    regex : /\[\/i\]/gi,
     html : '</i>',
     name : 'i_end'
   },
   {
-    regex : /\[u\]/gi, 
+    regex : /\[u\]/gi,
     html : '<u>',
     name : 'u_end'
   },
   {
-    regex : /\[\/u\]/gi, 
+    regex : /\[\/u\]/gi,
     html : '</u>',
     name : 'u_end'
   },
   {
-    regex : /\[s\]/gi, 
+    regex : /\[s\]/gi,
     html : '<del>',
     name : 'del_end'
   },
   {
-    regex : /\[\/s\]/gi, 
+    regex : /\[\/s\]/gi,
     html : '</del>',
     name : 'del_end'
   },
   {
-    regex : /\[up\]/gi, 
+    regex : /\[up\]/gi,
     html : '<font style="font-size:1.2em;">',
     name : 'up_end'
   },
   {
-    regex : /\[\/up\]/gi, 
+    regex : /\[\/up\]/gi,
     html : '</font>',
     name : 'up_end'
   }
 ];
 
 plugin_BBcodesSmiley = [
-  { 
+  {
     name:"img-souris",
     smiley:":)"
   },
-  { 
+  {
     name:"img-clindoeil",
     smiley:";)"
   },
-  { 
+  {
     name:"img-triste",
     smiley:":("
   },
-  { 
+  {
     name:"img-rire",
     smiley:":D"
   },
-  { 
+  {
     name:"img-surpris",
     smiley:":o"
   },
-  { 
+  {
     name:"img-cool",
     smiley:"^^"
   },
-  { 
+  {
     name:"img-lunette",
     smiley:"B)"
   },
-  { 
+  {
     name:"img-stress",
     smiley:"-_-'"
   },
-  { 
+  {
     name:"img-sour",
     smiley:"xS"
   },
-  { 
+  {
     name:"img-silly",
     smiley:":P"
   },
-  { 
+  {
     name:"img-sick",
     smiley:":S"
   },
-  { 
+  {
     name:"big_grin_squint",
     smiley:"xD"
   },
-  { 
+  {
     name:"crying",
     smiley:":'("
   },
-  { 
+  {
     name:"evil",
     smiley:"':)"
   },
-  { 
+  {
     name:"inlove",
     smiley:":3"
   },
-  { 
+  {
     name:"nerdy",
     smiley:"|D"
   },
-  { 
+  {
     name:"zipped",
     smiley:":|"
   },
-  { 
+  {
     name:"redface",
     smiley:"|o"
   }
