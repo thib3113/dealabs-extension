@@ -497,3 +497,14 @@ a.unsubscribe_button {
 
 #body {
     background: #444 !important;}
+
+
+  /* MAJ Banderoles bas de page */
+footer #footer_merchant {
+	background-color: #222 !important;}
+	
+footer #footer_links {
+  background-color: #222 !important;}
+	
+footer #footer_reserv {
+  background-color: #444 !important;}
