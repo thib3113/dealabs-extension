@@ -1,4 +1,5 @@
 1.2.8 : 
+ - add new theme, DealabSkin by oOKaMiZuKOo
 1.2.7 : 
  - use imgur to upload images
 1.2.6 :
