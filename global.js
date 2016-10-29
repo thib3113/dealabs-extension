@@ -11,7 +11,7 @@ theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/master/themes/';
 dev_theme_url = 'https://rawgit.com/thib3113/dealabs-extension/master/themes/';
 
 //for dev time
-// theme_url = dev_theme_url;
+theme_url = dev_theme_url;
 
 dealabs_protocol = "http://";
 
