@@ -1,3 +1,4 @@
+1.2.8 : 
 1.2.7 : 
  - use imgur to upload images
 1.2.6 :
