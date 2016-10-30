@@ -10,7 +10,7 @@
  *                        par oOKaMiZuKOo - https://www.dealabs.com/28642/oOKaMiZuKOo                             
  *                                                                 
  *                                                                                         
- *    Dernière MAJ : 29/10/2016 - Version beta 0.27
+ *    Dernière MAJ : 30/10/2016 - Version beta 0.28
  *    
  *    Topic de suivi (et MAJ) sur : https://www.dealabs.com/forums/le-site/annonces--nouveauts-du-site-modifications/theme-dealabs-dealabskin-by-ookamizukoo/26018
  *
@@ -22,6 +22,18 @@
  *
  *    Historique :
  *
+ * 
+ * 
+ *      beta 0.28 - 30/10/2016 : 
+ *      ----------------------------------------
+ *                             Objet : bug du menu lors d'une notification qui n'est pas mise en avant
+ *                             
+ *                             Réalisation de :
+ *                                      - bug corrigé lors de la mise en avant d'une nouvelle notification (suite à modification en 0.26)
+ *                                      - modification du voucher code (vert -> orange)
+ *                                      - modification de la couleur de l'encadré (rouge foncé -> rouge plus clair)
+ *                                      - modification des couleurs lors du passage de la souris (survol, lien actif)
+ *                                      - modification des couleurs du menu d'identification utilisateur (survol, lien actif)
  * 
  *      beta 0.27 - 29/10/2016 : 
  *      ----------------------------------------
@@ -77,221 +89,242 @@
  *
  **/
 
-/* harmonisation du menu avec la couleur du "gris sombre" du logo dealabs */
-header {background-color:#333333 ;}
+  /* harmonisation du menu avec la couleur du "gris sombre" du logo dealabs */
+  header {background-color:#333333 ;}
+  
+  /* background plus sombre */
+  body {background: #4C4C4C}
+    
+    
+  /* Mise en avant de la section connection / login de l'utilisateur */   
+  div#login_conteneur_right_connected a, div#login_conteneur_right_connected .float_right a.empty {background-color:#017387 !important; border:1px solid #017387 !important; } 
+  div#login_conteneur_right_connected a:hover,div#login_conteneur_right_connected .float_right a:hover {background-color:#014956 !important }
+    
+  /* coloration lors d'un mp ou alerte */ 
+  div#login_conteneur_right_connected a.notif_right_header_contener {background-color:#60B35C !important }  
+    
+  /* Mise en surbrillance du lien actif de la page (situation dans le menu) */ 
+  div#header_black div#type_header_conteneur_left a.active {color:#fff; background-color:#02A5C1; border-radius: 0px 0px 8px 8px; border-top:3px solid #FFF !important;}
+  
 
-/* background plus sombre */
-body {background: #4C4C4C}
-  
-  
-/* Mise en avant de la section connection / login de l'utilisateur */   
-div#login_conteneur_right_connected a.other_right_header_contener, div#login_conteneur_right_connected div.float_right a.mp, a#pseudo_right_header_contener, div#login_conteneur_right_connected div.float_right a.notif {background-color:#017387 !important } 
-div#login_conteneur_right_connected a.other_right_header_contener:hover, div#login_conteneur_right_connected div.float_right a.mp:hover, a#pseudo_right_header_contener:hover, div#login_conteneur_right_connected div.float_right a.notif:hover {background-color:#000000 !important }
-  
-/* coloration lors d'un mp ou alerte */ 
-div#login_conteneur_right_connected a.notif_right_header_contener {background-color:#60B35C !important }  
 
-/* Arrondis de la section connection / login de l'utilisateur */ 
-div#login_conteneur_right_connected a.deconnection {border-radius: 0px 15px 15px 0px;}
-div#login_conteneur_right_connected a#pseudo_right_header_contener {border-radius: 15px 0px 0px 15px; padding-left: 12px}
-div#login_conteneur_right_connected a#pseudo_right_header_contener img {border-radius: 8px 8px 0px 0px; }  
+  /* Changement de couleur lors du passage de la souri sur un lien du menu */
+  div#type_header_conteneur_left a:hover,div#type_header_conteneur_left div#plus_button_popup:hover,div#type_header_conteneur_left div#type_button_popup:hover {background-color:#014956 !important; color:#FFF !important; border-radius: 0px 0px 0px 0px; border-top:3px solid #02A5C1}
+    
+  /* Arrondis de la section connection / login de l'utilisateur */ 
+  div#login_conteneur_right_connected a.deconnection {border-radius: 0px 15px 15px 0px;}
+  div#login_conteneur_right_connected a#pseudo_right_header_contener {border-radius: 15px 0px 0px 15px; padding-left: 12px}
+  div#login_conteneur_right_connected a#pseudo_right_header_contener img {border-radius: 8px 8px 0px 0px; }  
+    
+  /* coloration fond code de réduction */
   
-/* coloration fond code de réduction */
-div.voucher_code_title {background-color:#c2e6c0 !important; color:#afeaad !important;}
-div.voucher_code_title p {color:#447E41 !important;}  
-  
-/* coloration fond case taux réduction */  
-.price_border {background:#fffafa; border:1px solid #fd8f8f !important;}
-     
-/* Mise en surbrillance du lien actif de la page (situation dans le menu) */ 
-div#header_black div#type_header_conteneur_left a.active {color:#fff; background-color:#02A5C1}
+  input.voucher_code {border:1px solid #fee5c0 !important;}
+  div.voucher_code_title {background-color:#fcf7ef !important; color:#afeaad !important; border:1px solid #fee5c0 !important;}
+  div.voucher_code_title p, input.voucher_code {color:#e88c02 !important;}  
+    
+  /* coloration fond case taux réduction */  
+  .price_border {background:#fffafa; border:1px solid #ffaeae !important;}
+       
 
-/* Marquer comme lu tous les threads du forum */ 
-div#contener_search_part  a.tout_marquer_comme_lu {color:#fff; background-color:#8276b8;}
-div#contener_search_part  a.tout_marquer_comme_lu:hover {color:#000; background-color:#72689E;}
-
-/* Marquer comme lu les catégories des threads du forum */  
-a.marquer_tout_comme_lu:hover {background: #72689E; color:#FFF; }
-a.marquer_tout_comme_lu {background: #8276b8; color:#FFF;  }
-
-/* Création d'un nouveau sujet sur une catégorie du forum */   
-a.add_thread:hover {background: #447E41; color:#FFF; }
-a.add_thread {background: #60B35C; color:#FFF;}
-
-.mini_header_thread a {color:#8276b8;}
-
-/* Arrondi cadre des articles du site */  
-.deal_index_article {border-radius: 0px 0px 15px 15px;}
+    
+  /* Changement effet deal expiré */
+    
+  article.expired .contener_liste_deal_index {
+   
+   background: url(
+    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAF0lEQVQYlWNgIAKYm5unjSqipyIGBgYAWWcKb8z54mIAAAAASUVORK5CYII=
+        ) repeat !important;;
+    
+    }
+    
+  /* Marquer comme lu tous les threads du forum */ 
+  div#contener_search_part  a.tout_marquer_comme_lu {color:#fff; background-color:#8276b8;}
+  div#contener_search_part  a.tout_marquer_comme_lu:hover {color:#000; background-color:#72689E;}
   
-/* Arrondi cadre des bloc promotionnels du site (home) */
-div.bloc_rightbar, a[href='https://www.dealabs.com/page/shoop'] img {border-radius: 0px 0px 15px 15px;}
+  /* Marquer comme lu les catégories des threads du forum */  
+  a.marquer_tout_comme_lu:hover {background: #72689E; color:#FFF; }
+  a.marquer_tout_comme_lu {background: #8276b8; color:#FFF;  }
   
-/* Arrondi cadre des sections de catégories du forum */
-div.title_categorie_contener {border-radius: 15px 15px 0px 0px;}
-div.right_title_part, div.right_title_part a.marquer_tout_comme_lu {border-radius: 0px 15px 0px 0px;}
-div.title_categorie_contener {border-radius: 15px 15px 0px 0px;} 
-div.right_title_part a.add_thread {border-radius: 0px 15px 0px 0px;}
+  /* Création d'un nouveau sujet sur une catégorie du forum */   
+  a.add_thread:hover {background: #447E41; color:#FFF; }
+  a.add_thread {background: #60B35C; color:#FFF;}
   
-/* Arrondi cadre du topic du forum */  
-div.body_detail_page, div.poster_profil_div, div.option_deal_div {border-radius: 0px 0px 15px 15px;} 
-div#header_comment_option_contener {border-radius: 15px 15px 0px 0px;} 
+  .mini_header_thread a {color:#8276b8;}
   
-/* Arrondi supérieur des popup de signalement deals/commentaires du forum */ 
-div.popup_center_signalement  {border-radius: 15px 15px 0px 0px;} 
+  /* Arrondi cadre des articles du site */  
+  .deal_index_article {border-radius: 0px 0px 15px 15px;}
+    
+  /* Arrondi cadre des bloc promotionnels du site (home) */
+  div.bloc_rightbar, a[href='https://www.dealabs.com/page/shoop'] img {border-radius: 0px 0px 15px 15px;}
+    
+  /* Arrondi cadre des sections de catégories du forum */
+  div.title_categorie_contener {border-radius: 15px 15px 0px 0px;}
+  div.right_title_part, div.right_title_part a.marquer_tout_comme_lu {border-radius: 0px 15px 0px 0px;}
+  div.title_categorie_contener {border-radius: 15px 15px 0px 0px;} 
+  div.right_title_part a.add_thread {border-radius: 0px 15px 0px 0px;}
+    
+  /* Arrondi cadre du topic du forum */  
+  div.body_detail_page, div.poster_profil_div, div.option_deal_div {border-radius: 0px 0px 15px 15px;} 
+  div#header_comment_option_contener {border-radius: 15px 15px 0px 0px;} 
+    
+  /* Arrondi supérieur des popup de signalement deals/commentaires du forum */ 
+  div.popup_center_signalement  {border-radius: 15px 15px 0px 0px;} 
+    
+    
+  /* alternance de couleurs de la section categories du forum */   
+  .sub_categorie_contener:nth-child(odd) {background: #F8F8F8;} 
+  .sub_categorie_contener:nth-child(even) {background: #FFF;}
   
+  /* Couleur pour la mention du forum "RESOLU" + Deal "Expiré" */  
+  .title_thread_contener:nth-child(odd) div.title a span.resolu,.title_thread_contener:nth-child(even) div.title a span.resolu {background: #60B35C;border: 1px #23861e !important}
+  div#title_contener span.expire{background: #60B35C !important; }
+    
+  /* alternance de couleurs de la section des threads du forum */   
+  .title_thread_contener:nth-child(odd) {background: #F8F8F8;}
+  .title_thread_contener:nth-child(even) {background: #FFF;}
+   
+  /* couleur du tronc de la zone des articles/commentaires, etc... */
+  div#comment_contener {background: #4C4C4C;}
   
-/* alternance de couleurs de la section categories du forum */   
-.sub_categorie_contener:nth-child(odd) {background: #F8F8F8;} 
-.sub_categorie_contener:nth-child(even) {background: #FFF;}
-
-/* Couleur pour la mention du forum "RESOLU" */  
-.title_thread_contener:nth-child(odd) div.title a span.resolu,.title_thread_contener:nth-child(even) div.title a span.resolu {background: #60B35C;}
-div#title_contener span.expire {background: #60B35C !important;}
+  /* alternance de couleurs de la section commentaires */
+  div#comment_contener .padding_comment_contener:nth-child(even) {background: #FFF;  }  
+  div#comment_contener .padding_comment_contener:nth-child(odd) {background: #F8F8F8; }  
   
-/* alternance de couleurs de la section des threads du forum */   
-.title_thread_contener:nth-child(odd) {background: #F8F8F8;}
-.title_thread_contener:nth-child(even) {background: #FFF;}
+  /* couleur date des deals */
+  .padding_part_contener p.dates_deal b:nth-child(1)  {color:#208E4F !important; font-size: 0.86em; } /* posté le */
+  .padding_part_contener p.dates_deal b:nth-child(2) {color:#CC3636 !important; font-size: 0.86em; } /* Rendu hot */   
+  .padding_part_contener p.dates_deal b:nth-child(3) {color:#E67E22 !important; font-size: 0.86em; } /* modifié le */
+    
+  /* couleur heure du topic (forum - topic) - Que les titres, pas de balises d'encadrement des dates */
+  div#title_contener div.forum p.dates_deal b:nth-child(1)  {color:#208E4F !important; font-size: 0.86em; } /* créé le */
+  div#title_contener div.forum p.dates_deal b:nth-child(2) {color:#E67E22 !important; font-size: 0.86em; } /* modifié le */
  
-/* couleur du tronc de la zone des articles/commentaires, etc... */
-div#comment_contener {background: #4C4C4C;}
+  /* couleur heure du commentaire (forum - commentaires au topic) */
+  div.comment_text_part div.header_comment p span.comment_tipsy {color:#208E4F !important; font-size: 0.86em; } /* créé le */
+  div.comment_text_part div.header_comment p span:nth-child(2) {color:#E67E22 !important; font-size: 0.90em; } /* modifié le */
+    
+  /* spoiler */
+  div.spoiler { background-color: #f7f6fe !important; border:1px dotted #776DA3; } 
+  div.spoiler a.click_div_spoiler {color : #776DA3 !important; }  
+    
+  /* balise ignoré */
+  .comment_text_part div[id*="ignored_"] a.button_grey_structure { background-color: #fff0f0 !important; color : #f78888 !important; border:1px solid #f78888; } 
+    
+  /*Citations (quote) */
+  div#comment_contener .padding_comment_contener .commentaire_div .quote {border-radius: 0px 15px 15px 15px; border: .05em dashed #02A5C1; margin-bottom: 1.1em;} 
+  /* oui... c'est pas propre :( ... ;) */  
+  .commentaire_div .quote, .commentaire_div .quote .quote .quote, .commentaire_div .quote .quote .quote .quote .quote, .commentaire_div .quote .quote .quote .quote .quote .quote .quote, .commentaire_div .quote .quote .quote .quote .quote .quote .quote .quote .quote { background-color: #fbfeff; color:#65C9DA; } 
+  .commentaire_div .quote .quote, .commentaire_div .quote .quote .quote .quote, .commentaire_div .quote .quote .quote .quote .quote .quote, .commentaire_div .quote .quote .quote .quote .quote .quote .quote .quote, .commentaire_div .quote .quote .quote .quote .quote .quote .quote .quote .quote .quote { background-color: #FFF; } 
+    
+  .commentaire_div .quote {font-size: .98em; color:#a4a4a4 !important;  }
 
-/* alternance de couleurs de la section commentaires */
-div#comment_contener .padding_comment_contener:nth-child(even) {background: #FFF;  }  
-div#comment_contener .padding_comment_contener:nth-child(odd) {background: #F8F8F8; }  
-
-/* couleur date des deals */
-.padding_part_contener p.dates_deal b:nth-child(1)  {color:#208E4F !important; font-size: 0.86em; } /* posté le */
-.padding_part_contener p.dates_deal b:nth-child(2) {color:#CC3636 !important; font-size: 0.86em; } /* Rendu hot */   
-.padding_part_contener p.dates_deal b:nth-child(3) {color:#E67E22 !important; font-size: 0.86em; } /* modifié le */
+  /*Citations (quote) "Afficher l'intégralité de la citation" */  
+  div#comment_contener .padding_comment_contener .commentaire_div .quote a.open  {color:#016a7c !important; }    
+    
+  /* nom du posteur de commentaire en quote */
+  div#comment_contener .padding_comment_contener .commentaire_div .quote span.text_color_333333 {color:#65C9DA !important; }    
+  div#comment_contener .padding_comment_contener .commentaire_div .quote p.pseudo_tag span:nth-child(2) {font-style: italic !important; font-size: 0.9em }   
   
-/* couleur heure du topic (forum - topic) - Que les titres, pas de balises d'encadrement des dates */
-div#title_contener div.forum p.dates_deal b:nth-child(1)  {color:#208E4F !important; font-size: 0.86em; } /* créé le */
-div#title_contener div.forum p.dates_deal b:nth-child(2) {color:#E67E22 !important; font-size: 0.86em; } /* modifié le */
-
-/* couleur heure du commentaire (forum - commentaires au topic) */
-div.comment_text_part div.header_comment p span.comment_tipsy {color:#208E4F !important; font-size: 0.86em; } /* créé le */
-div.comment_text_part div.header_comment p span:nth-child(2) {color:#E67E22 !important; font-size: 0.90em; } /* modifié le */
+    
+  /* couleur des liens */
+  a.link_a_reduce {color:#3F7AB6 !important; font-size: 0.9em; font-weight: bold;}
   
-/* spoiler */
-div.spoiler { background-color: #f7f6fe !important; border:1px dotted #776DA3; } 
-div.spoiler a.click_div_spoiler {color : #776DA3 !important; }  
-  
-/* balise ignoré */
-.comment_text_part div[id*="ignored_"] a.button_grey_structure { background-color: #fff0f0 !important; color : #f78888 !important; border:1px solid #f78888; } 
-  
-/*Citations (quote) */
-div#comment_contener .padding_comment_contener .commentaire_div .quote {border-radius: 0px 15px 15px 15px; border: .05em dashed #02A5C1; margin-bottom: 1.1em;} 
-/* oui... c'est pas propre :( ... ;) */  
-.commentaire_div .quote, .commentaire_div .quote .quote .quote, .commentaire_div .quote .quote .quote .quote .quote, .commentaire_div .quote .quote .quote .quote .quote .quote .quote, .commentaire_div .quote .quote .quote .quote .quote .quote .quote .quote .quote { background-color: #fbfeff; color:#65C9DA; } 
-.commentaire_div .quote .quote, .commentaire_div .quote .quote .quote .quote, .commentaire_div .quote .quote .quote .quote .quote .quote, .commentaire_div .quote .quote .quote .quote .quote .quote .quote .quote, .commentaire_div .quote .quote .quote .quote .quote .quote .quote .quote .quote .quote { background-color: #FFF; } 
-  
-.commentaire_div .quote {font-size: .98em; color:#a4a4a4 !important;  }
-
-/*Citations (quote) "Afficher l'intégralité de la citation" */  
-div#comment_contener .padding_comment_contener .commentaire_div .quote a.open  {color:#016a7c !important; }    
-  
-/* nom du posteur de commentaire en quote */
-div#comment_contener .padding_comment_contener .commentaire_div .quote span.text_color_333333 {color:#65C9DA !important; }    
-div#comment_contener .padding_comment_contener .commentaire_div .quote p.pseudo_tag span:nth-child(2) {font-style: italic !important; font-size: 0.9em }   
-
-  
-/* couleur des liens */
-a.link_a_reduce {color:#3F7AB6 !important; font-size: 0.9em; font-weight: bold;}
-
-  
-/* réduction des images citèes à une taille fixe de 100px */
-div#comment_contener .padding_comment_contener .commentaire_div .quote div.quote_message img.BBcode_image {max-width:100px !important;}
-
-/* ombre sur les images des posts/topic */
-img.BBcode_image {-webkit-box-shadow: 0px 0px 0.1em 0.1em rgba(0,0,0,0.66); -moz-box-shadow: 0px 0px 0.1em 0.1em rgba(0,0,0,0.66); box-shadow: 0px 0px 0.1em 0.1em rgba(0,0,0,0.66); margin:0.6em !important; margin-bottom:0.7em !important; border: 0.2em solid #FFF;   }
-
-
-  
-/* Modification (et remplacement) des emoticons natifs du site (toutes sections) 
- * -> Modification graphique perso (car non existants) des émoticones afin de correspondre au mieux au originaux du site [ ":P" , "B)", ":D", ":|", ";)" ]
- * Source : - http://bad-blood.deviantart.com/art/Y-o-l-k-s-78118255
- *          - http://bad-blood.deviantart.com/art/Y-o-l-k-s-2-85269598
-**/
-  
-  .bbcode_smiley {cursor:default !important; vertical-align: -10px;  }
-  
-  img.bbcode_smiley[alt=":)"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/43pzd7gvb/have_a_nice_day.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt=":)"] img  { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/43pzd7gvb/have_a_nice_day.png) no-repeat !important; background-size:24px 24px !important; margin-top:-6px}
+    
+  /* réduction des images citèes à une taille fixe de 100px */
+  div#comment_contener .padding_comment_contener .commentaire_div .quote div.quote_message img.BBcode_image {max-width:100px !important;}
  
-  img.bbcode_smiley[alt=";)"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s22.postimg.org/d6c96p8ht/clinoeil.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt=";)"] img { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s22.postimg.org/d6c96p8ht/clinoeil.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}
-  
-  img.bbcode_smiley[alt=":("] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/ysth19f6v/are_you_for_real.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt=":("] img { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/ysth19f6v/are_you_for_real.png) no-repeat !important; background-size:24px 24px !important; margin-top:-6px}
-
-  img.bbcode_smiley[alt=":D"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s18.postimg.org/b6j8vv455/happy_smile.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt=":D"] img { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s18.postimg.org/b6j8vv455/happy_smile.png) no-repeat !important; background-size:24px 24px !important; margin-top:-6px}
-  
-  
-  img.bbcode_smiley[alt=":S"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/f8exyhelj/sick.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt=":S"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/f8exyhelj/sick.png) no-repeat !important; background-size:24px 24px !important; margin-top:-6px}    
-
-  img.bbcode_smiley[alt="^^"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/ag54n1jxj/grin.png) no-repeat; background-size: 32px 32px !important;}
- a[alt="^^"] img { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/ag54n1jxj/grin.png) no-repeat !important; background-size:24px 24px !important; margin-top:-6px} 
-  
+  /* ombre sur les images des posts/topic */
+  img.BBcode_image {-webkit-box-shadow: 0px 0px 0.1em 0.1em rgba(0,0,0,0.66); -moz-box-shadow: 0px 0px 0.1em 0.1em rgba(0,0,0,0.66); box-shadow: 0px 0px 0.1em 0.1em rgba(0,0,0,0.66); margin:0.6em !important; margin-bottom:0.7em !important; border: 0.2em solid #FFF;   }
 
   
-  img.bbcode_smiley[alt="xD"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/nhveqmxpj/image.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt="xD"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/nhveqmxpj/image.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}    
-  
-  img.bbcode_smiley[alt=":o"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/kxzrwja5j/slow.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt=":o"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/kxzrwja5j/slow.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}
-  
-  img.bbcode_smiley[alt=":'("] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/9mx4863af/TT_TT.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt=":'("] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/9mx4863af/TT_TT.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}
-  
-  img.bbcode_smiley[alt="B)"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/5idjncfpz/confident.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt="B)"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/5idjncfpz/confident.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}
-  
-  img.bbcode_smiley[alt="|o"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/9horkr6lj/pissed_off.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt="|o"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/9horkr6lj/pissed_off.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}
+    
+  /* Modification (et remplacement) des emoticons natifs du site (toutes sections) 
+   * -> Modification graphique perso (car non existants) des émoticones afin de correspondre au mieux au originaux du site [ ":P" , "B)", ":D", ":|", ";)" ]
+   * Source : - http://bad-blood.deviantart.com/art/Y-o-l-k-s-78118255
+   *          - http://bad-blood.deviantart.com/art/Y-o-l-k-s-2-85269598
+  **/
+    
+    .bbcode_smiley {cursor:default !important; vertical-align: -10px;  }
+    
+    img.bbcode_smiley[alt=":)"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/43pzd7gvb/have_a_nice_day.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt=":)"] img  { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/43pzd7gvb/have_a_nice_day.png) no-repeat !important; background-size:24px 24px !important; margin-top:-6px}
+   
+    img.bbcode_smiley[alt=";)"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s22.postimg.org/d6c96p8ht/clinoeil.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt=";)"] img { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s22.postimg.org/d6c96p8ht/clinoeil.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}
+    
+    img.bbcode_smiley[alt=":("] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/ysth19f6v/are_you_for_real.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt=":("] img { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/ysth19f6v/are_you_for_real.png) no-repeat !important; background-size:24px 24px !important; margin-top:-6px}
 
-  img.bbcode_smiley[alt=":3"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/hyo9vobaf/in_love.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt=":3"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/hyo9vobaf/in_love.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}   
+    img.bbcode_smiley[alt=":D"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s18.postimg.org/b6j8vv455/happy_smile.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt=":D"] img { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s18.postimg.org/b6j8vv455/happy_smile.png) no-repeat !important; background-size:24px 24px !important; margin-top:-6px}
+    
+    
+    img.bbcode_smiley[alt=":S"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/f8exyhelj/sick.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt=":S"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/f8exyhelj/sick.png) no-repeat !important; background-size:24px 24px !important; margin-top:-6px}    
+  
+    img.bbcode_smiley[alt="^^"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/ag54n1jxj/grin.png) no-repeat; background-size: 32px 32px !important;}
+   a[alt="^^"] img { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/ag54n1jxj/grin.png) no-repeat !important; background-size:24px 24px !important; margin-top:-6px} 
+    
 
-  img.bbcode_smiley[alt="':)"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/w1a7ango7/evilish.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt="':)"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/w1a7ango7/evilish.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px} 
+    
+    img.bbcode_smiley[alt="xD"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/nhveqmxpj/image.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt="xD"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/nhveqmxpj/image.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}    
+    
+    img.bbcode_smiley[alt=":o"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/kxzrwja5j/slow.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt=":o"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/kxzrwja5j/slow.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}
+    
+    img.bbcode_smiley[alt=":'("] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/9mx4863af/TT_TT.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt=":'("] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/9mx4863af/TT_TT.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}
+    
+    img.bbcode_smiley[alt="B)"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/5idjncfpz/confident.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt="B)"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/5idjncfpz/confident.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}
+    
+    img.bbcode_smiley[alt="|o"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/9horkr6lj/pissed_off.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt="|o"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/9horkr6lj/pissed_off.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}
 
-  img.bbcode_smiley[alt="|D"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/we66ukobr/yarr.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt="|D"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/we66ukobr/yarr.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px} 
-  
-  img.bbcode_smiley[alt="-_-'"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/6wnsaz6lj/you_re_kidding_right.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt="-_-'"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/6wnsaz6lj/you_re_kidding_right.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px} 
-  
-  
-  img.bbcode_smiley[alt=":P"], img.bbcode_smiley[alt=":p"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s9.postimg.org/siwp0agvz/brzzzzz.png) no-repeat; background-size: 32px 32px !important;}
- a[alt=":P"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s9.postimg.org/siwp0agvz/brzzzzz.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}
-  
-  img.bbcode_smiley[alt="xS"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s15.postimg.org/n3lj58ttn/dizzy.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt="xS"] img { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s15.postimg.org/n3lj58ttn/dizzy.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px} 
+    img.bbcode_smiley[alt=":3"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/hyo9vobaf/in_love.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt=":3"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/hyo9vobaf/in_love.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}   
 
-  img.bbcode_smiley[alt=":|"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s21.postimg.org/hkzj1fpg7/shhh.png) no-repeat; background-size: 32px 32px !important;}
-  a[alt=":|"] img  { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s21.postimg.org/hkzj1fpg7/shhh.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px} 
+    img.bbcode_smiley[alt="':)"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/w1a7ango7/evilish.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt="':)"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/w1a7ango7/evilish.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px} 
+
+    img.bbcode_smiley[alt="|D"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/we66ukobr/yarr.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt="|D"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/we66ukobr/yarr.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px} 
+    
+    img.bbcode_smiley[alt="-_-'"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s13.postimg.org/6wnsaz6lj/you_re_kidding_right.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt="-_-'"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s13.postimg.org/6wnsaz6lj/you_re_kidding_right.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px} 
+    
+    
+   img.bbcode_smiley[alt=":P"], img.bbcode_smiley[alt=":p"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s9.postimg.org/siwp0agvz/brzzzzz.png) no-repeat; background-size: 32px 32px !important;}
+   a[alt=":P"] img   { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s9.postimg.org/siwp0agvz/brzzzzz.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px}
+    
+    img.bbcode_smiley[alt="xS"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s15.postimg.org/n3lj58ttn/dizzy.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt="xS"] img { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s15.postimg.org/n3lj58ttn/dizzy.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px} 
+
+    img.bbcode_smiley[alt=":|"] { display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width: 32px; height: 32px; padding-left: 32px; background: url(http://s21.postimg.org/hkzj1fpg7/shhh.png) no-repeat; background-size: 32px 32px !important;}
+    a[alt=":|"] img  { display: block; -moz-box-sizing: border-box; box-sizing: border-box; width: 24px; height: 24px; padding-left: 24px; background: url(http://s21.postimg.org/hkzj1fpg7/shhh.png) no-repeat !important; background-size: 24px 24px !important; margin-top:-6px} 
+    
+    
+    
+    /* Fin section smiley */
+
+    
+
+    
+    
+  /* Alternance couleur cadre des photos de profil membres des commentaires */
+  div#comment_contener .padding_comment_contener:nth-child(even) a.open_profil img {background:#F8F8F8; border-radius: 8px 8px 0px 0px; } 
+  div#comment_contener .padding_comment_contener:nth-child(odd) a.open_profil img {background:#FFFFFF; border-radius: 8px 8px 0px 0px; } 
   
-  
-  
-  /* Fin section smiley */
+  /* photo profil membre topic */
+  div.poster_profil_div a.open_profil img {background:#FFFFFF; border-radius: 8px 8px 0px 0px; }
+    
+  /* photo profil membre cadre réponse au topic */
+  div.profil_image_part img {background:#FFFFFF; border-radius: 8px 8px 0px 0px; }
+    
+  /* couleurs footer bandeau */
+  footer#footer_html div#footer_social {background:#02849B}
+
+  footer#footer_html div#footer_events {background:#333333}
 
   
-
-  
-  
-/* Alternance couleur cadre des photos de profil membres des commentaires */
-div#comment_contener .padding_comment_contener:nth-child(even) a.open_profil img {background:#F8F8F8; border-radius: 8px 8px 0px 0px; } 
-div#comment_contener .padding_comment_contener:nth-child(odd) a.open_profil img {background:#FFFFFF; border-radius: 8px 8px 0px 0px; } 
-
-/* photo profil membre topic */
-div.poster_profil_div a.open_profil img {background:#FFFFFF; border-radius: 8px 8px 0px 0px; }
-  
-/* photo profil membre cadre réponse au topic */
-div.profil_image_part img {background:#FFFFFF; border-radius: 8px 8px 0px 0px; }
-  
-/* couleurs footer bandeau */
-footer#footer_html div#footer_social {background:#02849B}
-
-footer#footer_html div#footer_events {background:#333333}
