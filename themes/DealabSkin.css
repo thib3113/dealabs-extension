@@ -10,7 +10,7 @@
  *                        par oOKaMiZuKOo - https://www.dealabs.com/28642/oOKaMiZuKOo                             
  *                                                                 
  *                                                                                         
- *    Dernière MAJ : 30/10/2016 - Version beta 0.28
+ *    Dernière MAJ : 31/10/2016 - Version beta 0.29
  *    
  *    Topic de suivi (et MAJ) sur : https://www.dealabs.com/forums/le-site/annonces--nouveauts-du-site-modifications/theme-dealabs-dealabskin-by-ookamizukoo/26018
  *
@@ -24,6 +24,17 @@
  *
  * 
  * 
+ *      beta 0.29 - 31/10/2016 : 
+ *      ----------------------------------------
+ *                             Objet : Correction bug d'interface de l'onglet (hidden) de notifications de menu utilisateur
+ *                             
+ *                             Réalisation de :
+ *                                      - bug corrigé du popup (apparait au clic sur la cloche) notification (suite à modification en 0.28)
+ *                                      - création arrondi cadre bas "voir le deal" sur la liste des deals
+ *                                      - coloration sur frais de livraison de l'article
+ *                                      - coloration info supp dans l'article (Pays d’expédition, expiré le, etc..) 
+ *                                      - alternance de couleurs de la section activités du profil utilisateur
+ *
  *      beta 0.28 - 30/10/2016 : 
  *      ----------------------------------------
  *                             Objet : bug du menu lors d'une notification qui n'est pas mise en avant
@@ -90,6 +101,7 @@
  *
  **/
 
+
   /* harmonisation du menu avec la couleur du "gris sombre" du logo dealabs */
   header {background-color:#333333 ;}
   
@@ -107,35 +119,44 @@
   /* Mise en surbrillance du lien actif de la page (situation dans le menu) */ 
   div#header_black div#type_header_conteneur_left a.active {color:#fff; background-color:#02A5C1; border-radius: 0px 0px 8px 8px; border-top:3px solid #FFF !important;}
   
-
-
   /* Changement de couleur lors du passage de la souri sur un lien du menu */
   div#type_header_conteneur_left a:hover,div#type_header_conteneur_left div#plus_button_popup:hover,div#type_header_conteneur_left div#type_button_popup:hover {background-color:#014956 !important; color:#FFF !important; border-radius: 0px 0px 0px 0px; border-top:3px solid #02A5C1}
     
+  div.block_notif_contener a#commentaires.part_notif, div.block_notif_contener a#alertes.part_notif {background-color:#FFFFFF !important; color: #777777 !important; border:0px !important;}
+  div.block_notif_contener a#commentaires.part_notif.active, div.block_notif_contener a#alertes.part_notif.active {background-color:#FFFFFF !important;border-bottom: 3px solid #02A5C1 !important; color:#43BCD1 !important;}
+  div.block_notif_contener a#commentaires.part_notif:hover, div.block_notif_contener a#alertes.part_notif:hover {background-color:#014956 !important;border-bottom: 3px solid #02A5C1 !important; color:#FFF !important;}
+  div.block_notif_contener div#alertes_part div.button a.text_color_777777, div.block_notif_contener div#commentaires_part div.button a.text_color_777777 {color:#FFF !important;}
+  div#notification_popup div.block_notif_contener div#commentaires_part a.unsubscrib_notif, div#notification_popup div.block_notif_contener div#commentaires_part a.left_part_list, 
+  div#notification_popup div.block_notif_contener div#alertes_part a.unsubscrib_notif, div#notification_popup div.block_notif_contener div#alertes_part a.left_part_list {background-color:#FFFFFF !important; border:0px !important; }
+  div#notification_popup, div#commentaires_part, div#alertes_part, div.block_notif_contener {border-radius: 0px 0px 15px 15px;}
+   
   /* Arrondis de la section connection / login de l'utilisateur */ 
   div#login_conteneur_right_connected a.deconnection {border-radius: 0px 15px 15px 0px;}
   div#login_conteneur_right_connected a#pseudo_right_header_contener {border-radius: 15px 0px 0px 15px; padding-left: 12px}
   div#login_conteneur_right_connected a#pseudo_right_header_contener img {border-radius: 8px 8px 0px 0px; }  
     
-  /* coloration fond code de réduction */
+  /* arrondi du bouton "voir les deals" */
+  div.price_div_deal_index a.voir_le_deal {border-radius: 0px 0px 8px 8px; border-top:3px solid #014956;}
   
+  /* coloration sur frais de livraison de l'article */
+  div.price_div p.livraison {color : #12836D !important;}
+    
+  /* coloration info supp dans l'article (Pays d’expédition, expiré le, etc..) */  
+  div.padding_part_contener div.info_sup_div p.info_sup {color : #5A4E99 !important;}   
+    
+  /* coloration fond code de réduction */
   input.voucher_code {border:1px solid #fee5c0 !important;}
   div.voucher_code_title {background-color:#fcf7ef !important; color:#afeaad !important; border:1px solid #fee5c0 !important;}
   div.voucher_code_title p, input.voucher_code {color:#e88c02 !important;}  
     
   /* coloration fond case taux réduction */  
   .price_border {background:#fffafa; border:1px solid #ffaeae !important;}
-       
-
     
   /* Changement effet deal expiré */
-    
   article.expired .contener_liste_deal_index {
-   
    background: url(
     data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAF0lEQVQYlWNgIAKYm5unjSqipyIGBgYAWWcKb8z54mIAAAAASUVORK5CYII=
         ) repeat !important;;
-    
     }
     
   /* Marquer comme lu tous les threads du forum */ 
@@ -171,18 +192,22 @@
   /* Arrondi supérieur des popup de signalement deals/commentaires du forum */ 
   div.popup_center_signalement  {border-radius: 15px 15px 0px 0px;} 
     
-    
   /* alternance de couleurs de la section categories du forum */   
   .sub_categorie_contener:nth-child(odd) {background: #F8F8F8;} 
   .sub_categorie_contener:nth-child(even) {background: #FFF;}
+    
+  .timeline_content_contener:nth-child(odd) {background: #F8F8F8;} 
+  .timeline_content_contener:nth-child(even) {background: #FFF;}
   
   /* Couleur pour la mention du forum "RESOLU" + Deal "Expiré" */  
   .title_thread_contener:nth-child(odd) div.title a span.resolu,.title_thread_contener:nth-child(even) div.title a span.resolu {background: #60B35C;border: 1px #23861e !important}
   div#title_contener span.expire{background: #60B35C !important; }
     
-  /* alternance de couleurs de la section des threads du forum */   
-  .title_thread_contener:nth-child(odd) {background: #F8F8F8;}
-  .title_thread_contener:nth-child(even) {background: #FFF;}
+  /* alternance de couleurs de la section activités du profil utilisateur */   
+  div.timeline_profil_div:nth-child(odd) .padding_timeline_content_contener, div.timeline_profil_div:nth-child(odd) .timeline_content_contener {background: #F8F8F8 !important;}
+  div.timeline_profil_div:nth-child(even) .padding_timeline_content_contener, div.timeline_profil_div:nth-child(even) .timeline_content_contener  {background: #FFF !important;}
+  div.timeline_profil_div:nth-child(odd), div.timeline_profil_div:nth-child(odd) .timeline_left_contener {background: #333333 !important;}
+  div.timeline_profil_div:nth-child(even), div.timeline_profil_div:nth-child(even) .timeline_left_contener {background: #424141 !important;}
    
   /* couleur du tronc de la zone des articles/commentaires, etc... */
   div#comment_contener {background: #4C4C4C;}
