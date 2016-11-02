@@ -1,5 +1,6 @@
+@-moz-document url-prefix("https://www.dealabs.com") {
 /*============================================*/
-/*   Dark Dealabs - MonsieurCro - V2.0.2      */
+/*    Dark Dealabs - MonsieurCro - V2.0.3     */
 /*============================================*/
 
 /*============================================*/
@@ -13,7 +14,7 @@ a#register_green {/* la plupart des boutons*/
 
 
 article {/* arrière-plan deal*/
-	background-color: #242424 !important;}
+	background-color: #222 !important;}
 
 #title_contener, #search_page_contener, .content_part_div {
 	background-color: #222 !important;}	
@@ -229,7 +230,10 @@ div.spoiler {
 	background-color: #444 !important;}
 
 div.spoiler_hide {
-  background-color: #333 !important;}
+  background-color: #444 !important;}
+	
+.background_grey { /* boite au dessus de ajouter un com */
+  background-color: #444 !important;}	
 
 
 /*============================================*/
@@ -331,9 +335,6 @@ div.auteur_pagination_div p.etc, div.auteur_pagination_div a {
 p.description {
 	color: #fff !important;}
 
-.time_profil_contener {
-	color: #ddd !important;}
-
 #left_profil .badge_div, #left_profil .padding_badge_div {
 	background-color: #222 !important;}
 
@@ -342,7 +343,7 @@ p.description {
 
 
 #timeline_profil_div, .padding_timeline_left_contener, p.time, .white_triangle_timeline {
-	background-color: #222 !important;}
+	background-color: none !important;}
 
 a {
 	color: #bbb !important;}
@@ -355,9 +356,6 @@ p {
 
 #menu_profil_contener, #username_lookup {
 	background-color: #222 !important;}
-
-.background_color_f4f4f4 {
-	background-color: #555 !important;}
 	
 	
 /*============================================*/
@@ -366,12 +364,19 @@ p {
 	background-color: #222 !important;}
 
 a.tab_header_messagerie.inbox {
-	background-image: url("https://static.dealabs.com/images/profil/icon_profile_messages_inbox_active.png") !important;
-	background: #222 !important;}
+	background-image: url("https://static.dealabs.com/images/profil/icon_profile_messages_inbox_active.png") !important;}
+	
+a.tab_header_messagerie.inbox:hover {
+	background: #555 !important;}
+	
+a.tab_header_messagerie.inbox:active {
+	background-image: #222 !important;}
 
 a.tab_header_messagerie.outbox {
-    background-image: url("https://static.dealabs.com/images/profil/icon_profile_messages_outbox.png") !important;
-	background: #333 !important;}
+    background-image: #222 url("https://static.dealabs.com/images/profil/icon_profile_messages_outbox.png") !important;}
+	
+a.tab_header_messagerie.outbox:hover {
+	background: #555 !important;}
 
 .background_color_white, .content_profil_messagerie {
 	background-color: #222 !important;}	
@@ -379,11 +384,8 @@ a.tab_header_messagerie.outbox {
 .button_new_message, a.validate_button_form {
 	color: #fff !important;}
 
-#all_contener_content_messagerie, .padding_right_profil_param, p.time, .menu_div_param, div.div_tab_selector {
+#all_contener_content_messagerie, .padding_right_profil_param, .menu_div_param, div.div_tab_selector {
 	background-color: #222 !important;}	
-
-div.div_tab_selector.active {
-	background-color: #555 !important;}	
 
 #contener_profil_param {
 	background: #222 !important;}
@@ -392,8 +394,8 @@ div.div_tab_selector.active {
 /*============================================*/
 
 
-.timeline_profil_div .more a {
-	background-color: #555 !important;
+.timeline_profil_div .more a { /* bouton charger plus */
+	background-color: #333 !important;
 	color: #fff !important;}
  
 #header_black a.logo {
@@ -409,7 +411,7 @@ div.div_tab_selector.active {
 	background: #222 !important;}	
 
 
-/* fond */
+/* fond site */
 
 body, footer #footer_merchant, footer #footer_links {
 	background: url(http://i.imgur.com/3IcBRwc.jpg);
@@ -437,7 +439,7 @@ footer #footer_social {
 	background-color: #8C071F!important;}
 
 .background_color_button_gele, .background_color_gele {
-	background-color: #31484E!important;}
+	background-color: #007FFF !important;} 
 
 [class*='background_color_button_']:hover, .vote_contener a.voted {
 	opacity: 0.6;}
@@ -465,7 +467,7 @@ article.expired {
 	background-color:	#8C071F!important;}
 	
 #actif_thread .title_div {
-  background-color: #31484E!important;}
+  background-color: #007FFF !important;}
 	
 .background_color_button_green {
   background-color: #8C071F !important;}
@@ -486,12 +488,30 @@ div.div_tab_selector.active {
   border-left: 3px solid #8C071F !important;
 	background-color: #222 !important;}
 	
+div.div_tab_selector:hover {
+	border-left: 3px solid #8C071F !important;}
+	
 .body_pagination a.active {
 	border-bottom: 3px solid #8C071F !important;
 	background-color: #333 !important;}
 	
 a.active {
 	border-bottom: 3px solid #8C071F !important;}
+	
+.text_color_blue {
+  color: #007FFF !important;}
+	
+/* .text_color_red {
+	color: #8C071F !important;} */
+	
+article.expired a.voir_le_deal {
+	background: transparent !important;}
+	
+span.debut, span.fin {
+  background: #8C071F !important;}
+	
+.menu_message:hover {
+	border-left: 3px solid #8C071F !important;}
 
 
 /* Whatsapp */
@@ -502,12 +522,7 @@ a.active {
 .bloc_rightbar #whatsapp .triangle {
 	border-color: transparent black transparent transparent !important;}
 	
-.bloc_rightbar #whatsapp {
-	background-color: black !important;}
 	
-.bloc_rightbar #whatsapp .triangle {
-	border-color: transparent black transparent transparent !important;}
-
 /* concours 5 ans */
 	
 #header_message, #header_message p, #header_message .structure {
@@ -515,3 +530,7 @@ a.active {
 
 .white {
 	background: #222 !important;}
+	
+#header_waves {
+	background: transparent !important;}
+}
