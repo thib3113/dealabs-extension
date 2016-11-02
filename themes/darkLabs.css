@@ -1,5 +1,5 @@
 /*============================================*/
-/*     Dark Dealabs - MonsieurCro - V2.0      */
+/*   Dark Dealabs - MonsieurCro - V2.0.2      */
 /*============================================*/
 
 /*============================================*/
@@ -450,7 +450,7 @@ footer #footer_links{
 	background-color: transparent;}
 
 article.expired {
-	opacity: 0.7;}
+	opacity: 0.5;}
 	
 
 /* Mod ttes les couleurs */
@@ -507,3 +507,11 @@ a.active {
 	
 .bloc_rightbar #whatsapp .triangle {
 	border-color: transparent black transparent transparent !important;}
+
+/* concours 5 ans */
+	
+#header_message, #header_message p, #header_message .structure {
+	background-color: black !important;}
+
+.white {
+	background: #222 !important;}
