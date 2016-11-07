@@ -1,5 +1,6 @@
 [
   {
+    "safeName" : "default",
     "name": "Par défaut"
   },
   {
@@ -18,7 +19,7 @@
     "name": "JVLabs.com",
     "styles": [
       {
-        "url": "JVLabs"
+        "url": "JVLabs.css"
       }
     ]
   },
@@ -26,7 +27,7 @@
     "name": "DealabSkin",
     "styles": [
       {
-        "url": "DealabSkin"
+        "url": "DealabSkin.css"
       }
     ]
   },
@@ -34,7 +35,7 @@
     "name": "Laboween",
     "styles": [
       {
-        "url": "laboween"
+        "url": "laboween.css"
       }
     ]
   }
