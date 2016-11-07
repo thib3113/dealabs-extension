@@ -1,5 +1,5 @@
 /*============================================*/
-/*    Dark Dealabs - MonsieurCro - V2.0.3     */
+/*     Dark Dealabs - MonsieurCro - V2.0.4    */
 /*============================================*/
 
 /*============================================*/
@@ -10,10 +10,6 @@ a#register_green {/* la plupart des boutons*/
 	color: #FFF !important;}
 
 /*============================================*/
-
-
-article {/* arrière-plan deal*/
-	background-color: #222 !important;}
 
 #title_contener, #search_page_contener, .content_part_div {
 	background-color: #222 !important;}	
@@ -37,6 +33,14 @@ input.voucher_code {/* code promo*/
 #contener_menu, .cat_contener, #contener_menu_padding .subcat_contener, #contener_type #contener_parametre, #contener_plus { /* menu déroulant gauche*/
 	background-color: #222 !important;}
 	
+/*=============Poster un deal ================*/
+	
+.background_color_violet {
+	background-color: #8C071F !important;}
+	
+#post_deal_right div.online_instore_div .selected, #post_deal_right div.picture_div .right a {
+    background: #8C071F !important;}
+
 
 /*============================================*/
 
@@ -490,7 +494,7 @@ div.div_tab_selector.active {
 div.div_tab_selector:hover {
 	border-left: 3px solid #8C071F !important;}
 	
-.body_pagination a.active {
+.body_pagination a.active, .bloc_rightbar div.selection_top a:hover {
 	border-bottom: 3px solid #8C071F !important;
 	background-color: #333 !important;}
 	
@@ -511,14 +515,49 @@ span.debut, span.fin {
 	
 .menu_message:hover {
 	border-left: 3px solid #8C071F !important;}
+	
+/* maj 07.11 */
+
+.vote_part a.link_to_deal, .deal_title_part .link_to_deal_part a.link_to_deal, #floatant_title .button_part a.link_to_deal {
+    background-color: #8C071F !important;}
+	
+div.voucher_code div.div_right p {
+    border-top: 1px solid #8C071F !important;
+    border-left: 1px solid #8C071F !important;
+    border-bottom: 1px solid #8C071F !important;
+	  background-color: #8C071F !important;}
+	
+.deal_detail_deal_part, .deal_content_part, .deal_footer_part, .comment_content .footer_textarea {
+    background-color: #222 !important;}
+	
+.deal_title_part .title_part h1 {
+	  color: #fff !important;}
+	
+.comment_content #discussed #header_add_commentaire_contener, #bloc_option .bloc_option_black_opacity {
+		background-color: #8C071F !important;}
+	
+article.deal_index_article .image_part div.addon-element.date, #header_comment_option_contener a.search, .deal_content_part .image_part div.addon-element.date {
+    background-color: #8C071F !important;}
+	
+.detail_part .profil_part, .detail_part .option_part a.button, article.deal_index_article {
+    background-color: #222 !important;}
+	
+#header_comment_option_contener input {
+    border: 0px solid white !important;}
+	
+#bloc_option .bloc_option_white, .contener_pagination #bloc_pagination {
+	background-color: #333 !important;}
+	
+.validate_comment, a.bbcode_button, #purge_button a { /* purge = bouton des alertes */
+    background-color: #8C071F !important;}
 
 
 /* Whatsapp */
 
-.bloc_rightbar #whatsapp {
+.bloc_rightbar #whatsapp, #post_conteneur div.reglespublication {
 	background-color: black !important;}
 	
-.bloc_rightbar #whatsapp .triangle {
+.bloc_rightbar #whatsapp .triangle, .arrow {
 	border-color: transparent black transparent transparent !important;}
 	
 	
