@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Par défaut"
+  },
+  {
+    "name": "DarkLabs",
+    "styles": [
+      {
+        "url": "darkLabs.css"
+      },
+      {
+        "urlRegex": "/^/forum/",
+        "url": "darkLabs-forum.css"
+      }
+    ]
+  },
+  {
+    "name": "JVLabs.com",
+    "styles": [
+      {
+        "url": "JVLabs"
+      }
+    ]
+  },
+  {
+    "name": "DealabSkin",
+    "styles": [
+      {
+        "url": "DealabSkin"
+      }
+    ]
+  },
+  {
+    "name": "Laboween",
+    "styles": [
+      {
+        "url": "laboween"
+      }
+    ]
+  }
+]
