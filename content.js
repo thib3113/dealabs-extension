@@ -490,8 +490,14 @@ $(function() {
             update_theme($(this).val());
         })
         $('#plugin_theme').html("");
+        theme_list = {
+            "default" : {
+                name : "Par défaut"
+            }
+        }
+        
         for(name in theme_list){
-            $('#plugin_theme').append('<option value="' + theme_list[name] + '"' + (settingsManager.theme == theme_list[name] ? ' selected' : '') + '>' + name + '</option>');
+            $('#plugin_theme').append('<option value="' + theme_list[name] + '"' + (settingsManager.theme == theme_list[name] ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
         }
 
         $('#plugin_desktop_notifications').attr('checked', settingsManager.notifications_manage.desktop);
