@@ -1,3 +1,11 @@
+1.3.1 : 
+ - better managment of smileys preview
+ - add smiley in new box
+ - theme versionning
+ - emoticone theme
+ - some preview bugs corrected (template, emoticone with bug, emoticone in other emoticone, tabindex)
+ - add class on plugin smiley for themes
+ - better bbcode for smiley
 1.3.0 : 
  - update to the new dealabs theme
  - themes are get from online store
