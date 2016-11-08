@@ -10,7 +10,7 @@
  *                        par oOKaMiZuKOo - https://www.dealabs.com/28642/oOKaMiZuKOo                             
  *                                                                 
  *                                                                                         
- *    Dernière MAJ : 08/11/2016 - Version 1.0
+ *    Dernière MAJ : 08/11/2016 - Version 1.0.1
  *    
  *    Topic de suivi (et MAJ) sur : https://www.dealabs.com/forums/le-site/annonces--nouveauts-du-site-modifications/theme-dealabs-dealabskin-by-ookamizukoo/26018
  *
@@ -21,6 +21,12 @@
  *    ==========================================================================================
  *
  *    Historique :
+ *      1.0.1 - 08/11/2016 :
+ *      ----------------------------------------
+ *                             Objet : Bug d'alignement des émoticones (fallait que je le vois une fois avoir uploadé la V1.0 ! :X)
+ *
+ *                             Réalisation de :
+ *                                     - ....réalignement des émoticones (qui passaient à la ligne dans l'intitulé d'un topic)
  *
  *      1.0 - 08/11/2016 :
  *      ----------------------------------------
@@ -120,6 +126,7 @@
  *
  *
  **/
+
 
 
 /* harmonisation du menu avec la couleur du "gris sombre" du logo dealabs */
@@ -285,7 +292,7 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
       
 /* photo profil perso section bandeau haut cadre login */
 #pseudo_right_header_contener img {
-    border-radius: 4px 4px 4px 4px !important;
+    border-radius: 45px 45px 45px 45px !important;
 
 }
       
@@ -522,7 +529,8 @@ article.expired .image_part .addon-element {
       article.expired .content_part p.categorie a,
       article.expired .content_part  a.title,
       article.expired .content_part .poster_part p.date_deal,
-      article.expired .deal_content .deal_detail_deal_part .deal_content_part .content_part .info_sup_div p b,
+      article .deal_content .deal_detail_deal_part .deal_content_part .content_part .info_sup_div p.info_sup:nth-of-type(2) b,
+      article .deal_content .deal_detail_deal_part .deal_content_part .content_part .info_sup_div p.info_sup:nth-of-type(1) b,
       article.expired .content_part .poster_part a.poster_link
       {color:#7C8B91 !important;}
       
@@ -1144,7 +1152,6 @@ a[alt="(shock)"] img {
       
       
 img.bbcode_smiley[alt=":)"] {
-    display: block;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1153,10 +1160,12 @@ img.bbcode_smiley[alt=":)"] {
     padding-left: 32px;
     background: url(http://s13.postimg.org/43pzd7gvb/have_a_nice_day.png) no-repeat;
     background-size: 32px 32px !important;
+    vertical-align: -7px;
 }
 a[alt=":)"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1166,7 +1175,7 @@ a[alt=":)"] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt=";)"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1179,6 +1188,7 @@ img.bbcode_smiley[alt=";)"] {
 a[alt=";)"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1188,7 +1198,7 @@ a[alt=";)"] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt=":("] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1201,6 +1211,7 @@ img.bbcode_smiley[alt=":("] {
 a[alt=":("] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 26px;
     height: 26px;
@@ -1210,7 +1221,7 @@ a[alt=":("] img {
     margin-top: -6px
 }
 img.bbcode_smiley[alt=":D"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1223,6 +1234,7 @@ img.bbcode_smiley[alt=":D"] {
 a[alt=":D"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1232,7 +1244,7 @@ a[alt=":D"] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt=":S"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1245,6 +1257,7 @@ img.bbcode_smiley[alt=":S"] {
 a[alt=":S"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1254,7 +1267,7 @@ a[alt=":S"] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt="^^"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1267,6 +1280,7 @@ img.bbcode_smiley[alt="^^"] {
 a[alt="^^"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1276,7 +1290,7 @@ a[alt="^^"] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt="xD"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1289,6 +1303,7 @@ img.bbcode_smiley[alt="xD"] {
 a[alt="xD"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1298,7 +1313,7 @@ a[alt="xD"] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt=":o"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1311,6 +1326,7 @@ img.bbcode_smiley[alt=":o"] {
 a[alt=":o"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1320,7 +1336,7 @@ a[alt=":o"] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt=":'("] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1333,6 +1349,7 @@ img.bbcode_smiley[alt=":'("] {
 a[alt=":'("] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1342,7 +1359,7 @@ a[alt=":'("] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt="B)"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1355,6 +1372,7 @@ img.bbcode_smiley[alt="B)"] {
 a[alt="B)"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 26px;
     height: 26px;
@@ -1364,7 +1382,7 @@ a[alt="B)"] img {
     margin-top: -6px
 }
 img.bbcode_smiley[alt="|o"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1377,6 +1395,7 @@ img.bbcode_smiley[alt="|o"] {
 a[alt="|o"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1386,7 +1405,7 @@ a[alt="|o"] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt=":3"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1399,6 +1418,7 @@ img.bbcode_smiley[alt=":3"] {
 a[alt=":3"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1408,7 +1428,7 @@ a[alt=":3"] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt="':)"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1421,6 +1441,7 @@ img.bbcode_smiley[alt="':)"] {
 a[alt="':)"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1430,7 +1451,7 @@ a[alt="':)"] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt="|D"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1443,6 +1464,7 @@ img.bbcode_smiley[alt="|D"] {
 a[alt="|D"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1452,7 +1474,7 @@ a[alt="|D"] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt="-_-'"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1465,6 +1487,7 @@ img.bbcode_smiley[alt="-_-'"] {
 a[alt="-_-'"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1475,7 +1498,7 @@ a[alt="-_-'"] img {
 }
 img.bbcode_smiley[alt=":P"],
 img.bbcode_smiley[alt=":p"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1488,6 +1511,7 @@ img.bbcode_smiley[alt=":p"] {
 a[alt=":P"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 26px;
     height: 26px;
@@ -1497,7 +1521,7 @@ a[alt=":P"] img {
     margin-top: -6px
 }
 img.bbcode_smiley[alt="xS"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1510,6 +1534,7 @@ img.bbcode_smiley[alt="xS"] {
 a[alt="xS"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
@@ -1519,7 +1544,7 @@ a[alt="xS"] img {
     margin-top: -4px
 }
 img.bbcode_smiley[alt=":|"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1532,6 +1557,7 @@ img.bbcode_smiley[alt=":|"] {
 a[alt=":|"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
