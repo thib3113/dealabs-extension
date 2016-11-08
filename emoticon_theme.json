@@ -1,0 +1,16 @@
+[
+  {
+    "safeName": "default",
+    "name": "Par défaut"
+  },
+  {
+    "safeName": "v4-emoticone",
+    "name": "Émoticone Dealabs V4",
+    "styles": [
+      {
+        "url": "v4-emoticone.css",
+        "version": "1"
+      }
+    ]
+  }
+]
