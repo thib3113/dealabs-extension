@@ -1,11 +1,13 @@
 [
   {
-    "safeName" : "default",
-    "name": "Par défaut"
+    "safeName": "default",
+    "name": "Par défaut",
+    "version": "0"
   },
   {
-    "safeName" : "darkLabs",
+    "safeName": "darkLabs",
     "name": "DarkLabs",
+    "version": "2.0.5",
     "styles": [
       {
         "url": "darkLabs.css"
@@ -17,8 +19,9 @@
     ]
   },
   {
-    "safeName" : "jvlabs",
+    "safeName": "jvlabs",
     "name": "JVLabs.com",
+    "version": "1.0.3",
     "styles": [
       {
         "url": "JVLabs.css"
@@ -26,8 +29,9 @@
     ]
   },
   {
-    "safeName" : "dealabskin",
+    "safeName": "dealabskin",
     "name": "DealabSkin",
+    "version": "1.0.2",
     "styles": [
       {
         "url": "DealabSkin.css"
@@ -35,8 +39,9 @@
     ]
   },
   {
-    "safeName" : "laboween",
+    "safeName": "laboween",
     "name": "Laboween",
+    "version": "1.0.1",
     "styles": [
       {
         "url": "laboween.css"
