@@ -261,7 +261,7 @@ function parseUpdate(response, cb){
             }
             newNotificationsNotified[tempNotifs[i].slug] = tempNotifs[i];
         }
-        if(notifs_to_send.length<1){
+        if(notifs_to_send.length<=6){
             for (var i = 0; i < notifs_to_send.length; i++) {
                 send_desktop_notification(notifs_to_send[i].title, notifs_to_send[i].text, notifs_to_send[i].icon, notifs_to_send[i].url, notifs_to_send[i].slug);
             }
