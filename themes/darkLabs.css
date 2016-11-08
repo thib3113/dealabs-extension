@@ -1,5 +1,5 @@
 /*============================================*/
-/*     Dark Dealabs - MonsieurCro - V2.0.4    */
+/*     Dark Dealabs - MonsieurCro - V2.0.5    */
 /*============================================*/
 
 /*============================================*/
@@ -24,11 +24,6 @@ a#register_green {/* la plupart des boutons*/
 .text_color_777777 {/* texte description deal*/
 	color : #fff !important;}
 
-div.voucher_code_title {/* titre code promo*/
-	background-color: #222 !important;}
-
-input.voucher_code {/* code promo*/
-	background-color: #222 !important;}
 
 #contener_menu, .cat_contener, #contener_menu_padding .subcat_contener, #contener_type #contener_parametre, #contener_plus { /* menu déroulant gauche*/
 	background-color: #222 !important;}
@@ -58,21 +53,11 @@ nav, #menu_white_background,a.button_grey_structure, .input_search {
 .body_pagination {/* barre numéros page*/
 background: #242424 !important;}
 
-.right_part {
-	background-color: #222 !important;}
-	
-
-/*============================================*/
-	
-
-#bottom_footer, #footer_white_background {
-	background-color: #222 !important;}
-
 .text_color_333333 {/* membres en ligne etc*/
     color: #fff !important;}  /* ATTENTION lié aux spoilers et aux topics !!!*/
 
 
-/*============================================*/
+/*==========Accueil blocs de droite============*/
 
 
 .bloc_rightbar div.selection_top a {
@@ -229,35 +214,10 @@ a.reactiver {
 /*============================================*/
 
 
-div.spoiler {
-	background-color: #444 !important;}
-
-div.spoiler_hide {
+div.spoiler, div.spoiler_hide {
   background-color: #444 !important;}
-	
-.background_grey { /* boite au dessus de ajouter un com */
-  background-color: #444 !important;}	
 
-
-/*============================================*/
-
-
-.padding_part_contener {
-	background-color: #222 !important;}
-
-a.expirer {
-    background: #222 url("https://static.dealabs.com/images/deal_detail/icon_deal_expire.png") no-repeat scroll 15px center !important;}
-
-a.signaler {
-    background: #222 no-repeat scroll 15px center !important;} /* url("https://static.dealabs.com/images/deal_detail/icon_deal_report.png") */
-
-a.sauvegarder {
-    background: #222 url("https://static.dealabs.com/images/deal_detail/icon_all_save_white.png") no-repeat scroll 15px center !important;}
-
-a.resoudre {
-    background: #222 url("https://static.dealabs.com/images/deal_detail/icon_forum_solved.png") no-repeat scroll 15px center !important;}
-
-/*==============ALERTES================*/
+/*=================ALERTES===================*/
 
 .bloc_rightbar div.div_liste_alert {
 	background-color: #222 !important;}
@@ -288,7 +248,6 @@ a.expired_choice_div {
 	
 label::before, div.arrow_part {
 	background: #222 !important;}
-		
 		
 .title_categorie_contener {
   background: #8C071F !important;}
@@ -327,8 +286,6 @@ div.auteur_pagination_div p.etc, div.auteur_pagination_div a {
 
 /*============================================*/
 /*                   PROFIL                   */
-/*============================================*/
-
 /*                   GAUCHE                   */
 /*============================================*/
 
@@ -341,7 +298,6 @@ p.description {
 #left_profil .badge_div, #left_profil .padding_badge_div {
 	background-color: #222 !important;}
 
-
 /*============================================*/
 
 
@@ -351,11 +307,8 @@ p.description {
 a {
 	color: #bbb !important;}
 
-span {
+span, p { /* lié à plein de choses */
 	color: #ddd !important;}
-	
-p {
-	color: #ccc !important;}
 
 #menu_profil_contener, #username_lookup {
 	background-color: #222 !important;}
@@ -435,22 +388,6 @@ footer #footer_reserv, #footer_events {
 footer #footer_social {
 	background-color: #222 !important;}
 	
-
-/* Rasmus - Couleurs votes */
-
-.background_color_button_red, .background_color_red, .contener_progress_bar {
-	background-color: #8C071F!important;}
-
-.background_color_button_gele, .background_color_gele {
-	background-color: #007FFF !important;} 
-
-[class*='background_color_button_']:hover, .vote_contener a.voted {
-	opacity: 0.6;}
-
-.background_color_button_blue:hover {
-	background-color: #ff7e00;
-	opacity: 1;}
-	
 footer #footer_links{
 	background-color: transparent;}
 
@@ -504,9 +441,6 @@ a.active {
 .text_color_blue {
   color: #007FFF !important;}
 	
-/* .text_color_red {
-	color: #8C071F !important;} */
-	
 article.expired a.voir_le_deal {
 	background: transparent !important;}
 	
@@ -536,7 +470,7 @@ div.voucher_code div.div_right p {
 .comment_content #discussed #header_add_commentaire_contener, #bloc_option .bloc_option_black_opacity {
 		background-color: #8C071F !important;}
 	
-article.deal_index_article .image_part div.addon-element.date, #header_comment_option_contener a.search, .deal_content_part .image_part div.addon-element.date {
+article.deal_index_article .image_part div.addon-element.date, #header_comment_option_contener a.search, .deal_content_part .image_part div.addon-element.date, div.addon-element.maj {
     background-color: #8C071F !important;}
 	
 .detail_part .profil_part, .detail_part .option_part a.button, article.deal_index_article {
@@ -550,8 +484,36 @@ article.deal_index_article .image_part div.addon-element.date, #header_comment_o
 	
 .validate_comment, a.bbcode_button, #purge_button a { /* purge = bouton des alertes */
     background-color: #8C071F !important;}
+	
+article.deal_index_article .content_part div.voucher_code div.field input[type="text"], article#deal_details .deal_content .deal_detail_deal_part .deal_content_part .content_part div.voucher_code div.field input[type="text"] {
+    border: 1px dashed #8C071F !important;
+	  border-left: none !important;}
 
+span.modo {
+	background: #8C071F !important;}
+	
+#body .postdeal_button_rightbar, #annuaire .content {
+	background-color: #8C071F !important;}
 
+#annuaire .content .merchants {
+	background-color: #222 !important;}
+	
+.footer_textarea .emoji-popup {
+  background-color: #333 !important;}
+
+.footer_textarea .emoji-popup .emoji-triangle::before  {
+	border: 1px solid #8C071F !important;}
+	
+.detail_part .profil_part a.pseudo, #timeline_profil p.title_timeline a, #left_profil .right_image_profil a.pseudo {
+	color: #007FFF !important;} 
+
+#contener_type .button_type_deal {
+	border-bottom: 0px solid white !important;}
+	
+#contener_type .button_type_deal:hover, #contener_type .button_type_deal.hot.selected, #contener_type .button_type_deal.commente.selected, #contener_type .button_type_deal.nouveau.selected {
+	border-bottom: 3px solid #8C071F !important;}
+	
+	
 /* Whatsapp */
 
 .bloc_rightbar #whatsapp, #post_conteneur div.reglespublication {
