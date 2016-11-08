@@ -234,6 +234,7 @@ function parseUpdate(response, cb){
         }
 
         var saveNotifications = {};
+        var notifs_to_send = [];
         for (var i = tempNotifs.length - 1; i >= 0; i--) {
             if(linkInfo = tempNotifs[i].url.match(/\.com\/([^\/]+)\/.*\/([0-9]+)[#|\?]/)){
                 if(typeof settingsManager.settings.blacklist[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
@@ -255,11 +256,36 @@ function parseUpdate(response, cb){
 
             if(typeof notificationsNotified[tempNotifs[i].slug] == "undefined" || notificationsNotified[tempNotifs[i].slug] == null){
                 if(settingsManager.notifications_manage.desktop){
-                    send_desktop_notification(tempNotifs[i].title, tempNotifs[i].text, tempNotifs[i].icon, tempNotifs[i].url, tempNotifs[i].slug);
+                    notifs_to_send.push(tempNotifs[i]);
                 }
             }
             newNotificationsNotified[tempNotifs[i].slug] = tempNotifs[i];
         }
+        if(notifs_to_send.length<1){
+            for (var i = 0; i < notifs_to_send.length; i++) {
+                send_desktop_notification(notifs_to_send[i].title, notifs_to_send[i].text, notifs_to_send[i].icon, notifs_to_send[i].url, notifs_to_send[i].slug);
+            }
+        }
+        else{
+            send_desktop_notification(
+                "vous avez "+notifs_to_send.length+" notification"+(notifs_to_send.length>1?"s":"")+" non lue"+(notifs_to_send.length>1?"s":""),
+                "vous avez "+notifs_to_send.length+" notification"+(notifs_to_send.length>1?"s":"")+" non lue"+(notifs_to_send.length>1?"s":""),
+                "https://static.dealabs.com/images/profil/icon_profile_activity.png",
+                "https://www.dealabs.com/forum/notifications.html",
+                "multinotif-"+Date.now(),
+                function(items){
+                    list = [];
+                    for (var i = 0; i < items.length; i++) {
+                        list.push({
+                            title : items[i].title,
+                            message : items[i].text
+                        })
+                    }
+                    return list;
+                }(notifs_to_send)
+            )
+        }
+        
         notificationsNotified = newNotificationsNotified;
 
         nb_add = 0;
