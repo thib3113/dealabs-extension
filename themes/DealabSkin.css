@@ -10,7 +10,7 @@
  *                        par oOKaMiZuKOo - https://www.dealabs.com/28642/oOKaMiZuKOo                             
  *                                                                 
  *                                                                                         
- *    Dernière MAJ : 08/11/2016 - Version 1.0.1
+ *    Dernière MAJ : 08/11/2016 - Version 1.0.2
  *    
  *    Topic de suivi (et MAJ) sur : https://www.dealabs.com/forums/le-site/annonces--nouveauts-du-site-modifications/theme-dealabs-dealabskin-by-ookamizukoo/26018
  *
@@ -21,6 +21,14 @@
  *    ==========================================================================================
  *
  *    Historique :
+ *
+ *      1.0.2 - 08/11/2016 :
+ *      ----------------------------------------
+ *                             Objet : Suppression d'une bordure d'encadré en trop...
+ *
+ *                             Réalisation de :
+ *                                     - Bug visuel résolu suite article.structure.expired @ border:none
+ *
  *      1.0.1 - 08/11/2016 :
  *      ----------------------------------------
  *                             Objet : Bug d'alignement des émoticones (fallait que je le vois une fois avoir uploadé la V1.0 ! :X)
@@ -126,7 +134,6 @@
  *
  *
  **/
-
 
 
 /* harmonisation du menu avec la couleur du "gris sombre" du logo dealabs */
@@ -542,7 +549,7 @@ article.expired .image_part .price-element .price span.deal_price {
     border-radius: 8px 8px 8px 8px !important;
 }  
 
-article.expired .content_part .poster_part .poster_link img, article.expired .deal_content .deal_detail_deal_part .deal_content_part .content_part * img.bbcode_smiley {
+article.expired .content_part .poster_part .poster_link img, article.expired .deal_content .deal_detail_deal_part .deal_content_part .content_part img.bbcode_smiley {
     filter: grayscale(100%);
     -webkit-filter: grayscale(100%);
     -moz-filter: grayscale(100%);
@@ -570,9 +577,11 @@ article.expired .content_part .poster_part .poster_link img, article.expired .de
     -moz-filter: grayscale(100%);
     -ms-filter: grayscale(100%);
     -o-filter: grayscale(100%);
+          
+           
 }
       
-      
+      article.structure.expired {border: none !important;} 
       
       
       
