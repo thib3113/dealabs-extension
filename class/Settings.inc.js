@@ -12,14 +12,21 @@ function SettingsManager(){
         },
         // turbopixAPIKey : "",
         imgurAPIKey : "",
-        theme : "default",
+        theme : {
+            "safeName" : "default",
+            "name": "Par défaut"
+          },
+        emoticone_theme : {
+            "safeName" : "default",
+            "name": "Par défaut"
+        },
         blacklist: {},
         notifications_with_sound :{},
         smileys : {
-            "siffle" : "http://www.turbopix.fr/i/RZAK5VBi4M.gif",
-            "fouet"  : "http://www.turbopix.fr/i/BpU1pU7Onm.gif",
-            "troll"  : "http://www.turbopix.fr/i/7FU50TeJ5C.png",
-            "jaime"  : "http://www.turbopix.fr/i/hb4xtAwWjK.png"
+            "siffle" : "https://i.imgur.com/vUB0XuB.gif",
+            "fouet"  : "https://i.imgur.com/2Zis7c8.gif",
+            "troll"  : "https://i.imgur.com/8q1lbcn.png",
+            "jaime"  : "https://i.imgur.com/wS1LGvS.png"
         }
     }
 

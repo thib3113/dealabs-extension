@@ -262,6 +262,31 @@ function update_theme(theme){
         }
     }
 }
+function update_emoticone_theme(theme){
+    theme_css = document.querySelectorAll('[data-plugin-role="emoticone_theme_css"]');
+    for (var i = 0; i < theme_css.length; i++) {
+        theme_css[i].parentNode.removeChild(theme_css[i]);
+    }
+
+    if(theme.safeName != "default"){
+        for (var i = 0; i < theme.styles.length; i++) {
+            if(theme.styles[i].urlRegex == undefined ||  window.location.pathname.match(theme.styles[i].urlRegex)){
+                if(theme.styles[i].url.slice(0,5) == "https")
+                    url = theme.styles[i].url;
+                else
+                    url = emoticone_theme_url+theme.styles[i].url+(theme.styles[i].version!=undefined? "?v="+theme.styles[i].version:"");
+               
+                var link = document.createElement( "link" );
+                link.href = url;
+                link.type = "text/css";
+                link.rel = "stylesheet";
+                link.dataset.pluginRole = 'emoticone_theme_css';
+                link.media = "screen,print";
+                document.getElementsByTagName("head")[0].appendChild( link );
+            }
+        }
+    }
+}
 
 var observer = new MutationObserver(function(mutations) {
 
@@ -273,6 +298,7 @@ var observer = new MutationObserver(function(mutations) {
       if(node.nodeName == "HEAD"){
         extension.getStorage('settings', function(value){
             update_theme(value.settings.theme);
+            update_emoticone_theme(value.settings.emoticone_theme);
         }, true);
         observer.disconnect();        
       }
@@ -442,13 +468,24 @@ $(function() {
                     <div class="subtitle_tab_contener">\
                         <p>Theme</p>\
                     </div>\
-                    <div class="profil_param_notification border_grey_bottom">\
+                    <div class="profil_param_notification">\
                         <div class="left_profil_param_champs" style="width:50%;">\
                             <p>Theme&thinsp;:</p>\
                         </div>\
                         <div class="content_profil_param_champs">\
                             <div class="input_left flag">\
                                 <select name="plugin_theme" id="plugin_theme">\
+                                    <option value="">Chargement...</option>\
+                                </select>\
+                            </div>\
+                        </div>\
+                    </div>\<div class="profil_param_notification border_grey_bottom">\
+                        <div class="left_profil_param_champs" style="width:50%;">\
+                            <p>Emoticones&thinsp;:</p>\
+                        </div>\
+                        <div class="content_profil_param_champs">\
+                            <div class="input_left flag">\
+                                <select name="emoticone_theme" id="emoticone_theme">\
                                     <option value="">Chargement...</option>\
                                 </select>\
                             </div>\
@@ -494,6 +531,44 @@ $(function() {
         for (var i = 0; i < time_between_refresh_list.length; i++) {
             $('#plugin_time_between_refresh').append('<option value="' + time_between_refresh_list[i] * 1000 + '"' + (settingsManager.time_between_refresh == time_between_refresh_list[i] * 1000 ? ' selected' : '') + '>' + time_between_refresh_list[i] + '</option>');
         }
+
+        //load time_between_refresh
+        $('#emoticone_theme').on('change', function(){
+            update_emoticone_theme($(this).find(":selected").data("emoticone_theme"));
+        })
+        $('#emoticone_theme').html("");
+        theme_list = [
+          {
+            "safeName" : "default",
+            "name": "Par défaut"
+          },
+        ];
+
+        try{
+            if(settingsManager.emoticone_theme.safeName != "default")
+                theme_list.append(settingsManager.emoticone_theme);
+        }
+        catch(e){
+        }
+        
+        for(name in theme_list){
+            $option = $('<option value="' + theme_list[name].safeName + '"' + (settingsManager.emoticone_theme.safeName == theme_list[name].safeName ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
+            $option.data("emoticone_theme", theme_list[name]);
+            $('#emoticone_theme').append($option);
+        }
+
+        $.ajax({
+          url: emoticone_theme_list_url,
+          dataType: "json",
+          success: function(theme_list){
+            $('#emoticone_theme').html("");
+            for(name in theme_list){
+                $option = $('<option value="' + theme_list[name].safeName + '"' + (settingsManager.emoticone_theme.safeName == theme_list[name].safeName ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
+                $option.data("emoticone_theme", theme_list[name]);
+                $('#emoticone_theme').append($option);
+            }
+          }
+        });
 
         //load time_between_refresh
         $('#plugin_theme').on('change', function(){
@@ -572,6 +647,7 @@ $(function() {
             newSettings = {
                 time_between_refresh: parseInt($('#plugin_time_between_refresh').val()),
                 theme: $('#plugin_theme').find(":selected").data("theme"),
+                emoticone_theme: $('#emoticone_theme').find(":selected").data("emoticone_theme"),
                 // turbopixAPIKey: $('#plugin_turbopix_key').val(),
                 notifications_manage: {
                     desktop : $('#plugin_desktop_notifications').is(':checked'),

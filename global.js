@@ -9,12 +9,15 @@ time_between_refresh_list = [15,30,60,120,240];
 // }
 
 theme_list_url = "https://thib3113.github.io/dealabs-extension/themes_list.json";
+emoticone_theme_list_url = "https://thib3113.github.io/dealabs-extension/emoticon_theme.json";
 
 theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/master/themes/';
 dev_theme_url = 'https://rawgit.com/thib3113/dealabs-extension/master/themes/';
 
+emoticone_theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/';
+
 //for dev time
-theme_url = dev_theme_url;
+// theme_url = dev_theme_url;
 
 dealabs_protocol = "http://";
 
@@ -215,9 +218,10 @@ function sendToImgur(img, cb, imgName, cbProgress){
   });
 }
 
-function send_desktop_notification(title, text, icon, url, slug){
+function send_desktop_notification(title, text, icon, url, slug, items){
   extension.sendNotification({
-    type : 'basic',
+    type : items==undefined?'basic':"list",
+    items : items,
     iconUrl : icon,
     title : title,
     message : text,
