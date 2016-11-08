@@ -154,7 +154,7 @@ function plugin_generatePreview(commentContainer, commentaire) {
 
     //match smiley
     for (var i = 0; i < plugin_BBcodesSmiley.length; i++) {
-        commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(plugin_BBcodesSmiley[i].smiley), 'gi'), '<img src="http://static.dealabs.com/images/smiley/' + plugin_BBcodesSmiley[i].name + '.png" width="16" height="16" alt="' + plugin_BBcodesSmiley[i].smiley + '" title="' + plugin_BBcodesSmiley[i].smiley + '" class="bbcode_smiley">')
+        commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(plugin_BBcodesSmiley[i].smiley), 'gi'), '<img src="http://static.dealabs.com/images/smiley/emoji_' + plugin_BBcodesSmiley[i].name + '.png" width="16" height="16" alt="' + plugin_BBcodesSmiley[i].smiley + '" title="' + plugin_BBcodesSmiley[i].smiley + '" class="bbcode_smiley">')
     }
 
     for (code in replacements) {
@@ -239,23 +239,22 @@ function update_theme(theme){
         theme_css[i].parentNode.removeChild(theme_css[i]);
     }
 
-    if(theme != "default"){
-        // add darklabs theme
-        var link = document.createElement( "link" );
-        link.href = theme_url+theme+'.css';
-        link.type = "text/css";
-        link.rel = "stylesheet";
-        link.dataset.pluginRole = 'theme_css';
-        link.media = "screen,print";
-        document.getElementsByTagName("head")[0].appendChild( link );
-        if(window.location.pathname.match(/^\/forum/)){
-            var link = document.createElement( "link" );
-            link.href = theme_url+theme+'-forum.css';
-            link.type = "text/css";
-            link.dataset.pluginRole = 'theme_css';
-            link.rel = "stylesheet";
-            link.media = "screen,print";
-            document.getElementsByTagName("head")[0].appendChild( link );
+    if(theme.safeName != "default"){
+        for (var i = 0; i < theme.styles.length; i++) {
+            if(theme.styles[i].urlRegex == undefined ||  window.location.pathname.match(theme.styles[i].urlRegex)){
+                if(theme.styles[i].url.slice(0,5) == "https")
+                    url = theme.styles[i].url;
+                else
+                    url = theme_url+theme.styles[i].url;
+               
+                var link = document.createElement( "link" );
+                link.href = url;
+                link.type = "text/css";
+                link.rel = "stylesheet";
+                link.dataset.pluginRole = 'theme_css';
+                link.media = "screen,print";
+                document.getElementsByTagName("head")[0].appendChild( link );
+            }
         }
     }
 }
@@ -444,7 +443,7 @@ $(function() {
                             </div>\
                         </div>\
                     </div>\
-                    <div class="subtitle_tab_contener">\
+                    <!--<div class="subtitle_tab_contener">\
                         <p>Images</p>\
                     </div>\
                     <div class="profil_param_notification border_grey_bottom">\
@@ -457,7 +456,7 @@ $(function() {
                             </div>\
                             <span>Les images seront reliées à votre compte . Vous trouverez la clef utilisateur <a target="_blank" href="http://www.turbopix.fr/profile">ici</a> &thinsp;</span>\
                         </div>\
-                    </div>\
+                    </div>-->\
                     <div class="subtitle_tab_contener">\
                         <p>Smileys</p>\
                     </div>\
@@ -487,18 +486,41 @@ $(function() {
 
         //load time_between_refresh
         $('#plugin_theme').on('change', function(){
-            update_theme($(this).val());
+            update_theme($(this).find(":selected").data("theme"));
         })
         $('#plugin_theme').html("");
-        theme_list = {
-            "default" : {
-                name : "Par défaut"
-            }
+        theme_list = [
+          {
+            "safeName" : "default",
+            "name": "Par défaut"
+          },
+        ];
+
+        try{
+            if(settingsManager.theme.safeName != "default")
+                theme_list.append(settingsManager.theme);
+        }
+        catch(e){
         }
         
         for(name in theme_list){
-            $('#plugin_theme').append('<option value="' + theme_list[name] + '"' + (settingsManager.theme == theme_list[name] ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
+            $option = $('<option value="' + theme_list[name].safeName + '"' + (settingsManager.theme.safeName == theme_list[name].safeName ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
+            $option.data("theme", theme_list[name]);
+            $('#plugin_theme').append($option);
         }
+
+        $.ajax({
+          url: theme_list_url,
+          dataType: "json",
+          success: function(theme_list){
+            $('#plugin_theme').html("");
+            for(name in theme_list){
+                $option = $('<option value="' + theme_list[name].safeName + '"' + (settingsManager.theme.safeName == theme_list[name].safeName ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
+                $option.data("theme", theme_list[name]);
+                $('#plugin_theme').append($option);
+            }
+          }
+        });
 
         $('#plugin_desktop_notifications').attr('checked', settingsManager.notifications_manage.desktop);
         $('#plugin_deals_notifications').attr('checked', settingsManager.notifications_manage.deals);
@@ -506,8 +528,8 @@ $(function() {
         $('#plugin_mp_notifications').attr('checked', settingsManager.notifications_manage.MPs);
         $('#plugin_forum_notifications').attr('checked', settingsManager.notifications_manage.forum);
 
-        //load turbopix key
-        $('#plugin_turbopix_key').val(settingsManager.turbopixAPIKey);
+        // //load turbopix key
+        // $('#plugin_turbopix_key').val(settingsManager.turbopixAPIKey);
 
         //load smileys
         smileyTPL = '<tr><td>{{img}}</td><td style="padding-right: 20px;"><input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_url" value="{{smiley_url}}" /></td><td style="padding-right: 20px;"><input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_name" value="{{smiley_name}}" /></td><td onclick="$(this).parent(\'tr\').remove();" style="cursor:pointer;" ><img src="https://static.dealabs.com/images/profil/icon_profile_messages_delete.png"></td></tr>';
@@ -538,8 +560,8 @@ $(function() {
 
             newSettings = {
                 time_between_refresh: parseInt($('#plugin_time_between_refresh').val()),
-                theme: $('#plugin_theme').val(),
-                turbopixAPIKey: $('#plugin_turbopix_key').val(),
+                theme: $('#plugin_theme').find(":selected").data("theme"),
+                // turbopixAPIKey: $('#plugin_turbopix_key').val(),
                 notifications_manage: {
                     desktop : $('#plugin_desktop_notifications').is(':checked'),
                     forum : $('#plugin_forum_notifications').is(':checked'),
@@ -600,7 +622,7 @@ $(function() {
         }
     });
 
-    $('.validate_button_form').each(function(index) {
+    $('.validate_button_form, .validate_comment').each(function(index) {
         if ($(this).parents('#right_profil_param').length > 0 
             || $(this).parents('#post_conteneur').length > 0 
             || $(this).parents('#add_alert').length > 0
@@ -608,28 +630,40 @@ $(function() {
         )
             return;
 
-        clone = $(this).clone(false).attr('onclick', null).clone(false).attr('accesskey', 'p').text("Prévisualiser");
+        clone = $(this)
+            .clone(false)
+            .attr('onclick', null)
+            .clone(false)
+            .attr('accesskey', 'p')
+            .attr("tabindex", 3)
+            .css("margin-left", "20px")
+            .text("Prévisualiser");
         // console.log(clone);
         $(this).after(clone);
         clone.on('click', function(e) {
             if ($(this).parents('#discussed').length > 0) {
                 $putContainer = $('#comment_contener');
                 func = "append";
-                commentContainer = '<div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="padding_comment_contener">\
-              <div class="profil_image_part">\
-                  <a href="{{userlink}}" class="open_profil"><img src="{{useravatar}}"></a>\
-              </div>\
-              <div class="comment_text_part">\
-                  <div class="header_comment">\
-                      <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
-                      <p><span>prévisualisation</span></p>\
-                  </div>\
-                  <div>\
-                      <div class="commentaire_div">\
-                          {{commentaire}}\
-                      </div>\
-                  </div>\
-              </div>\
+                commentContainer = '<div class="padding_comment_contener" id="_userscript_preview_container" data-userscript="comment_contener">\
+                    <div class="profil_part">\
+                        <div class="avatar_contener">\
+                            <a class="avatar" href="{{userlink}}">\
+                                <img src="{{useravatar}}">\
+                            </a>\
+                        </div>\
+                    </div>\
+                    <div class="comment_text_part">\
+                        <div class="header_comment">\
+                            <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
+                            <p><span>prévisualisation</span></p>\
+                        </div>\
+                        <div>\
+                            <div class="commentaire_div">\
+                              {{commentaire}}\
+                            </div>\
+                        </div>\
+                    </div>\
+                </div>\
             </div>';
             } else if ($(this).parents('#add_thread_form').length > 0) {
                 $putContainer = $('#left_global .padding_left_global');

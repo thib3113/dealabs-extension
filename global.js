@@ -1,12 +1,14 @@
 time_between_refresh_list = [15,30,60,120,240];
 
-theme_list = {
-  'DeaLabs' : 'default',
-  'DarkLabs' : 'darkLabs',
-  'JVLabs.com' : 'JVLabs',
-  'DealabSkin' : 'DealabSkin',
-  'Laboween' : 'laboween'
-}
+// theme_list = {
+//   'DeaLabs' : 'default',
+//   'DarkLabs' : 'darkLabs',
+//   'JVLabs.com' : 'JVLabs',
+//   'DealabSkin' : 'DealabSkin',
+//   'Laboween' : 'laboween'
+// }
+
+theme_list_url = "https://thib3113.github.io/dealabs-extension/themes_list.json";
 
 theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/master/themes/';
 dev_theme_url = 'https://rawgit.com/thib3113/dealabs-extension/master/themes/';
@@ -35,7 +37,6 @@ function isDataURL(s) {
     return !!s.match(isDataURL.regex);
 }
 isDataURL.regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
-
 
 addImageInFormCounter = 0;
 function addImageInForm(textarea, img, cursorPos, pUpload){
@@ -416,77 +417,121 @@ plugin_BBcodes = [
   }
 ];
 
-plugin_BBcodesSmiley = [
+plugin_BBcodesSmiley = [ //pensive is used in http link, need to be first
   {
-    name:"img-souris",
-    smiley:":)"
+   "name" : "pensive",
+   "smiley" : ":/" 
   },
   {
-    name:"img-clindoeil",
-    smiley:";)"
+   "name" : "happy_sweat", //happy sweat need to be before zipper_mouth
+   "smiley" : "(:|"
   },
   {
-    name:"img-triste",
-    smiley:":("
+   "name" : "zipper_mouth",
+   "smiley" : ":|"
   },
   {
-    name:"img-rire",
-    smiley:":D"
+   "name" : "smiling",
+   "smiley" : ":)"
   },
   {
-    name:"img-surpris",
-    smiley:":o"
+   "name" : "wink",
+   "smiley" : ";)"
   },
   {
-    name:"img-cool",
-    smiley:"^^"
+   "name" : "sad",
+   "smiley" : ":("
   },
   {
-    name:"img-lunette",
-    smiley:"B)"
+   "name" : "happy",
+   "smiley" : ":D"
   },
   {
-    name:"img-stress",
-    smiley:"-_-'"
+   "name" : "astonished",
+   "smiley" : ":o"
   },
   {
-    name:"img-sour",
-    smiley:"xS"
+   "name" : "grinning",
+   "smiley" : "^^"
   },
   {
-    name:"img-silly",
-    smiley:":P"
+   "name" : "sunglasses",
+   "smiley" : "B)"
   },
   {
-    name:"img-sick",
-    smiley:":S"
+   "name" : "sad_sweat",
+   "smiley" : "-_-'"
   },
   {
-    name:"big_grin_squint",
-    smiley:"xD"
+   "name" : "confounded",
+   "smiley" : "xS"
   },
   {
-    name:"crying",
-    smiley:":'("
+   "name" : "crazy",
+   "smiley" : ":P"
   },
   {
-    name:"evil",
-    smiley:"':)"
+   "name" : "disgusted",
+   "smiley" : ":S"
   },
   {
-    name:"inlove",
-    smiley:":3"
+   "name" : "laughing_tears",
+   "smiley" : "xD"
   },
   {
-    name:"nerdy",
-    smiley:"|D"
+   "name" : "loudly_crying",
+   "smiley" : ":'("
   },
   {
-    name:"zipped",
-    smiley:":|"
+   "name" : "devil",
+   "smiley" : "':)"
   },
   {
-    name:"redface",
-    smiley:"|o"
+   "name" : "heart_eyes",
+   "smiley" : ":3"
+  },
+  {
+   "name" : "nerd",
+   "smiley" : "|D"
+  },
+  {
+   "name" : "redface",
+   "smiley" : "|o"
+  },
+  {
+   "name" : "smart",
+   "smiley" : ":{"
+  },
+  {
+   "name" : "fierced",
+   "smiley" : "(fierce)"
+  },
+  {
+   "name" : "creep",
+   "smiley" : "(creep)"
+  },
+  {
+   "name" : "ninja",
+   "smiley" : "(ninja)"
+  },
+  {
+   "name" : "popcorn",
+   "smiley" : "(popcorn)"
+  },
+  {
+   "name" : "thumbs_up",
+   "smiley" : "(like)"
+  },
+  {
+   "name" : "angel",
+   "smiley" : "(angel)"
+  },
+  {
+   "name" : "raised_hand",
+   "smiley" : "(highfive)"
+  },
+  {
+   "name" : "shocked",
+   "smiley" : "(shock)"
   }
 ]

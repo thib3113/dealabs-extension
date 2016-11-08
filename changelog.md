@@ -1,3 +1,9 @@
+1.3.0 : 
+ - update to the new dealabs theme
+ - themes are get from online store
+ - removes turbopix API key
+ - better themes managments
+ - add new emojis
 1.2.9 : 
  - add new theme, laboween
 1.2.8 : 
