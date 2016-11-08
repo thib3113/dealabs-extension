@@ -8,7 +8,7 @@
     "name": "Émoticone Dealabs V4",
     "styles": [
       {
-        "url": "v4-emoticone.css",
+        "url": "v4-emoticone/style.css",
         "version": "1"
       }
     ]
