@@ -152,9 +152,13 @@ function plugin_generatePreview(commentContainer, commentaire) {
         });
     }
 
-    //match smiley
+    //transform smileys to a bbcode
     for (var i = 0; i < plugin_BBcodesSmiley.length; i++) {
-        commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(plugin_BBcodesSmiley[i].smiley), 'gi'), '<img src="http://static.dealabs.com/images/smiley/emoji_' + plugin_BBcodesSmiley[i].name + '.png" width="16" height="16" alt="' + plugin_BBcodesSmiley[i].smiley + '" title="' + plugin_BBcodesSmiley[i].smiley + '" class="bbcode_smiley">')
+        commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(plugin_BBcodesSmiley[i].smiley), 'gi'), '[' + plugin_BBcodesSmiley[i].name + ']');
+    }
+    //transform smiley bbcode to image
+    for (var i = 0; i < plugin_BBcodesSmiley.length; i++) {
+        commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp('[' + plugin_BBcodesSmiley[i].name + ']'), 'gi'), '<img src="http://static.dealabs.com/images/smiley/' + plugin_BBcodesSmiley[i].icon + '.png" width="auto" height="auto" alt="' + plugin_BBcodesSmiley[i].smiley + '" title="' + plugin_BBcodesSmiley[i].smiley + '" class="bbcode_smiley">')
     }
 
     for (code in replacements) {
@@ -173,7 +177,7 @@ function plugin_generatePreview(commentContainer, commentaire) {
 
 
 function plugin_insertSmiley() {
-    textarea = jQuery(this).parents('.formating_text_contener').parent('div').find('textarea');
+    textarea = jQuery(this).parents('.comment_text_part_textarea').find('textarea');;
     if (textarea.length > 0) {
         textarea = textarea.get(0);
     } else {
@@ -218,7 +222,7 @@ function plugin_update_emoticone_textarea() {
         return;
 
 
-    jQuery('.third_part_button').each(function(index, value) {
+    jQuery('.emoji-content').each(function(index, value) {
         c = this;
 
         for (var title in settingsManager.smileys) {
@@ -245,7 +249,7 @@ function update_theme(theme){
                 if(theme.styles[i].url.slice(0,5) == "https")
                     url = theme.styles[i].url;
                 else
-                    url = theme_url+theme.styles[i].url;
+                    url = theme_url+theme.styles[i].url+(theme.styles[i].version!=undefined? "?v="+theme.styles[i].version:"");
                
                 var link = document.createElement( "link" );
                 link.href = url;
@@ -295,6 +299,13 @@ $(function() {
     $body = $('body');
 
     new Embed($('a.link_a_reduce'));
+
+    //update the smileys image for themes
+    $(".BBcode_image").each(function(){
+        if(this.src.match(/#plugin_smiley$/g)){
+            $(this).removeClass("BBcode_image").addClass("bbcode_smiley");
+        }
+    })
 
     $('body').on('paste drop', 'textarea', function(e){
         reUpload = e.ctrlKey;
@@ -635,7 +646,7 @@ $(function() {
             .attr('onclick', null)
             .clone(false)
             .attr('accesskey', 'p')
-            .attr("tabindex", 3)
+            .attr("tabindex", this.tabindex+1)
             .css("margin-left", "20px")
             .text("Prévisualiser");
         // console.log(clone);
@@ -700,19 +711,23 @@ $(function() {
                 $putContainer = $(this).parents('.padding_comment_contener');
                 func = "before";
                 commentContainer = '<div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="padding_comment_contener">\
-              <div class="profil_image_part">\
-                  <a href="{{userlink}}" class="open_profil"><img src="{{useravatar}}"></a>\
-              </div>\
-              <div class="comment_text_part">\
-                  <div class="header_comment">\
-                      <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
-                      <p><span>prévisualisation</span></p>\
-                  </div>\
-                  <div>\
-                      <div class="commentaire_div">\
-                          {{commentaire}}\
-                      </div>\
-                  </div>\
+              <div class="profil_part">\
+                    <div class="avatar_contener">\
+                        <a class="avatar" href="{{userlink}}">\
+                            <img src="{{useravatar}}">\
+                        </a>\
+                    </div>\
+                </div>\
+                <div class="comment_text_part">\
+                    <div class="header_comment">\
+                        <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
+                        <p><span>prévisualisation</span></p>\
+                    </div>\
+                    <div>\
+                        <div class="commentaire_div">\
+                            {{commentaire}}\
+                        </div>\
+                    </div>\
               </div>\
             </div>';
             }
@@ -787,7 +802,7 @@ $(function(){
         if (typeof text == 'undefined') return;\
         current_smileys = JSON.parse('"+JSON.stringify(settingsManager.smileys)+"');\
         for (var nom in current_smileys) {\
-            text = text.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size=\"300px\"]' + current_smileys[nom] + '[/img]');\
+            text = text.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size=300px]' + current_smileys[nom] + '#plugin_smiley[/img]');\
         };\
         $(this).find('[name=\"post_content\"]').val(text);\
     })");
