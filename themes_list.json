@@ -1,29 +1,29 @@
 [
   {
     "safeName": "default",
-    "name": "Par défaut",
-    "version": "0"
+    "name": "Par défaut"
   },
   {
     "safeName": "darkLabs",
     "name": "DarkLabs",
-    "version": "2.0.5",
     "styles": [
       {
-        "url": "darkLabs.css"
+        "url": "darkLabs.css",
+        "version": "2.0.5"
       },
       {
         "urlRegex": "/^/forum/",
-        "url": "darkLabs-forum.css"
+        "url": "darkLabs-forum.css",
+        "version": "2.0.5"
       }
     ]
   },
   {
     "safeName": "jvlabs",
     "name": "JVLabs.com",
-    "version": "1.0.3",
     "styles": [
       {
+        "version": "1.0.3",
         "url": "JVLabs.css"
       }
     ]
@@ -31,9 +31,9 @@
   {
     "safeName": "dealabskin",
     "name": "DealabSkin",
-    "version": "1.0.2",
     "styles": [
       {
+        "version": "1.0.2",
         "url": "DealabSkin.css"
       }
     ]
@@ -41,9 +41,9 @@
   {
     "safeName": "laboween",
     "name": "Laboween",
-    "version": "1.0.1",
     "styles": [
       {
+        "version": "1.0.1",
         "url": "laboween.css"
       }
     ]
