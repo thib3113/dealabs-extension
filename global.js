@@ -105,7 +105,7 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
     }
   }.bind({textarea:textarea, id:addImageInFormCounter,$image_progress:$image_progress});
 
-  $(textarea).after($image_progress);
+  $(textarea).parents(".comment_text_part_textarea").after($image_progress);
   cbProgress = function(evt) {
     if (evt.lengthComputable) {
       var percentComplete = evt.loaded / evt.total;
@@ -419,118 +419,147 @@ plugin_BBcodes = [
 
 plugin_BBcodesSmiley = [ //pensive is used in http link, need to be first
   {
+   "icon" : "emoji_pensive",
    "name" : "pensive",
    "smiley" : ":/" 
   },
   {
+   "icon" : "emoji_happy_sweat", //happy sweat need to be before zipper_mouth
    "name" : "happy_sweat", //happy sweat need to be before zipper_mouth
    "smiley" : "(:|"
   },
   {
+   "icon" : "emoji_zipper_mouth",
    "name" : "zipper_mouth",
    "smiley" : ":|"
   },
   {
+   "icon" : "emoji_smiling",
    "name" : "smiling",
    "smiley" : ":)"
   },
   {
+   "icon" : "emoji_wink",
    "name" : "wink",
    "smiley" : ";)"
   },
   {
+   "icon" : "emoji_sad",
    "name" : "sad",
    "smiley" : ":("
   },
   {
+   "icon" : "emoi_happy",
    "name" : "happy",
    "smiley" : ":D"
   },
   {
+   "icon" : "emoji_astonished",
    "name" : "astonished",
    "smiley" : ":o"
   },
   {
+   "icon" : "emoji_grinning",
    "name" : "grinning",
    "smiley" : "^^"
   },
   {
+   "icon" : "emoji_sunglasses",
    "name" : "sunglasses",
    "smiley" : "B)"
   },
   {
+   "icon" : "emoji_sad_sweat",
    "name" : "sad_sweat",
    "smiley" : "-_-'"
   },
   {
+   "icon" : "emoji_confounded",
    "name" : "confounded",
    "smiley" : "xS"
   },
   {
+   "icon" : "emoji_crazy",
    "name" : "crazy",
    "smiley" : ":P"
   },
   {
+   "icon" : "emoji_disgusted",
    "name" : "disgusted",
    "smiley" : ":S"
   },
   {
+   "icon" : "emoji_laughing_tears",
    "name" : "laughing_tears",
    "smiley" : "xD"
   },
   {
+   "icon" : "emoji_loudly_crying",
    "name" : "loudly_crying",
    "smiley" : ":'("
   },
   {
+   "icon" : "emoji_devil",
    "name" : "devil",
    "smiley" : "':)"
   },
   {
+   "icon" : "emoji_heart_eyes",
    "name" : "heart_eyes",
    "smiley" : ":3"
   },
   {
+   "icon" : "emoji_nerd",
    "name" : "nerd",
    "smiley" : "|D"
   },
   {
+   "icon" : "emoji_redface",
    "name" : "redface",
    "smiley" : "|o"
   },
   {
+   "icon" : "emoji_smart",
    "name" : "smart",
    "smiley" : ":{"
   },
   {
+   "icon" : "emoji_fierced",
    "name" : "fierced",
    "smiley" : "(fierce)"
   },
   {
+   "icon" : "emoji_creep",
    "name" : "creep",
    "smiley" : "(creep)"
   },
   {
+   "icon" : "emoji_ninja",
    "name" : "ninja",
    "smiley" : "(ninja)"
   },
   {
+   "icon" : "emoji_popcorn",
    "name" : "popcorn",
    "smiley" : "(popcorn)"
   },
   {
+   "icon" : "emoji_thumbs_up",
    "name" : "thumbs_up",
    "smiley" : "(like)"
   },
   {
+   "icon" : "emoji_angel",
    "name" : "angel",
    "smiley" : "(angel)"
   },
   {
+   "icon" : "emoji_raised_hand",
    "name" : "raised_hand",
    "smiley" : "(highfive)"
   },
   {
+   "icon" : "emoji_shocked",
    "name" : "shocked",
    "smiley" : "(shock)"
   }
