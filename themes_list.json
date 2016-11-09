@@ -10,11 +10,6 @@
       {
         "url": "darkLabs.css",
         "version": "2.0.5"
-      },
-      {
-        "urlRegex": "/^/forum/",
-        "url": "darkLabs-forum.css",
-        "version": "2.0.5"
       }
     ]
   },
