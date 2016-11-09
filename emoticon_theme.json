@@ -12,15 +12,5 @@
         "version": "1"
       }
     ]
-  },
-  {
-    "safeName": "pepper-emoticones-svg",
-    "name": "Émoticone Pepper SVG",
-    "styles": [
-      {
-        "url": "pepper-emoticones-svg/style.css",
-        "version": "1"
-      }
-    ]
   }
 ]

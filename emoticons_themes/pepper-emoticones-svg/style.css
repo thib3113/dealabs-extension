@@ -3,419 +3,810 @@
     margin: 1px;
     margin-bottom: 2px;
 }
-
-img.bbcode_smiley[alt=":)"] {
+img.bbcode_smiley[alt="(angel)"] {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
+    width: 35px;
+    height: 20px;
+    padding-left: 35px;
     margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/smiley.svg) no-repeat;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/angel.svg) no-repeat;
 }
-a[alt=":)"] img {
+a[alt="(angel)"] img {
     display: block;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
+    width: 35px;
+    height: 20px;
+    padding-left: 35px;
+    background-size: 20px 20px !important;
     margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/smiley.svg) no-repeat !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/angel.svg) no-repeat !important;
 }
-img.bbcode_smiley[alt=";)"] {
+img.bbcode_smiley[alt="(annoyed)"] {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
     margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-clindoeil.png) no-repeat;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/annoyed.svg) no-repeat;
 }
-a[alt=";)"] img {
+a[alt="(annoyed)"] img {
     display: block;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
     margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-clindoeil.png) no-repeat !important;
-}
-img.bbcode_smiley[alt=":("] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-triste.png) no-repeat;
-}
-a[alt=":("] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-triste.png) no-repeat !important;
-}
-img.bbcode_smiley[alt=":D"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-rire.png) no-repeat;
-}
-a[alt=":D"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-rire.png) no-repeat !important;
-}
-img.bbcode_smiley[alt=":S"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-sick.png) no-repeat;
-}
-a[alt=":S"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-sick.png) no-repeat !important;
-}
-img.bbcode_smiley[alt="^^"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-cool.png) no-repeat;
-}
-a[alt="^^"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-cool.png) no-repeat !important;
-}
-img.bbcode_smiley[alt="xD"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/big_grin_squint.png) no-repeat;
-}
-a[alt="xD"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/big_grin_squint.png) no-repeat !important;
-}
-img.bbcode_smiley[alt=":o"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-surpris.png) no-repeat;
-}
-a[alt=":o"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-surpris.png) no-repeat !important;
-}
-img.bbcode_smiley[alt=":'("] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/crying.png) no-repeat;
-}
-a[alt=":'("] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/crying.png) no-repeat !important;
-}
-img.bbcode_smiley[alt="B)"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-lunette.png) no-repeat;
-}
-a[alt="B)"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-lunette.png) no-repeat !important;
-}
-img.bbcode_smiley[alt="|o"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/redface.png) no-repeat;
-}
-a[alt="|o"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/redface.png) no-repeat !important;
-}
-img.bbcode_smiley[alt=":3"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/inlove.png) no-repeat;
-}
-a[alt=":3"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/inlove.png) no-repeat !important;
-}
-img.bbcode_smiley[alt="':)"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/evil.png) no-repeat;
-}
-a[alt="':)"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/evil.png) no-repeat !important;
-}
-img.bbcode_smiley[alt="|D"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/nerdy.png) no-repeat;
-}
-a[alt="|D"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/nerdy.png) no-repeat !important;
-}
-img.bbcode_smiley[alt="-_-'"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-stress.png) no-repeat;
-}
-a[alt="-_-'"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-stress.png) no-repeat !important;
-}
-img.bbcode_smiley[alt=":P"],
-img.bbcode_smiley[alt=":p"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-silly.png) no-repeat;
-}
-a[alt=":P"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-silly.png) no-repeat !important;
-}
-img.bbcode_smiley[alt="xS"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-sour.png) no-repeat;
-}
-a[alt="xS"] img {
-    display: block;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
-    margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/img-sour.png) no-repeat !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/annoyed.svg) no-repeat !important;
 }
 img.bbcode_smiley[alt=":|"] {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
     margin-bottom: 2px;
-    background-size: 16px 16px !important;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/zipped.png) no-repeat;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/blank.svg) no-repeat;
 }
 a[alt=":|"] img {
     display: block;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    padding-left: 16px;
-    background-size: 16px 16px !important;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
     margin-bottom: 2px;
-    background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/v4-emoticone/icons/zipped.png) no-repeat !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/blank.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="B)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/cool.svg) no-repeat;
+}
+a[alt="B)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/cool.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(creep)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/creep.svg) no-repeat;
+}
+a[alt="(creep)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/creep.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt=":'("] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/cry.svg) no-repeat;
+}
+a[alt=":'("] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/cry.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(devil)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/devil.svg) no-repeat;
+}
+a[alt="(devil)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/devil.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(embarrassed)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/embarrassed.svg) no-repeat;
+}
+a[alt="(embarrassed)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/embarrassed.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(fierce)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/fierce.svg) no-repeat;
+}
+a[alt="(fierce)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/fierce.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt=":D"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/laugh.svg) no-repeat;
+}
+a[alt=":D"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/laugh.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(highfive)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 22px;
+    height: 20px;
+    padding-left: 22px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/highfive.svg) no-repeat;
+}
+a[alt="(highfive)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 22px;
+    height: 20px;
+    padding-left: 22px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/highfive.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(horror)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/horror.svg) no-repeat;
+}
+a[alt="(horror)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/horror.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt=":3"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/kitty.svg) no-repeat;
+}
+a[alt=":3"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/kitty.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="XD"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/laugh.svg) no-repeat;
+}
+a[alt="XD"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/laugh.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="<3"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/love.svg) no-repeat;
+}
+a[alt="<3"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/love.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(mad)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/mad.svg) no-repeat;
+}
+a[alt="(mad)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/mad.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(nerd)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/nerd.svg) no-repeat;
+}
+a[alt="(nerd)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/nerd.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(ninja)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/ninja.svg) no-repeat;
+}
+a[alt="(ninja)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/ninja.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(party)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/party.svg) no-repeat;
+}
+a[alt="(party)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/party.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(pirate)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/pirate.svg) no-repeat;
+}
+a[alt="(pirate)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/pirate.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(poo)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/poo.svg) no-repeat;
+}
+a[alt="(poo)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/poo.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(popcorn)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 30px;
+    height: 20px;
+    padding-left: 30px;
+    margin-bottom: 2px;
+    background-size: 30px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/popcorn.svg) no-repeat;
+}
+a[alt="(popcorn)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 30px;
+    height: 20px;
+    padding-left: 30px;
+    background-size: 30px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/popcorn.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(:|"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/relieved.svg) no-repeat;
+}
+a[alt="(:|"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/relieved.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt=":("] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/sad.svg) no-repeat;
+}
+a[alt=":("] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/sad.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(shock)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/shock.svg) no-repeat;
+}
+a[alt="(shock)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/shock.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt=":{"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/sir.svg) no-repeat;
+}
+a[alt=":{"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/sir.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt=":/"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/skeptical.svg) no-repeat;
+}
+a[alt=":/"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/skeptical.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt=":)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/happy.svg) no-repeat;
+}
+a[alt=":)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/happy.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="^^"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/smiley.svg) no-repeat;
+}
+a[alt="^^"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/smiley.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="xD"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/superfunny.svg) no-repeat;
+}
+a[alt="xD"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/superfunny.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="(like)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/thumb.svg) no-repeat;
+}
+a[alt="(like)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/thumb.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt=":p"], 
+img.bbcode_smiley[alt=":P"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/tongue.svg) no-repeat;
+}
+a[alt=":p"] img, 
+a[alt=":P"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/tongue.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt=";)"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/wink.svg) no-repeat;
+}
+a[alt=";)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/wink.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt=":o"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/woot.svg) no-repeat;
+}
+a[alt=":o"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/woot.svg) no-repeat !important;
+}
+img.bbcode_smiley[alt="-_-'"] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 2px;
+    background-size: 20px 20px !important;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/worried.svg) no-repeat;
+}
+a[alt="-_-'"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+    background-size: 20px 20px !important;
+    margin-bottom: 2px;
+    background: url(https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/pepper-emoticones-svg/icons/worried.svg) no-repeat !important;
 }
