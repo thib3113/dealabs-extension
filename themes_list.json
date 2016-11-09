@@ -4,12 +4,12 @@
     "name": "Par défaut"
   },
   {
-    "safeName": "darkLabs",
+    "safeName": "darklabs",
     "name": "DarkLabs",
     "styles": [
       {
         "url": "darkLabs.css",
-        "version": "2.0.51"
+        "version": "2.0.52"
       }
     ]
   },
