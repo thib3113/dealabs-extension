@@ -355,7 +355,7 @@ a.tab_header_messagerie.outbox:hover {
 #header_black a.logo {
     margin: 0px 30px 0px 0px !important;
 	  width: 230px !important;
-    background: transparent url("http://www.imgur.com/uu7MwL8.png") no-repeat scroll center center !important;}
+    background: transparent url("https://www.imgur.com/uu7MwL8.png") no-repeat scroll center center !important;}
  
 /*============================================*/
 /*             PAGES D'AIDE, ETC              */
@@ -377,7 +377,7 @@ a.tab_header_messagerie.outbox:hover {
 /* fond site */
 
 body, footer #footer_merchant, footer #footer_links {
-	background: url(http://i.imgur.com/3IcBRwc.jpg);
+	background: url(https://www.imgur.com/3IcBRwc.jpg);
 	background-size: cover;}
 
 .structure.black, header {
