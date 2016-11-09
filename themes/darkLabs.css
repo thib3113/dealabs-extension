@@ -1,7 +1,5 @@
 /*============================================*/
-/*     Dark Dealabs - MonsieurCro - V2.0.5    */
-/*============================================*/
-
+/*       DarkLabs - MonsieurCro - V2.0.51      */
 /*============================================*/
 /*                    INDEX                   */
 /*============================================*/
@@ -512,6 +510,15 @@ span.modo {
 	
 #contener_type .button_type_deal:hover, #contener_type .button_type_deal.hot.selected, #contener_type .button_type_deal.commente.selected, #contener_type .button_type_deal.nouveau.selected {
 	border-bottom: 3px solid #8C071F !important;}
+	
+/* .padding_comment_contener.scrolled {  animation vers un commentaire - à adapter
+	animation-name: none !important;} */
+	
+.deal_footer_part { /* petit bug des rectangles arrondis */
+    border-top: 0px solid white !important;}
+	
+.deal_title_part {
+		border-bottom: 0px solid white !important;}
 	
 	
 /* Whatsapp */
