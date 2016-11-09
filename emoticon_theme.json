@@ -14,11 +14,11 @@
     ]
   },
   {
-    "safeName": "v5-emoticone-svg",
-    "name": "Émoticone Dealabs V5 SVG",
+    "safeName": "pepper-emoticones-svg",
+    "name": "Émoticone Pepper SVG",
     "styles": [
       {
-        "url": "v5-emoticone-svg/style.css",
+        "url": "pepper-emoticones-svg/style.css",
         "version": "1"
       }
     ]
