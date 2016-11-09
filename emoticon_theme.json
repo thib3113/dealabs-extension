@@ -12,5 +12,15 @@
         "version": "1"
       }
     ]
+  },
+  {
+    "safeName": "v5-emoticone-svg",
+    "name": "Émoticone Dealabs V5 SVG",
+    "styles": [
+      {
+        "url": "v5-emoticone-svg/style.css",
+        "version": "1"
+      }
+    ]
   }
 ]
