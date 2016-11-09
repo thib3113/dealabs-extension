@@ -10,7 +10,7 @@
  *                        par oOKaMiZuKOo - https://www.dealabs.com/28642/oOKaMiZuKOo                             
  *                                                                 
  *                                                                                         
- *    Dernière MAJ : 08/11/2016 - Version 1.0.2
+ *    Dernière MAJ : 09/11/2016 - Version 1.0.3
  *    
  *    Topic de suivi (et MAJ) sur : https://www.dealabs.com/forums/le-site/annonces--nouveauts-du-site-modifications/theme-dealabs-dealabskin-by-ookamizukoo/26018
  *
@@ -21,6 +21,19 @@
  *    ==========================================================================================
  *
  *    Historique :
+ *
+ *      1.0.3 - 09/11/2016 :
+ *      ----------------------------------------
+ *                             Objet : Bug d'alignement des émoticones 
+ *
+ *                             Réalisation de :
+ *                                     - réalignement des émoticones (en plus de 1.0.1, ainsi que ceux "natifs")
+ *                                     - réduction de la taille de font deal_price suite à constat débordement de cadre du deal (6 chiffres + symbole €) 
+ *                                     - encadré sur image posteur d'un deal de la liste des deals
+ *                                     - Rédaction des modifications apportées en V1 dans l'historique
+ *                                     - ajout de la bordure encadrant l'avatar du posteur du deal (sur liste des deals)
+ *                                     - ajout de l'emoticone (creep), remplacement de l'emoticone (shock)
+ *                                     - ajout de marges (margin, padding-bot) aux spoilers + quotes
  *
  *      1.0.2 - 08/11/2016 :
  *      ----------------------------------------
@@ -41,7 +54,19 @@
  *                             Objet : Suite à MAJ de l'interface (officielle du 07/11/2016) du site = adaptation
  *
  *                             Réalisation de :
- *                                     - ....beaucoup de choses, je me baserai sur les prochaines MAJ pour le détail (...enjoy !)
+ *                                     - intégration de nouveaux smileys
+ *                                     - adaptatation à la nouvelle interface de dealabs (officielle) du 07/11/2016 : 
+ *                                            > coloration
+ *                                            > application du nouveau type d'arrondi (de 15px@8px)
+ *                                            > Amplification sur un deal du bandeau addon-element
+ *                                            > Décolorisation complète lorsqu'un deal est désactivé
+ *                                     - redimensionnement du logo (haut gauche) pour alignement du menu (40px height) 
+ *                                     - ajout de coloration en cascade pour les spoilers (à l'image des quotes) pour meilleure distinction
+ *                                     - réduction de la taille les noms de likeurs sur un post/deal/etc..
+ *                                     - ajout et adaptation de la bordure encadrant les avatars (et ronde pour correspondre à la nouvelle version)
+ *                                     - ajout de nouveaux emoticones
+ *                                     - 
+ *                                     - 
  *
  *      beta 0.31 - 04/11/2016 :
  *      ----------------------------------------
@@ -134,6 +159,7 @@
  *
  *
  **/
+
 
 
 /* harmonisation du menu avec la couleur du "gris sombre" du logo dealabs */
@@ -363,8 +389,11 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
 
       /* réduction taille balise en raison débordement par overflox de la section prix */
       article .image_part .price-element .price span.deal_price {
-          width : 90% !important;          
+          width : 90% !important;
+          font-size : 1.3em !important;
       }
+      
+      
 
       /* coloration fond case taux réduction */     
       article .image_part .price-element .price span.deal_price {
@@ -396,11 +425,12 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
       article .image_part .price-element .shipping p {color :#F26609 !important; font-weight: bold !important; }      
 
 
+      
     /* catégories d'appartenance de l'article */
       article .content_part p.categorie a {
-          color:#BF0371 !important;
+          color:#BA0E72 !important;
           font-size:0.88em;
-
+          
           font-family: 'RobotoRegular';
 
          
@@ -506,7 +536,14 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
       
 
 
-
+/* encadré sur image posteur d'un deal de la liste des deals */
+article .content_part .poster_part a.poster_link img {
+    -webkit-box-shadow: 0px 0px 0.1em 0em rgba(0, 0, 0, 0.66);
+    -moz-box-shadow: 0px 0px 0.1em 0 rgba(0, 0, 0, 0.66);
+    box-shadow: 0px 0px 0.1em 0 rgba(0, 0, 0, 0.66);
+    border-radius: 45px 45px 45px 45px !important;
+    border: 0.1em solid #FFF;
+}
       
 
       
@@ -841,7 +878,17 @@ div.spoiler a.click_div_spoiler {
     border: 1px solid #f78888;
 }
 
+     
+.commentaire_div .spoiler {
+    border-radius: 0px 8px 8px 8px;
+    margin-bottom: 1.1em;
+    
+}
       
+.commentaire_div .spoiler .spoiler_hide {
+    padding-bottom: 1.1em;
+}      
+
       
 .commentaire_div .spoiler,
 .commentaire_div .spoiler .spoiler .spoiler,
@@ -865,6 +912,7 @@ div#comment_contener .padding_comment_contener .commentaire_div .quote {
     border-radius: 0px 8px 8px 8px;
     border: .05em dashed #02A5C1;
     margin-bottom: 1.1em;
+    padding-bottom: 1.1em;
 }
 
       
@@ -1052,16 +1100,61 @@ textarea#add_comment:focus {
    * Source : - http://bad-blood.deviantart.com/art/Y-o-l-k-s-78118255
    *          - http://bad-blood.deviantart.com/art/Y-o-l-k-s-2-85269598
   **/
-
-.bbcode_smiley {
-    cursor: default !important;
-    vertical-align: -10px;
-}
       
+      
+      
+      
+      
+      
+      
+      
+/* alignement des emoticons non remplacés (par défaut) du site */
+img.bbcode_smiley {
+   cursor: default !important;
+   vertical-align: 0px;
+}
+
+.comment_text_part_textarea .emoji-popup .emoji-content a {
+
+   padding-right:3px;
+   padding-bottom:8px;
+
+}
+
+/***************************************
+  ** EMOTICONES PERSOS ***
+****************************************/  
+ 
+
+      
+img.bbcode_smiley[alt="(creep)"] {
+    vertical-align: -7px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 32px;
+    height: 32px;
+    padding-left: 32px;
+    background: url(https://s13.postimg.org/59l2i4ymf/want.png) no-repeat;
+    background-size: 32px 32px !important;
+}      
+a[alt="(creep)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 24px;
+    height: 24px;
+    padding-left: 24px;
+    background: url(https://s13.postimg.org/59l2i4ymf/want.png) no-repeat !important;
+    background-size: 24px 24px !important;
+    margin-top:-1px;
+    
+}   
       
       
 img.bbcode_smiley[alt="(ninja)"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1074,17 +1167,19 @@ img.bbcode_smiley[alt="(ninja)"] {
 a[alt="(ninja)"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
     padding-left: 24px;
     background: url(https://s17.postimg.org/69zycr1bz/ninja.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+    margin-top:-1px;
+    
 }   
       
 img.bbcode_smiley[alt="(:|"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1097,17 +1192,18 @@ img.bbcode_smiley[alt="(:|"] {
 a[alt="(:|"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 24px;
     height: 24px;
     padding-left: 24px;
     background: url(https://s16.postimg.org/3u40h5tyd/image.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+   
 } 
       
 img.bbcode_smiley[alt="(angel)"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1120,47 +1216,43 @@ img.bbcode_smiley[alt="(angel)"] {
 a[alt="(angel)"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    width: 24px;
-    height: 24px;
-    padding-left: 24px;
+    width: 26px;
+    height: 26px;
+    padding-left: 26px;
     background: url(https://s16.postimg.org/r2h837cf9/innocent.png) no-repeat !important;
-    background-size: 24px 24px !important;
-    margin-top: -4px
+    background-size: 26px 26px !important;
+    margin-top:-2px;
 } 
       
       
 img.bbcode_smiley[alt="(shock)"] {
-    display: block;
+    vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    width: 32px;
-    height: 32px;
-    padding-left: 32px;
-    background: url(https://s3.postimg.org/9csqd0x0j/O_O.png) no-repeat;
-    background-size: 32px 32px !important;
+    width: 34px;
+    height: 34px;
+    padding-left: 34px;
+    background: url(https://s13.postimg.org/5xtx12xc7/shocked_again.png) no-repeat;
+    background-size: 34px 34px !important;
 }      
 a[alt="(shock)"] img {
     display: block;
     -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    width: 24px;
-    height: 24px;
-    padding-left: 24px;
-    background: url(https://s3.postimg.org/9csqd0x0j/O_O.png) no-repeat !important;
-    background-size: 24px 24px !important;
-    margin-top: -4px
+    width: 26px;
+    height: 26px;
+    padding-left: 26px;
+    background: url(https://s13.postimg.org/5xtx12xc7/shocked_again.png) no-repeat !important;
+    background-size: 26px 26px !important;
+    margin-top:-2px;
 } 
       
       
-
-      
-      
-      
-      
-      
-img.bbcode_smiley[alt=":)"] {
+img.bbcode_smiley[alt=":)"], img.bbcode_smiley[alt=":-)"] {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1181,18 +1273,18 @@ a[alt=":)"] img {
     padding-left: 24px;
     background: url(http://s13.postimg.org/43pzd7gvb/have_a_nice_day.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+  
 }
-img.bbcode_smiley[alt=";)"] {
+img.bbcode_smiley[alt=";)"], img.bbcode_smiley[alt=";-)"] {
     vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    width: 32px;
-    height: 32px;
-    padding-left: 32px;
+    width: 33px;
+    height: 33px;
+    padding-left: 33px;
     background: url(http://s22.postimg.org/d6c96p8ht/clinoeil.png) no-repeat;
-    background-size: 32px 32px !important;
+    background-size: 33px 33px !important;
 }
 a[alt=";)"] img {
     display: block;
@@ -1204,18 +1296,18 @@ a[alt=";)"] img {
     padding-left: 24px;
     background: url(http://s22.postimg.org/d6c96p8ht/clinoeil.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+  
 }
-img.bbcode_smiley[alt=":("] {
+img.bbcode_smiley[alt=":("], img.bbcode_smiley[alt=":-("] {
     vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    width: 34px;
-    height: 34px;
-    padding-left: 34px;
+    width: 36px;
+    height: 36px;
+    padding-left: 36px;
     background: url(http://s14.postimg.org/k4fmvsuap/are_you_for_real.png) no-repeat;
-    background-size: 34px 34px !important;
+    background-size: 36px 36px !important;
 }
 a[alt=":("] img {
     display: block;
@@ -1227,18 +1319,18 @@ a[alt=":("] img {
     padding-left: 26px;
     background: url(http://s14.postimg.org/k4fmvsuap/are_you_for_real.png) no-repeat !important;
     background-size: 26px 26px !important;
-    margin-top: -6px
+    margin-top:-2px;
 }
-img.bbcode_smiley[alt=":D"] {
+img.bbcode_smiley[alt=":D"], img.bbcode_smiley[alt=":-D"] {
     vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    width: 32px;
-    height: 32px;
-    padding-left: 32px;
+    width: 33px;
+    height: 33px;
+    padding-left: 33px;
     background: url(http://s18.postimg.org/b6j8vv455/happy_smile.png) no-repeat;
-    background-size: 32px 32px !important;
+    background-size: 33px 33px !important;
 }
 a[alt=":D"] img {
     display: block;
@@ -1250,7 +1342,7 @@ a[alt=":D"] img {
     padding-left: 24px;
     background: url(http://s18.postimg.org/b6j8vv455/happy_smile.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+
 }
 img.bbcode_smiley[alt=":S"] {
     vertical-align: -7px;
@@ -1273,7 +1365,7 @@ a[alt=":S"] img {
     padding-left: 24px;
     background: url(http://s13.postimg.org/f8exyhelj/sick.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+
 }
 img.bbcode_smiley[alt="^^"] {
     vertical-align: -7px;
@@ -1296,7 +1388,7 @@ a[alt="^^"] img {
     padding-left: 24px;
     background: url(http://s13.postimg.org/ag54n1jxj/grin.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+  
 }
 img.bbcode_smiley[alt="xD"] {
     vertical-align: -7px;
@@ -1319,18 +1411,18 @@ a[alt="xD"] img {
     padding-left: 24px;
     background: url(http://s13.postimg.org/nhveqmxpj/image.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+ 
 }
 img.bbcode_smiley[alt=":o"] {
     vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    width: 32px;
-    height: 32px;
-    padding-left: 32px;
+    width: 33px;
+    height: 33px;
+    padding-left: 33px;
     background: url(http://s13.postimg.org/kxzrwja5j/slow.png) no-repeat;
-    background-size: 32px 32px !important;
+    background-size: 33px 33px !important;
 }
 a[alt=":o"] img {
     display: block;
@@ -1342,7 +1434,7 @@ a[alt=":o"] img {
     padding-left: 24px;
     background: url(http://s13.postimg.org/kxzrwja5j/slow.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+ 
 }
 img.bbcode_smiley[alt=":'("] {
     vertical-align: -7px;
@@ -1365,7 +1457,7 @@ a[alt=":'("] img {
     padding-left: 24px;
     background: url(http://s13.postimg.org/9mx4863af/TT_TT.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+  
 }
 img.bbcode_smiley[alt="B)"] {
     vertical-align: -7px;
@@ -1388,7 +1480,8 @@ a[alt="B)"] img {
     padding-left: 26px;
     background: url(http://s13.postimg.org/5idjncfpz/confident.png) no-repeat !important;
     background-size: 26px 26px !important;
-    margin-top: -6px
+    margin-top:-2px;
+   
 }
 img.bbcode_smiley[alt="|o"] {
     vertical-align: -7px;
@@ -1411,7 +1504,7 @@ a[alt="|o"] img {
     padding-left: 24px;
     background: url(http://s13.postimg.org/9horkr6lj/pissed_off.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+
 }
 img.bbcode_smiley[alt=":3"] {
     vertical-align: -7px;
@@ -1434,7 +1527,7 @@ a[alt=":3"] img {
     padding-left: 24px;
     background: url(http://s13.postimg.org/hyo9vobaf/in_love.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+  
 }
 img.bbcode_smiley[alt="':)"] {
     vertical-align: -7px;
@@ -1457,7 +1550,7 @@ a[alt="':)"] img {
     padding-left: 24px;
     background: url(http://s13.postimg.org/w1a7ango7/evilish.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+   
 }
 img.bbcode_smiley[alt="|D"] {
     vertical-align: -7px;
@@ -1480,7 +1573,7 @@ a[alt="|D"] img {
     padding-left: 24px;
     background: url(http://s13.postimg.org/we66ukobr/yarr.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+   
 }
 img.bbcode_smiley[alt="-_-'"] {
     vertical-align: -7px;
@@ -1503,10 +1596,12 @@ a[alt="-_-'"] img {
     padding-left: 24px;
     background: url(http://s13.postimg.org/6wnsaz6lj/you_re_kidding_right.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+ 
 }
 img.bbcode_smiley[alt=":P"],
-img.bbcode_smiley[alt=":p"] {
+img.bbcode_smiley[alt=":p"],
+img.bbcode_smiley[alt=":-p"],
+img.bbcode_smiley[alt=":-P"]      {
     vertical-align: -7px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1527,7 +1622,8 @@ a[alt=":P"] img {
     padding-left: 26px;
     background: url(http://s9.postimg.org/siwp0agvz/brzzzzz.png) no-repeat !important;
     background-size: 26px 26px !important;
-    margin-top: -6px
+    margin-top:-2px;
+  
 }
 img.bbcode_smiley[alt="xS"] {
     vertical-align: -7px;
@@ -1550,7 +1646,7 @@ a[alt="xS"] img {
     padding-left: 24px;
     background: url(http://s11.postimg.org/cy3aqx9zn/dizzy.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+ 
 }
 img.bbcode_smiley[alt=":|"] {
     vertical-align: -7px;
@@ -1573,7 +1669,7 @@ a[alt=":|"] img {
     padding-left: 24px;
     background: url(http://s12.postimg.org/d5g6thk9p/mute2.png) no-repeat !important;
     background-size: 24px 24px !important;
-    margin-top: -4px
+
 }
 /* Fin section smiley */
 
