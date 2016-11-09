@@ -1,5 +1,5 @@
 /*============================================*/
-/*       DarkLabs - MonsieurCro - V2.0.51      */
+/*      DarkLabs - MonsieurCro - V2.0.52      */
 /*============================================*/
 /*                    INDEX                   */
 /*============================================*/
@@ -318,19 +318,19 @@ span, p { /* lié à plein de choses */
 	background-color: #222 !important;}
 
 a.tab_header_messagerie.inbox {
-	background-image: url("https://static.dealabs.com/images/profil/icon_profile_messages_inbox_active.png") !important;}
+	background-image: url("https://static.dealabs.com/images/profil/icon_profile_messages_inbox.png") !important;}
 	
 a.tab_header_messagerie.inbox:hover {
-	background: #555 !important;}
+	background: #444 !important;}
 	
-a.tab_header_messagerie.inbox:active {
-	background-image: #222 !important;}
+.header_messagerie a.active {
+	background-color: black !important;}
 
 a.tab_header_messagerie.outbox {
-    background-image: #222 url("https://static.dealabs.com/images/profil/icon_profile_messages_outbox.png") !important;}
+    background-image: url("https://static.dealabs.com/images/profil/icon_profile_messages_outbox.png") !important;}
 	
 a.tab_header_messagerie.outbox:hover {
-	background: #555 !important;}
+	background: #444 !important;}
 
 .background_color_white, .content_profil_messagerie {
 	background-color: #222 !important;}	
@@ -363,6 +363,15 @@ a.tab_header_messagerie.outbox:hover {
 
 #body.white, .content_faq, #floating_left_menu {
 	background: #222 !important;}	
+	
+#body {
+	background: none !important;}
+	
+.page_content_content .footer_apropos, #reglespublication .content div.footer_page {
+	  background-color: #555 !important;}
+	
+#reglespublication .content div.example_div {
+    background-color: #555 !important;}
 
 
 /* fond site */
@@ -511,14 +520,18 @@ span.modo {
 #contener_type .button_type_deal:hover, #contener_type .button_type_deal.hot.selected, #contener_type .button_type_deal.commente.selected, #contener_type .button_type_deal.nouveau.selected {
 	border-bottom: 3px solid #8C071F !important;}
 	
-/* .padding_comment_contener.scrolled {  animation vers un commentaire - à adapter
-	animation-name: none !important;} */
+.padding_comment_contener.scrolled {  /* animation vers un commentaire - à adapter */
+	animation-name: none !important;}
 	
 .deal_footer_part { /* petit bug des rectangles arrondis */
     border-top: 0px solid white !important;}
 	
 .deal_title_part {
 		border-bottom: 0px solid white !important;}
+	
+.member div.name {
+    color: #007FFF !important;}
+
 	
 	
 /* Whatsapp */
