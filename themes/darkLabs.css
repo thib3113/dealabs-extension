@@ -1,5 +1,5 @@
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V2.0.52      */
+/*      DarkLabs - MonsieurCro - V2.0.53      */
 /*============================================*/
 /*                    INDEX                   */
 /*============================================*/
@@ -355,7 +355,7 @@ a.tab_header_messagerie.outbox:hover {
 #header_black a.logo {
     margin: 0px 30px 0px 0px !important;
 	  width: 230px !important;
-    background: transparent url("https://www.imgur.com/uu7MwL8.png") no-repeat scroll center center !important;}
+    background: transparent url("https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/themes/darklabs/logo.png") no-repeat scroll center center !important;}
  
 /*============================================*/
 /*             PAGES D'AIDE, ETC              */
@@ -377,7 +377,7 @@ a.tab_header_messagerie.outbox:hover {
 /* fond site */
 
 body, footer #footer_merchant, footer #footer_links {
-	background: url(https://www.imgur.com/3IcBRwc.jpg);
+	background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/themes/darklabs/bg.png);
 	background-size: cover;}
 
 .structure.black, header {
@@ -398,7 +398,7 @@ footer #footer_social {
 footer #footer_links{
 	background-color: transparent;}
 
-article.expired {
+article.deal_index_article.expired {
 	opacity: 0.5;}
 	
 
@@ -459,7 +459,7 @@ span.debut, span.fin {
 	
 /* maj 07.11 */
 
-.vote_part a.link_to_deal, .deal_title_part .link_to_deal_part a.link_to_deal, #floatant_title .button_part a.link_to_deal {
+.vote_part a.link_to_deal, .deal_title_part .link_to_deal_part a.link_to_deal, #floatant_title .button_part a.link_to_deal, .background_color_red {
     background-color: #8C071F !important;}
 	
 div.voucher_code div.div_right p {
@@ -531,6 +531,9 @@ span.modo {
 	
 .member div.name {
     color: #007FFF !important;}
+	
+/* article#deal_details .comment_content .footer_textarea, article#deal_details .comment_content .comment_text_part_textarea textarea, article#deal_details .comment_content .comment_text_part_textarea textarea:focus { 
+    border: 1px solid white !important;} boite commentaires */
 
 	
 	
