@@ -8,8 +8,8 @@
     "name": "DarkLabs",
     "styles": [
       {
-        "url": "darkLabs.css",
-        "version": "2.0.52"
+        "version": "2.0.53",
+        "url": "darkLabs.css"
       }
     ]
   },
