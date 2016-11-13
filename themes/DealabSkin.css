@@ -10,7 +10,7 @@
  *                        par oOKaMiZuKOo - https://www.dealabs.com/28642/oOKaMiZuKOo                             
  *                                                                 
  *                                                                                         
- *    Dernière MAJ : 09/11/2016 - Version 1.0.3
+ *    Dernière MAJ : 12/11/2016 - Version 1.0.4
  *    
  *    Topic de suivi (et MAJ) sur : https://www.dealabs.com/forums/le-site/annonces--nouveauts-du-site-modifications/theme-dealabs-dealabskin-by-ookamizukoo/26018
  *
@@ -21,6 +21,23 @@
  *    ==========================================================================================
  *
  *    Historique :
+ *
+ *      1.0.4 - 12/11/2016 :
+ *      ----------------------------------------
+ *                             Objet : Bug d'alignement des émoticones 
+ *
+ *                             Réalisation de :
+ *                                     - Modification apparence du bandeau de mise en avant d'info (addon-element .date .pined .maj + cas expiré)
+ *                                     - Modification apparence du bouton "voir le deal" + correction dans détail du deal du hover qui ne faisait pas apparaitre l'icone (#color > rgba)
+ *                                     - Allègement de la couleur d'encadrement du border .deal_price
+ *                                     - suppression des modifications de font initiales
+ *                                     - réduction du padding top et bot du bandeau de titre de nouveau commentaire
+ *                                     - modification du lien "tout_marquer_comme_lu"
+ *                                     - création d'arrondis sur les boutons de pagination préc & suivant 
+ *                                     - annulation de l'arrondi sur les balises spoilers
+ *                                     - couleur des liens + image qui le précède
+ *                                     - correction des images (carrées de l'ancienne version) pour arrondi dans la sections boite de messagerie
+ *                                     - ajout de l'emoticone (popcorn)
  *
  *      1.0.3 - 09/11/2016 :
  *      ----------------------------------------
@@ -59,13 +76,13 @@
  *                                            > coloration
  *                                            > application du nouveau type d'arrondi (de 15px@8px)
  *                                            > Amplification sur un deal du bandeau addon-element
- *                                            > Décolorisation complète lorsqu'un deal est désactivé
+ *                                            > Décoloration complète lorsqu'un deal est désactivé
  *                                     - redimensionnement du logo (haut gauche) pour alignement du menu (40px height) 
  *                                     - ajout de coloration en cascade pour les spoilers (à l'image des quotes) pour meilleure distinction
  *                                     - réduction de la taille les noms de likeurs sur un post/deal/etc..
  *                                     - ajout et adaptation de la bordure encadrant les avatars (et ronde pour correspondre à la nouvelle version)
  *                                     - ajout de nouveaux emoticones
- *                                     - 
+ *                                     - modification de font
  *                                     - 
  *
  *      beta 0.31 - 04/11/2016 :
@@ -236,7 +253,7 @@ div#login_conteneur_right_connected a.notif_right_header_contener {
 }
 
 div#header_black div#type_header_conteneur_left a, #type_button_popup {
-    font-family: 'ProximaNovalight';
+    
 }
       
       
@@ -244,7 +261,7 @@ div#header_black div#type_header_conteneur_left a, #type_button_popup {
 div#header_black div#type_header_conteneur_left a.active, #type_button_popup.active {
     color: #000 !important;
     background-color: #02A5C1 !important;
-    font-family: 'ProximaNovabold';
+    
     border-top: 2px solid #FFF !important;
 }
       
@@ -304,10 +321,7 @@ div.block_notif_contener {
       
       
 div#login_conteneur_right_connected  {
-    padding:0px !important;
-    font-family: 'ProximaNovalight'; font-weight: 300;
-    
-   
+    padding:0px !important; 
 }  
       
 /* Arrondis de la section connection / login de l'utilisateur */
@@ -331,14 +345,41 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
       
 #login_conteneur_right_connected a#pseudo_right_header_contener {height:35px !important; padding:5px 5px 0 5px !important; }
       
-  /*    .body_forum_sub .sub_categorie_contener .left_cat_part div a.bold, .title_thread_contener .left_cat_part .title a.bold {font-family: 'Nunito'; font-weight: 300; }
-      .body_forum_sub .sub_categorie_contener .left_cat_part div a.non_lu {font-family: 'Nunito'; font-weight: 300;} */
       
 /***************************************
   ** SECTION RACINE PAGE LISTE DEALS ***
 ****************************************/      
 
-      /* Bandeau surimpression article "Débute le" */  
+      /* Bandeau surimpression article */  
+      
+      
+      article .image_part .addon-element.date {
+          background: rgba(96, 179, 92,0.97) !important;
+          border-top: 2px solid #044401 !important;
+          border-right: 2px solid #044401 !important;
+          border-bottom: 1px solid #044401 !important;
+          text-shadow: 1px 0 0 #03252B, -1px 0 0 #03252B, 0 1px 0 #03252B, 0 -1px 0 #03252B, 1px 1px #03252B, -1px -1px 0 #03252B, 1px -1px 0 #03252B, -1px 1px 0 #03252B;
+      }
+      
+      article .image_part .addon-element.maj {
+          background: rgba(241, 151, 78,0.97) !important;
+          border-top: 2px solid #C15E13 !important;
+          border-right: 2px solid #C15E13 !important;
+          border-bottom: 1px solid #C15E13 !important;
+          text-shadow: 1px 0 0 #C15E13, -1px 0 0 #C15E13, 0 1px 0 #C15E13, 0 -1px 0 #C15E13, 1px 1px #C15E13, -1px -1px 0 #C15E13, 1px -1px 0 #C15E13, -1px 1px 0 #C15E13;
+      }
+      
+     
+      article .image_part .addon-element.pined {
+          background: rgba(130, 118, 185,0.97) !important;
+          border-top: 2px solid #595084 !important;
+          border-right: 2px solid #595084 !important;
+          border-bottom: 1px solid #595084 !important;
+          text-shadow: 1px 0 0 #595084, -1px 0 0 #595084, 0 1px 0 #595084, 0 -1px 0 #595084, 1px 1px #595084, -1px -1px 0 #595084, 1px -1px 0 #595084, -1px 1px 0 #595084;
+
+          
+      }
+
       article .image_part .addon-element {
           display: block;
           -webkit-box-sizing: content-box;
@@ -354,18 +395,19 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
           margin: 0;
           padding: 0;
           overflow: hidden;
-          border: 1px solid #044401 !important;
-          border-left-color: #03252B !important;
+
           -webkit-border-radius: 0 8px 8px 0 !important;
           border-radius: 0 8px 8px 0 !important;
-          color: #0B7205 !important;
+
           text-align: center;
           -o-text-overflow: ellipsis;
           text-overflow: ellipsis;
-          background: #60B35C;
-          -webkit-box-shadow: 1px 2px 2px 0 #03252B !important;
-          box-shadow: 1px 2px 2px 0 #03252B !important;
-          text-shadow: 1px 0 0 #03252B, -1px 0 0 #03252B, 0 1px 0 #03252B, 0 -1px 0 #03252B, 1px 1px #03252B, -1px -1px 0 #03252B, 1px -1px 0 #03252B, -1px 1px 0 #03252B;
+          border-left: 0px; 
+          
+          -webkit-box-shadow: 1px 1px 2px 0 #03252B !important;
+          -moz-box-shadow: 1px 1px 2px 0 #03252B !important;
+          box-shadow: 1px 1px 2px 0 #03252B !important;
+          
 
           -webkit-transition: none;
           -moz-transition: none;
@@ -376,14 +418,15 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
           -webkit-transform-origin: 28% 50% 0 !important;
           transform-origin: 28% 50% 0 !important;
           font: normal 100%/normal RobotoBold !important;
-
-
-
       }   
 
+      
+
+      
       article.deal_index_article {
           border-radius: 8px 8px 8px 8px !important;
           border: 2px solid #02A5C1 !important;
+          
       }     
 
 
@@ -397,18 +440,16 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
 
       /* coloration fond case taux réduction */     
       article .image_part .price-element .price span.deal_price {
-          color: #F64545 !important;
-          background: #FCF7F7 !important;
-          border: 1px solid #FC8585 !important;
+          color: #C11F1F !important;
+          background: rgba(252, 247, 247, 0.9) !important;
+          border: 1px solid #ED8787 !important;
           padding:3px;
           border-radius: 8px 8px 8px 8px !important;
-          
-          font-family: 'ProximaNovaSemibold';
 
       }  
       
       /* lien pour "lire plus" de l'article */
-      article .content_part p.description a {font-size:1em !important; color: #5A4E99 !important; font-family: 'ProximaNovalight'}
+      article .content_part p.description a {font-size:1em !important; color: #5A4E99 !important; }
       article .content_part p.description a:hover {color: #5A4E99 !important;}
 
       /* coloration fond case prix original */     
@@ -429,9 +470,8 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
     /* catégories d'appartenance de l'article */
       article .content_part p.categorie a {
           color:#BA0E72 !important;
-          font-size:0.88em;
+          font-size:0.9em;
           
-          font-family: 'RobotoRegular';
 
          
       }
@@ -449,7 +489,7 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
       
       a.postdeal_button_rightbar .background_color_black {border-radius: 6px 0px 0px 6px !important;}
       
-      a.postdeal_button_rightbar .background_color_black p {font-family: 'ProximaNovalight' !important; font-weight: normal;}
+      a.postdeal_button_rightbar .background_color_black p { }
       
       /* recentrage de l'image de l'article */
       article .image_part .image_part_contener a div#over {
@@ -500,7 +540,7 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
       }
       
       /* encadré couleur du détail de l'article */
-      article .deal_content .deal_detail_deal_part {border: 2px solid #02A5C1 !important;}
+      article .deal_content .deal_detail_deal_part {border: 2px solid #02849A !important;}
       
 
       /* encadré couleur posteur (auteur) du deal */
@@ -521,17 +561,16 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
       article .deal_content .detail_part .option_part a.button.expire:hover {border: 2px solid #E3E5E9 !important;}
       article .deal_content .detail_part .option_part a.button.add_calendar:hover {border: 2px solid #E3E5E9 !important;}
       
-      /* lien "voir le deal" */
-      article .vote_part a.link_to_deal {border: 2px solid #014956 !important; color:#FFF !important;}
-      article .vote_part a.link_to_deal:hover {color:#014956 !important;}
+      /* lien "voir le deal" + détail du deal : lien "voir le deal" *  */
+      article .vote_part a.link_to_deal,
+      article .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part a.link_to_deal {border: 2px solid rgb(1, 73, 86) !important; color:#FFF !important;}
+      article .vote_part a.link_to_deal:hover, 
+      .link_to_deal_part a.link_to_deal:hover {color:rgb(1, 73, 86) !important;}
       
-      /* détail du deal : lien "voir le deal" */
-      article .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part a.link_to_deal {border: 2px solid #014956 !important; color:#FFF !important;}
-      article .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part a.link_to_deal:hover {color:#014956 !important;}
-      
-      article .vote_part .vote_div_deal_index .vote_contener a.vote_button.up {border: 1px solid #FF7826 !important;}
+     
+      article .vote_part .vote_div_deal_index .vote_contener a.vote_button.up {border: 1px solid rgb(255, 120, 38) !important;}
       article .vote_part .vote_div_deal_index .vote_contener a.vote_button.up:hover {background-color:rgba(255, 237, 226, 0.8) !important;}
-      article .vote_part .vote_div_deal_index .vote_contener a.vote_button.down {border: 1px solid #00A3D6 !important;}
+      article .vote_part .vote_div_deal_index .vote_contener a.vote_button.down {border: 1px solid rgb(0, 163, 214) !important;}
       article .vote_part .vote_div_deal_index .vote_contener a.vote_button.down:hover {background-color:rgba(207, 241, 252, 0.8) !important;}
       
 
@@ -544,8 +583,56 @@ article .content_part .poster_part a.poster_link img {
     border-radius: 45px 45px 45px 45px !important;
     border: 0.1em solid #FFF;
 }
-      
 
+/***************************************
+  ** SECTION PAGINATION ***
+****************************************/  
+      
+      .body_pagination a.precedent {
+          border-radius: 8px 0px 0px 8px !important;
+      }
+      
+      .body_pagination a.suivant {
+          border-radius: 0px 8px 8px 0px !important;
+      }
+      
+      .body_pagination .center_part a:hover, 
+      .body_pagination a.precedent:hover, 
+      .body_pagination a.suivant:hover {
+          background-color: #F4FAFC !important; border: 1px dashed #014956 !important; 
+
+      }
+      
+      .auteur_pagination_div a:hover {
+          background-color: #014956 !important; 
+      }
+      
+      .body_pagination a.opacity_not_clickable,.body_pagination a.opacity_not_clickable:hover {color:#dddddd !important; background-color: #fcfcfc !important; border: 1px solid #dfdfdf !important; }
+      
+      .body_pagination .center_part a.active, 
+      .body_pagination .center_part a.active:hover {
+          background-color: #EAF8FC !important; border: 1px solid #014956 !important; color:#014956 !important;
+      }
+      
+      /*agrandissement du cadre "aller @ [n° de la page]" */
+      .open_more_page_div .more_page_block {width:154px !important; height:33px;}
+      .open_more_page_div .more_page_block a {padding-top:2px; display: initial; width:30px !important; }
+      .open_more_page_div .more_page_block p {padding-top:2px;}
+      .open_more_page_div .more_page_block #pagination_goto1 input {height:33px; padding-top:0; margin-left:2px;}
+      
+      /* messagerie */
+      .button_mes.next {
+          border-radius: 0px 8px 8px 0px !important;
+      }
+      
+      .button_mes.back {
+          border-radius: 8px 0px 0px 8px !important;
+      }
+      
+      .button_mes.next:hover, .button_mes.back:hover, .button_mes.delete:hover {
+          background-color: #F4FAFC !important; border: 1px solid #014956 !important; 
+      }
+      
       
 /***************************************
   ** SECTION DEAL EXPIRÉ (grisé) ***
@@ -562,8 +649,14 @@ article.expired  {
      
      
 article.expired .image_part .addon-element {
-    border: 1px solid #B3BDBF !important;  
-    border-left-color: #03252B !important;
+    
+          background: rgba(179, 189, 191,0.97) !important;
+          border-top: 2px solid #B3BDBF !important;
+          border-right: 2px solid #B3BDBF !important;
+          border-bottom: 1px solid #B3BDBF !important;
+          text-shadow: 1px 0 0 #B3BDBF, -1px 0 0 #B3BDBF, 0 1px 0 #B3BDBF, 0 -1px 0 #B3BDBF, 1px 1px #B3BDBF, -1px -1px 0 #B3BDBF, 1px -1px 0 #B3BDBF, -1px 1px 0 #B3BDBF;
+    
+
       }
       
 
@@ -575,8 +668,9 @@ article.expired .image_part .addon-element {
       article.expired .content_part .poster_part p.date_deal,
       article .deal_content .deal_detail_deal_part .deal_content_part .content_part .info_sup_div p.info_sup:nth-of-type(2) b,
       article .deal_content .deal_detail_deal_part .deal_content_part .content_part .info_sup_div p.info_sup:nth-of-type(1) b,
-      article.expired .content_part .poster_part a.poster_link
-      {color:#7C8B91 !important;}
+      article.expired .content_part .poster_part a.poster_link {
+          color:#7C8B91 !important;
+      }
       
 article.expired .image_part .price-element .price span.deal_price {
     color: #7C8B91 !important;
@@ -598,10 +692,13 @@ article.expired .content_part .poster_part .poster_link img, article.expired .de
       /* encadré du détail de l'article expiré */
       article.expired .deal_content .deal_detail_deal_part {border: 2px solid #7E8F92 !important; border-radius: 8px 8px 8px 8px !important;}      
       article.expired .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part {border-radius: 8px 8px 8px 8px !important;} 
-      article.expired .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part a.link_to_deal {background: #7E8F92 !important; }  
-      article.expired .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part a.link_to_deal:hover {background: #87959A !important;}  
       
-      article.expired .deal_content .deal_detail_deal_part .deal_title_part .title_part p.date_deal {color:#7C8B91 !important;}
+      article.expired .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part a.link_to_deal,
+      article.expired .vote_part a.link_to_deal {background-color: rgba(126, 143, 146,1) !important; border: 2px solid rgb(99, 99, 99) !important;}  
+      article.expired .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part a.link_to_deal:hover,
+      article.expired .vote_part a.link_to_deal:hover {background-color: rgba(135, 149, 154,1) !important; color:rgb(99, 99, 99) !important;}  
+    
+      article.expired .deal_content .deal_detail_deal_part .deal_title_part .title_part p.date_deal {color:rgb(124, 139, 145) !important;}
       
       article.expired .deal_content .deal_detail_deal_part .deal_content_part .content_part p.description, article.expired .content_part .fix_height_content p.description a,
       article.expired .deal_content .deal_detail_deal_part .deal_content_part .content_part p.description a {color:#7C8B91 !important;}
@@ -634,7 +731,7 @@ div#comment_contener .padding_comment_contener:nth-child(even)  {
 
 
 /* coloration texte bandeau commentaire */
- 
+#header_add_commentaire_contener {padding-top:17px !important; padding-bottom:10px !important;}
       
 #discussed #header_add_commentaire_contener {
     background: #60b35c !important;
@@ -647,25 +744,7 @@ div#comment_contener .padding_comment_contener:nth-child(even)  {
  
 }        
       
-      
-      
-      
-      
-      
-      
-      
-      
 
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
 /* couleur heure du topic (forum - topic) - Que les titres, pas de balises d'encadrement des dates */
 
 div#title_contener div.forum p.dates_deal:nth-of-type(1) b {
@@ -680,29 +759,7 @@ div#title_contener div.forum p.dates_deal:nth-of-type(2) b {
 }
 /* modifié le */     
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
       
       
 
@@ -710,30 +767,66 @@ div#title_contener div.forum p.dates_deal:nth-of-type(2) b {
 
 div#contener_search_part a.tout_marquer_comme_lu {
     color: #fff;
-    background-color: #8276b8;
+    background-color: rgba(173, 161, 226, 1);
+    border-radius: 8px 8px 8px 8px;
 }
 div#contener_search_part a.tout_marquer_comme_lu:hover {
     color: #000;
-    background-color: #72689E;
+    background-color: rgba(141, 130, 191,1);
+    border:1px solid #645C89;
 }
-/* Marquer comme lu les catégories des threads du forum */
 
+/* dans forum donné */
+.mini_header_thread #categorie_toutlu a[href*='categorie_toutlu'] {
+    border-radius: 0px 0px 8px 8px;
+    background: rgba(130, 118, 184,1);
+    color: #FFF;
+    width : 15.38% !important;
+    float: right !important;
+    background-position: 20px;
+    background-repeat: no-repeat;
+    padding-left: 48px;
+    margin-right: 0;
+    background-image: url(https://static.dealabs.com/images/forum/icon_forum_allread.png);
+}      
+      
+      
+@media only screen and (min-width: 1070px) and (max-width: 2000px) {
+    .mini_header_thread #categorie_toutlu a[href*='categorie_toutlu'] {
+        width : 15.38% !important;
+    }
+}      
+
+.mini_header_thread #categorie_toutlu a[href*='categorie_toutlu']:hover {
+    background: rgba(114, 104, 158,1);
+    text-decoration: none;
+    width : 15.38% !important;
+    float: right !important;
+    background-position: 20px;
+    background-repeat: no-repeat;
+    padding-left: 48px;
+    margin-right: 0;
+    background-image: url(https://static.dealabs.com/images/forum/icon_forum_allread.png);
+}     
+      
+       
+/* Marquer comme lu les catégories des threads du forum */
 a.marquer_tout_comme_lu:hover {
-    background: #72689E;
+    background: rgba(114, 104, 158,1);
     color: #FFF;
 }
 a.marquer_tout_comme_lu {
-    background: #8276b8;
+    background: rgba(130, 118, 184,1);
     color: #FFF;
 }
+      
 /* Création d'un nouveau sujet sur une catégorie du forum */
-
 a.add_thread:hover {
-    background: #447E41;
+    background: rgba(68, 126, 65,1);
     color: #FFF;
 }
 a.add_thread {
-    background: #60B35C;
+    background: rgba(96, 179, 92,1);
     color: #FFF;
 }
 .mini_header_thread a {
@@ -861,7 +954,12 @@ div.comment_text_part div.header_comment p span:nth-child(2) {
     font-size: 0.90em;
 }
 /* modifié le */
-/* spoiler */
+      
+
+      
+/***************************************
+  ** SPOILER ***
+****************************************/  
 
 div.spoiler {
     background-color: #F6F4FF !important;
@@ -880,7 +978,6 @@ div.spoiler a.click_div_spoiler {
 
      
 .commentaire_div .spoiler {
-    border-radius: 0px 8px 8px 8px;
     margin-bottom: 1.1em;
     
 }
@@ -907,7 +1004,10 @@ div.spoiler a.click_div_spoiler {
     background-color: #FDF9FF !important;
 } 
       
-/*Citations (quote) */
+/***************************************
+  ** CITATIONS (QUOTES) ***
+****************************************/  
+      
 div#comment_contener .padding_comment_contener .commentaire_div .quote {
     border-radius: 0px 8px 8px 8px;
     border: .05em dashed #02A5C1;
@@ -951,15 +1051,18 @@ div#comment_contener .padding_comment_contener .commentaire_div .quote p.pseudo_
     font-style: italic !important;
     font-size: 0.9em
 }
-/* boite de messagerie */
+      
+/***************************************
+  ** BOITE DE MESSAGERIE (& profil)***
+****************************************/  
 
-.full_width_messagerie_div .avatar_part img.image_message {
-    border-radius: 8px 8px 0px 0px;
+.full_width_messagerie_div .avatar_part img.image_message, .content_message .profil_message .image_profil img, #left_profil #left_content_profil #content_profil_padding .top_profil_contener .left_image_profil img {
     -webkit-box-shadow: 0px 0px 0.1em 0em rgba(0, 0, 0, 0.66);
-    -moz-box-shadow: 0px 0px 0.1em 0em rgba(0, 0, 0, 0.66);
-    box-shadow: 0px 0px 0.1em 0em rgba(0, 0, 0, 0.66);
-    margin: 0.6em !important;
+    -moz-box-shadow: 0px 0px 0.1em 0 rgba(0, 0, 0, 0.66);
+    box-shadow: 0px 0px 0.1em 0 rgba(0, 0, 0, 0.66);
+    border-radius: 45px 45px 45px 45px !important;
     border: 0.1em solid #FFF;
+    margin: 0.6em !important;
     margin-top: 0px !important;
     margin-left: 5px !important;
 }
@@ -971,12 +1074,24 @@ div#comment_contener .padding_comment_contener .commentaire_div .quote p.pseudo_
 .full_width_messagerie_div:nth-child(odd) .content_select_message {
     background: #FFF !important;
 }
+      
+/* couleur au survol de la souris */      
 .full_width_messagerie_div:nth-child(even):hover .left_select_message,
 .full_width_messagerie_div:nth-child(even):hover .content_select_message,
 .full_width_messagerie_div:nth-child(odd):hover .left_select_message,
 .full_width_messagerie_div:nth-child(odd):hover .content_select_message {
     background: #EAF8FC !important;
 }
+    
+      
+#content_profil #menu_profil_contener .contener_tab a:hover,
+#content_profil #contener_profil_param #left_profil_param a.menu_div_param .div_tab_selector:hover     {
+    background-color: #EAF8FC !important;
+}
+          
+      
+      
+/* nouveau message */
 .full_width_messagerie_div:hover .menu_message.non_lu .left_select_message,
 .full_width_messagerie_div:hover .menu_message.non_lu .content_select_message {
     background: #FCDCD9 !important;
@@ -985,17 +1100,8 @@ div#comment_contener .padding_comment_contener .commentaire_div .quote p.pseudo_
 .full_width_messagerie_div .menu_message.non_lu .content_select_message {
     background: #FCF0EF !important;
 }
-/* avatar de profil */
+      
 
-#left_profil .left_image_profil img {
-    border-radius: 8px 8px 0px 0px;
-    -webkit-box-shadow: 0px 0px 0.1em 0em rgba(0, 0, 0, 0.66);
-    -moz-box-shadow: 0px 0px 0.1em 0em rgba(0, 0, 0, 0.66);
-    box-shadow: 0px 0px 0.1em 0em rgba(0, 0, 0, 0.66);
-    margin: 0.6em !important;
-    border: 0.2em solid #FFF;
-    margin-left: 5px !important;
-}
 .structure .title_thread_contener .right_cat_part .img_bloc img,
 .body_forum_sub .sub_categorie_contener .right_cat_part .img_bloc img {
     border-radius: 45px 45px 45px 45px;
@@ -1007,8 +1113,8 @@ div#comment_contener .padding_comment_contener .commentaire_div .quote p.pseudo_
     padding-top: 0 !important;
     border: 2px solid rgb(255, 255, 255);
 }
+      
 /* decalage image poster de commentaire dans liste msg catégories forum et sous forum */
-
 .sub_categorie_contener .right_cat_part .img_bloc,
 .title_thread_contener .right_cat_part .img_bloc {
     margin-right: 0px !important;
@@ -1044,11 +1150,22 @@ div#comment_contener .padding_comment_contener .commentaire_div .quote p.pseudo_
 }
 
       
-/* couleur des liens */
+/* couleur des liens + image qui le précède */
 a.link_a_reduce {
     color: #3F7AB6 !important;
     font-size: 0.9em;
     font-weight: bold;
+
+    
+
+    background-position: top left;
+    background-repeat: no-repeat;
+    padding-left: 16px;
+    background-image: url(https://s21.postimg.org/ihwuo29g7/Icone_link.png);
+    background-size: 12px 12px;
+
+    vertical-align:  middle;
+
 }
 
       
@@ -1124,8 +1241,33 @@ img.bbcode_smiley {
 /***************************************
   ** EMOTICONES PERSOS ***
 ****************************************/  
- 
 
+
+img.bbcode_smiley[alt="(popcorn)"] {
+    vertical-align: -7px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 32px;
+    height: 32px;
+    padding-left: 32px;
+    background: url(https://s22.postimg.org/b4rkpglv5/popcorn.png) no-repeat;
+    background-size: 32px 32px !important;
+}      
+a[alt="(popcorn)"] img {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 24px;
+    height: 24px;
+    padding-left: 24px;
+    background: url(https://s22.postimg.org/b4rkpglv5/popcorn.png) no-repeat !important;
+    background-size: 24px 24px !important;
+    margin-top:-1px;
+    
+}     
+      
       
 img.bbcode_smiley[alt="(creep)"] {
     vertical-align: -7px;
