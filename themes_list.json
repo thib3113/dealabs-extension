@@ -25,12 +25,22 @@
     ]
   },
   {
-    "safeName": "dealabskin",
-    "name": "DealabSkin",
+    "safeName": "dealabskin.S",
+    "name": "DealabSkin sans emoticones",
     "styles": [
       {
         "version": "1.0.2",
-        "url": "DealabSkin.css"
+        "url": "DealabSkin.S.css"
+      }
+    ]
+  },
+  {
+    "safeName": "dealabskin.A",
+    "name": "DealabSkin avec emoticones",
+    "styles": [
+      {
+        "version": "1.0.2",
+        "url": "DealabSkin.A.css"
       }
     ]
   },
