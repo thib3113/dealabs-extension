@@ -10,7 +10,7 @@
  *                        par oOKaMiZuKOo - https://www.dealabs.com/28642/oOKaMiZuKOo                             
  *                                                                 
  *                                                                                         
- *    Dernière MAJ : 18/11/2016 - Version S.1.0.5 (SANS emoticones modifiés)
+ *    Dernière MAJ : 18/11/2016 - Version S.1.0.5.1 (SANS emoticones modifiés)
  *    
  *    Topic de suivi (et MAJ) sur : https://www.dealabs.com/forums/le-site/annonces--nouveauts-du-site-modifications/theme-dealabs-dealabskin-by-ookamizukoo/26018
  *
@@ -22,7 +22,7 @@
  *
  *    Historique :
  *
- *      1.0.5 - 12/11/2016 :
+ *      1.0.5.1 - 12/11/2016 :
  *      ----------------------------------------
  *                             Objet : Séparation en 2 branches pour la version A (avec emoticones modifiés) et S (sans emoticones modifiés) 
  *
@@ -216,24 +216,7 @@ a.link_a_reduce {
     vertical-align:  middle;
 
 }
-      
-/* couleur des liens + image qui le précède */
-a.link_a_reduce {
-    color: #3F7AB6 !important;
-    font-size: 0.9em;
-    font-weight: bold;
 
-    
-
-    background-position: top left;
-    background-repeat: no-repeat;
-    padding-left: 16px;
-    background-image: url(https://s21.postimg.org/ihwuo29g7/Icone_link.png);
-    background-size: 12px 12px;
-
-    vertical-align:  middle;
-
-}
       
 /***************************************
   ** SECTION HEADER ***
@@ -760,7 +743,7 @@ article.expired .content_part .poster_part .poster_link img, article.expired .de
       article.expired .deal_content .deal_detail_deal_part .deal_title_part h1.title {color:#7C8B91 !important;}
       article.expired .deal_content .deal_detail_deal_part .deal_content_part .content_part p.description a:hover {color:#7C8B91 !important;}
 
-      article.expired .deal_content .deal_detail_deal_part .deal_footer_part #merchant_display a.merchant img, article.expired a.link_a_reduce  {
+      article.expired .deal_content .deal_detail_deal_part .deal_footer_part #merchant_display a.merchant img, article.expired .deal_content_part a.link_a_reduce  {
     filter: grayscale(100%);
     -webkit-filter: grayscale(100%);
     -moz-filter: grayscale(100%);
