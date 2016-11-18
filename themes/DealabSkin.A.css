@@ -10,7 +10,7 @@
  *                        par oOKaMiZuKOo - https://www.dealabs.com/28642/oOKaMiZuKOo                             
  *                                                                 
  *                                                                                         
- *    Dernière MAJ : 12/11/2016 - Version 1.0.4
+ *    Dernière MAJ : 18/11/2016 - Version A.1.0.5 (Avec emoticones modifiés)
  *    
  *    Topic de suivi (et MAJ) sur : https://www.dealabs.com/forums/le-site/annonces--nouveauts-du-site-modifications/theme-dealabs-dealabskin-by-ookamizukoo/26018
  *
@@ -22,9 +22,19 @@
  *
  *    Historique :
  *
+ *      1.0.5 - 12/11/2016 :
+ *      ----------------------------------------
+ *                             Objet : Séparation en 2 branches pour la version A (avec emoticones modifiés) et S (sans emoticones modifiés) 
+ *
+ *                             Réalisation de :
+ *                                     - coloration en gris de l'image (link) précédent un lien 
+ *                                     - remise en place des couleurs sur infos supp (localisation, expiration, etc..) dans le détail d'un deal
+ *                                     - coloration en gris sur un deal expiré de la couleur de privilège de l'auteur (modo, etc..)
+ *                                     - coloration au hover du menu de la catégorie,bloc_region_departement, plus.. survolée des deals 
+ *
  *      1.0.4 - 12/11/2016 :
  *      ----------------------------------------
- *                             Objet : Bug d'alignement des émoticones 
+ *                             Objet : Amélioration plurielles graphiques 
  *
  *                             Réalisation de :
  *                                     - Modification apparence du bandeau de mise en avant d'info (addon-element .date .pined .maj + cas expiré)
@@ -178,7 +188,6 @@
  **/
 
 
-
 /* harmonisation du menu avec la couleur du "gris sombre" du logo dealabs */
 
 header {
@@ -190,7 +199,41 @@ body {
     background: #03252B
 }
 
+/* couleur des liens + image qui le précède */
+a.link_a_reduce {
+    color: #3F7AB6 !important;
+    font-size: 0.9em;
+    font-weight: bold;
 
+    
+
+    background-position: top left;
+    background-repeat: no-repeat;
+    padding-left: 16px;
+    background-image: url(https://s21.postimg.org/ihwuo29g7/Icone_link.png);
+    background-size: 12px 12px;
+
+    vertical-align:  middle;
+
+}
+      
+/* couleur des liens + image qui le précède */
+a.link_a_reduce {
+    color: #3F7AB6 !important;
+    font-size: 0.9em;
+    font-weight: bold;
+
+    
+
+    background-position: top left;
+    background-repeat: no-repeat;
+    padding-left: 16px;
+    background-image: url(https://s21.postimg.org/ihwuo29g7/Icone_link.png);
+    background-size: 12px 12px;
+
+    vertical-align:  middle;
+
+}
       
 /***************************************
   ** SECTION HEADER ***
@@ -226,6 +269,18 @@ body {
 
 #type_header_conteneur_left {margin:0 !important; padding:0 !important; width:540px !important; background: #333333}
 #login_conteneur_right_connected, #login_conteneur_right {margin:-5px !important; padding:0 !important; border-radius: 8px 8px 8px 8px !important; }
+      
+      
+/* coloration au hover sur les categories recherchées de deal du menu + liste, etc.. */      
+#contener_menu_padding #contener_menu #cat_contener a:hover, 
+      #contener_menu_padding #contener_menu .subcat_contener a:hover, 
+      #contener_plus #plus_liste a:hover,
+      #bloc_region_departement .list_div_absolute .list_div label:hover
+      {background: #EAF8FC !important; color:#014956 !important;}
+      
+/* coloration du bouton valider des paramètres de recherche du menu */
+a.button_grey_structure.validate_form_option_list {background: #60b35c !important; color:#FFF !important;}      
+a.button_grey_structure.validate_form_option_list:hover {background: #80C27D !important; }      
       
 /***************************************
   ** SECTION UTILISATEUR CONNECTÉ ***
@@ -666,8 +721,8 @@ article.expired .image_part .addon-element {
       article.expired .content_part p.categorie a,
       article.expired .content_part  a.title,
       article.expired .content_part .poster_part p.date_deal,
-      article .deal_content .deal_detail_deal_part .deal_content_part .content_part .info_sup_div p.info_sup:nth-of-type(2) b,
-      article .deal_content .deal_detail_deal_part .deal_content_part .content_part .info_sup_div p.info_sup:nth-of-type(1) b,
+      article.expired .deal_content .deal_detail_deal_part .deal_content_part .content_part .info_sup_div p.info_sup:nth-of-type(2) b,
+      article.expired .deal_content .deal_detail_deal_part .deal_content_part .content_part .info_sup_div p.info_sup:nth-of-type(1) b,
       article.expired .content_part .poster_part a.poster_link {
           color:#7C8B91 !important;
       }
@@ -705,7 +760,7 @@ article.expired .content_part .poster_part .poster_link img, article.expired .de
       article.expired .deal_content .deal_detail_deal_part .deal_title_part h1.title {color:#7C8B91 !important;}
       article.expired .deal_content .deal_detail_deal_part .deal_content_part .content_part p.description a:hover {color:#7C8B91 !important;}
 
-      article.expired .deal_content .deal_detail_deal_part .deal_footer_part #merchant_display a.merchant img  {
+      article.expired .deal_content .deal_detail_deal_part .deal_footer_part #merchant_display a.merchant img, article.expired a.link_a_reduce  {
     filter: grayscale(100%);
     -webkit-filter: grayscale(100%);
     -moz-filter: grayscale(100%);
@@ -717,7 +772,8 @@ article.expired .content_part .poster_part .poster_link img, article.expired .de
       
       article.structure.expired {border: none !important;} 
       
-      
+      /* coloration en gris du cadre "modo" */
+      article.expired .poster_part span.privilege {background-color: #7C8B91 !important;}
       
      
 /* Alternance couleur cadre des commentaires du forum */
@@ -1150,23 +1206,7 @@ div#comment_contener .padding_comment_contener .commentaire_div .quote p.pseudo_
 }
 
       
-/* couleur des liens + image qui le précède */
-a.link_a_reduce {
-    color: #3F7AB6 !important;
-    font-size: 0.9em;
-    font-weight: bold;
 
-    
-
-    background-position: top left;
-    background-repeat: no-repeat;
-    padding-left: 16px;
-    background-image: url(https://s21.postimg.org/ihwuo29g7/Icone_link.png);
-    background-size: 12px 12px;
-
-    vertical-align:  middle;
-
-}
 
       
       
