@@ -10,7 +10,7 @@
  *                        par oOKaMiZuKOo - https://www.dealabs.com/28642/oOKaMiZuKOo                             
  *                                                                 
  *                                                                                         
- *    Dernière MAJ : 18/11/2016 - Version A.1.0.5 (AVEC emoticones modifiés)
+ *    Dernière MAJ : 18/11/2016 - Version A.1.0.5.1 (AVEC emoticones modifiés)
  *    
  *    Topic de suivi (et MAJ) sur : https://www.dealabs.com/forums/le-site/annonces--nouveauts-du-site-modifications/theme-dealabs-dealabskin-by-ookamizukoo/26018
  *
@@ -1250,7 +1250,7 @@ textarea#add_comment:focus {
   ** EMOTICONES PERSOS ***
 ****************************************/        
   
-/*
+
      
 img.bbcode_smiley {
    cursor: default !important;
@@ -1835,7 +1835,7 @@ a[alt=":|"] img {
 
 }
       
-*/  
+
       
 /* Fin section smiley */
 
