@@ -1,5 +1,5 @@
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V2.0.54      */
+/*      DarkLabs - MonsieurCro - V2.0.55      */
 /*============================================*/
 /*                    INDEX                   */
 /*============================================*/
@@ -388,7 +388,7 @@ a.tab_header_messagerie.outbox:hover {
 body, footer #footer_merchant, footer #footer_links {
 	background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/themes/darklabs/bg.png);
 	background-size: cover;
-	background-color: black !important;}
+	background-color: #222 !important;}
 
 .structure.black, header {
 	background: none;}
@@ -554,6 +554,15 @@ span.modo {
 .recaptchatable .recaptcha_image_cell {
 	background: #222 !important;}
 
+#menu_white_background_replace_float { /* défilement accueil (barre de menu) */
+	background: #222 !important;
+	border-bottom: 0px solid #222 !important;}
+	
+section div.after_pagination, section div.after_pagination_merchant { /* bas de page marchands, black friday, etc */
+    background-color: #333 !important;}
+	
+section div.after_pagination_merchant {
+    color: #fff !important;}
 	
 	
 /* Whatsapp */
