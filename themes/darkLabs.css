@@ -1,5 +1,5 @@
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V2.0.55      */
+/*      DarkLabs - MonsieurCro - V2.0.56      */
 /*============================================*/
 /*                    INDEX                   */
 /*============================================*/
@@ -200,16 +200,16 @@ textarea {
 	background-color: #222 !important;}
 
 article#deal_details .deal_content .detail_part .option_part div.social  div.social_part a.facebook {
-    background: #222 url("https://static.dealabs.com/images/deal_detail/icon_all_facebook_grey.png") no-repeat scroll center center !important;}
+    background: #222 url("https://static.dealabs.com/images/deals/icon_deal_facebook.png") no-repeat scroll center center !important;}
 
 article#deal_details .deal_content .detail_part .option_part div.social  div.social_part a.twitter {
-    background: #222 url("https://static.dealabs.com/images/deal_detail/icon_all_twitter_grey.png") no-repeat scroll center center !important;}
+    background: #222 url("https://static.dealabs.com/images/deals/icon_deal_twitter.png") no-repeat scroll center center !important;}
 
 a.mail {
-    background: #222 url("https://static.dealabs.com/images/deal_detail/icon_all_mail_grey.png") no-repeat scroll center center !important;}
+    background: #222 url("https://static.dealabs.com/images/deals/icon_deal_mail.png") no-repeat scroll center center !important;}
 
 article#deal_details .deal_content .detail_part .option_part div.social  div.social_part a.google {
-    background: #222 url("https://static.dealabs.com/images/deal_detail/icon_all_google_grey.png") no-repeat scroll center center !important;}
+    background: #222 url("https://static.dealabs.com/images/deals/icon_deal_google.png") no-repeat scroll center center !important;}
 
 a.reactiver {
     background: #222 url("https://static.dealabs.com/images/deal_detail/icon_deal_unexpire.png") no-repeat scroll 15px center !important;}
@@ -218,8 +218,12 @@ a.reactiver {
 /*============================================*/
 
 
-div.spoiler, div.spoiler_hide {
-  background-color: #444 !important;}
+div.spoiler {
+  background-color: #333 !important;
+	border: 1px solid #555 !important;}
+	
+div.spoiler_hide {
+  background-color: #333 !important;}
 
 /*=================ALERTES===================*/
 
@@ -383,7 +387,7 @@ a.tab_header_messagerie.outbox:hover {
 	color: #ddd !important;}
 
 
-/* fond site */
+/* fond site -> possibilité d'enlever l'image et de choisir une couleur unie */
 
 body, footer #footer_merchant, footer #footer_links {
 	background: url(https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/themes/darklabs/bg.png);
@@ -584,3 +588,14 @@ section div.after_pagination_merchant {
 	
 #header_waves {
 	background: transparent !important;}
+
+	
+/* BUGS CONNUS */
+	
+	/* police topic après un spoiler */
+	div.content_part font {
+		font-size: 0.8 !important;}
+	
+	/* fond ici https://www.dealabs.com/forum/notifications.html */
+	#no_thread {
+    background: url(https://static.dealabs.com/images/all/icon_all_error_grey.png) 6px 50% no-repeat scroll #333 !important;}
