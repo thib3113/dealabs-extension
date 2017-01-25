@@ -1,5 +1,5 @@
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V2.0.56      */
+/*      DarkLabs - MonsieurCro - V2.0.57      */
 /*============================================*/
 /*                    INDEX                   */
 /*============================================*/
@@ -219,11 +219,11 @@ a.reactiver {
 
 
 div.spoiler {
-  background-color: #333 !important;
+  background-color: #383838 !important;
 	border: 1px solid #555 !important;}
 	
 div.spoiler_hide {
-  background-color: #333 !important;}
+  background-color: #383838 !important;}
 
 /*=================ALERTES===================*/
 
@@ -537,7 +537,7 @@ span.modo {
 #contener_type .button_type_deal:hover, #contener_type .button_type_deal.hot.selected, #contener_type .button_type_deal.commente.selected, #contener_type .button_type_deal.nouveau.selected {
 	border-bottom: 3px solid #8C071F !important;}
 	
-.padding_comment_contener.scrolled {  /* animation vers un commentaire - à adapter */
+.padding_comment_contener.scrolled {  /* suppresion animation vers un commentaire (blanche) */
 	animation-name: none !important;}
 	
 .deal_footer_part { /* petit bug des rectangles arrondis */
@@ -588,13 +588,19 @@ section div.after_pagination_merchant {
 	
 #header_waves {
 	background: transparent !important;}
+	
+	
+	
+	#timeline_profil .white_triangle_timeline { /* petites flèches historique profil */
+		border-right: 10px solid #222 !important;}
+	
+		/* police buguée après un spoiler */
+	div.content_part font {
+		font-size: 0.8 !important;
+	  color: white !important;}
 
 	
 /* BUGS CONNUS */
-	
-	/* police topic après un spoiler */
-	div.content_part font {
-		font-size: 0.8 !important;}
 	
 	/* fond ici https://www.dealabs.com/forum/notifications.html */
 	#no_thread {
