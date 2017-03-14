@@ -4,7 +4,7 @@ function Embed($urls){
         mojvideo : '<iframe width="100%" height="500" src="{{protocol}}//www.mojvideo.com/embed/v/{{id}}" frameborder="0" allowfullscreen></iframe>',
         dailymotion : '<iframe frameborder="0" width="100%" height="500" src="{{protocol}}//www.dailymotion.com/embed/video/{{id}}?autoplay=1" allowfullscreen></iframe>',
         soundcloud : '<iframe width="100%" height="500" scrolling="no" frameborder="no" src="{{protocol}}//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{id}}&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&visual=true"></iframe>',
-        youtube : '<iframe id="ytplayer" height="500" width="100%" type="text/html" src="{{protocol}}//www.youtube.com/embed/{{id}}?autoplay=1&origin={{base_url}}" frameborder="0"/>',
+        youtube : '<iframe id="ytplayer" height="500" width="100%" type="text/html" src="{{protocol}}//www.youtube.com/embed/{{id}}?autoplay=1&origin={{base_url}}&start={{startTime}}" frameborder="0"/>',
         vimeo : '<iframe src="{{protocol}}//player.vimeo.com/video/{{id}}?autoplay=1" width="100%" height="500" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
     }
 
@@ -18,6 +18,7 @@ function Embed($urls){
 
     this.soundCloudApiKey = '048a40b1f3413b2e8097221375a5aa1b';
 
+
     this.getLink = {
         mojvideo:function(url, cb){
             mojvideoID = url.match(/www\.mojvideo\.com\/[^\/]*\/([a-z0-9]+)/);
@@ -25,7 +26,7 @@ function Embed($urls){
                 cb(mojvideoID[1], 'mojvideo');
             else
                 cb(null, 'mojvideo');
-        },
+        }.bind(this),
         soundcloud:function(url, cb){
             getId = function(url){
                 var regexp = /^https?:\/\/(soundcloud.com|snd.sc)\/(.*)$/;
@@ -40,7 +41,7 @@ function Embed($urls){
             else{
                 cb(null, 'soundcloud');
             }
-        },
+        }.bind(this),
         dailymotion:function(url, cb) {
             var m = url.match(/^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/);
             if (m !== null) {
@@ -50,21 +51,24 @@ function Embed($urls){
                 cb(m[2], 'dailymotion');
             }
             cb(null, 'dailymotion');
-        },
+        }.bind(this),
         youtube:function(url, cb){
             youtubeID = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i);
+            var parser = document.createElement('a');
+            parser.href = url;
+            timer = this.extractYoutubeTime(get_params_from_url(parser.search)["t"])
             if (youtubeID != null && typeof youtubeID[1] != "undefined")
-                cb(youtubeID[1], 'youtube');
+                cb(youtubeID[1], 'youtube', timer);
             else
                 cb(null, 'youtube');
-        },
+        }.bind(this),
         vimeo:function(url, cb){
             vimeoID = url.match(/vimeo\.com\/([a-z0-9]+)/i);
             if (vimeoID != null && typeof vimeoID[1] != "undefined")
                 cb(vimeoID[1], 'vimeo');
             else
                 cb(null, 'vimeo');            
-        }
+        }.bind(this)
     }
 
     this.hexc = function(colorval) {
@@ -79,35 +83,51 @@ function Embed($urls){
         return color;
     }
 
+    this.extractYoutubeTime = function(YTtimer) {
+        reg =  new RegExp("(?:([0-9]+)h){0,1}(?:([0-9])+m){0,1}(?:([0-9]+)s)+", "gmi");
+        try{
+            results = plugin_match_all(reg, YTtimer)[0];
+            seconds = parseInt(results[3])||0;
+            seconds += parseInt(results[2])*60||0; //add minuts
+            seconds += parseInt(results[1])*3600||0; //add hours
+            return seconds
+        }
+        catch(e){
+            return 0;
+        }
+    }
+
+    this.addLink=function(element){
+        link = element.title || element.innerText;
+
+
+        cb = function(id, type, startTime){
+            if(id == null) return;
+            startTime = startTime || 0;
+            $(element).after(' <span data-plugin-embed-open="close" data-plugin-embed="'+type+'" data-plugin-embed-starttime="'+startTime+'" data-plugin-id="' +id+ '"><img style="margin-top:0;" src="' + self.logos[type] + '" alt="open or close '+type+' video"/></span>');
+        }.bind(element)
+
+        self.getLink['youtube'](link, cb);
+
+        self.getLink['soundcloud'](link, cb);
+
+        self.getLink['dailymotion'](link, cb);
+
+        self.getLink['mojvideo'](link, cb);
+
+        self.getLink['vimeo'](link, cb);
+    }
+
+    var self = this;
     this.init = function(){
-        var self = this;
-        this.$urls.each(function() {
-            
-            link = this.title || this.innerText;
-
-
-            cb = function(id, type){
-                if(id == null) return;
-                
-                $(this).after(' <span data-plugin-embed-open="close" data-plugin-embed="'+type+'" data-plugin-id="' +id+ '"><img style="margin-top:0;" src="' + self.logos[type] + '" alt="open or close '+type+' video"/></span>');
-                // debugger;
-            }.bind(this)
-
-            self.getLink['youtube'](link, cb);
-
-            self.getLink['soundcloud'](link, cb);
-
-            self.getLink['dailymotion'](link, cb);
-
-            self.getLink['mojvideo'](link, cb);
-
-            self.getLink['vimeo'](link, cb);
-
+        this.$urls.each(function(){
+            self.addLink(this)
         });
         
         $('body').on('click', '[data-plugin-embed-open]', function() {
-            if ($(this).data('plugin-embed-open') == "close") {                
-                embedIframe = $(self.tpl[$(this).data('plugin-embed')].replace(/{{protocol}}/g, location.protocol).replace(/{{base_url}}/, location.protocol + '//' + location.hostname).replace(/{{id}}/, $(this).data('plugin-id')));
+            if ($(this).data('plugin-embed-open') == "close") {  
+
+                embedIframe = $(self.tpl[$(this).data('plugin-embed')].replace(/{{protocol}}/g, location.protocol).replace(/{{base_url}}/, location.protocol + '//' + location.hostname).replace(/{{id}}/, $(this).data('plugin-id')).replace(/{{startTime}}/, $(this).data('plugin-embed-starttime')));
                 this.embedIframe = embedIframe;
                 $(this).after(embedIframe);
                 $(this).data('plugin-embed-open', "open");

@@ -15,13 +15,14 @@ theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/master/themes/';
 dev_theme_url = 'https://rawgit.com/thib3113/dealabs-extension/master/themes/';
 
 emoticone_theme_url = 'https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/';
-
+dev_emoticone_theme_url = 'https://rawgit.com/thib3113/dealabs-extension/gh-pages/emoticons_themes/';
 //for dev time
 // theme_url = dev_theme_url;
 
 dealabs_protocol = "http://";
 
 ImgurApiKey = "9c5bf06791861cb";
+// https://api.imgur.com/oauth2/authorize?response_type=token&client_id=9c5bf06791861cb
 
 if(typeof chrome != "undefined"){
   extension = new ChromeExtension();
@@ -34,6 +35,32 @@ function soundAlert(){
   audio.play();
   audio = null;
 }
+
+var get_params_from_url = function(search_string) {
+  var parse = function(params, pairs) {
+    var pair = pairs[0];
+    var parts = pair.split('=');
+    var key = decodeURIComponent(parts[0]);
+    var value = decodeURIComponent(parts.slice(1).join('='));
+
+    // Handle multiple parameters of the same name
+    if (typeof params[key] === "undefined") {
+      params[key] = value;
+    } else {
+      params[key] = [].concat(params[key], value);
+    }
+
+    return pairs.length == 1 ? params : parse(params, pairs.slice(1))
+  }
+
+  // Get rid of leading ?
+  return search_string.length == 0 ? {} : parse({}, search_string.substr(1).split('&'));
+}
+
+var extractToken = function(hash) {
+  var match = hash.match(/access_token=(\w+)/);
+  return !!match && match[1];
+};
 
 function isDataURL(s) {
     s = s||"";
@@ -69,13 +96,13 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
   $image_progress.append(oImg);
   cbFunction = function(error, response){
     failcb = function(textarea, id, error, img){
-        // console.log('noty : '+error);
-        noty({
-          layout: 'bottom',
-          type: 'error',
-          text: '<span style="height:100px;line-height:100px;display:inline-flex;"><span style="margin:5px">'+img+'</span> '+error+'</span>',
-          timeout: 20000
-        });
+      // console.log('noty : '+error);
+      noty({
+        layout: 'bottom',
+        type: 'error',
+        text: '<span style="height:100px;line-height:100px;display:inline-flex;"><span style="margin:5px">'+img+'</span> '+error+'</span>',
+        timeout: 20000
+      });
 
       oldValue = $(textarea).val();
       newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+id+'\\]'), '');
@@ -91,6 +118,7 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
         // alert('Une erreur est apparue lors de l\'envoi de l\'image : '+response.error);
         failcb(this.textarea, this.id, response.error, imgHtml);
       }
+
       oldValue = $(textarea).val();
       newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+this.id+'\\]'), '[img size=300px]'+response.link+'[/img]');
       $(textarea).val(newValue);
@@ -178,6 +206,8 @@ function sendToImgur(img, cb, imgName, cbProgress){
       },
       success:function(response){
         if(response.success){
+          //use current http scheme
+          response.data.link = response.data.link.replace(/^https?\:/i, "");
           this.cb(null, response.data)
         }
 

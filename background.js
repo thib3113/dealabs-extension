@@ -1,5 +1,16 @@
 notificationsNotified = {};
 
+dbg = {
+    getSettings : function(){
+        try{
+            console.log(JSON.stringify(settingsManager));
+        }
+        catch(e){
+            console.error("impossible de récupérer les paramètres .");
+        }
+    }
+}
+
 extension.onMessage('open_tab', function(datas){
     datas = datas || {};
     datas.onLoad = function(tab){
@@ -239,7 +250,7 @@ function parseUpdate(response, cb){
             if(linkInfo = tempNotifs[i].url.match(/\.com\/([^\/]+)\/.*\/([0-9]+)[#|\?]/)){
                 if(typeof settingsManager.settings.blacklist[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
                     $.get(tempNotifs[i].url);
-                    console.log(tempNotifs[i].categorie);
+                    // console.log(tempNotifs[i].categorie);
                     notifications_counter[tempNotifs[i].categorie].value -= 1;
                     continue;
                 }
@@ -385,19 +396,21 @@ function cleanNotifications(){
 
 notificationUpdateTimeout = 0;
 
-extension.addContextMenu({
-    title    : 'Ouvrir ...',
-    id       : 'open',
-    contexts : ['browser_action']
-});
-extension.addContextMenu({
-    title    : 'Dealabs',
-    id       : 'home',
-    parentId : 'open',
-    contexts : ['browser_action'],
-    onclick  : function(info){
-        openInTab(dealabs_protocol+'www.dealabs.com');
-    }
+extension.removeAllContextMenu(function(){
+    extension.addContextMenu({
+        title    : 'Ouvrir ...',
+        id       : 'open',
+        contexts : ['browser_action']
+    });
+    extension.addContextMenu({
+        title    : 'Dealabs',
+        id       : 'home',
+        parentId : 'open',
+        contexts : ['browser_action'],
+        onclick  : function(info){
+            openInTab(dealabs_protocol+'www.dealabs.com');
+        }
+    });
 });
 
 extension.waitFor('connected', function(){
@@ -425,30 +438,31 @@ extension.waitFor('connected', function(){
         title : 'Tout marquer comme vus',
         contexts : ['browser_action'],
         id: 'mark_all_read',
-        onclick : function(info){
-            cleanNotifications();
-            extension.getStorage(['notifications', 'notifications_counter'], function(value){
-                notifications = value.notifications;
-                var queue = async.queue(function(link, cb){
-                    setTimeout(function(){
-                        $.ajax({
-                            url : link,
-                            complete:cb
-                        })
-                    },500)
-                }, 1); // Run one simultaneous request
+        onclick : remove_all
+        // function(info){
+        //     cleanNotifications();
+        //     extension.getStorage(['notifications', 'notifications_counter'], function(value){
+        //         notifications = value.notifications;
+        //         var queue = async.queue(function(link, cb){
+        //             setTimeout(function(){
+        //                 $.ajax({
+        //                     url : link,
+        //                     complete:cb
+        //                 })
+        //             },500)
+        //         }, 1); // Run one simultaneous request
 
-                queue.drain = function() {
-                    update();
-                };
-                for(categorie in notifications){
-                    curCat = notifications[categorie];
-                    for (var i = 0; i < curCat.length; i++) {
-                        queue.push(curCat[i].url);
-                    }
-                }
-            });
-        }
+        //         queue.drain = function() {
+        //             update();
+        //         };
+        //         for(categorie in notifications){
+        //             curCat = notifications[categorie];
+        //             for (var i = 0; i < curCat.length; i++) {
+        //                 queue.push(curCat[i].url);
+        //             }
+        //         }
+        //     });
+        // }
     });
 })
 

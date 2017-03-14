@@ -10,8 +10,15 @@ function SettingsManager(){
           deals : true,
           alertes : true
         },
+        imgurAPI:{
+            access_token: null,
+            expires_in: null,
+            token_type: null,
+            refresh_token: null,
+            account_username: null,
+            account_id: null
+        },
         // turbopixAPIKey : "",
-        imgurAPIKey : "",
         theme : {
             "safeName" : "default",
             "name": "Par défaut"
@@ -27,7 +34,8 @@ function SettingsManager(){
             "fouet"  : "https://i.imgur.com/2Zis7c8.gif",
             "troll"  : "https://i.imgur.com/8q1lbcn.png",
             "jaime"  : "https://i.imgur.com/wS1LGvS.png"
-        }
+        },
+        imadevelopper:false
     }
 
     this.toJSON=function(){
@@ -60,9 +68,30 @@ function SettingsManager(){
                         context : this
                     }
                 )
-            });
-        
+            });       
         }
+
+        // check imgur token validity
+        if(this.imgurAPI.access_token != undefined && this.imgurAPI.tokenExpire < Date.now()){
+            this.updateImgurToken();
+        }
+    }
+
+    this.updateImgurToken=function(){
+        return;
+        $.ajax({
+            url : "https://api.imgur.com/oauth2/token",
+            type: "POST",
+            data: {
+                refresh_token : this.imgurAPI.refresh_token,
+                client_id: "aaa",
+                client_secret: "",
+                grant_type: "refresh_token"
+            },
+            success:function(response){
+                debugger;
+            }
+        })
     }
 
     Object.defineProperty(this, 'settings', {

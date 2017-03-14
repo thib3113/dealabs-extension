@@ -246,10 +246,26 @@ function update_theme(theme){
     if(theme.safeName != "default"){
         for (var i = 0; i < theme.styles.length; i++) {
             if(theme.styles[i].urlRegex == undefined ||  window.location.pathname.match(theme.styles[i].urlRegex)){
+                if(theme.styles[i].backgroundPlaceHolderColor != undefined){
+                    var css = 'body { background-color: '+theme.styles[i].backgroundPlaceHolderColor+'; }',
+                        head = document.head || document.getElementsByTagName('head')[0],
+                        style = document.createElement('style');
+
+                    style.type = 'text/css';
+                    if (style.styleSheet){
+                      style.styleSheet.cssText = css;
+                    } else {
+                      style.appendChild(document.createTextNode(css));
+                    }
+
+                    head.appendChild(style);
+                }
+
+                
                 if(theme.styles[i].url.slice(0,5) == "https")
                     url = theme.styles[i].url;
                 else
-                    url = theme_url+theme.styles[i].url+(theme.styles[i].version!=undefined? "?v="+theme.styles[i].version:"");
+                    url = (settingsManager.imadevelopper?dev_theme_url:theme_url)+theme.styles[i].url+(theme.styles[i].version!=undefined? "?v="+theme.styles[i].version:"");
                
                 var link = document.createElement( "link" );
                 link.href = url;
@@ -274,7 +290,7 @@ function update_emoticone_theme(theme){
                 if(theme.styles[i].url.slice(0,5) == "https")
                     url = theme.styles[i].url;
                 else
-                    url = emoticone_theme_url+theme.styles[i].url+(theme.styles[i].version!=undefined? "?v="+theme.styles[i].version:"");
+                    url = (settingsManager.imadevelopper?dev_emoticone_theme_url:emoticone_theme_url)+theme.styles[i].url;
                
                 var link = document.createElement( "link" );
                 link.href = url;
@@ -313,6 +329,7 @@ observer.observe(document, {
   , characterData: false
 })
 
+var EmbedLinksManager;
 $(function() {
     inject(validate_thread);
     inject(validate_deal);
@@ -324,7 +341,7 @@ $(function() {
     plugin_update_emoticone_textarea();
     $body = $('body');
 
-    new Embed($('a.link_a_reduce'));
+    EmbedLinksManager = new Embed($('a.link_a_reduce'));
 
     //update the smileys image for themes
     $(".BBcode_image").each(function(){
@@ -491,20 +508,19 @@ $(function() {
                             </div>\
                         </div>\
                     </div>\
-                    <!--<div class="subtitle_tab_contener">\
+                    <div class="subtitle_tab_contener">\
                         <p>Images</p>\
                     </div>\
                     <div class="profil_param_notification border_grey_bottom">\
                         <div class="left_profil_param_champs" style="width:50%;">\
-                            <p>Clef utilisateur Turbopix&thinsp;:</p>\
+                            <p>Connexion à imgur&thinsp;:</p>\
                         </div>\
                         <div class="content_profil_param_champs">\
-                            <div class="input_left flag">\
-                                <input name="plugin_turbopix_key" id="plugin_turbopix_key" />\
+                            <div id="imgur-connexion">\
+                                test de connexion en cours ...\
                             </div>\
-                            <span>Les images seront reliées à votre compte . Vous trouverez la clef utilisateur <a target="_blank" href="http://www.turbopix.fr/profile">ici</a> &thinsp;</span>\
                         </div>\
-                    </div>-->\
+                    </div>\
                     <div class="subtitle_tab_contener">\
                         <p>Smileys</p>\
                     </div>\
@@ -532,7 +548,19 @@ $(function() {
             $('#plugin_time_between_refresh').append('<option value="' + time_between_refresh_list[i] * 1000 + '"' + (settingsManager.time_between_refresh == time_between_refresh_list[i] * 1000 ? ' selected' : '') + '>' + time_between_refresh_list[i] + '</option>');
         }
 
-        //load time_between_refresh
+        //check imgur API
+        // $("#imgur-connexion");
+        // connected = false;
+        // // a token is available and not expired ?
+        // if(
+        //     (settingsManager.imgurAPI.token != undefined && settingsManager.imgurAPI.tokenExpire > Date.now())
+            
+        // )
+        // connected = true;
+
+
+
+        //load emoticone themes
         $('#emoticone_theme').on('change', function(){
             update_emoticone_theme($(this).find(":selected").data("emoticone_theme"));
         })
@@ -678,6 +706,44 @@ $(function() {
         }
     }
 
+    //check imgur login
+    var hashParams = {}, queryString = location.hash.substring(1),
+    regex = /([^&=]+)=([^&]*)/g, m;
+    while (m = regex.exec(queryString)) {
+      hashParams[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+    }
+
+
+    if(
+        hashParams["access_token"] != undefined &&
+        hashParams["expires_in"] != undefined &&
+        hashParams["token_type"] != undefined &&
+        hashParams["refresh_token"] != undefined &&
+        hashParams["account_username"] != undefined &&
+        hashParams["account_id"] != undefined
+    )
+        settingsManager.imgurAPI = {
+            access_token : hashParams["access_token"],
+            expires_in : Date.now()+hashParams["expires_in"],
+            token_type : hashParams["token_type"],
+            refresh_token : hashParams["refresh_token"],
+            account_username : hashParams["account_username"],
+            account_id : hashParams["account_id"]
+        };
+
+    //check imgur connexion
+    // connected = false;
+    // if((settingsManager.imgurAPI.token != undefined && settingsManager.imgurAPI.tokenExpire > Date.now()))
+    //     connected = true;
+
+
+    //add hour in body for styling
+    updateHourBody = function(){
+        $("body").addClass("plugin-hour-"+(new Date().getHours()));
+        //relaunch for the nex hour
+        setTimeout(this, 3600000 - new Date().getTime() % 3600000);
+    }();
+
     // $('.click_div_spoiler').removeClass('click_div_spoiler').addClass('plugin_click_div_spoiler');
     // $('.commentaire_div > div.quote > div.quote_pseudo > p.pseudo_tag > a.open').removeClass('open').addClass('plugin_spoiler_open');
 
@@ -732,21 +798,23 @@ $(function() {
                 $putContainer = $('#comment_contener');
                 func = "append";
                 commentContainer = '<div class="padding_comment_contener" id="_userscript_preview_container" data-userscript="comment_contener">\
-                    <div class="profil_part">\
-                        <div class="avatar_contener">\
-                            <a class="avatar" href="{{userlink}}">\
-                                <img src="{{useravatar}}">\
-                            </a>\
+                    <div class="padding">\
+                        <div class="profil_part">\
+                            <div class="avatar_contener">\
+                                <a class="avatar" href="{{userlink}}">\
+                                    <img src="{{useravatar}}">\
+                                </a>\
+                            </div>\
                         </div>\
-                    </div>\
-                    <div class="comment_text_part">\
-                        <div class="header_comment">\
-                            <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
-                            <p><span>prévisualisation</span></p>\
-                        </div>\
-                        <div>\
-                            <div class="commentaire_div">\
-                              {{commentaire}}\
+                        <div class="comment_text_part">\
+                            <div class="header_comment">\
+                                <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
+                                <p><span>prévisualisation</span></p>\
+                            </div>\
+                            <div>\
+                                <div class="commentaire_div">\
+                                  {{commentaire}}\
+                                </div>\
                             </div>\
                         </div>\
                     </div>\
@@ -821,12 +889,15 @@ $(function() {
                         $(this).find('a.open:first').text("Masquer la citation")
                     }
                 });
+
+                $('#_userscript_preview_container a.link_a_reduce').each(function(){
+                    EmbedLinksManager.addLink(this);
+                });
             }
 
             commentaire = $(this).parents('form').find('textarea').val();
             
             if(commentaire.match(/\[img_wait_upload:[0-9]+\]/)){
-
                 noty({
                     layout: 'bottom',
                     type: 'error',

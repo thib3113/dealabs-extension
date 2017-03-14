@@ -25,33 +25,37 @@ function generate_popup(){
                     title = 'Nouveau'+(curCat.length>1?'x':'')+' commentaire'+(curCat.length>1?'x':'');
                     more_link = 'https://www.dealabs.com/notifications.html';
                     nb_notif = notifications_counter.deals.value;
+                    more_text = 'Voir plus de '+title.toLowerCase()
                 break;
                 case 'alerte':
                     title = 'Alerte'+(curCat.length>1?'s':'');
                     more_link = 'https://www.dealabs.com/alerts/alerts.html';
                     nb_notif = notifications_counter.alerte.value;
+                    more_text = 'Voir plus d\''+title.toLowerCase()
                 break;
                 case 'MP':
                     title = 'Message'+(curCat.length>1?'s':'')+' privé'+(curCat.length>1?'s':'');
                     icon = 'https://static.dealabs.com/images/header/icon_all_messages.png';
                     more_link = profil_link+'?tab=messaging&what=inbox';
                     nb_notif = notifications_counter.MP.value;
+                    more_text = 'Voir plus de '+title.toLowerCase()
                 break;
                 case 'forum':
                     title = 'Notification'+(curCat.length>1?'s':'')+' du forum';
                     more_link = 'https://www.dealabs.com/forum/notifications.html';
                     nb_notif = notifications_counter.forum.value;
+                    more_text = 'Voir plus de '+title.toLowerCase()
                 break;
             }
 
-            $('#notifications').append('<tr class="title title_'+categorie+'"><td><img class="cat_icon" src="'+icon+'" alt="'+categorie+'_icon"></td><td>'+title+'</td></tr>');
+            $('#notifications').append('<tr class="title title_'+categorie+'" data-href="'+more_link+'"><td><img class="cat_icon" src="'+icon+'" alt="'+categorie+'_icon"></td><td>'+title+'</td></tr>');
             for (var i = curCat.length - 1; i >= 0; i--) {
                 nb_add++;
                 $('#notifications').append('<tr class="notification" data-href="'+curCat[i].url+'"><td><img src="'+curCat[i].icon+'" alt="'+curCat[i].text+'"></td><td>'+curCat[i].text+'</td></tr>');
             }
 
             if(nb_notif > curCat.length)
-                $('#notifications').append('<tr class="notification" data-href="'+more_link+'"><td style="text-align:center;">...</td><td>Voir plus de '+title.toLowerCase()+'</td></tr>');
+                $('#notifications').append('<tr class="notification" data-href="'+more_link+'"><td style="text-align:center;">...</td><td>'+more_text+'</td></tr>');
         }
         if(nb_add == 0){
             $('#notifications').append('<tr class="notification"><td class="no_notification" colspan="">Aucune notification</td></tr>');
@@ -91,6 +95,8 @@ $(function(){
     });
 
     $('body').on('mouseup', '[data-href]', function(event){
+        if(event.which == 3)
+            return;
         newUrl = this.dataset.href;
         extension.sendMessage("open_tab", {
             url : newUrl,

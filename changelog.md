@@ -1,3 +1,13 @@
+1.3.3 : 
+ - right click on popup 
+ - title in popup open the list of notifications/alertes/notifications forum/mp
+ - add class in the body with the hour to manage themes
+ - minor text fixes
+ - bug with timer for youtube embed
+ - remove bug with online image drag'n'dropped (always set to https, but some website doesn't support the https)
+ - add padding to preview
+1.3.2 : 
+ - bug with mutliple notifications
 1.3.1 : 
  - better managment of smileys preview
  - add smiley in new box

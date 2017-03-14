@@ -82,6 +82,12 @@ function ChromeExtension(){
         chrome.contextMenus.remove(name,cb);
     }
 
+    this.removeAllContextMenu = function(cb){
+        cb = cb || function(){};
+
+        chrome.contextMenus.removeAll(cb);
+    }
+
     this.addContextMenu= function(pOptions){
         defaultOption = {
             type : undefined,
@@ -240,7 +246,7 @@ function ChromeExtension(){
     }
 
     this.sendNotification = function(pOptions){
-        console.log("sendNotification()");
+        // console.log("sendNotification()");
         defaultOption = {
             type : undefined,
             iconUrl : undefined,
