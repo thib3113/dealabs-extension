@@ -36,6 +36,32 @@ function soundAlert(){
   audio = null;
 }
 
+var profilsCache = {};
+var getProfile = function(profile_id){
+  if(profile_id == undefined)
+    throw Error("profile_id is empty");
+
+  if(profilsCache[profile_id] != undefined){
+    return profilsCache[profile_id];
+  }
+
+  return $.ajax({
+    url:dealabs_protocol+"www.dealabs.com/"+profile_id+"/username",
+    async: false,
+    success:function(response){
+      $page = $(response);
+      user = {
+        img : $page.find(".left_image_profil img").get(0).src,
+        pseudo : $page.find(".pseudo").text()        
+      }
+
+      profilsCache[profile_id] = user;
+      
+      return user;
+    }
+  })
+}
+
 var get_params_from_url = function(search_string) {
   var parse = function(params, pairs) {
     var pair = pairs[0];

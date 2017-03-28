@@ -173,14 +173,22 @@ function updateNotifications(content, cb){
                         plugin_name = ""
                         switch(notification.type){
                             case "forum":
+                                //don't work for the moment, see for asynchrone process
+                                // user = getProfile(notification.member_id);
+                                
                                 plugin_name = "forum";
                                 icon = dealabs_protocol+"static.dealabs.com/images/header/logo.svg";
-                                title = "Nouveau message sur le forum";
+                                title = "Nouveau message sur le forum par "+notification.member_id;
                             break;
                             case "deal":
                                 plugin_name = "deals";
                                 icon = dealabs_protocol+"www.dealabs.com/"+notification.deal_thumb_image;
                                 title = "Nouvelle notification";
+                            break;
+                            case "alert":
+                                plugin_name = "alerte";
+                                icon = dealabs_protocol+"www.dealabs.com/"+notification.deal_thumb_image;
+                                title = "Nouvelle alerte";
                             break;
                         }
 
