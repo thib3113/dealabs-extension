@@ -163,7 +163,7 @@ function updateNotifications(content, cb){
                     current_deals = [];
                     notifications_counter = {
                         'deals': {value:0},
-                        'alerte': {value:0},
+                        'alertes': {value:0},
                         'MP': {value:0},
                         'forum': {value:0}
                     }
@@ -186,7 +186,7 @@ function updateNotifications(content, cb){
                                 title = "Nouvelle notification";
                             break;
                             case "alert":
-                                plugin_name = "alerte";
+                                plugin_name = "alertes";
                                 icon = dealabs_protocol+"www.dealabs.com/"+notification.deal_thumb_image;
                                 title = "Nouvelle alerte";
                             break;
@@ -371,7 +371,7 @@ function updateNotifications(content, cb){
 
                     nb_add = 0;
                     nb_add += notifications_counter['deals'].value;
-                    nb_add += notifications_counter['alerte'].value;
+                    nb_add += notifications_counter['alertes'].value;
                     nb_add += notifications_counter['MP'].value;
                     nb_add += notifications_counter['forum'].value;
                     plus = notifications_counter['forum'].plus?"+":"";
