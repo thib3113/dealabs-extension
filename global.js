@@ -19,7 +19,7 @@ dev_emoticone_theme_url = 'https://rawgit.com/thib3113/dealabs-extension/gh-page
 //for dev time
 // theme_url = dev_theme_url;
 
-dealabs_protocol = "http://";
+dealabs_protocol = "https://";
 
 ImgurApiKey = "9c5bf06791861cb";
 // https://api.imgur.com/oauth2/authorize?response_type=token&client_id=9c5bf06791861cb
@@ -264,7 +264,7 @@ function send_desktop_notification(title, text, icon, url, slug, items){
         active : true,
         url : datas.url,
         onLoad: function(){
-          setTimeout(update, 500);
+          setTimeout(updateNotifications, 500);
         }
       })
     }
