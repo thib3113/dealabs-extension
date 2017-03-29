@@ -37,29 +37,38 @@ function soundAlert(){
 }
 
 var profilsCache = {};
-var getProfile = function(profile_id){
+var getProfile = function(profile_id, cb){
   if(profile_id == undefined)
     throw Error("profile_id is empty");
 
   if(profilsCache[profile_id] != undefined){
-    return profilsCache[profile_id];
+    cb(null, profilsCache[profile_id]);
+  }
+  else{
+    $.ajax({
+      cb:cb,
+      url:dealabs_protocol+"www.dealabs.com/"+profile_id+"/username",
+      success:function(response){
+        response = response.replace(/src=["|']\/\//g, dealabs_protocol+'');
+        $page = $(response);
+        user = {
+          img : $page.find(".left_image_profil img").get(0).src,
+          pseudo : $page.find(".pseudo").text()        
+        }
+
+        profilsCache[profile_id] = user;
+
+        this.cb(null,user);
+      },
+      error:function(){
+        this.cb("error", {
+          pseudo:"error",
+          img: dealabs_protocol+"static.dealabs.com/images/all/no_image_profil.png"
+        })
+      }
+    })
   }
 
-  return $.ajax({
-    url:dealabs_protocol+"www.dealabs.com/"+profile_id+"/username",
-    async: false,
-    success:function(response){
-      $page = $(response);
-      user = {
-        img : $page.find(".left_image_profil img").get(0).src,
-        pseudo : $page.find(".pseudo").text()        
-      }
-
-      profilsCache[profile_id] = user;
-      
-      return user;
-    }
-  })
 }
 
 var get_params_from_url = function(search_string) {
