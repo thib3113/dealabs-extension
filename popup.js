@@ -33,11 +33,11 @@ function generate_popup(){
                     nb_notif = notifications_counter.alerte.value;
                     more_text = 'Voir plus d\''+title.toLowerCase()
                 break;
-                case 'MP':
+                case 'MPs':
                     title = 'Message'+(curCat.length>1?'s':'')+' privé'+(curCat.length>1?'s':'');
                     icon = 'https://static.dealabs.com/images/header/icon_all_messages.png';
                     more_link = profil_link+'?tab=messaging&what=inbox';
-                    nb_notif = notifications_counter.MP.value;
+                    nb_notif = notifications_counter.MPs.value;
                     more_text = 'Voir plus de '+title.toLowerCase()
                 break;
                 case 'forum':

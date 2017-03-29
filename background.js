@@ -66,8 +66,8 @@ function remove_all(){
 
                             nb_add = 0;
                             nb_add += notifications_counter['deals'].value;
-                            nb_add += notifications_counter['alerte'].value;
-                            nb_add += notifications_counter['MP'].value;
+                            nb_add += notifications_counter['alertes'].value;
+                            nb_add += notifications_counter['MPs'].value;
                             nb_add += notifications_counter['forum'].value;
                             plus = notifications_counter['forum'].plus?"+":"";
                             nb_notifs = nb_add<1000? nb_add + plus :"999+";
