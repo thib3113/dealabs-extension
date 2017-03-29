@@ -1,3 +1,5 @@
+1.5.0 : 
+ - adapt the plugin with the new design of dealabs
 1.3.3 : 
  - right click on popup 
  - title in popup open the list of notifications/alertes/notifications forum/mp
