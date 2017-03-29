@@ -10,7 +10,7 @@
  *                        par oOKaMiZuKOo - https://www.dealabs.com/28642/oOKaMiZuKOo                             
  *                                                                 
  *                                                                                         
- *    Dernière MAJ : 18/11/2016 - Version A.1.0.5.1 (AVEC emoticones modifiés)
+ *    Dernière MAJ : 29/03/2017 - Version A.1.1 (AVEC emoticones modifiés)
  *    
  *    Topic de suivi (et MAJ) sur : https://www.dealabs.com/forums/le-site/annonces--nouveauts-du-site-modifications/theme-dealabs-dealabskin-by-ookamizukoo/26018
  *
@@ -22,7 +22,18 @@
  *
  *    Historique :
  *
- *      1.0.5.1 - 18/11/2016 :
+ *      1.1 - 29/03/2017 :
+ *      ----------------------------------------
+ *                             Objet : Suite MAJ de l'interface du site de Mars 2017 -> adaptation  
+ *
+ *                             Réalisation de :
+ *                                      - distinction par couleur pour différenciation forum/site => Intitulés catégories en vert
+ *                                      - redéfinition : adaptation nouveau format / effets visuels du menu (hover, notifications), boutons, recherche
+ *                                      - ajout surbrillance au passage de souris sur notofications/titre sujet forum/subcat
+ *                                      - suppression de l'effet text-shadow du addon-element
+ *                                      - réduction taille font categorie d'articles
+ *                                      - ajout couleurs aux bouton forum button_type_deal
+ *      1.0.5.1 - 12/11/2016 :
  *      ----------------------------------------
  *                             Objet : Séparation en 2 branches pour la version A (avec emoticones modifiés) et S (sans emoticones modifiés) 
  *
@@ -188,6 +199,8 @@
  **/
 
 
+@namespace url(http://www.w3.org/1999/xhtml);
+
 /* harmonisation du menu avec la couleur du "gris sombre" du logo dealabs */
 
 header {
@@ -226,33 +239,106 @@ a.link_a_reduce {
       
 #header_black
 {
-    height:30px !important;
+    /* height:30px !important;
     padding-bottom: 10px !important;
     padding-top: 10px !important;
-
+    */
 }
       
 #header_black .logo
 {
-   
+   /*
     float:left;
     padding:0;
     height:30px !important;
     width:78px !important;
     background: url(https://static.dealabs.com/images/header/logo.png) no-repeat;
     background-size : contain !important;
-    
+    */
     
 }
 
 #header_black .logo:hover {
-   background:rgba(0, 0, 0, 1) url(https://static.dealabs.com/images/header/icon_header_home.png) no-repeat center;
+   /* background:rgba(0, 0, 0, 1) url(https://static.dealabs.com/images/header/icon_header_home.png) no-repeat center;
    background-size : auto 20px !important;
-
+    */
 }
 
-#type_header_conteneur_left {margin:0 !important; padding:0 !important; width:540px !important; background: #333333}
-#login_conteneur_right_connected, #login_conteneur_right {margin:-5px !important; padding:0 !important; border-radius: 8px 8px 8px 8px !important; }
+#type_header_conteneur_left {
+    margin:0 !important; 
+    padding:0 !important; 
+    width:540px !important; 
+    background: #333333
+}
+      
+#login_conteneur_right_connected, #login_conteneur_right {
+    margin:-5px !important; 
+    padding:0 !important; 
+    border-radius: 8px 8px 8px 8px !important; 
+}
+      
+      
+   
+           
+/* coloration survol souri du bouton "se connecter" et "champs de recherche" */
+      #member_div  #login_header a:hover,
+      #search_div #search_preview .search_preview_contener #advanced_search a:hover {
+          color:#35B7CD !important;
+          background-color: #FFFFFF !important;
+          border: 1px solid #35B7CD !important;
+      }    
+      
+/*notifications menu */
+      #notifications #notification_box div.notification:hover {
+          background-color: rgb(234, 248, 252) !important;
+      }
+      
+      #notifications #notification_box div.notification .notification_first_text_content a p:nth-child(2) {
+          color : #000000 !important;
+      }      
+      
+      #notifications #notification_box div.notification .notification_first_text_content a p:nth-child(1) {
+          color : #4E4291 !important;
+          font-size: 80% !important;
+      }      
+      
+      #notifications #view_all_notification_button:hover {
+          background-color: #02A5C1 !important;
+      } 
+      
+      #notifications #view_all_notification_button:hover a p {
+          color : #FFFFFF !important;
+      }       
+      
+      #notifications #notification_box .notification_last_text_content p.forum_icon { font-size: 70% !important; color: #60B35C !important;}
+      
+/* coloration sous-menu au survol de la souris */       
+nav .menu_category:hover, 
+header .structure #sub_menu div div a p:hover,
+header .structure #sub_menu #merchants a p:hover,
+#member_parameters a:hover
+      {
+       
+       color:#35B7CD !important;
+      } 
+
+/* supression coloration grisee du bouton menu (du menu ) */
+      header #header_black #menu div#open_sub_menu.menu_category.has_sub_menu.not_open,
+      #open_member_parameters.has_sub_menu.not_open {
+          background-color: #333333 !important;
+      }      
+      
+      
+/* réduction taille logo marchand */      
+body .mouai #merchant_page_full_line .structure .image-title-div .image-div img {
+       width : 90%;
+       height : 90%;
+      }      
+      
+/* espace agrandi avant fin bandeau marchand structure */
+body .mouai #merchant_page_full_line .structure .image-title-div .title-div  {
+       padding-bottom : 3px;
+      }   
       
       
 /* coloration au hover sur les categories recherchées de deal du menu + liste, etc.. */      
@@ -260,7 +346,7 @@ a.link_a_reduce {
       #contener_menu_padding #contener_menu .subcat_contener a:hover, 
       #contener_plus #plus_liste a:hover,
       #bloc_region_departement .list_div_absolute .list_div label:hover
-      {background: #EAF8FC !important; color:#014956 !important;}
+      {background: #EAF8FC !important; color:#014956 !important;} /* #015260 */
       
 /* coloration du bouton valider des paramètres de recherche du menu */
 a.button_grey_structure.validate_form_option_list {background: #60b35c !important; color:#FFF !important;}      
@@ -388,16 +474,30 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
 /***************************************
   ** SECTION RACINE PAGE LISTE DEALS ***
 ****************************************/      
-
+      
+      
+      /* forum boutons nouveau / commenté, etc.... 
+      commenté #60B35C
+      hot #F44343
+      nouveau #02A5C1 */
+      
+      .mouai #menu_white_background .structure #contener_type a.button_type_deal:nth-of-type(2):hover {
+          color : #02A5C1 !important;
+      }
+      
+      body .mouai #menu_white_background .structure #contener_type a.button_type_deal:nth-of-type(3):hover {
+          color : #60B35C !important;
+      }      
+      
       /* Bandeau surimpression article */  
-      
-      
       article .image_part .addon-element.date {
           background: rgba(96, 179, 92,0.97) !important;
           border-top: 2px solid #044401 !important;
           border-right: 2px solid #044401 !important;
           border-bottom: 1px solid #044401 !important;
-          text-shadow: 1px 0 0 #03252B, -1px 0 0 #03252B, 0 1px 0 #03252B, 0 -1px 0 #03252B, 1px 1px #03252B, -1px -1px 0 #03252B, 1px -1px 0 #03252B, -1px 1px 0 #03252B;
+          /*text-shadow: 1px 0 0 #03252B, -1px 0 0 #03252B, 0 1px 0 #03252B, 0 -1px 0 #03252B, 1px 1px #03252B, -1px -1px 0 #03252B, 1px -1px 0 #03252B, -1px 1px 0 #03252B;
+          */
+          
       }
       
       article .image_part .addon-element.maj {
@@ -405,7 +505,7 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
           border-top: 2px solid #C15E13 !important;
           border-right: 2px solid #C15E13 !important;
           border-bottom: 1px solid #C15E13 !important;
-          text-shadow: 1px 0 0 #C15E13, -1px 0 0 #C15E13, 0 1px 0 #C15E13, 0 -1px 0 #C15E13, 1px 1px #C15E13, -1px -1px 0 #C15E13, 1px -1px 0 #C15E13, -1px 1px 0 #C15E13;
+
       }
       
      
@@ -414,7 +514,7 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
           border-top: 2px solid #595084 !important;
           border-right: 2px solid #595084 !important;
           border-bottom: 1px solid #595084 !important;
-          text-shadow: 1px 0 0 #595084, -1px 0 0 #595084, 0 1px 0 #595084, 0 -1px 0 #595084, 1px 1px #595084, -1px -1px 0 #595084, 1px -1px 0 #595084, -1px 1px 0 #595084;
+
 
           
       }
@@ -509,7 +609,8 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
     /* catégories d'appartenance de l'article */
       article .content_part p.categorie a {
           color:#BA0E72 !important;
-          font-size:0.9em;
+          font-size:0.85em;
+          font-style: initial;
           
 
          
@@ -593,16 +694,18 @@ div#login_conteneur_right_connected a#pseudo_right_header_contener img {
       article .deal_content .detail_part .option_part a.button.report,
       article .deal_content .detail_part .option_part a.button.expire,
       article .deal_content .detail_part .option_part a.button.add_calendar,
-      article .deal_content .detail_part .option_part a.button.social {border: 2px solid #E3E5E9 !important;}
+      article .deal_content .detail_part .option_part a.button.social {border: 1px solid #E3E5E9 !important;}
       
-      article .deal_content .detail_part .option_part a.button.save:hover {border: 2px solid #E9BF16 !important;}
-      article .deal_content .detail_part .option_part a.button.report:hover {border: 2px solid #F65F5F !important;}
-      article .deal_content .detail_part .option_part a.button.expire:hover {border: 2px solid #E3E5E9 !important;}
-      article .deal_content .detail_part .option_part a.button.add_calendar:hover {border: 2px solid #E3E5E9 !important;}
+      article .deal_content .detail_part .option_part a.button.save:hover {border: 1px solid #E9BF16 !important;}
+      article .deal_content .detail_part .option_part a.button.report:hover {border: 1px solid #F65F5F !important;}
+      article .deal_content .detail_part .option_part a.button.expire:hover {border: 1px solid #E3E5E9 !important;}
+      article .deal_content .detail_part .option_part a.button.add_calendar:hover {border: 1px solid #E3E5E9 !important;}
       
       /* lien "voir le deal" + détail du deal : lien "voir le deal" *  */
       article .vote_part a.link_to_deal,
-      article .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part a.link_to_deal {border: 2px solid rgb(1, 73, 86) !important; color:#FFF !important;}
+      article .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part a.link_to_deal {
+          border: 1px solid rgb(1, 73, 86) !important; color:#FFF !important;}
+      
       article .vote_part a.link_to_deal:hover, 
       .link_to_deal_part a.link_to_deal:hover {color:rgb(1, 73, 86) !important;}
       
@@ -623,6 +726,10 @@ article .content_part .poster_part a.poster_link img {
     border: 0.1em solid #FFF;
 }
 
+
+  
+      
+      
 /***************************************
   ** SECTION PAGINATION ***
 ****************************************/  
@@ -733,7 +840,7 @@ article.expired .content_part .poster_part .poster_link img, article.expired .de
       article.expired .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part {border-radius: 8px 8px 8px 8px !important;} 
       
       article.expired .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part a.link_to_deal,
-      article.expired .vote_part a.link_to_deal {background-color: rgba(126, 143, 146,1) !important; border: 2px solid rgb(99, 99, 99) !important;}  
+      article.expired .vote_part a.link_to_deal {background-color: rgba(126, 143, 146,1) !important; border: 1px solid rgb(99, 99, 99) !important;}  
       article.expired .deal_content .deal_detail_deal_part .deal_title_part .link_to_deal_part a.link_to_deal:hover,
       article.expired .vote_part a.link_to_deal:hover {background-color: rgba(135, 149, 154,1) !important; color:rgb(99, 99, 99) !important;}  
     
@@ -880,6 +987,22 @@ div.bloc_rightbar,
 a[href='https://www.dealabs.com/page/shoop'] img {
     border-radius: 0px 0px 8px 8px;
 }
+      
+      
+/* couleurs titre section forum */
+      .title_categorie_contener {
+          background-color: #60B35C !important;
+          
+      }      
+      
+      
+/* couleur de ligne passage souris sur le forum */       
+      #body .title_thread_contener:hover,
+      .sub_categorie_contener:hover {
+          background-color: #EAF8FC !important; 
+      }      
+      
+      
 /* Arrondi cadre des sections de catégories du forum */
 
 div.title_categorie_contener {
@@ -1236,6 +1359,37 @@ textarea#add_comment:focus {
     border: 1px solid #02A5C1 !important;
 }
       
+
+/* footer bandeau */
+
+      .events_part a:hover  {color : #35B7CD !important;}    
+      
+footer#footer_html div#footer_social {
+    background: #02849B
+}
+.newsletter_part p.info {
+    color: #333333 !important;
+}
+footer#footer_html div#footer_events {
+    background: #333333
+}
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Modification (et remplacement) des emoticons natifs du site (toutes sections) 
    * -> Modification graphique perso (car non existants) des émoticones afin de correspondre au mieux au originaux du site [ ":P" , "B)", ":D", ":|", ";)" ]
    * Source : - http://bad-blood.deviantart.com/art/Y-o-l-k-s-78118255
@@ -1243,15 +1397,7 @@ textarea#add_comment:focus {
   **/
       
       
-      
-      
-      
-/***************************************
-  ** EMOTICONES PERSOS ***
-****************************************/        
-  
-
-     
+/* alignement des emoticons non remplacés (par défaut) du site */
 img.bbcode_smiley {
    cursor: default !important;
    vertical-align: 0px;
@@ -1263,6 +1409,11 @@ img.bbcode_smiley {
    padding-bottom:8px;
 
 }
+
+/***************************************
+  ** EMOTICONES PERSOS ***
+****************************************/  
+
 
 img.bbcode_smiley[alt="(popcorn)"] {
     vertical-align: -7px;
@@ -1834,24 +1985,6 @@ a[alt=":|"] img {
     background-size: 24px 24px !important;
 
 }
-      
-
-      
 /* Fin section smiley */
-
-      
-      
-      
-/* couleurs footer bandeau */
-
-footer#footer_html div#footer_social {
-    background: #02849B
-}
-.newsletter_part p.info {
-    color: #333333 !important;
-}
-footer#footer_html div#footer_events {
-    background: #333333
-}
 
   
