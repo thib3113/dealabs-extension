@@ -139,6 +139,16 @@ function updateNotifications(content, cb){
     clearTimeout(notificationUpdateTimeout);
     if(content == null){
         var notification_list = [];
+        //check connection
+        $.ajax({
+            url:dealabs_protocol+"dealabs.com",
+            success:function(resp){
+                response = response.replace(/src=["|']\/\//g, dealabs_protocol+'');
+                $page = $(response);
+                
+            }
+        })
+
         async.parallel({
             notifications: function(callback) {
                 var index = 0;
@@ -217,14 +227,16 @@ function updateNotifications(content, cb){
                     }
                 });
             }
-        }, function(err, results) {
+        }, 
+        function(err, results) {
             if(err != null){
                 debugger;
             }
 
             notification_list = $.merge(results.notifications, results.mps);
 
-            async.map(notification_list, function(notification,cb){
+            async.map(notification_list, 
+                function(notification,cb){
                 return_notif = {
                     plugin_name : "unknown",
                     icon : "",
@@ -237,7 +249,7 @@ function updateNotifications(content, cb){
                             categorie : "forum",
                             icon : dealabs_protocol+"static.dealabs.com/images/header/logo.svg",
                             title : "Nouveau message sur le forum",
-                            slug : notification.id+notification.added_date,
+                            slug : notification.id,
                             text : notification.title,
                             url  : notification.url
                         };
@@ -250,7 +262,7 @@ function updateNotifications(content, cb){
                             categorie : "deals",
                             icon : dealabs_protocol+"www.dealabs.com/"+notification.deal_thumb_image,
                             title : "Nouvelle notification",
-                            slug : notification.id+notification.added_date,
+                            slug : notification.id,
                             text : notification.title,
                             url  : notification.url
                         };
@@ -260,7 +272,7 @@ function updateNotifications(content, cb){
                             categorie : "alertes",
                             icon : dealabs_protocol+"www.dealabs.com/"+notification.deal_thumb_image,
                             title : "Nouvelle alerte",
-                            slug : notification.id+notification.added_date,
+                            slug : notification.id,
                             text : notification.title,
                             url  : notification.url
                         };
@@ -279,128 +291,128 @@ function updateNotifications(content, cb){
                 // if(notification.type!="forum"){
                 cb(null, return_notif);
                 // }
-            },
-            function(err,notification_list){
-                //all notifications listed
-                //notifications
-                current_deals = [];
-                notifications_counter = {
-                    'deals': {value:0},
-                    'alertes': {value:0},
-                    'MPs': {value:0},
-                    'forum': {value:0}
-                }
-
-                tempNotifs = [];
-                for (let notification of notification_list) {
-                    if(settingsManager.notifications_manage[notification.categorie]){
-                        notifications_counter[notification.categorie].value++;
-                        tempNotifs.push(notification)
+                },
+                function(err,notification_list){
+                    //all notifications listed
+                    //notifications
+                    current_deals = [];
+                    notifications_counter = {
+                        'deals': {value:0},
+                        'alertes': {value:0},
+                        'MPs': {value:0},
+                        'forum': {value:0}
                     }
-                }
-                
-                var newNotificationsNotified = {};
-                var saveNotifications = {};
-                var notifs_to_send = [];
-                for (var i = tempNotifs.length - 1; i >= 0; i--) {
 
-                    //manage blacklists and sounds
-                    if(linkInfo = tempNotifs[i].url.match(/\.com\/([^\/]+)\/.*\/([0-9]+)[#|\?]/)){
-                        if(typeof settingsManager.settings.blacklist[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
-                            $.get(tempNotifs[i].url);
-                            // console.log(tempNotifs[i].categorie);
-                            notifications_counter[tempNotifs[i].categorie].value -= 1;
-                            continue;
+                    tempNotifs = [];
+                    for (let notification of notification_list) {
+                        if(settingsManager.notifications_manage[notification.categorie]){
+                            notifications_counter[notification.categorie].value++;
+                            tempNotifs.push(notification)
                         }
-                        if(typeof settingsManager.settings.notifications_with_sound[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
-                            if(typeof notificationsNotified[tempNotifs[i].slug] == "undefined" || notificationsNotified[tempNotifs[i].slug] == null){
-                                soundAlert();
+                    }
+                    
+                    var newNotificationsNotified = {};
+                    var saveNotifications = {};
+                    var notifs_to_send = [];
+                    for (var i = tempNotifs.length - 1; i >= 0; i--) {
+
+                        //manage blacklists and sounds
+                        if(linkInfo = tempNotifs[i].url.match(/\.com\/([^\/]+)\/.*\/([0-9]+)[#|\?]/)){
+                            if(typeof settingsManager.settings.blacklist[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
+                                $.get(tempNotifs[i].url);
+                                // console.log(tempNotifs[i].categorie);
+                                notifications_counter[tempNotifs[i].categorie].value -= 1;
+                                continue;
+                            }
+                            if(typeof settingsManager.settings.notifications_with_sound[linkInfo[1]+'-'+linkInfo[2]] != "undefined"){
+                                if(typeof notificationsNotified[tempNotifs[i].slug] == "undefined" || notificationsNotified[tempNotifs[i].slug] == null){
+                                    soundAlert();
+                                }
                             }
                         }
-                    }
 
-                    if(typeof saveNotifications[tempNotifs[i].categorie] == "undefined")
-                        saveNotifications[tempNotifs[i].categorie] = [];
-                    saveNotifications[tempNotifs[i].categorie].push(tempNotifs[i]);
+                        if(typeof saveNotifications[tempNotifs[i].categorie] == "undefined")
+                            saveNotifications[tempNotifs[i].categorie] = [];
+                        saveNotifications[tempNotifs[i].categorie].push(tempNotifs[i]);
 
-                    if(typeof notificationsNotified[tempNotifs[i].slug] == "undefined" || notificationsNotified[tempNotifs[i].slug] == null){
-                        if(settingsManager.notifications_manage.desktop){
-                            notifs_to_send.push(tempNotifs[i]);
-                        }
-                    }
-                    newNotificationsNotified[tempNotifs[i].slug] = tempNotifs[i];
-                }
-                if(notifs_to_send.length<=6){
-                    for (var i = 0; i < notifs_to_send.length; i++) {
-                        send_desktop_notification(notifs_to_send[i].title, notifs_to_send[i].text, notifs_to_send[i].icon, notifs_to_send[i].url, notifs_to_send[i].slug);
-                    }
-                }
-                else{
-                    send_desktop_notification(
-                        "vous avez "+notifs_to_send.length+" notification"+(notifs_to_send.length>1?"s":"")+" non lue"+(notifs_to_send.length>1?"s":""),
-                        "vous avez "+notifs_to_send.length+" notification"+(notifs_to_send.length>1?"s":"")+" non lue"+(notifs_to_send.length>1?"s":""),
-                        "https://static.dealabs.com/images/profil/icon_profile_activity.png",
-                        "https://www.dealabs.com/forum/notifications.html",
-                        "multinotif-"+Date.now(),
-                        function(items){
-                            list = [];
-                            for (var i = 0; i < items.length; i++) {
-                                list.push({
-                                    title : items[i].title,
-                                    message : items[i].text
-                                })
+                        if(typeof notificationsNotified[tempNotifs[i].slug] == "undefined" || notificationsNotified[tempNotifs[i].slug] == null){
+                            if(settingsManager.notifications_manage.desktop){
+                                notifs_to_send.push(tempNotifs[i]);
                             }
-                            return list;
-                        }(notifs_to_send)
-                    )
-                }
-                
-                //save to not notify each refresh times
-                notificationsNotified = newNotificationsNotified;
-
-                nb_add = 0;
-                nb_add += notifications_counter['deals'].value;
-                nb_add += notifications_counter['alertes'].value;
-                nb_add += notifications_counter['MPs'].value;
-                nb_add += notifications_counter['forum'].value;
-                // plus = notifications_counter['forum'].plus?"+":"";
-                // nb_notifs = nb_add<1000? nb_add:"999+";
-                // send desktop notifications
-                if(nb_add > 0 ){
-                    extension.browserAction.getBadgeText({}, function(result){
-                        if(result != nb_add){
-                            extension.browserAction.setTitle({title:nb_add+' notification'+(nb_add>1?'s':'')});
-                            extension.browserAction.setBadgeText({text:''+nb_add});
-                            extension.browserAction.setBadgeBackgroundColor({color:'#0012FF'});
                         }
+                        newNotificationsNotified[tempNotifs[i].slug] = tempNotifs[i];
+                    }
+                    if(notifs_to_send.length<=6){
+                        for (var i = 0; i < notifs_to_send.length; i++) {
+                            send_desktop_notification(notifs_to_send[i].title, notifs_to_send[i].text, notifs_to_send[i].icon, notifs_to_send[i].url, notifs_to_send[i].slug);
+                        }
+                    }
+                    else{
+                        send_desktop_notification(
+                            "vous avez "+notifs_to_send.length+" notification"+(notifs_to_send.length>1?"s":"")+" non lue"+(notifs_to_send.length>1?"s":""),
+                            "vous avez "+notifs_to_send.length+" notification"+(notifs_to_send.length>1?"s":"")+" non lue"+(notifs_to_send.length>1?"s":""),
+                            "https://static.dealabs.com/images/profil/icon_profile_activity.png",
+                            "https://www.dealabs.com/forum/notifications.html",
+                            "multinotif-"+Date.now(),
+                            function(items){
+                                list = [];
+                                for (var i = 0; i < items.length; i++) {
+                                    list.push({
+                                        title : items[i].title,
+                                        message : items[i].text
+                                    })
+                                }
+                                return list;
+                            }(notifs_to_send)
+                        )
+                    }
+                    
+                    //save to not notify each refresh times
+                    notificationsNotified = newNotificationsNotified;
+
+                    nb_add = 0;
+                    nb_add += notifications_counter['deals'].value;
+                    nb_add += notifications_counter['alertes'].value;
+                    nb_add += notifications_counter['MPs'].value;
+                    nb_add += notifications_counter['forum'].value;
+                    // plus = notifications_counter['forum'].plus?"+":"";
+                    // nb_notifs = nb_add<1000? nb_add:"999+";
+                    // send desktop notifications
+                    if(nb_add > 0 ){
+                        extension.browserAction.getBadgeText({}, function(result){
+                            if(result != nb_add){
+                                extension.browserAction.setTitle({title:nb_add+' notification'+(nb_add>1?'s':'')});
+                                extension.browserAction.setBadgeText({text:''+nb_add});
+                                extension.browserAction.setBadgeBackgroundColor({color:'#0012FF'});
+                            }
+                        });
+                    }
+                    else{
+                        extension.browserAction.setTitle({title:'pas de notifications'});
+                        extension.browserAction.setBadgeText({text:''});
+                        extension.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
+                    }
+
+
+                    // save notifications in local (for the popup)
+                    extension.setStorage(
+                    {
+                        'notifications':saveNotifications,
+                        'notifications_counter':notifications_counter
                     });
-                }
-                else{
-                    extension.browserAction.setTitle({title:'pas de notifications'});
-                    extension.browserAction.setBadgeText({text:''});
-                    extension.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
-                }
 
-
-                // save notifications in local (for the popup)
-                extension.setStorage(
-                {
-                    'notifications':saveNotifications,
-                    'notifications_counter':notifications_counter
-                });
-
-                //update popup
-                popup = extension.getPopup();
-                if(popup.length >0){
-                    for (var i = 0; i < popup.length; i++) {
-                        popup[i].generate_popup();
+                    //update popup
+                    popup = extension.getPopup();
+                    if(popup.length >0){
+                        for (var i = 0; i < popup.length; i++) {
+                            popup[i].generate_popup();
+                        }
                     }
-                }
-
-                notificationUpdateTimeout = setTimeout(updateNotifications, settingsManager.settings.time_between_refresh);
-            });
-        
-        });
+                    this.cb(true);
+                    notificationUpdateTimeout = setTimeout(updateNotifications, settingsManager.settings.time_between_refresh);
+                }.bind({cb:this.cb})
+            );
+        }.bind({cb:cb}));
     }
     else{
         parseUpdate(content, function(){
