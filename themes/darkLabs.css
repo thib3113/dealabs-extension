@@ -596,17 +596,36 @@ section div.after_pagination_merchant {
 		font-size: 0.8 !important;
 	  color: white !important;}
 
-/* maj 27.03 */
+/* maj 27.03 - v2 */
 	
-	#open_filters, #notifications, #mailbox, #option_index_list_form {
-	color: #fff !important;
-  background-color: #444 !important;}
+#open_filters, #notifications, #mailbox, #option_index_list_form {
+  color: #fff !important;
+  background-color: #222 !important;}
 	
-	div.has_sub_menu.not_open {
-		background: none !important;}
+div.has_sub_menu.not_open {
+  background: none !important;}
 	
 .content_profil_param_champs label {
 	color: #eee !important;}
+	
+/* #notifications div#notification_header {
+    background-color: #007FFF !important;} */
+
+#mailbox {
+	border: 1px #8C071F solid !important;}
+
+#mailbox div#mailbox_header, #save_filter_button {
+	background-color: #8C071F !important;}
+	
+#mailbox div.top_arrow {
+    border-bottom: 15px solid #8C071F !important;}
+	
+#no_message_div {
+    border-top: 1px solid #8C071F !important;}
+	
+input.green_checkbox[type="checkbox"]:checked + label span {
+    background: #8C071F url(https://static.dealabs.com/images/header/ic_header_confirmation.png) center no-repeat !important;
+    border: 2px solid #8C071F !important;}
 
 	
 /* BUGS CONNUS */
