@@ -29,7 +29,7 @@
     "name": "DealabSkin sans emoticones",
     "styles": [
       {
-        "version": "1.0.2",
+        "version": "1.1",
         "url": "DealabSkin.S.css"
       }
     ]
@@ -39,7 +39,7 @@
     "name": "DealabSkin avec emoticones",
     "styles": [
       {
-        "version": "1.0.2",
+        "version": "1.1",
         "url": "DealabSkin.A.css"
       }
     ]
