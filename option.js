@@ -1,4 +1,6 @@
 try{
+    document.getElementById("__MSG__IF_NOT_REDIRECTED_OPTIONS").innerHTML = chrome.i18n.getMessage("IF_NOT_REDIRECTED_OPTIONS");
+    document.getElementById("__MSG__REDIRECTION_OPTIONS").innerHTML = chrome.i18n.getMessage("REDIRECTION_OPTIONS");
     chrome.storage.local.get(['profil'], function(value){
         profil_link = value.profil.link;
 
@@ -6,5 +8,5 @@ try{
     })
 }
 catch(e){
-    document.getElementById("erreur").innerHTML = 'Error : '+err.message;
+    document.getElementById("erreur").innerHTML = 'Error : '+e.message+"<br>"+e.stack;
 }

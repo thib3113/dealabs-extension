@@ -28,6 +28,7 @@ if(typeof chrome != "undefined"){
   extension = new ChromeExtension();
 }
 
+imgurManager = new Imgur();
 settingsManager = new SettingsManager();
 
 function soundAlert(){
@@ -131,7 +132,6 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
   $image_progress.append(oImg);
   cbFunction = function(error, response){
     failcb = function(textarea, id, error, img){
-      // console.log('noty : '+error);
       noty({
         layout: 'bottom',
         type: 'error',
@@ -149,7 +149,7 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
     $image_progress.remove();
 
     if(error == null){
-      if(response.error){
+      if(response.error != undefined){
         // alert('Une erreur est apparue lors de l\'envoi de l\'image : '+response.error);
         failcb(this.textarea, this.id, response.error, imgHtml);
       }
@@ -159,14 +159,6 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
       $(textarea).val(newValue);
     }
     else{
-      // console.log('noty : '+error+' '+imgHtml);
-      // noty({
-      //   layout: 'bottom',
-      //   type: 'error',
-      //   text: error+' '+imgHtml,
-      //   timeout: 20000
-      // });
-      // alert('Une erreur est apparue lors de l\'envoi de l\'image : '+error);
       failcb(this.textarea, this.id, error, imgHtml);
     }
   }.bind({textarea:textarea, id:addImageInFormCounter,$image_progress:$image_progress});
@@ -191,96 +183,7 @@ function addImageInForm(textarea, img, cursorPos, pUpload){
 }
 
 function sendToImgur(img, cb, imgName, cbProgress){
-  isBlob = img instanceof Blob;
-
-  if(isBlob){
-    switch(img.type){
-      case "image/gif":
-          image_extension = ".gif";
-          break;
-      case "image/jpeg":
-          image_extension = ".jpeg";
-          break;
-      case "image/png":
-          image_extension = ".png";
-          break;
-      case "image/bmp":
-          image_extension = ".bmp";
-          break;
-      case "image/svg+xml":
-          cb('type d\'image refusé');
-          return;
-          break;
-      default :
-        cb('unknow type');
-        return;
-      break;
-    }
-    imgName = imgName || "dealabs-paste-image"+image_extension;
-
-    var data = new FormData();
-    data.append("image", img, imgName);
-  }
-  else{
-    cb('Hum, Oh, sometings is pas bon là :P');
-  }
-
-  // if(location.protocol == "https:")
-  //   cb('cette fonctionnalitée ne fonctionne pas en https !');
-
-  $.ajax({
-      url : 'https://api.imgur.com/3/image',
-      data: data,
-      method: 'POST',
-      processData: !isBlob,  // tell jQuery not to process the data
-      contentType: !isBlob,   // tell jQuery not to set contentType
-      dataType: 'JSON',
-      cb : cb,
-      beforeSend: function (request){
-          request.setRequestHeader("Authorization", 'Client-ID ' + ImgurApiKey);
-      },
-      success:function(response){
-        if(response.success){
-          //use current http scheme
-          response.data.link = response.data.link.replace(/^https?\:/i, "");
-          this.cb(null, response.data)
-        }
-
-      },
-      xhr: function() {
-        var myXhr = $.ajaxSettings.xhr();
-        if(myXhr.upload){
-          myXhr.upload.addEventListener('progress', cbProgress, false);
-        }
-        return myXhr;
-      },
-      error:function(qXHR, textStatus, errorThrown ){
-        try{
-          response = JSON.parse(qXHR.responseText);
-          debugger;
-          if(response.error != ""){
-            this.cb(response.error);
-          }
-        }
-        catch(e){
-          switch(qXHR.status){
-            case 413:
-              this.cb('l\'image est trop grosse pour le serveur');
-            break;
-            case 200:
-              if(textStatus == "parsererror"){
-                if(qXHR.responseText.match(/Allowed memory size of/)){
-                  cb('erreur du serveur, merci de reessayer');
-                }
-              }
-            break;
-            default:
-              this.cb(textStatus+' '+errorThrown);
-            break;
-          }
-        }
-      }
-  });
+  imgurManager.sendImage(img,cb,imgName,cbProgress);
 }
 
 function send_desktop_notification(title, text, icon, url, slug, items){

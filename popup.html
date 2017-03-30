@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <script src="class/ChromeExtension.inc.js"></script>
   <script src="class/Settings.inc.js"></script>
+  <script src="class/Imgur.inc.js"></script>
   <script src="third/jquery.min.js"></script>
   <script src="global.js"></script>
   <script src="popup.js"></script>
@@ -52,7 +53,7 @@
     .title_deals{
       background-color: #02a5c1;
     }
-    .title_alerte{
+    .title_alertes{
       background-color: #704791;
     }
     .title_forum{
@@ -90,6 +91,7 @@
   </style>
 </head>
 <body>
+<img style="display:none;" data-why="to-add-preload-image" src="https://raw.githubusercontent.com/thib3113/dealabs-extension/gh-pages/img/message.png">
     <header>
         <span class="link"><i data-btn="see_dealabs_home" class="zmdi zmdi-home" title="Accueil"></i></span>
         <span class="link"><i data-btn="see_profil" class="zmdi zmdi-account-circle" title="mon profil"></i></span>

@@ -1,0 +1,14 @@
+{
+  "IF_NOT_REDIRECTED_OPTIONS":{
+    "message" : "If you are not redirected in 5 seconds, Please go in your settings, tab \"Plugin\"",
+    "description" : "explain what to do if the option page don't redirect"
+  },
+  "REDIRECTION_OPTIONS":{
+    "message" : "Loading ...",
+    "description" : "It's loading"
+  },
+  "APPNAME": {
+    "message": "Dealabs - unofficial",
+    "description": "The name of the application"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "You_are_sending_images_too_fast__please_wait__waitingTime__minutes": {
+    "message": "Vous envoyez des images trop rapidement, merci d'attendre $waitingTime$ minutes",
+    "description": "Error when you send too images .",
+    "placeholders": {
+      "waitingTime": {
+        "content": "$1",
+        "example": "10"
+      }
+    }
+  },
+  "something_is_wrong______maybe_a_cross_domain_error__checking_console_can_help_you": {
+    "message": "Un problème est apparu .... Peut être un problème de requètes entre domaine, seul une vérification de la console pourra vous aider .",
+    "description": "maybe cross domain error ."
+  },
+  "Please_send_a_blob__": {
+    "message": "Merci de passer une image de type blob",
+    "description": "Error if you try to send not a blob"
+  },
+  "you_are_not_connected": {
+    "message": "Vous n'êtes pas connecté",
+    "description": "Error if you are not connected"
+  },
+  "IF_NOT_REDIRECTED_OPTIONS":{
+    "message" : "Si vous n'êtes pas redirigé dans les 5 secondes, rendez vous sur le site <a href=\"https://www.dealabs.com\">dealabs.com</a>, aller dans les paramètres de votre compte, dans l'onglet \"Plugin\"",
+    "description" : "explain what to do if the option page don't redirect"
+  },
+  "REDIRECTION_OPTIONS":{
+    "message" : "Redirection en cours ... ",
+    "description" : "It's loading"
+  },
+  "APPNAME": {
+    "message": "Dealabs - non officiel",
+    "description": "The name of the application"
+  }
+}

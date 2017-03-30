@@ -147,7 +147,7 @@ function updateNotifications(content, cb){
             $page = $(response);
             if($page.find("#login_header").length>0){
                 //here we are not connected
-                extension.browserAction.setTitle({title:'Vous n\'êtes pas connecté'});
+                extension.browserAction.setTitle({title:extension.i18n.getMessage("you are not connected")});
                 extension.browserAction.setBadgeText({text:'!'});
                 extension.browserAction.setPopup({popup:''});
                 extension.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
@@ -276,7 +276,7 @@ function updateNotifications(content, cb){
                             case "forum":
                                 return_notif = {
                                     categorie : "forum",
-                                    icon : dealabs_protocol+"static.dealabs.com/images/header/logo.svg",
+                                    icon : "https://raw.githubusercontent.com/thib3113/dealabs-extension/gh-pages/img/message.png",
                                     title : "Nouveau message sur le forum",
                                     slug : notification.id,
                                     text : notification.title,

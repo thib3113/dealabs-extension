@@ -27,10 +27,10 @@ function generate_popup(){
                     nb_notif = notifications_counter.deals.value;
                     more_text = 'Voir plus de '+title.toLowerCase()
                 break;
-                case 'alerte':
+                case 'alertes':
                     title = 'Alerte'+(curCat.length>1?'s':'');
                     more_link = 'https://www.dealabs.com/alerts/alerts.html';
-                    nb_notif = notifications_counter.alerte.value;
+                    nb_notif = notifications_counter.alertes.value;
                     more_text = 'Voir plus d\''+title.toLowerCase()
                 break;
                 case 'MPs':
@@ -42,7 +42,7 @@ function generate_popup(){
                 break;
                 case 'forum':
                     title = 'Notification'+(curCat.length>1?'s':'')+' du forum';
-                    more_link = 'https://www.dealabs.com/forum/notifications.html';
+                    more_link = 'https://www.dealabs.com/forum/';
                     nb_notif = notifications_counter.forum.value;
                     more_text = 'Voir plus de '+title.toLowerCase()
                 break;

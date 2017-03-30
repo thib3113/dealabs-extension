@@ -307,6 +307,23 @@ function ChromeExtension(){
 
     this.browserAction = chrome.browserAction;
 
+    this.i18n = {
+        getAcceptLanguages: chrome.i18n.getAcceptLanguages,
+        getUILanguage: chrome.i18n.getUILanguage,
+        detectLanguage: chrome.i18n.detectLanguage
+    }
+
+    this.i18n.getMessage=function(){
+        message = arguments[0]
+        arguments[0] = message.replace(/[^\w]/gi, "_")
+        console.log(arguments[0]);
+        text = chrome.i18n.getMessage.apply(this, arguments);
+        if(text.length == 0)
+            return message;
+        else
+            return text;
+    }
+
     this.init=function(){
         chrome.extension.onConnect.addListener(function(port) {
             port.onMessage.addListener(function(msg) {

@@ -1,17 +1,19 @@
 {
   "manifest_version": 2,
-  "name": "Dealabs - unofficial",
+  "name": "__MSG_APPNAME__",
   "short_name": "Dealabs",
   "description": "Cette extension apporte plusieurs nouvelles fonctionnalités au site dealabs . Plus d'information sur le topic de l'extension",
-  "version": "1.5.0",
-  "author": "thib3113 <thibaut.severac@ynov.com>",
+  "version": "1.5.1",
+  "author": "thib3113 <thib3113@gmail.com>",
   "minimum_chrome_version": "50.0",
   "options_page": "options.html",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlCvso3Zy0dJ4mqPqB1XzJK+dSgItL/TDRAuXPLZ6qWsrylq5zNvTFuDKU2A0pfZaArGZBujTlHfmWmtYysV0fjQQprxr2EGwssYJT34yYHOtcRdJWmOKMAcGxYuVwX0ukeeVF0RQ2Df4V2CjIztNuBDzOVIU1kPdMLQr1x1OI88GWy52YphntnSFXHV1BG6Db4jc+dLOnxUiULQFMkQy77x+BOCOVW7AmEAchCsIyvg1FdsNXzGS+gNUWBBiBEW9QnWnemvWGFDdzeKnAN/QD2wou9j1I7qvROs9qII7QkVmkj8ay7Zeo5SWC+SIeRA431pb/ZB3qeQOLfAkH3x3BQIDAQAB",
   "icons": {
     "16": "icon_16.png",
     "48": "icon_48.png",
     "128": "icon_128.png"
   },
+  "default_locale":"fr",
   "browser_action": {
     "default_icon": "img/icon.png",
     "default_title": "Dealabs notifier"
@@ -20,6 +22,7 @@
     "scripts": [
       "class/ChromeExtension.inc.js",
       "class/Settings.inc.js",
+      "class/Imgur.inc.js",
       "third/async.min.js",
       "third/jquery.min.js",
       "third/noty/jquery.noty.packaged.min.js",
@@ -39,7 +42,7 @@
     "contextMenus",
     "webRequest",
     "*://*.dealabs.com/*",
-    "http://www.turbopix.fr/api*",
+    "https://raw.githubusercontent.com/thib3113/dealabs-extension/*",
     "debugger"
   ],
   "content_scripts": [
@@ -57,6 +60,7 @@
       "js": [
         "class/ChromeExtension.inc.js",
         "class/Settings.inc.js",
+        "class/Imgur.inc.js",
         "class/Embed.inc.js",
         "third/jquery.min.js",
         "third/noty/jquery.noty.packaged.min.js",

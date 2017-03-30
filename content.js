@@ -103,7 +103,7 @@ function validate_deal() {
 }
 
 function plugin_generatePreview(commentContainer, commentaire) {
-    userData = jQuery('#pseudo_right_header_contener');
+    userData = jQuery('#open_member_parameters');
 
     replacements = {};
 
@@ -168,9 +168,9 @@ function plugin_generatePreview(commentContainer, commentaire) {
         }
     }
 
-    commentContainer = commentContainer.replace(/{{userlink}}/g, userData.attr('href'));
+    commentContainer = commentContainer.replace(/{{userlink}}/g, jQuery("#member_parameters a:first").attr('href'));
     commentContainer = commentContainer.replace(/{{useravatar}}/g, userData.find('img').attr('src'));
-    commentContainer = commentContainer.replace(/{{username}}/g, userData.find('span').text());
+    commentContainer = commentContainer.replace(/{{username}}/g, jQuery("#member_parameters a:first").find('span').text());
     commentContainer = commentContainer.replace(/{{commentaire}}/g, plugin_nl2br(commentaire));
     return commentContainer;
 }
@@ -667,9 +667,11 @@ $(function() {
             var save_smileys = {};
             $('#plugin_smileys_list tbody tr').each(function() {
                 smiley_url = $(this).find('[data-plugin-role="smiley_url"]').val();
-                smiley_name = $(this).find('[data-plugin-role="smiley_name"]').val();
-                if (smiley_url != "" && typeof smiley_url != "undefined" && smiley_name != "" && typeof smiley_name != "undefined")
-                    save_smileys[smiley_name] = smiley_url;
+                if($(this).find('[data-plugin-role="smiley_url"]').val() != undefined){
+                    smiley_name = $(this).find('[data-plugin-role="smiley_name"]').val().replace(/[^\w]/gi, "_").replace(/_+/gi, "_");
+                    if (smiley_url != "" && typeof smiley_url != "undefined" && smiley_name != "" && typeof smiley_name != "undefined")
+                        save_smileys[smiley_name] = smiley_url;
+                }
             });
 
             newSettings = {
