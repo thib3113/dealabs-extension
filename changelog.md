@@ -1,3 +1,5 @@
+1.5.2 : 
+    - little bug when first request crash
 1.5.1 : 
     - locales : add some locales, to translate some string
     - bug in popup : resolve a bug in popup if you have an alertes from the website

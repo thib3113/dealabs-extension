@@ -443,6 +443,9 @@ function updateNotifications(content, cb){
                     );
                 }.bind({cb:cb}));
             }                
+        },
+        error:function(){
+            notificationUpdateTimeout = setTimeout(updateNotifications, settingsManager.settings.time_between_refresh);            
         }
     })
 
