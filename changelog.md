@@ -1,3 +1,8 @@
+1.5.3 : 
+    - update translation 
+    - correct links
+    - add debug 
+    - add easter egg
 1.5.2 : 
     - little bug when first request crash
 1.5.1 : 

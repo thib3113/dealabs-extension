@@ -313,6 +313,31 @@ function ChromeExtension(){
         detectLanguage: chrome.i18n.detectLanguage
     }
 
+    this._ = function(text){
+        return this.i18n.getMessage.apply(this, arguments);
+    }
+
+    this._n=function(text,number){
+        args = Array.prototype.slice.call(arguments);
+        if(number>1){
+            args[0] = this.i18n.sanitize(text)+"-p";
+        }
+        else{
+            args[0] = this.i18n.sanitize(text);
+        }
+        //todo 
+        args.slice(1,1);
+        message = chrome.i18n.getMessage.apply(this, args);
+        if(message.length == 0)
+            return text;
+        else
+            return message;
+    }
+
+    this.i18n.sanitize = function(text){
+        return text.replace(/[^\w]/gi, "_");
+    }
+
     this.i18n.getMessage=function(){
         message = arguments[0]
         arguments[0] = message.replace(/[^\w]/gi, "_")
@@ -322,6 +347,34 @@ function ChromeExtension(){
             return message;
         else
             return text;
+    }
+
+    this.log=function(message, stack){
+        this.getStorage(['logs'], function(logs){
+            if(logs.push == undefined)
+                logs = [];
+
+            logs.push({
+                message:message,
+                stack:stack
+            });
+
+            this.setStorage({
+                logs:logs
+            });
+        }.bind(this));
+    }
+
+    this.getLogs=function(cb){
+        this.getStorage(['logs'], function(logs){
+            cb(logs);
+        }.bind(this));
+    }
+
+    this.cleanLogs=function(){
+        this.setStorage({
+            logs:[]
+        })
     }
 
     this.init=function(){
