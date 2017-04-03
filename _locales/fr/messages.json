@@ -33,6 +33,24 @@
       }
     }
   },
+  "you_are_connected_with_account_account_": {
+    "message": "Vous êtes connecté avec le compte $account$ .",
+    "description": "message if connected",
+    "placeholders": {
+      "account": {
+        "content": "$1",
+        "example": "thib3113"
+      }
+    }
+  },
+  "you_are_not_connected_": {
+    "message": "Vous n'êtes pas connecté : ",
+    "description": "message if not connected"
+  },
+  "click_here": {
+    "message": "Cliquez ici .",
+    "description": "Click here"
+  },
   "something_is_wrong_maybe_a_cross_domain_error_checking_console_can_help_you": {
     "message": "Un problème est apparu .... Peut être un problème de requètes entre domaine, seul une vérification de la console pourra vous aider .",
     "description": "maybe cross domain error ."
@@ -45,13 +63,13 @@
     "message": "Vous n'êtes pas connecté",
     "description": "Error if you are not connected"
   },
-  "IF_NOT_REDIRECTED_OPTIONS":{
-    "message" : "Si vous n'êtes pas redirigé dans les 5 secondes, rendez vous sur le site <a href=\"https://www.dealabs.com\">dealabs.com</a>, aller dans les paramètres de votre compte, dans l'onglet \"Plugin\"",
-    "description" : "explain what to do if the option page don't redirect"
+  "IF_NOT_REDIRECTED_OPTIONS": {
+    "message": "Si vous n'êtes pas redirigé dans les 5 secondes, rendez vous sur le site <a href=\"https://www.dealabs.com\">dealabs.com</a>, aller dans les paramètres de votre compte, dans l'onglet \"Plugin\"",
+    "description": "explain what to do if the option page don't redirect"
   },
-  "REDIRECTION_OPTIONS":{
-    "message" : "Redirection en cours ... ",
-    "description" : "It's loading"
+  "REDIRECTION_OPTIONS": {
+    "message": "Redirection en cours ... ",
+    "description": "It's loading"
   },
   "APPNAME": {
     "message": "Dealabs - non officiel",

@@ -1,3 +1,9 @@
+1.6.0 :
+    - add imgur connexion
+    - add imgur notification if token is expired
+    - smileys to https
+    - add check connexion for imgur in settings
+    - add somes translations
 1.5.3 : 
     - update translation 
     - correct links

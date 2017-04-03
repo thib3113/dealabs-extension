@@ -20,6 +20,33 @@ function Imgur(options){
     // this.refreshToken = function(){
         
     // }
+    
+    this.checkConnexion=function(cb){
+      $.ajax({
+          url : 'https://api.imgur.com/3/account/me',
+          dataType: 'JSON',
+          cb : cb,
+          crossDomain: true,
+          beforeSend: function (request){
+              request.withCredentials = true;
+              if(self.options.access_token != null && self.options.access_token != undefined && self.options.expires_date> (Date.now()/1000))
+                request.setRequestHeader("Authorization", 'Bearer ' + self.options.access_token);
+              else
+                request.setRequestHeader("Authorization", 'Client-ID ' + self.ImgurApiKey);
+          },
+          success:function(response){
+            if(response.success){
+              this.cb(response.data)
+            }
+            else{
+              this.cb(false)
+            }
+          },
+          error:function(){
+            this.cb(false);
+          }
+      });
+    }
 
     this.getImageType=function(type){
         switch(type){
