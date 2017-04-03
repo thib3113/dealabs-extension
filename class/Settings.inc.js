@@ -44,10 +44,12 @@ function SettingsManager(){
         return this._settings;
     }
 
-    this.syncSettings = function(){
-            extension.getStorage('settings', function(value){
-                this.settings = value.settings;
-            }.bind(this), true);
+    this.syncSettings = function(cb){
+        cb = cb || function(){}
+        extension.getStorage('settings', function(value){
+            this.settings = value.settings;
+            cb();
+        }.bind(this), true);
     }
 
     this.init=function(){

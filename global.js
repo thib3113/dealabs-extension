@@ -22,7 +22,6 @@ try{
 
   dealabs_protocol = "https://";
 
-
 get_params_from_url = function(search_string) {
   var parse = function(params, pairs) {
     var pair = pairs[0];
@@ -50,7 +49,10 @@ get_params_from_url = function(search_string) {
   }
 
   settingsManager = new SettingsManager();
-  imgurManager = new Imgur();
+  var imgurManager;
+  settingsManager.syncSettings(function(){
+    imgurManager = new Imgur();
+  })
 
   extension.onMessage('update_settings', function(datas){
     settingsManager.syncSettings();
@@ -147,18 +149,19 @@ get_params_from_url = function(search_string) {
         $(textarea).val(newValue);
       }
 
-      imgHtml = $image_progress.find('img').get(0).outerHTML;
+      img = $image_progress.find('img').get(0);
+      imgHtml = img.outerHTML;
+      imgWidth = img.naturalWidth || 300;
 
       $image_progress.remove();
 
       if(error == null){
         if(response.error != undefined){
-          // alert('Une erreur est apparue lors de l\'envoi de l\'image : '+response.error);
           failcb(this.textarea, this.id, response.error, imgHtml);
         }
 
         oldValue = $(textarea).val();
-        newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+this.id+'\\]'), '[img size=300px]'+response.link+'[/img]');
+        newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+this.id+'\\]'), '[img size='+imgWidth+'px]'+response.link+'[/img]');
         $(textarea).val(newValue);
       }
       else{
@@ -179,7 +182,7 @@ get_params_from_url = function(search_string) {
     }
     else{
       cbFunction(null, {
-        error : false,
+        error : undefined,
         link: img
       })
     }

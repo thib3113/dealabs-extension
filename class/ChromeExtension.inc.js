@@ -4,6 +4,7 @@ function ChromeExtension(){
     this._messageListener = {};
     this._waitFor = {};
     this._waitForWaiter = {};
+    self = this;
 
     /**
      * save in local or sync storage
@@ -361,10 +362,10 @@ function ChromeExtension(){
     this._n=function(text,number){
         args = Array.prototype.slice.call(arguments);
         if(number>1){
-            args[0] = this.i18n.sanitize(text)+"-p";
+            args[0] = self.i18n.sanitize(text)+"-p";
         }
         else{
-            args[0] = this.i18n.sanitize(text);
+            args[0] = self.i18n.sanitize(text);
         }
         //todo 
         args.slice(1,1);
@@ -381,7 +382,7 @@ function ChromeExtension(){
 
     this.i18n.getMessage=function(){
         message = arguments[0]
-        arguments[0] = this.i18n.sanitize(message);
+        arguments[0] = self.i18n.sanitize(message);
         text = chrome.i18n.getMessage.apply(this, arguments);
         if(text.length == 0){
             console.warn("oops, text for : \n \""+message+"\" \n with key : \""+arguments[0]+"\" \n is missing from the current language "+this.i18n.getUILanguage())
