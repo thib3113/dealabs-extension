@@ -17,27 +17,6 @@ function Imgur(options){
         
     }
 
-    this.get_params_from_url = function(search_string) {
-      var parse = function(params, pairs) {
-        var pair = pairs[0];
-        var parts = pair.split('=');
-        var key = decodeURIComponent(parts[0]);
-        var value = decodeURIComponent(parts.slice(1).join('='));
-
-        // Handle multiple parameters of the same name
-        if (typeof params[key] === "undefined") {
-          params[key] = value;
-        } else {
-          params[key] = [].concat(params[key], value);
-        }
-
-        return pairs.length == 1 ? params : parse(params, pairs.slice(1))
-      }
-
-      // Get rid of leading ?
-      return search_string.length == 0 ? {} : parse({}, search_string.substr(1).split('&'));
-    }
-
     this.getImageType=function(type){
         switch(type){
           case "image/gif":
@@ -169,7 +148,7 @@ function Imgur(options){
           alert(extension._("an error appear when we try to get a token from imgur : XX", errorMessage));
         }
         else{
-          params = this.get_params_from_url(location.hash);
+          params = get_params_from_url(location.hash);
 
           if(params.access_token != undefined && params.access_token.length>0){
             extension.sendMessage("save_imgur_informations", params);
