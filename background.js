@@ -23,7 +23,7 @@ try{
     extension.onMessage('update_settings', function(datas){
         settingsManager.syncSettings();
         extension.sendMessage('update_settings', {});
-    }
+    })
 
     extension.onMessage('save_imgur_informations', function(datas){
         datas.expires_date = parseInt(Date.now()/1000)+parseInt(datas.expires_in);
