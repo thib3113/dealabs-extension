@@ -11,16 +11,16 @@ function ChromeExtension(){
      * @param  object object save object key is the name in the storage
      * @param  boolean sync   sync or not
      */
-    this.setStorage = function(object, sync){
+    this.setStorage = function(object, sync, cb){
         object = object || null;
         sync = sync || false;
         if(object == null) return null;
 
         if(sync){
-            chrome.storage.sync.set(object);
+            chrome.storage.sync.set(object, cb);
         }
         else{
-            chrome.storage.local.set(object);
+            chrome.storage.local.set(object, cb);
         }
     }
 
@@ -76,6 +76,25 @@ function ChromeExtension(){
         }
     }
 
+    this.updateContextMenu = function(id, updateProperties, cb){
+        cb = cb || function(){};
+
+        defaultOption = {
+            type : undefined,
+            title : undefined,
+            checked : undefined,
+            contexts : undefined,
+            onclick : updateProperties.onClick,
+            parentId: undefined,
+            documentUrlPatterns : undefined,
+            targetUrlPatterns : undefined,
+            enabled : undefined
+        }
+
+        updateProperties = $.extend(defaultOption, updateProperties);
+
+        chrome.contextMenus.update(id, updateProperties,cb);
+    }
     this.removeContextMenu = function(name, cb){
         cb = cb || function(){};
 
@@ -96,14 +115,13 @@ function ChromeExtension(){
             checked : undefined,
             contexts : undefined,
             onclick : pOptions.onClick,
-            
-            onOpen : undefined
+            parentId: undefined,
+            documentUrlPatterns : undefined,
+            targetUrlPatterns : undefined,
+            enabled : undefined
         }
 
         pOptions = $.extend(defaultOption, pOptions);
-
-        onOpen = pOptions.onOpen;
-        delete pOptions.onOpen;
         delete pOptions.onClick;
 
         chrome.contextMenus.create(defaultOption);
@@ -122,7 +140,17 @@ function ChromeExtension(){
     }
 
     this.sendMessage=function(event, datas){
-        this._messagePort.postMessage({"event":event, datas:datas});
+        if(!this.isBackgroundPage) // background can't send message to background page ....
+            this._messagePort.postMessage({"event":event, datas:datas});
+        else{
+            chrome.tabs.query({
+                url:chrome.runtime.getManifest().content_scripts[0].matches
+            }, function(tabs) {
+               for (var i = tabs.length - 1; i >= 0; i--) {
+                  chrome.tabs.sendMessage(tabs[i].id, {"event":event, datas:datas});
+               }
+            });
+        }
     }
 
     //tabObject object
@@ -191,6 +219,12 @@ function ChromeExtension(){
 
             if(this.pOnClick != undefined)
                 this.pOnClick(this.datas);
+            else if(this.datas.url != undefined && this.datas.url.length>0){
+              extension.openTab({
+                active : true,
+                url : this.datas.url
+              })
+            }
         }
 
         this.onOpen = function(){
@@ -261,6 +295,7 @@ function ChromeExtension(){
             items : undefined,
             progress : undefined,
             isClickable : undefined,
+            requireInteraction: undefined,
 
             datas : undefined,
             slug : undefined,
@@ -268,41 +303,47 @@ function ChromeExtension(){
             onClick: undefined
         }
 
-        pOptions = $.extend(defaultOption, pOptions)
-        
-        // this._notifications[pOptions.slug]
-        cb = pOptions.onOpen;
-        delete pOptions.onOpen;
-
-        onClick = pOptions.onClick;
-        delete pOptions.onClick;
-
-        datas = pOptions.datas;
-        delete pOptions.datas;
-        
-        if(onClick != undefined)
-            pOptions.isClickable = true;
-
-        slug = pOptions.slug;
-        delete pOptions.slug;
-
-        createTime = Date.now(); 
-        chrome.notifications.create(slug, pOptions, function(id){
-            notif = new NotificationObject(id, this.onClick, this.datas);
-            notif.createTime = this.createTime;
-
-            notif.pOnOpen = this.onOpen;
+        if(chrome.notifications == undefined){
+            this.sendMessage("notify", pOptions);
+        }
+        else{
+            pOptions = $.extend(defaultOption, pOptions)
             
-            this._notifications[id] = notif;
-            notif.onOpen();
+            // this._notifications[pOptions.slug]
+            onOpen = pOptions.onOpen;
+            delete pOptions.onOpen;
 
-        }.bind({
-            _notifications:this._notifications,
-            onOpen:onOpen,
-            onClick: onClick,
-            createTime:createTime,
-            datas: datas
-        }))
+            onClick = pOptions.onClick;
+            delete pOptions.onClick;
+
+            datas = pOptions.datas;
+            delete pOptions.datas;
+            
+            if(onClick != undefined)
+                pOptions.isClickable = true;
+
+            slug = pOptions.slug;
+            delete pOptions.slug;
+
+            createTime = Date.now();
+            chrome.notifications.create(slug, pOptions, function(id){
+                notif = new NotificationObject(id, this.onClick, this.datas);
+                notif.createTime = this.createTime;
+
+                notif.pOnOpen = this.onOpen;
+                
+                this._notifications[id] = notif;
+                notif.onOpen();
+
+            }.bind({
+                _notifications:this._notifications,
+                onOpen:onOpen,
+                onClick: onClick,
+                createTime:createTime,
+                datas: datas
+            }))
+        }
+
     }
 
     this.browserAction = chrome.browserAction;
@@ -335,16 +376,17 @@ function ChromeExtension(){
     }
 
     this.i18n.sanitize = function(text){
-        return text.replace(/[^\w]/gi, "_");
+        return text.replace(/[^\w]/gi, "_").replace(/_+/gi, "_");
     }
 
     this.i18n.getMessage=function(){
         message = arguments[0]
-        arguments[0] = message.replace(/[^\w]/gi, "_")
-        console.log(arguments[0]);
+        arguments[0] = this.i18n.sanitize(message);
         text = chrome.i18n.getMessage.apply(this, arguments);
-        if(text.length == 0)
+        if(text.length == 0){
+            console.warn("oops, text for : \n \""+message+"\" \n with key : \""+arguments[0]+"\" \n is missing from the current language "+this.i18n.getUILanguage())
             return message;
+        }
         else
             return text;
     }
@@ -378,13 +420,28 @@ function ChromeExtension(){
     }
 
     this.init=function(){
-        chrome.extension.onConnect.addListener(function(port) {
-            port.onMessage.addListener(function(msg) {
+        this.isBackgroundPage = location.href.match(/chrome-extension:\/\/[a-z]+\/_generated_background_page\.html/g)!=null;
+
+        if(this.isBackgroundPage){
+            chrome.extension.onConnect.addListener(function(port) {
+                port.onMessage.addListener(function(msg) {
+                    if(this._messageListener[msg.event] != undefined){
+                        this._messageListener[msg.event](msg.datas);
+                    }
+                }.bind(this));
+            }.bind(this));
+        }
+        else{
+            chrome.runtime.onMessage.addListener(
+              function(msg, sender, cb) {
+                console.log("Receive a message "+(sender.tab ? "from a content script:" + sender.tab.url : "from the extension"));
+                console.log(msg);
                 if(this._messageListener[msg.event] != undefined){
                     this._messageListener[msg.event](msg.datas);
                 }
-            }.bind(this));
-        }.bind(this));
+              }.bind(this)
+            );
+        }
 
         if(chrome.tabs != undefined){
             chrome.tabs.onUpdated.addListener(function(tabId , info) {
@@ -396,11 +453,17 @@ function ChromeExtension(){
         }
 
         this._messagePort = chrome.extension.connect({name: "message"});
+
         if(chrome.notifications == undefined){
             //notifications are not available
-            this._notificationPort = chrome.extension.connect({name: "notify"});
+            // this._notificationPort = chrome.extension.connect({name: "notify"});
         }
         else{
+
+            this.onMessage('notify', function(datas){
+                this.sendNotification(datas);
+            }.bind(this));
+
             chrome.notifications.onClicked.addListener(function(notificationID){
                 this._notifications[notificationID].onClick();
             }.bind(this));

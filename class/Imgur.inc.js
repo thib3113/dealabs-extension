@@ -4,8 +4,38 @@ function Imgur(options){
 
     this.ImgurApiKey = "9c5bf06791861cb";
 
+    this.oauth2Url = "https://api.imgur.com/oauth2/authorize?response_type=token&client_id="+this.ImgurApiKey
+
+    this.askForToken = function(){
+      extension.setStorage({
+          page_before_imgur_request:document.location.href,
+      });
+      document.location = this.oauth2Url;
+    }
+
     this.refreshToken = function(){
         
+    }
+
+    this.get_params_from_url = function(search_string) {
+      var parse = function(params, pairs) {
+        var pair = pairs[0];
+        var parts = pair.split('=');
+        var key = decodeURIComponent(parts[0]);
+        var value = decodeURIComponent(parts.slice(1).join('='));
+
+        // Handle multiple parameters of the same name
+        if (typeof params[key] === "undefined") {
+          params[key] = value;
+        } else {
+          params[key] = [].concat(params[key], value);
+        }
+
+        return pairs.length == 1 ? params : parse(params, pairs.slice(1))
+      }
+
+      // Get rid of leading ?
+      return search_string.length == 0 ? {} : parse({}, search_string.substr(1).split('&'));
     }
 
     this.getImageType=function(type){
@@ -132,4 +162,49 @@ function Imgur(options){
           error:errorFunction
       });
     }
+
+    this.init=function(){
+      if(location.hostname+location.pathname == "thib3113.github.io/dealabs-extension/redirect.html"){
+        if(errorMessage = location.search.match(/error=([^&\s]+)/g)){
+          alert(extension._("an error appear when we try to get a token from imgur : XX", errorMessage));
+        }
+        else{
+          params = this.get_params_from_url(location.hash);
+
+          if(params.access_token != undefined && params.access_token.length>0){
+            extension.sendMessage("save_imgur_informations", params);
+          }
+        }
+
+        extension.getStorage(["page_before_imgur_request"], function(storage){
+          // debugger;
+          if(storage.page_before_imgur_request != undefined && storage.page_before_imgur_request.length>0)
+            link = storage.page_before_imgur_request;
+          else
+            link = "https://www.dealabs.com";
+          setTimeout(function(){
+            document.location = this.link;
+          }.bind({link:link}),3000);
+        });
+        return;
+      }
+
+      this.options = settingsManager.imgurAPI;
+
+      if(this.options.expires_date != null && this.options.expires_date<(Date.now()/1000)){
+        expires_date = new Date(this.options.expires_date*1000);
+        extension.sendNotification({
+          type : 'basic',
+          iconUrl : "https://thib3113.github.io/dealabs-extension/img/warning.png",
+          title : extension._("you'r imgur token has expired"),
+          message : extension._("you'r imgur token has expired the XX, click here to re - register", expires_date.toLocaleDateString()),
+          slug : "imgur_token_expired",
+          datas : {
+            url:this.oauth2Url
+          },
+          requireInteraction:true
+        });
+      }
+    }
+    this.init();
 }

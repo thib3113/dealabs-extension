@@ -545,7 +545,7 @@ try{
                                 <p>Liste des erreurs apparues&thinsp;:</p>\
                             </div>\
                             <div>\
-                                <textarea name="" id="debug-logs" style="width:90%">loading...</textarea>\
+                                <textarea name="" id="debug-logs" style="width:98%">loading...</textarea>\
                             </div>\
                         </div>\
                     </div>\
@@ -572,7 +572,7 @@ try{
             if(settingsManager.imadevelopper){
                 extension.getLogs(function(result){
                     logs = result.logs;
-                    if(logs.length==0)
+                    if(logs!= undefined && logs.length==0)
                         $(".plugin-debug").hide();
                     text = "";
                     for (var i = logs.length - 1; i >= 0; i--) {
@@ -760,29 +760,29 @@ try{
         }
 
         //check imgur login
-        var hashParams = {}, queryString = location.hash.substring(1),
-        regex = /([^&=]+)=([^&]*)/g, m;
-        while (m = regex.exec(queryString)) {
-          hashParams[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-        }
+        // var hashParams = {}, queryString = location.hash.substring(1),
+        // regex = /([^&=]+)=([^&]*)/g, m;
+        // while (m = regex.exec(queryString)) {
+        //   hashParams[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+        // }
 
 
-        if(
-            hashParams["access_token"] != undefined &&
-            hashParams["expires_in"] != undefined &&
-            hashParams["token_type"] != undefined &&
-            hashParams["refresh_token"] != undefined &&
-            hashParams["account_username"] != undefined &&
-            hashParams["account_id"] != undefined
-        )
-            settingsManager.imgurAPI = {
-                access_token : hashParams["access_token"],
-                expires_in : Date.now()+hashParams["expires_in"],
-                token_type : hashParams["token_type"],
-                refresh_token : hashParams["refresh_token"],
-                account_username : hashParams["account_username"],
-                account_id : hashParams["account_id"]
-            };
+        // if(
+        //     hashParams["access_token"] != undefined &&
+        //     hashParams["expires_in"] != undefined &&
+        //     hashParams["token_type"] != undefined &&
+        //     hashParams["refresh_token"] != undefined &&
+        //     hashParams["account_username"] != undefined &&
+        //     hashParams["account_id"] != undefined
+        // )
+        //     settingsManager.imgurAPI = {
+        //         access_token : hashParams["access_token"],
+        //         expires_in : Date.now()+hashParams["expires_in"],
+        //         token_type : hashParams["token_type"],
+        //         refresh_token : hashParams["refresh_token"],
+        //         account_username : hashParams["account_username"],
+        //         account_id : hashParams["account_id"]
+        //     };
 
         //check imgur connexion
         // connected = false;
@@ -978,7 +978,6 @@ try{
     })
 
     $(function(){
-        // console.log(jQuery._data( $(document)[0], "events" ));
         var script = document.createElement('script');
         script.src = '//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.8/packaged/jquery.noty.packaged.min.js';
         (document.body || document.head || document.documentElement).appendChild(script);
@@ -1085,5 +1084,13 @@ try{
     })
 }
 catch(e){
-    extension.log(e.message, e.stack);
+    try{
+        extension.log(e.message, e.stack);
+    }
+    catch(err){
+        console.error(e);
+    }
+    finally{
+        throw e;
+    }
 }

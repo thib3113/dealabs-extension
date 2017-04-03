@@ -20,9 +20,18 @@ try{
         extension.openTab(datas);
     })
 
-
     extension.onMessage('update_settings', function(datas){
         settingsManager.syncSettings();
+        extension.sendMessage('update_settings', {});
+    }
+
+    extension.onMessage('save_imgur_informations', function(datas){
+        datas.expires_date = parseInt(Date.now()/1000)+parseInt(datas.expires_in);
+        settingsManager.imgurAPI = datas;
+        settingsManager._updateCb = function(){
+            extension.sendMessage('update_settings', {});
+            settingsManager._updateCb = null;
+        }
     });
 
     extension.onMessage('remove_all', function(datas){
@@ -501,18 +510,45 @@ try{
                 openInTab(dealabs_protocol+'www.dealabs.com');
             }
         });
-    });
 
-    extension.waitFor('connected', function(){
+
         extension.addContextMenu({
             title : 'Mon profil',
             id: 'profile',
             parentId: 'open',
             contexts : ['browser_action'],
+            enabled:false,
             onclick : function(info){
                 extension.getStorage(['profil'], function(value){
                     openInTab(value.profil.link);
                 });
+            }
+        });
+        extension.addContextMenu({
+            title : 'Mes alertes',
+            id: 'alertes',
+            parentId: 'open',
+            contexts : ['browser_action'],
+            onclick : function(info){
+                openInTab("https://www.dealabs.com/alerts/alerts.html");
+            }
+        });
+        extension.addContextMenu({
+            title : 'Mes deals sauvegardés',
+            id: 'saved_deals',
+            parentId: 'open',
+            contexts : ['browser_action'],
+            onclick : function(info){
+                openInTab("https://www.dealabs.com/saved.html");
+            }
+        });
+        extension.addContextMenu({
+            title : 'Mon flux personnalisé',
+            id: 'custom_flux',
+            parentId: 'open',
+            contexts : ['browser_action'],
+            onclick : function(info){
+                openInTab("https://www.dealabs.com/custom.html");
             }
         });
 
@@ -520,40 +556,44 @@ try{
             title : 'Rafraichir',
             contexts : ['browser_action'],
             id: 'refresh',
-            onclick : function(info){
-                updateNotifications();
-            }
+            onclick : updateNotifications,
+            enabled:false
         });
         extension.addContextMenu({
             title : 'Tout marquer comme vus',
             contexts : ['browser_action'],
             id: 'mark_all_read',
-            onclick : remove_all
-            // function(info){
-            //     cleanNotifications();
-            //     extension.getStorage(['notifications', 'notifications_counter'], function(value){
-            //         notifications = value.notifications;
-            //         var queue = async.queue(function(link, cb){
-            //             setTimeout(function(){
-            //                 $.ajax({
-            //                     url : link,
-            //                     complete:cb
-            //                 })
-            //             },500)
-            //         }, 1); // Run one simultaneous request
-
-            //         queue.drain = function() {
-            //             updateNotifications();
-            //         };
-            //         for(categorie in notifications){
-            //             curCat = notifications[categorie];
-            //             for (var i = 0; i < curCat.length; i++) {
-            //                 queue.push(curCat[i].url);
-            //             }
-            //         }
-            //     });
-            // }
+            onclick : remove_all,
+            enabled:false
         });
+        extension.addContextMenu({
+            title : 'end_separator',
+            contexts : ['browser_action'],
+            id: 'end_separator',
+            type:"separator"
+        });
+        extension.addContextMenu({
+            title : 'Topic du plugin',
+            contexts : ['browser_action'],
+            id: 'plugin_topic',
+            onclick : function(info){
+                openInTab("https://www.dealabs.com/forums/le-site/annonces--nouveauts-du-site-modifications/plugin-plugin-chrome-pour-dealabs-non-officiel-/21068");
+            }
+        });
+        extension.addContextMenu({
+            title : 'Site du développeur',
+            contexts : ['browser_action'],
+            id: 'developper_website',
+            onclick : function(info){
+                openInTab("https://thib3113.fr?referer=dealabs_plugin");
+            }
+        });
+    });
+
+    extension.waitFor('connected', function(){
+        extension.updateContextMenu("mark_all_read", {enabled:true});
+        extension.updateContextMenu("profile", {enabled:true});
+        extension.updateContextMenu("refresh", {enabled:true});
     })
 
     $(function(){

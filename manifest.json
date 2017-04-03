@@ -43,12 +43,14 @@
     "webRequest",
     "*://*.dealabs.com/*",
     "https://raw.githubusercontent.com/thib3113/dealabs-extension/*",
+    "https://thib3113.github.io/dealabs-extension/*",
     "debugger"
   ],
   "content_scripts": [
     {
       "matches": [
-        "*://*.dealabs.com/*"
+        "*://*.dealabs.com/*",
+        "https://thib3113.github.io/dealabs-extension/*"
       ],
       "exclude_matches": [
           "*://*.dealabs.com/*.pdf",

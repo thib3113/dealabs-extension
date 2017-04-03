@@ -16,7 +16,9 @@ function SettingsManager(){
             token_type: null,
             refresh_token: null,
             account_username: null,
-            account_id: null
+            account_id: null,
+            // log the expire date
+            expires_date: null
         },
         // turbopixAPIKey : "",
         theme : {
@@ -72,40 +74,53 @@ function SettingsManager(){
         }
 
         // check imgur token validity
-        if(this.imgurAPI.access_token != undefined && this.imgurAPI.tokenExpire < Date.now()){
-            this.updateImgurToken();
-        }
+        // if(this.imgurAPI.access_token != undefined && this.imgurAPI.tokenExpire < Date.now()){
+        //     this.updateImgurToken();
+        // }
     }
 
-    this.updateImgurToken=function(){
-        return;
-        $.ajax({
-            url : "https://api.imgur.com/oauth2/token",
-            type: "POST",
-            data: {
-                refresh_token : this.imgurAPI.refresh_token,
-                client_id: "aaa",
-                client_secret: "",
-                grant_type: "refresh_token"
-            },
-            success:function(response){
-                debugger;
-            }
-        })
-    }
+    // this.updateImgurToken=function(){
+    //     return;
+    //     $.ajax({
+    //         url : "https://api.imgur.com/oauth2/token",
+    //         type: "POST",
+    //         data: {
+    //             refresh_token : this.imgurAPI.refresh_token,
+    //             client_id: "aaa",
+    //             client_secret: "",
+    //             grant_type: "refresh_token"
+    //         },
+    //         success:function(response){
+    //             debugger;
+    //         }
+    //     })
+    // }
+
+    this._updateSettings = null;
 
     Object.defineProperty(this, 'settings', {
         get: function() {
             return this._settings;
         },
         set: function(value) {
+            clearTimeout(this._updateSettings);
             this._settings = $.extend(this._settings, value);
-            this.updateSettings();
+            setTimeout(function(){
+                this.updateSettings();
+            }.bind(this), 200);
         }
     });
 
     this.updateSettings=function(){
-        extension.setStorage({settings:this._settings}, true);
+        cb = this._updateCb || null;
+        extension.setStorage({settings:this._settings}, true, cb);
+    }
+
+    this.getSettingsUrl=function(cb){
+        chrome.storage.local.get(['profil'], function(value){
+            profil_link = value.profil.link+"?tab=settings&what=plugin";
+            this.cb(profil_link);
+        }.bind({cb:cb}))
     }
 
     this._deepmerge = function (target, src) {
