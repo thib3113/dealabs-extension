@@ -3,7 +3,7 @@
   "name": "__MSG_APPNAME__",
   "short_name": "Dealabs",
   "description": "Cette extension apporte plusieurs nouvelles fonctionnalités au site dealabs . Plus d'information sur le topic de l'extension",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "author": "thib3113 <thib3113@gmail.com>",
   "minimum_chrome_version": "50.0",
   "options_page": "options.html",
@@ -16,7 +16,7 @@
   "default_locale":"fr",
   "browser_action": {
     "default_icon": "img/icon.png",
-    "default_title": "Dealabs notifier"
+    "default_title": "__MSG_APPNAME__"
   },
   "background": {
     "scripts": [
