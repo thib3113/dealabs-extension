@@ -561,6 +561,17 @@ try{
 
             //check imgur API
             // $("#imgur-connexion");
+            imgurManager.checkConnexion(function(response){
+                if(response!=false){
+                    $("#imgur-connexion").html(extension._("you are connected with account $account$", response.url));
+                }
+                else{
+                    $("#imgur-connexion").html(extension._("you are not connected :")+"<em data-plugin-role=\"ask_for_imgur_token\" style=\"cursor:pointer\">"+extension._("click here")+"</em>");
+                    $(document).on("click", '[data-plugin-role="ask_for_imgur_token"]', function(){
+                        imgurManager.askForToken();
+                    })
+                }
+            })
             // connected = false;
             // // a token is available and not expired ?
             // if(

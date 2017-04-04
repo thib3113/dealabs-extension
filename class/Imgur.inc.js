@@ -13,8 +13,39 @@ function Imgur(options){
       document.location = this.oauth2Url;
     }
 
-    this.refreshToken = function(){
+    // this._generateAjax = function(){
+
+    // }
+
+    // this.refreshToken = function(){
         
+    // }
+    
+    this.checkConnexion=function(cb){
+      $.ajax({
+          url : 'https://api.imgur.com/3/account/me',
+          dataType: 'JSON',
+          cb : cb,
+          crossDomain: true,
+          beforeSend: function (request){
+              request.withCredentials = true;
+              if(self.options.access_token != null && self.options.access_token != undefined && self.options.expires_date> (Date.now()/1000))
+                request.setRequestHeader("Authorization", 'Bearer ' + self.options.access_token);
+              else
+                request.setRequestHeader("Authorization", 'Client-ID ' + self.ImgurApiKey);
+          },
+          success:function(response){
+            if(response.success){
+              this.cb(response.data)
+            }
+            else{
+              this.cb(false)
+            }
+          },
+          error:function(){
+            this.cb(false);
+          }
+      });
     }
 
     this.getImageType=function(type){
@@ -56,10 +87,16 @@ function Imgur(options){
 
         var data = new FormData();
         data.append("image", img, imgName);
+        data.append("name", imgName);
       }
       else{
-        cb(extension.i18n.getMessage('Please send a blob !'));
-        return;
+        //get the name from the link
+        img_parts = img.split("/");
+
+        var data = new FormData();
+        data.append("image", img);
+        data.append("name", img_parts[img_parts.length-1]);
+        data.append("type", "url");
       }
 
       errorFunction=function(qXHR, textStatus, errorThrown, sendManually){
@@ -99,14 +136,17 @@ function Imgur(options){
           url : 'https://api.imgur.com/3/image',
           data: data,
           method: 'POST',
-          processData: !isBlob,  // tell jQuery not to process the data
-          contentType: !isBlob,   // tell jQuery not to set contentType
+          processData: false,  // tell jQuery not to process the data
+          contentType: false,   // tell jQuery not to set contentType
           dataType: 'JSON',
           cb : cb,
           crossDomain: true,
           beforeSend: function (request){
               request.withCredentials = true;
-              request.setRequestHeader("Authorization", 'Client-ID ' + self.ImgurApiKey);
+              if(self.options.access_token != null && self.options.access_token != undefined && self.options.expires_date> (Date.now()/1000))
+                request.setRequestHeader("Authorization", 'Bearer ' + self.options.access_token);
+              else
+                request.setRequestHeader("Authorization", 'Client-ID ' + self.ImgurApiKey);
           },
           success:function(response){
             if(response.success){
