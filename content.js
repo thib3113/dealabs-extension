@@ -10,7 +10,7 @@ try{
         return size;
     };
 
-    function plugin_getParameterByName(name, url) {
+    function plugin_getParameterByName(name, url){
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
         var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)", "i"),
@@ -516,9 +516,9 @@ try{
                                 <p>Connexion à imgur&thinsp;:</p>\
                             </div>\
                             <div class="content_profil_param_champs">\
-                                <div id="imgur-connexion">\
+                                <p id="imgur-connexion">\
                                     test de connexion en cours ...\
-                                </div>\
+                                </p>\
                             </div>\
                         </div>\
                         <div class="subtitle_tab_contener">\
@@ -593,6 +593,12 @@ try{
                     }
                     this.textarea.innerText = text;
                 }.bind({textarea:document.querySelector("#debug-logs")}))
+            }
+            else{
+                debugElements = document.querySelectorAll(".plugin-debug");
+                for (var i = 0; i < debugElements.length; i++) {
+                    debugElements[i].remove();
+                }
             }
 
             tryToBecomeDevelopper = 0;
@@ -760,8 +766,12 @@ try{
                     maxVisible: 1
                 });
 
+
+                settingsManager._updateCb = function(){
+                    extension.sendMessage('update_settings', {});
+                    settingsManager._updateCb = null;
+                }
                 settingsManager.settings = newSettings;
-                extension.sendMessage("update_settings", {});
             });
 
             // #plugin_tab_content .content_tab_contener

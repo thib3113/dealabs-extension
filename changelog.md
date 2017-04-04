@@ -1,3 +1,6 @@
+1.6.1 : 
+    - some bugs (not possible to save settings)
+    - design adaptation
 1.6.0 :
     - add imgur connexion
     - add imgur notification if token is expired

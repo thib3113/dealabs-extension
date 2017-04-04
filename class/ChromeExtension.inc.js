@@ -425,7 +425,9 @@ function ChromeExtension(){
 
         if(this.isBackgroundPage){
             chrome.extension.onConnect.addListener(function(port) {
-                port.onMessage.addListener(function(msg) {
+                port.onMessage.addListener(function(msg, sender, cb) {
+                    console.log("Receive a message "+(sender.tab ? "from a content script:" + sender.tab.url : "from the extension"));
+                    console.log(msg);
                     if(this._messageListener[msg.event] != undefined){
                         this._messageListener[msg.event](msg.datas);
                     }
@@ -454,6 +456,10 @@ function ChromeExtension(){
         }
 
         this._messagePort = chrome.extension.connect({name: "message"});
+        this._messagePort.onDisconnect.addListener(function(){
+            //if disconnect try to reconnect
+            this._messagePort = chrome.extension.connect({name: "message"});
+        }.bind(this))
 
         if(chrome.notifications == undefined){
             //notifications are not available
