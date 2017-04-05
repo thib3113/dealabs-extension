@@ -15,6 +15,10 @@ function FirefoxExtension(){
     this.setStorage = function(object, sync, cb){
         object = object || null;
         sync = sync || false;
+
+        //firefox don't support sync before 0.53 (beta for the moment)
+        sync = false;
+
         if(object == null) return null;
 
         if(sync){
@@ -171,9 +175,7 @@ function FirefoxExtension(){
             index : undefined,
             url : undefined,
             active : undefined,
-            selected : undefined,
             pinned : undefined,
-            openerTabId :undefined,
 
             onOpen: undefined,
             onLoad: undefined,
@@ -246,7 +248,7 @@ function FirefoxExtension(){
                 contextMessage : undefined,
                 priority : undefined,
                 eventTime : undefined,
-                buttons : undefined,
+                // buttons : undefined,
                 imageUrl : undefined,
                 items : undefined,
                 progress : undefined,
@@ -291,12 +293,12 @@ function FirefoxExtension(){
             contextMessage : undefined,
             priority : undefined,
             eventTime : undefined,
-            buttons : undefined,
+            // buttons : undefined,
             imageUrl : undefined,
             items : undefined,
             progress : undefined,
             isClickable : undefined,
-            requireInteraction: undefined,
+            // requireInteraction: undefined,
 
             datas : undefined,
             slug : undefined,
@@ -455,15 +457,15 @@ function FirefoxExtension(){
             }.bind(this));
         }
 
-        this._messagePort = chrome.extension.connect({name: "message"});
+        this._messagePort = browser.runtime.connect({name: "message"});
         this._messagePort.onDisconnect.addListener(function(){
             //if disconnect try to reconnect
-            this._messagePort = chrome.extension.connect({name: "message"});
+            this._messagePort = browser.runtime.connect({name: "message"});
         }.bind(this))
 
         if(chrome.notifications == undefined){
             //notifications are not available
-            // this._notificationPort = chrome.extension.connect({name: "notify"});
+            // this._notificationPort = browser.runtime.connect({name: "notify"});
         }
         else{
 
