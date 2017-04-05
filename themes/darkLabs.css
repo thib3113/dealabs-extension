@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V2.0.60      */
+/*      DarkLabs - MonsieurCro - V2.0.61      */
 /*============================================*/
 /*                    INDEX                   */
 /*============================================*/
@@ -361,7 +361,7 @@ a.tab_header_messagerie.outbox:hover {
     background-color: #333 !important;
     color: #fff !important;}
  
-#header_black a.logo {
+#header_black a#logo {
     margin: 0px 30px 0px 0px !important;
       width: 230px !important;
     background: transparent url("https://cdn.rawgit.com/thib3113/dealabs-extension/gh-pages/themes/darklabs/logo.png") no-repeat scroll center center !important;}
@@ -601,7 +601,7 @@ section div.after_pagination_merchant {
 
 /* maj 27.03 - v2 */
     
-    #open_filters, #notifications, #mailbox, #option_index_list_form {
+    #open_filters, #notifications, #mailbox, #option_index_list_form, #search_preview .search_preview_contener {
     color: #fff !important;
   background-color: #222 !important;}
     
@@ -630,6 +630,8 @@ input.green_checkbox[type="checkbox"]:checked + label span {
     background: #8C071F url(https://static.dealabs.com/images/header/ic_header_confirmation.png) center no-repeat !important;
     border: 2px solid #8C071F !important;}
 
+#search_preview a.button {
+    background-color: #8C071F !important;}
     
 /* BUGS CONNUS */
     
