@@ -44,9 +44,15 @@ get_params_from_url = function(search_string) {
 }
 
 
-  if(typeof chrome != "undefined"){
-    extension = new ChromeExtension();
-  }
+
+  if(navigator.userAgent.match(/Chrome/gi)){ 
+    extension = new ChromeExtension(); 
+  } 
+  else if(navigator.userAgent.match(/Firefox/gi)){ 
+    extension = new FirefoxExtension();
+  } 
+  else 
+    throw new Error("unknown navigator "+navigator.userAgent); 
 
   settingsManager = new SettingsManager();
   var imgurManager;

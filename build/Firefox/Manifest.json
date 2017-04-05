@@ -20,6 +20,7 @@
   },
   "background": {
     "scripts": [
+      "class/FirefoxExtension.inc.js",
       "class/ChromeExtension.inc.js",
       "class/Settings.inc.js",
       "class/Imgur.inc.js",

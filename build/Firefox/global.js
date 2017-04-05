@@ -43,10 +43,15 @@ get_params_from_url = function(search_string) {
   return search_string.length == 0 ? {} : parse({}, search_string.substr(1).split('&'));
 }
 
-  debugger;
-  if(typeof chrome != "undefined"){
+
+  if(navigator.userAgent.match(/Chrome/gi)){
     extension = new ChromeExtension();
   }
+  else if(navigator.userAgent.match(/Firefox/gi)){
+    extension = new FirefoxExtension();
+  }
+  else
+    throw new Error("unknown navigator "+navigator.userAgent);
 
   settingsManager = new SettingsManager();
   var imgurManager;

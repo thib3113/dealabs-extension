@@ -47,7 +47,8 @@ function SettingsManager(){
     this.syncSettings = function(cb){
         cb = cb || function(){}
         extension.getStorage('settings', function(value){
-            this.settings = value.settings;
+            if(value != undefined) // the first time, settings are not existent
+                this.settings = value.settings;
             cb();
         }.bind(this), true);
     }
