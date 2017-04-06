@@ -1,7 +1,7 @@
 @charset "UTF-8";
 body
 {
-	background: url(http://cdn.shopify.com/s/files/1/0992/1308/t/2/assets/body_bg_img.jpg?7005816936355933403);
+	background: url(https://cdn.shopify.com/s/files/1/0992/1308/t/2/assets/body_bg_img.jpg?7005816936355933403);
 	background-size: cover;
 }
 
@@ -37,7 +37,7 @@ header
 
 #header_black a.logo
 {
-	background: url(http://i.imgur.com/sjDPow1.png) no-repeat center;
+	background: url(https://i.imgur.com/sjDPow1.png) no-repeat center;
 }
 
 #type_header_conteneur_left div#type_button_popup.active, #type_header_conteneur_left div#plus_button_popup.active
@@ -62,8 +62,8 @@ body:after
 	position: fixed;
 	top: -140px;
 	left: 5px;
-	background-image: url('http://i.imgur.com/J1d2myY.png');
-	/*background-image:url('http://i.imgur.com/ZVlnBXD.png');*/
+	background-image: url('https://i.imgur.com/J1d2myY.png');
+	/*background-image:url('https://i.imgur.com/ZVlnBXD.png');*/
 
 	background-size: cover;
 	background-position: bottom center;
@@ -423,7 +423,7 @@ body:before
 	position: fixed;
 	bottom: 0;
 	right: 0;
-	background-image: url(http://www.scandiafun.com/images/spiderweb-corner-right.png);
+	background-image: url(https://thib3113.github.io/dealabs-extension/themes/laboween/spiderweb-corner-right.png);
 	background-size: cover;
 	transform: rotate(90deg);
 }
