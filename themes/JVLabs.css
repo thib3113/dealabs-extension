@@ -18,7 +18,7 @@ header {
 }
 
 #header_black a.logo:hover {
-	background: #002f46 url(http://static.dealabs.com/images/header/icon_header_home.png) no-repeat center !important;
+	background: #002f46 url(https://static.dealabs.com/images/header/icon_header_home.png) no-repeat center !important;
 }
 
 #header_black a.logo {
@@ -27,7 +27,7 @@ header {
 	padding: 0 !important;
 	height: 70px !important;
 	width: 183px !important;
-	background: url(http://i.imgur.com/SwMpioL.png) no-repeat center !important;
+	background: url(https://i.imgur.com/SwMpioL.png) no-repeat center !important;
 }
 
 #type_header_conteneur_left {
@@ -40,7 +40,7 @@ header {
 
 #type_header_conteneur_left div#type_button_popup,
 #type_header_conteneur_left div#plus_button_popup {
-	background-image: url(http://static.dealabs.com/images/header/icon_header_menu_dropdown.png) !important;
+	background-image: url(https://static.dealabs.com/images/header/icon_header_menu_dropdown.png) !important;
 	background-position: center 50px !important;
 	background-repeat: no-repeat !important;
 	height: 70px !important;
@@ -51,7 +51,7 @@ header {
 #type_header_conteneur_left div#type_button_popup.active,
 #type_header_conteneur_left div#plus_button_popup.active {
 	background-color: #19709e !important;
-	background-image: url(http://static.dealabs.com/images/header/icon_header_menu_dropdown_active.png) !important;
+	background-image: url(https://static.dealabs.com/images/header/icon_header_menu_dropdown_active.png) !important;
 	background-position: center 50px !important;
 	background-repeat: no-repeat !important;
 	color: white !important;
@@ -106,7 +106,7 @@ a.elem_header_menu {
 	height: 10px !important;
 	background-position: center !important;
 	background-repeat: no-repeat !important;
-	background-image: url(http://static.dealabs.com/images/header/icon_header_external_link.png) !important;
+	background-image: url(https://static.dealabs.com/images/header/icon_header_external_link.png) !important;
 	float: right !important;
 	margin-top: 18px !important;
 	margin-left: 15px !important;
@@ -174,11 +174,11 @@ a.elem_header_menu {
 
 #contener_type .button_parametre {
 	height: 40px !important;
-	background-image: url(http://i.imgur.com/wPKEJWd.png) !important;
+	background-image: url(https://i.imgur.com/wPKEJWd.png) !important;
 }
 
 #contener_type .button_parametre.active {
-	background-image: url(http://i.imgur.com/KjP02Jl.png) !important;
+	background-image: url(https://i.imgur.com/KjP02Jl.png) !important;
 }
 
 #menu_white_background #contener_type .button_parametre .triangle_blanc_bas {
@@ -324,11 +324,11 @@ footer .footer_part div img {
 }
 
 #login_conteneur_right_connected .parametres {
-	background: rgb(0, 67, 101) url(http://static.dealabs.com/images/header/icon_header_settings.png) no-repeat center !important;
+	background: rgb(0, 67, 101) url(https://static.dealabs.com/images/header/icon_header_settings.png) no-repeat center !important;
 }
 
 #login_conteneur_right_connected .deconnection {
-	background: rgb(0, 67, 101) url(http://static.dealabs.com/images/header/icon_header_logout.png) no-repeat center !important;
+	background: rgb(0, 67, 101) url(https://static.dealabs.com/images/header/icon_header_logout.png) no-repeat center !important;
 }
 
 #pseudo_right_header_contener {
@@ -461,11 +461,11 @@ footer .footer_part div img {
 }
 
 #menu_profil_contener .contener_tab a.activite.active {
-	background: url(http://i.imgur.com/p3rgZAE.png) no-repeat 10px center !important;
+	background: url(https://i.imgur.com/p3rgZAE.png) no-repeat 10px center !important;
 }
 
 #menu_profil_contener .contener_tab a.stats.active {
-	background: url(http://i.imgur.com/Tmv1lds.png) no-repeat 10px center !important;
+	background: url(https://i.imgur.com/Tmv1lds.png) no-repeat 10px center !important;
 }
 
 .stats_profil .background_a768d3,
@@ -622,11 +622,11 @@ a.open_profil:hover:after {
 }
 
 #menu_profil_contener .contener_tab a.messagerie.active {
-	background: url(http://i.imgur.com/0OrAEzV.png) no-repeat 10px center !important;
+	background: url(https://i.imgur.com/0OrAEzV.png) no-repeat 10px center !important;
 }
 
 #menu_profil_contener .contener_tab a.parametres.active {
-	background: url(http://i.imgur.com/aE2oxbd.png) no-repeat 10px center !important;
+	background: url(https://i.imgur.com/aE2oxbd.png) no-repeat 10px center !important;
 }
 
 .block_notif_contener_absolute .switcher a.part_notif:hover,
