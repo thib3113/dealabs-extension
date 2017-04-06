@@ -25,7 +25,7 @@ try{
                 switch(categorie){
                     case 'deals':
                         title = 'Nouveau'+(curCat.length>1?'x':'')+' commentaire'+(curCat.length>1?'x':'');
-                        more_link = 'https://www.dealabs.com/notifications.html';
+                        more_link = 'https://www.dealabs.com/';
                         nb_notif = notifications_counter.deals.value;
                         more_text = 'Voir plus de '+title.toLowerCase()
                     break;
@@ -44,7 +44,7 @@ try{
                     break;
                     case 'forum':
                         title = 'Notification'+(curCat.length>1?'s':'')+' du forum';
-                        more_link = 'https://www.dealabs.com/forum/';
+                        more_link = 'https://www.dealabs.com/forum.html';
                         nb_notif = notifications_counter.forum.value;
                         more_text = 'Voir plus de '+title.toLowerCase()
                     break;
