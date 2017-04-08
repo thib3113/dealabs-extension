@@ -7,8 +7,17 @@ before_script:
   - npm update
   - grunt
   
+.artifact_template: &artifacts_template
+  artifacts:
+    name: "%CI_BUILD_NAME%_%CI_BUILD_REF_NAME%"
+    when: always
+    paths:
+    - '"%CI_PROJECT_DIR%/build/artifacts"'
+
 chrome_test:
     image: thib3113/selenium-chrome-headless
+    dependencies: []
+    <<: *artifacts_template
     script:
         - google-chrome --remote-debugging-port=9222 --load-extension=./build/Chrome --no-first-run &
         - nohup java -jar /usr/local/bin/selenium-server.jar &
