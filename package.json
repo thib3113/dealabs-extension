@@ -1,0 +1,32 @@
+{
+  "name": "dealabs-notifier-extension",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thib3113/dealabs-extension.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thib3113/dealabs-extension/issues"
+  },
+  "homepage": "https://github.com/thib3113/dealabs-extension#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "codeceptjs": "^0.5.1",
+    "conventional-changelog-cli": "^1.3.1",
+    "deepmerge": "^1.3.2",
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-compress": "^1.4.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-json-generator": "^0.1.0",
+    "selenium-webdriver": "^3.3.0",
+    "versiony": "^1.4.0"
+  }
+}

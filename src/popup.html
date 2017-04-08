@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="class/FirefoxExtension.inc.js"></script>
+  <script src="class/ChromeExtension.inc.js"></script>
+  <script src="class/Settings.inc.js"></script>
+  <script src="class/Imgur.inc.js"></script>
+  <script src="third/jquery.min.js"></script>
+  <script src="global.js"></script>
+  <script src="popup.js"></script>
+  <!-- <link rel="stylesheet" href="third/font-awesome/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="/third/material-design-iconic-font/css/material-design-iconic-font.min.css">
+  <style>
+    body{
+      margin: 0;
+      padding: 0;
+      width: 250px;
+      /*height: 500px; height calculated */
+      max-height: 500px;
+      overflow: auto;
+    }
+    #notifications{
+      width: 100%;
+      border-collapse: collapse;
+    }
+    #notifications td img{
+      max-height: 32px;
+      max-width: 32px;
+    }
+    #notifications tr{
+      height: 32px;
+    }
+    #notifications .title{
+      line-height: 3em;
+    }
+    .title{
+      background: #C5C5C5;
+      color: #FFF;
+    }
+    [data-href]{
+      cursor: pointer;
+    }
+    .notification{
+      cursor: pointer;
+      background: whitesmoke;
+    }
+    .notification:hover{
+      background: #E8E6E6;
+    }
+    .title_MPs{
+      background-color: rgba(96, 179, 92, 1);
+    }
+    .title_deals{
+      background-color: #02a5c1;
+    }
+    .title_alertes{
+      background-color: #704791;
+    }
+    .title_forum{
+      background-color: #704791;
+    }
+    #notifications td img.cat_icon {
+        position: relative;
+        top: 2px;
+        padding-left: 5px;
+    }
+    header{
+        height:29px;/*
+        background: #000;
+        color: white;*/
+        font-size: 15pt;
+    }
+    header span{
+        width: 25%;
+        text-align: center;
+        display: block;
+        float: left;
+    }
+    header span i{
+        cursor: pointer;
+    }
+    header span i:hover{
+        color: #A09C9C;
+    }
+    .no_notification{
+      cursor: initial;
+    }
+    .no_notification:hover{
+      background: whitesmoke;
+    }
+  </style>
+</head>
+<body width="250">
+<img style="display:none;" data-why="to-add-preload-image" src="https://raw.githubusercontent.com/thib3113/dealabs-extension/gh-pages/img/message.png">
+    <header>
+        <span class="link"><i data-btn="see_dealabs_home" class="zmdi zmdi-home" title="Accueil"></i></span>
+        <span class="link"><i data-btn="see_profil" class="zmdi zmdi-account-circle" title="mon profil"></i></span>
+        <span><i data-btn="refresh" class="zmdi zmdi-refresh" title="rafraichir"></i></span>
+        <span><i data-btn="remove_all" class="zmdi zmdi-format-clear-all" style="transform: scaleX(-1);" title="Tout supprimer"></i></span>
+    </header>
+    <table id="notifications">
+      <tr class="notification"><td class="no_notification" colspan="">Aucune notification</td></tr>
+    </table>
+</body>
+</html>

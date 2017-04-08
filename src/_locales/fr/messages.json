@@ -1,0 +1,90 @@
+{
+   "APPNAME": {
+      "description": "The name of the application",
+      "message": "Dealabs - non officiel"
+   },
+   "APPNAME_SHORT": {
+      "description": "The short name of the application",
+      "message": "Dealabs"
+   },
+   "DESCRIPTION": {
+      "description": "The short name of the application",
+      "message": "Cette extension apporte plusieurs nouvelles fonctionnalités au site dealabs . Plus d'information sur le topic de l'extension"
+   },
+   "Connexion_error":{
+      "description": "connexion error",
+      "message": "Une erreur de connection s'est produite"
+   },
+   "IF_NOT_REDIRECTED_OPTIONS": {
+      "description": "explain what to do if the option page don't redirect",
+      "message": "Si vous n'êtes pas redirigé dans les 5 secondes, rendez vous sur le site \u003Ca href=\"https://www.dealabs.com\">dealabs.com\u003C/a>, aller dans les paramètres de votre compte, dans l'onglet \"Plugin\""
+   },
+   "Please_send_a_blob_": {
+      "description": "Error if you try to send not a blob",
+      "message": "Merci de passer une image de type blob"
+   },
+   "REDIRECTION_OPTIONS": {
+      "description": "It's loading",
+      "message": "Redirection en cours ... "
+   },
+   "You_are_sending_images_too_fast_please_wait_waitingTime_minutes": {
+      "description": "Error when you send too images .",
+      "message": "Vous envoyez des images trop rapidement, merci d'attendre $waitingTime$ minutes",
+      "placeholders": {
+         "waitingTime": {
+            "content": "$1",
+            "example": "10"
+         }
+      }
+   },
+   "an_error_appear_when_we_try_to_get_a_token_from_imgur_XX": {
+      "description": "text for error notification for imgur token.",
+      "message": "Une erreur est apparue quand nous avons essayer d'avoir un token imgur : $error$ .",
+      "placeholders": {
+         "error": {
+            "content": "$1",
+            "example": "14 mars 1994"
+         }
+      }
+   },
+   "click_here": {
+      "description": "Click here",
+      "message": "Cliquez ici ."
+   },
+   "something_is_wrong_maybe_a_cross_domain_error_checking_console_can_help_you": {
+      "description": "maybe cross domain error .",
+      "message": "Un problème est apparu .... Peut être un problème de requètes entre domaine, seul une vérification de la console pourra vous aider ."
+   },
+   "you_are_connected_with_account_account_": {
+      "description": "message if connected",
+      "message": "Vous êtes connecté avec le compte $account$ .",
+      "placeholders": {
+         "account": {
+            "content": "$1",
+            "example": "thib3113"
+         }
+      }
+   },
+   "you_are_not_connected": {
+      "description": "Error if you are not connected",
+      "message": "Vous n'êtes pas connecté"
+   },
+   "you_are_not_connected_": {
+      "description": "message if not connected",
+      "message": "Vous n'êtes pas connecté : "
+   },
+   "you_r_imgur_token_has_expired": {
+      "description": "Title for warning notification for imgur token expired .",
+      "message": "Votre token imgur à expiré."
+   },
+   "you_r_imgur_token_has_expired_the_XX_click_here_to_re_register": {
+      "description": "text for warning notification for imgur token expired .",
+      "message": "Votre token imgur à expiré le $expire_date$, merci de cliquer ici et de le réenregistrer",
+      "placeholders": {
+         "expire_date": {
+            "content": "$1",
+            "example": "14 mars 1994"
+         }
+      }
+   }
+}

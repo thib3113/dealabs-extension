@@ -1,0 +1,22 @@
+{
+   "APPNAME": {
+      "description": "The name of the application",
+      "message": "Dealabs - unofficial"
+   },
+   "APPNAME_SHORT": {
+      "description": "The short name of the application",
+      "message": "Dealabs"
+   },
+   "DESCRIPTION": {
+      "description": "The short name of the application",
+      "message": "This extension add some functions for the website dealabs . More informations on the topic "
+   },
+   "IF_NOT_REDIRECTED_OPTIONS": {
+      "description": "explain what to do if the option page don't redirect",
+      "message": "If you are not redirected in 5 seconds, Please go in your settings, tab \"Plugin\""
+   },
+   "REDIRECTION_OPTIONS": {
+      "description": "It's loading",
+      "message": "Loading ..."
+   }
+}

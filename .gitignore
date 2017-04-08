@@ -1,0 +1,7 @@
+dealabs-notifier-extension.zip
+dealabs-notifier-extension.xpi
+node_modules/
+
+*.zip
+
+build/

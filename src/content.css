@@ -1,0 +1,21 @@
+#contener_profil_param .content_profil_param .profil_param_notification{
+    float: left;
+    width: 100%;
+    padding-bottom: 15px;
+}
+
+#contener_profil_param #plugin_tab_content.content_profil_param .content_tab_contener{
+    padding: initial;
+}
+
+div.spoiler > a.plugin_click_div_spoiler {
+    /* color: #969696; */
+    padding: 8px 0px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    background-position: 12px;
+    background-repeat: no-repeat;
+    background-image: url(//static.dealabs.com/images/all/icon_all_spoiler.png);
+    padding-left: 38px;
+}

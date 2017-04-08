@@ -1,0 +1,19 @@
+{
+  "tests": "./tests/*_test.js",
+  "timeout": 10000,
+  "output": "./tests/output",
+  "helpers": {
+    "SeleniumWebdriver": {
+      "url": "https://www.dealabs.com",
+      "browser": "chrome",
+      "commandLineFlags": "--load-extension=./build/Chrome --no-first-run",
+      "coloredLogs": true
+    }
+  },
+  "include": {
+    "I": "./tests/steps_file.js"
+  },
+  "bootstrap": false,
+  "mocha": {},
+  "name": "dealabs-notifier-extension"
+}
