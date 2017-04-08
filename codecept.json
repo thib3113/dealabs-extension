@@ -1,12 +1,11 @@
 {
   "tests": "./tests/*_test.js",
   "timeout": 10000,
-  "output": "./tests/output",
+  "output": "./build/artifacts/screenshots",
   "helpers": {
     "SeleniumWebdriver": {
       "url": "https://www.dealabs.com",
       "browser": "chrome",
-      "commandLineFlags": "--load-extension=./build/Chrome --no-first-run",
       "coloredLogs": true
     }
   },
