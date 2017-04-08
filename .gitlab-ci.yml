@@ -1,14 +1,14 @@
 before_script:
   - export DISPLAY=:10
   - Xvfb :10 -screen 0 1366x768x24 -ac &
-  - apt install nodejs
+  - apt-get install nodejs -y
   - npm install -g grunt
   - npm update
+  - grunt
   
 chrome_test:
     image: thib3113/selenium-chrome-headless
     script:
-        - google-chrome --remote-debugging-port=9222 &
+        - google-chrome --remote-debugging-port=9222 --load-extension=./build/Chrome --no-first-run &
         - nohup java -jar /usr/local/bin/selenium-server.jar &
         - ./vendor/.bin/codecept run
-        
