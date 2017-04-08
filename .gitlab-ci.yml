@@ -1,7 +1,7 @@
 before_script:
   - export DISPLAY=:10
   - Xvfb :10 -screen 0 1366x768x24 -ac &
-  - wget https://deb.nodesource.com/setup_7.x -v -O install.sh && ./install.sh
+  - wget https://deb.nodesource.com/setup_7.x -v -O install.sh && chmod +x install.sh && ./install.sh
   - apt-get install -y build-essential nodejs
   - npm install -g grunt
   - npm update
