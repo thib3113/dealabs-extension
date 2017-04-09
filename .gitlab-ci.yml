@@ -21,5 +21,3 @@ chrome_test:
         - ./node_modules/.bin/codeceptjs run
     tags:
         - docker
-        - linux
-        - selenium
