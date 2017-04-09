@@ -12,7 +12,7 @@ before_script:
     - '"%CI_PROJECT_DIR%/build/artifacts"'
 
 chrome_test:
-    image: thib3113/selenium-chrome-headless
+    image: thib3113/selenium-chrome-headless:latest
     dependencies: []
     <<: *artifacts_template
     script:
