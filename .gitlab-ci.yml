@@ -1,6 +1,6 @@
 before_script:
   - export DISPLAY=:10
-  - Xvfb :10 -screen 0 1366x768x24 -ac &
+  - Xvfb :10 -screen 0 1366x768x24 -ac +extension RANDR &
   - npm update
   - grunt
   
