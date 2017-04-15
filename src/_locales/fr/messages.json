@@ -86,5 +86,37 @@
             "example": "14 mars 1994"
          }
       }
+   },
+   "new_notification_on_forum_p": {
+      "message": "Nouvelles notifications sur le forum",
+      "description": "new notif on forum, plural"
+   },
+   "new_notification_on_forum": {
+      "message": "Nouvelle notification sur le forum",
+      "description": "new notif on forum, singular"
+   },
+   "new_private_message_p": {
+      "message": "Nouveaux messages privés",
+      "description": "new MP, plural"
+   },
+   "new_private_message": {
+      "message": "Nouveau message privé",
+      "description": "new MP, singular"
+   },
+   "new_alerts_p": {
+      "message": "Nouvelles alertes",
+      "description": "new MP, plural"
+   },
+   "new_alerts": {
+      "message": "Nouvelle alerte",
+      "description": "new MP, singular"
+   },
+   "new_comment_on_deal_p": {
+      "message": "Nouvelaux commentaires",
+      "description": "new comment, plural"
+   },
+   "new_comment_on_deal": {
+      "message": "Nouveau commentaire",
+      "description": "new comment, singular"
    }
 }

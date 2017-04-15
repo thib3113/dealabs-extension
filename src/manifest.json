@@ -3,7 +3,7 @@
     "name": "__MSG_APPNAME__",
     "short_name": "__MSG_APPNAME_SHORT__",
     "description": "__MSG_DESCRIPTION__",
-    "version": "1.6.2",
+    "version": "1.6.5",
     "author": "thib3113 <thib3113@gmail.com>",
     "minimum_chrome_version": "50.0",
     "icons": {

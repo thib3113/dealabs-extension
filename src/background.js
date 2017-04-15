@@ -206,7 +206,6 @@ try{
         $.ajax({
             url:dealabs_protocol+"www.dealabs.com",
             success:function(response){
-
                 // response = response.replace(/src=["|']\/\//g, dealabs_protocol+'');
                 $page = $(response);
                 $page.find("img").each(function(){
@@ -221,7 +220,6 @@ try{
                     //we are connected
                     extension.removeWaitFor('disconnected');
                     extension.stopWaitFor('connected');
-
 
                     iconState("connected");
 
@@ -243,15 +241,35 @@ try{
                         profil:profil
                     });
                     
+                    // nbNotifs = parseInt($page.find("#number_notif").text());
+                    //get notifications from webpage, because servlet don't work correctly
+                    notification_list = [];
+                    $page.find("#notification_box .sub_menu_box_item").each(function(index,item){
+                        $item = $(item);
+                        id = $item.attr("id").split("_");
+                        img_src = $item.find(".notification_image_content img").data("src") || "";
+                        notification = {
+                            id: id[1],
+                            type: id[0],
+                            deal_thumb_image: img_src.slice("https://static.dealabs.com/".length),
+                            title: $item.find(".notification_first_text_content p:last").text(),
+                            url: $item.find(".notification_first_text_content a").attr("href"),
+                        };
+                        notification_list.push(notification);
+                    })
+
+                    // debugger;
                     async.parallel({
                         notifications: function(callback) {
-                            var index = 0;
+                            var index = 5;
+                            var offset = 5;
                             $.ajax({
                                 cb:callback,
-                                notification_list:[],
+                                notification_list:notification_list,
                                 url:dealabs_protocol+"www.dealabs.com/ajax/notification-scroll",
                                 data:{
-                                    index:index
+                                    index:index,
+                                    offset:offset
                                 },
                                 method:"POST",
                                 dataType:"json",
@@ -260,8 +278,10 @@ try{
                                         for (var i = resp.notifications.length - 1; i >= 0; i--) {
                                             this.notification_list.push(resp.notifications[i])
                                         }
+
                                         this.data = {
-                                            index: ++index
+                                            index:index ,
+                                            offset:resp.offset+index
                                         }
                                         $.ajax(this);
                                     }
@@ -342,7 +362,7 @@ try{
                                 case "forum":
                                     return_notif = {
                                         categorie : "forum",
-                                        icon : "https://raw.githubusercontent.com/thib3113/dealabs-extension/gh-pages/img/message.png",
+                                        icon : "https://thib3113.github.io/dealabs-extension/img/message.png",
                                         title : "Nouveau message sur le forum",
                                         slug : notification.id,
                                         text : notification.title,
@@ -355,7 +375,7 @@ try{
                                 case "deal":
                                     return_notif = {
                                         categorie : "deals",
-                                        icon : dealabs_protocol+"www.dealabs.com/"+notification.deal_thumb_image,
+                                        icon : dealabs_protocol+"static.dealabs.com/"+notification.deal_thumb_image,
                                         title : "Nouvelle notification",
                                         slug : notification.id,
                                         text : notification.title,
@@ -365,7 +385,7 @@ try{
                                 case "alert":
                                     return_notif = {
                                         categorie : "alertes",
-                                        icon : dealabs_protocol+"www.dealabs.com/"+notification.deal_thumb_image,
+                                        icon : dealabs_protocol+"static.dealabs.com/"+notification.deal_thumb_image,
                                         title : "Nouvelle alerte",
                                         slug : notification.id,
                                         text : notification.title,

@@ -24,26 +24,26 @@ try{
                 icon = 'https://static.dealabs.com/images/header/icon_header_notif.png';
                 switch(categorie){
                     case 'deals':
-                        title = 'Nouveau'+(curCat.length>1?'x':'')+' commentaire'+(curCat.length>1?'x':'');
+                        title = extension._n("new comment on deal", curCat.length);
                         more_link = 'https://www.dealabs.com/';
                         nb_notif = notifications_counter.deals.value;
                         more_text = 'Voir plus de '+title.toLowerCase()
                     break;
                     case 'alertes':
-                        title = 'Alerte'+(curCat.length>1?'s':'');
+                        title = extension._n("new alerts", curCat.length);
                         more_link = 'https://www.dealabs.com/alerts/alerts.html';
                         nb_notif = notifications_counter.alertes.value;
                         more_text = 'Voir plus d\''+title.toLowerCase()
                     break;
                     case 'MPs':
-                        title = 'Message'+(curCat.length>1?'s':'')+' privé'+(curCat.length>1?'s':'');
+                        title = extension._n("new private message", curCat.length);
                         icon = 'https://static.dealabs.com/images/header/icon_all_messages.png';
                         more_link = profil_link+'?tab=messaging&what=inbox';
                         nb_notif = notifications_counter.MPs.value;
                         more_text = 'Voir plus de '+title.toLowerCase()
                     break;
                     case 'forum':
-                        title = 'Notification'+(curCat.length>1?'s':'')+' du forum';
+                        title = extension._n("new notification on forum", curCat.length);
                         more_link = 'https://www.dealabs.com/forum.html';
                         nb_notif = notifications_counter.forum.value;
                         more_text = 'Voir plus de '+title.toLowerCase()

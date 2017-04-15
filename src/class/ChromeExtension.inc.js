@@ -374,15 +374,15 @@ function ChromeExtension(){
     this._n=function(text,number){
         args = Array.prototype.slice.call(arguments);
         if(number>1){
-            args[0] = self.i18n.sanitize(text)+"-p";
+            args[0] = self.i18n.sanitize(text)+"_p";
         }
         else{
             args[0] = self.i18n.sanitize(text);
         }
         //todo 
         args.slice(1,1);
-        message = chrome.i18n.getMessage.apply(this, args);
-        if(message.length == 0)
+        message = this.i18n.getMessage.apply(this, args);
+        if(message == args[0])
             return text;
         else
             return message;
@@ -397,7 +397,7 @@ function ChromeExtension(){
         arguments[0] = self.i18n.sanitize(message);
         text = chrome.i18n.getMessage.apply(this, arguments);
         if(text.length == 0){
-            console.warn("oops, text for : \n \""+message+"\" \n with key : \""+arguments[0]+"\" \n is missing from the current language "+this.getUILanguage())
+            console.warn("oops, text for : \n \""+message+"\" \n with key : \""+arguments[0]+"\" \n is missing from the current language "+self.i18n.getUILanguage())
             return message;
         }
         else
