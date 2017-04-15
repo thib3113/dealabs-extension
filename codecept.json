@@ -4,9 +4,15 @@
   "output": "./build/artifacts/screenshots",
   "helpers": {
     "SeleniumWebdriver": {
-      "url": "https://www.dealabs.com",
+      "url": "",
       "browser": "chrome",
-      "coloredLogs": true
+      "coloredLogs": true,
+      "windowSize": "1920x1080",
+      "capabilities": {
+        "chromeOptions" : {
+          "args" : ["--load-extension=d:/dealabs-notifier-extension/build/Chrome", "--auto-open-devtools"]
+        }
+      }
     }
   },
   "include": {

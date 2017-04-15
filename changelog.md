@@ -1,3 +1,12 @@
+1.6.5 :
+    - update notification system
+    - add translations
+1.6.4 :
+    - misstake in bug with notifications
+1.6.3 : 
+    - bug with notifications
+    - bug in options page if not connected
+    - add translations
 1.6.2 :
     - bug with links
     - add translations
