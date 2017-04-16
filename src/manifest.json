@@ -16,12 +16,15 @@
         "default_icon": "img/icon.png",
         "default_title": "__MSG_APPNAME__"
     },
-    "background": {
+    "background": 
+    {
         "scripts": [
+            "class/WebExtension.inc.js",
             "class/FirefoxExtension.inc.js",
             "class/ChromeExtension.inc.js",
             "class/Settings.inc.js",
             "class/Imgur.inc.js",
+            "class/Dlbs_plugin.inc.js",
             "third/async.min.js",
             "third/jquery.min.js",
             "third/noty/jquery.noty.packaged.min.js",
@@ -30,9 +33,7 @@
         ]
     },
     "web_accessible_resources": [
-        "themes/*",
-        "sounds/*",
-        "third/*"
+        "*"
     ],
     "permissions": [
         "notifications",
@@ -41,7 +42,6 @@
         "contextMenus",
         "webRequest",
         "*://*.dealabs.com/*",
-        "https://raw.githubusercontent.com/thib3113/dealabs-extension/*",
         "https://thib3113.github.io/dealabs-extension/*"
     ],
     "content_scripts": [
@@ -57,7 +57,8 @@
                 "*://*.dealabs.com/*.css",
                 "*://*.dealabs.com/*.js"
             ],
-            "js": [
+            "js": [            
+                "class/WebExtension.inc.js",
                 "class/FirefoxExtension.inc.js",
                 "class/ChromeExtension.inc.js",
                 "class/Settings.inc.js",

@@ -1,6 +1,8 @@
-    if(["rss", "xml", "css", "js", "pdf"].indexOf(location.pathname.split('.').pop()) > 0)
-        throw new Error("extension not supported !");
+if(["rss", "xml", "css", "js", "pdf"].indexOf(location.pathname.split('.').pop()) > 0)
+    throw new Error("Extension don't support this file format");
+
 try{
+    
     Object.size = function(obj) {
         var size = 0,
             key;
@@ -290,7 +292,7 @@ try{
                     if(theme.styles[i].url.slice(0,5) == "https")
                         url = theme.styles[i].url;
                     else
-                        url = (settingsManager.imadevelopper?dev_emoticone_theme_url:emoticone_theme_url)+theme.styles[i].url;
+                        url = emoticone_theme_url+theme.styles[i].url;
                    
                     var link = document.createElement( "link" );
                     link.href = url;
@@ -1002,6 +1004,7 @@ try{
         })
     })
 
+
     $(function(){
         var script = document.createElement('script');
         script.src = '//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.8/packaged/jquery.noty.packaged.min.js';
@@ -1105,7 +1108,6 @@ try{
                 return false;
             });
         }
-        // console.log(jQuery._data( $(document)[0], "events" ));
     })
 }
 catch(e){

@@ -16,7 +16,8 @@ try{
 
             oldNotifs = notifications;
 
-            $('#notifications').html('');
+            $notifications = $('#notifications');
+            $notifications.html('');
             nb_add = 0;
             for(categorie in notifications){
                 nb_add++;
@@ -27,40 +28,40 @@ try{
                         title = extension._n("new comment on deal", curCat.length);
                         more_link = 'https://www.dealabs.com/';
                         nb_notif = notifications_counter.deals.value;
-                        more_text = 'Voir plus de '+title.toLowerCase()
+                        // more_text = 'Voir plus de '+title.toLowerCase()
                     break;
                     case 'alertes':
                         title = extension._n("new alerts", curCat.length);
                         more_link = 'https://www.dealabs.com/alerts/alerts.html';
                         nb_notif = notifications_counter.alertes.value;
-                        more_text = 'Voir plus d\''+title.toLowerCase()
+                        // more_text = 'Voir plus d\''+title.toLowerCase()
                     break;
                     case 'MPs':
                         title = extension._n("new private message", curCat.length);
                         icon = 'https://static.dealabs.com/images/header/icon_all_messages.png';
                         more_link = profil_link+'?tab=messaging&what=inbox';
                         nb_notif = notifications_counter.MPs.value;
-                        more_text = 'Voir plus de '+title.toLowerCase()
+                        // more_text = 'Voir plus de '+title.toLowerCase()
                     break;
                     case 'forum':
                         title = extension._n("new notification on forum", curCat.length);
                         more_link = 'https://www.dealabs.com/forum.html';
                         nb_notif = notifications_counter.forum.value;
-                        more_text = 'Voir plus de '+title.toLowerCase()
+                        // more_text = 'Voir plus de '+title.toLowerCase()
                     break;
                 }
 
-                $('#notifications').append('<tr class="title title_'+categorie+'" data-href="'+more_link+'"><td><img class="cat_icon" src="'+icon+'" alt="'+categorie+'_icon"></td><td>'+title+'</td></tr>');
+                $notifications.append('<tr class="title title_'+categorie+'" data-href="'+more_link+'"><td><img class="cat_icon" src="'+icon+'" alt="'+categorie+'_icon"></td><td>'+title+'</td></tr>');
                 for (var i = curCat.length - 1; i >= 0; i--) {
                     nb_add++;
-                    $('#notifications').append('<tr class="notification" data-href="'+curCat[i].url+'"><td><img src="'+curCat[i].icon+'" alt="'+curCat[i].text+'"></td><td>'+curCat[i].text+'</td></tr>');
+                    $notifications.append('<tr class="notification" data-href="'+curCat[i].url+'"><td><img src="'+curCat[i].icon+'" alt="'+curCat[i].text+'"></td><td>'+curCat[i].text+'</td></tr>');
                 }
 
-                if(nb_notif > curCat.length)
-                    $('#notifications').append('<tr class="notification" data-href="'+more_link+'"><td style="text-align:center;">...</td><td>'+more_text+'</td></tr>');
+                // if(nb_notif > curCat.length)
+                //     $notifications.append('<tr class="notification" data-href="'+more_link+'"><td style="text-align:center;">...</td><td>'+more_text+'</td></tr>');
             }
             if(nb_add == 0){
-                $('#notifications').append('<tr class="notification"><td class="no_notification" colspan="">Aucune notification</td></tr>');
+                $notifications.append('<tr class="notification"><td class="no_notification" colspan="">Aucune notification</td></tr>');
                 nb_add++;
             }
             $('body').css('height', nb_add*32)
@@ -107,14 +108,6 @@ try{
         });
 
         generate_popup();  
-
-        // chrome.extension.onConnect.addListener(function(port) {
-        //     port.onMessage.addListener(function(msg) {
-        //         if(msg.action == "update_popup"){
-        //             generate_popup();
-        //         }
-        //     });
-        // });  
     })   
 }
 catch(e){

@@ -1,42 +1,47 @@
 try{
-
+  ///////////////
+  // VARIABLES //
+  ///////////////
   time_between_refresh_list = [15,30,60,120,240];
 
   theme_list_url = "https://thib3113.github.io/dealabs-extension/themes_list.json";
   emoticone_theme_list_url = "https://thib3113.github.io/dealabs-extension/emoticon_theme.json";
 
   theme_url = 'https://thib3113.github.io/dealabs-extension/themes/';
-  dev_theme_url = 'https://thib3113.github.io/dealabs-extension/themes/';
 
   emoticone_theme_url = 'https://thib3113.github.io/dealabs-extension/emoticons_themes/';
-  dev_emoticone_theme_url = 'https://thib3113.github.io/dealabs-extension/emoticons_themes/';
-  //for dev time
-  // theme_url = dev_theme_url;
 
   dealabs_protocol = "https://";
 
-get_params_from_url = function(search_string) {
-  var parse = function(params, pairs) {
-    var pair = pairs[0];
-    var parts = pair.split('=');
-    var key = decodeURIComponent(parts[0]);
-    var value = decodeURIComponent(parts.slice(1).join('='));
-
-    // Handle multiple parameters of the same name
-    if (typeof params[key] === "undefined") {
-      params[key] = value;
-    } else {
-      params[key] = [].concat(params[key], value);
-    }
-
-    return pairs.length == 1 ? params : parse(params, pairs.slice(1))
+  //////////////////////
+  // GLOBAL FUNCTIONS //
+  //////////////////////
+  function soundAlert(){
+    audio = new Audio('sounds/alert.mp3');
+    audio.play();
+    audio = null;
   }
 
-  // Get rid of leading ?
-  return search_string.length == 0 ? {} : parse({}, search_string.substr(1).split('&'));
-}
+  get_params_from_url = function(search_string) {
+    var parse = function(params, pairs) {
+      var pair = pairs[0];
+      var parts = pair.split('=');
+      var key = decodeURIComponent(parts[0]);
+      var value = decodeURIComponent(parts.slice(1).join('='));
 
+      // Handle multiple parameters of the same name
+      if (typeof params[key] === "undefined") {
+        params[key] = value;
+      } else {
+        params[key] = [].concat(params[key], value);
+      }
 
+      return pairs.length == 1 ? params : parse(params, pairs.slice(1))
+    }
+
+    // Get rid of leading ?
+    return search_string.length == 0 ? {} : parse({}, search_string.substr(1).split('&'));
+  }
 
   if(navigator.userAgent.match(/Chrome/gi)){ 
     extension = new ChromeExtension(); 
@@ -56,12 +61,6 @@ get_params_from_url = function(search_string) {
   extension.onMessage('update_settings', function(datas){
     settingsManager.syncSettings();
   });
-
-  function soundAlert(){
-    audio = new Audio('sounds/alert.mp3');
-    audio.play();
-    audio = null;
-  }
 
   var profilsCache = {};
   var getProfile = function(profile_id, cb){
