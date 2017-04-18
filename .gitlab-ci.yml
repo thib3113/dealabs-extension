@@ -19,3 +19,5 @@ chrome_test:
         - google-chrome --remote-debugging-port=9222 --load-extension=./build/Chrome --no-first-run --no-sandbox &
         - nohup java -jar /usr/local/bin/selenium-server.jar &
         - ./node_modules/.bin/codeceptjs run
+    tags:
+        - docker
