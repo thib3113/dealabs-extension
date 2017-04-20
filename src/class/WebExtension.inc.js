@@ -357,7 +357,7 @@ class WebExtension{
                 }
                 else
                     return text;
-            }
+            }.bind(this);
         }
 
         this.isBackgroundPage = location.href.match(/chrome-extension:\/\/[a-z]+\/_generated_background_page\.html/g)!=null;
