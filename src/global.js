@@ -286,6 +286,8 @@ try{
     return content.match(re) || [];
   }
 
+  dealabs = new Dealabs();
+
   plugin_BBcodes = [
     {
       regex : /\[img size="?([0-9]*)px"?\]([^\]]*)\[\/img\]/gi,
