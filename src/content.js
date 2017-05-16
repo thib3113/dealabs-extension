@@ -104,140 +104,140 @@ try{
         }
     }
 
-    function plugin_generatePreview(commentContainer, commentaire) {
-        userData = jQuery('#open_member_parameters');
+    // function plugin_generatePreview(commentContainer, commentaire) {
+    //     userData = jQuery('#open_member_parameters');
 
-        replacements = {};
+    //     replacements = {};
 
-        if (typeof commentaire == "undefined")
-            return;
+    //     if (typeof commentaire == "undefined")
+    //         return;
 
-        current_smileys = settingsManager.smileys
-        for (var nom in current_smileys) {
-            commentaire = commentaire.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size="300px"]' + current_smileys[nom] + '[/img]');
-        }
+    //     current_smileys = settingsManager.smileys
+    //     for (var nom in current_smileys) {
+    //         commentaire = commentaire.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size="300px"]' + current_smileys[nom] + '[/img]');
+    //     }
 
-        for (var i = 0; i < plugin_BBcodes.length; i++) {
-            if (typeof replacements[plugin_BBcodes[i].name] == "undefined")
-                replacements[plugin_BBcodes[i].name] = [];
+    //     for (var i = 0; i < plugin_BBcodes.length; i++) {
+    //         if (typeof replacements[plugin_BBcodes[i].name] == "undefined")
+    //             replacements[plugin_BBcodes[i].name] = [];
 
-            bbcodes_found = plugin_match_all(plugin_BBcodes[i].regex, commentaire);
-            for (var j = bbcodes_found.length - 1; j >= 0; j--) {
-                cur_bbcodes_found = bbcodes_found[j][0];
+    //         bbcodes_found = plugin_match_all(plugin_BBcodes[i].regex, commentaire);
+    //         for (var j = bbcodes_found.length - 1; j >= 0; j--) {
+    //             cur_bbcodes_found = bbcodes_found[j][0];
 
-                subst = plugin_BBcodes[i].name + '_' + replacements[plugin_BBcodes[i].name].length
+    //             subst = plugin_BBcodes[i].name + '_' + replacements[plugin_BBcodes[i].name].length
 
-                commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(cur_bbcodes_found)), '[' + subst + ']');
-                replacements[plugin_BBcodes[i].name].push({
-                    subst: subst,
-                    after: cur_bbcodes_found.replace(plugin_BBcodes[i].regex, plugin_BBcodes[i].html)
-                });
-            }
-        }
+    //             commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(cur_bbcodes_found)), '[' + subst + ']');
+    //             replacements[plugin_BBcodes[i].name].push({
+    //                 subst: subst,
+    //                 after: cur_bbcodes_found.replace(plugin_BBcodes[i].regex, plugin_BBcodes[i].html)
+    //             });
+    //         }
+    //     }
 
-        //match url, and replace by bbcode, for escape smiley
-        if (typeof replacements["link"] == "undefined")
-            replacements["link"] = [];
-        urls = plugin_getUrls(commentaire);
-        for (var i = urls.length - 1; i >= 0; i--) {
-            subst = 'link_' + replacements["link"].length
-            commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(urls[i])), '[' + subst + ']');
-            //url length
-            if (urls[i].length <= 25)
-                after = '<a href="' + urls[i] + '">' + urls[i] + '</a>';
-            else
-                after = '<a class="link_a_reduce" href="' + urls[i] + '">' + urls[i].substr(0, 15) + '<i></i><span>' + urls[i].substr(15, urls[i].length - 10 - 15) + '</span>' + urls[i].substr(urls[i].length - 10, urls[i].length) + '</a>';
+    //     //match url, and replace by bbcode, for escape smiley
+    //     if (typeof replacements["link"] == "undefined")
+    //         replacements["link"] = [];
+    //     urls = plugin_getUrls(commentaire);
+    //     for (var i = urls.length - 1; i >= 0; i--) {
+    //         subst = 'link_' + replacements["link"].length
+    //         commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(urls[i])), '[' + subst + ']');
+    //         //url length
+    //         if (urls[i].length <= 25)
+    //             after = '<a href="' + urls[i] + '">' + urls[i] + '</a>';
+    //         else
+    //             after = '<a class="link_a_reduce" href="' + urls[i] + '">' + urls[i].substr(0, 15) + '<i></i><span>' + urls[i].substr(15, urls[i].length - 10 - 15) + '</span>' + urls[i].substr(urls[i].length - 10, urls[i].length) + '</a>';
 
-            replacements.link.push({
-                subst: subst,
-                after: after
-            });
-        }
+    //         replacements.link.push({
+    //             subst: subst,
+    //             after: after
+    //         });
+    //     }
 
-        //transform smileys to a bbcode
-        for (var i = 0; i < plugin_BBcodesSmiley.length; i++) {
-            commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(plugin_BBcodesSmiley[i].smiley), 'gi'), '[' + plugin_BBcodesSmiley[i].name + ']');
-        }
-        //transform smiley bbcode to image
-        for (var i = 0; i < plugin_BBcodesSmiley.length; i++) {
-            commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp('[' + plugin_BBcodesSmiley[i].name + ']'), 'gi'), '<img src="https://static.dealabs.com/images/smiley/' + plugin_BBcodesSmiley[i].icon + '.png" width="auto" height="auto" alt="' + plugin_BBcodesSmiley[i].smiley + '" title="' + plugin_BBcodesSmiley[i].smiley + '" class="bbcode_smiley">')
-        }
+    //     //transform smileys to a bbcode
+    //     for (var i = 0; i < plugin_BBcodesSmiley.length; i++) {
+    //         commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(plugin_BBcodesSmiley[i].smiley), 'gi'), '[' + plugin_BBcodesSmiley[i].name + ']');
+    //     }
+    //     //transform smiley bbcode to image
+    //     for (var i = 0; i < plugin_BBcodesSmiley.length; i++) {
+    //         commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp('[' + plugin_BBcodesSmiley[i].name + ']'), 'gi'), '<img src="https://static.dealabs.com/images/smiley/' + plugin_BBcodesSmiley[i].icon + '.png" width="auto" height="auto" alt="' + plugin_BBcodesSmiley[i].smiley + '" title="' + plugin_BBcodesSmiley[i].smiley + '" class="bbcode_smiley">')
+    //     }
 
-        for (code in replacements) {
-            for (var i = 0; i < replacements[code].length; i++) {
-                cur_code = replacements[code][i];
-                commentaire = commentaire.replace(new RegExp('\\[' + cur_code.subst + '\\]'), cur_code.after);
-            }
-        }
+    //     for (code in replacements) {
+    //         for (var i = 0; i < replacements[code].length; i++) {
+    //             cur_code = replacements[code][i];
+    //             commentaire = commentaire.replace(new RegExp('\\[' + cur_code.subst + '\\]'), cur_code.after);
+    //         }
+    //     }
 
-        commentContainer = commentContainer.replace(/{{userlink}}/g, jQuery("#member_parameters a:first").attr('href'));
-        commentContainer = commentContainer.replace(/{{useravatar}}/g, userData.find('img').attr('src'));
-        commentContainer = commentContainer.replace(/{{username}}/g, jQuery("#member_parameters a:first").find('span').text());
-        commentContainer = commentContainer.replace(/{{commentaire}}/g, plugin_nl2br(commentaire));
-        return commentContainer;
-    }
-
-
-    function plugin_insertSmiley() {
-        textarea = jQuery(this).parents('.comment_text_part_textarea').find('textarea');;
-        if (textarea.length > 0) {
-            textarea = textarea.get(0);
-        } else {
-            return;
-        }
-
-        var scrollTop = textarea.scrollTop;
-        var scrollLeft = textarea.scrollLeft;
-
-        var nom = this.getElementsByTagName('img')[0].getAttribute("title");
-        textarea.focus();
-        //textarea.value += '[img size="300px"]'+image+"[/img]";
-        //add smiley at cursor position
-        var cursorPos = jQuery(textarea).prop('selectionStart');
-        var v = jQuery(textarea).val()
-        v = v.slice(0, textarea.selectionStart) + v.slice(textarea.selectionEnd);
-        var textBefore = v.substring(0, cursorPos);
-        var textAfter = v.substring(cursorPos, v.length);
-        $(textarea).val(textBefore + ':' + nom + ":" + textAfter);
-
-        //positionne cursor in textarea
-        selectionStart = selectionEnd = (textBefore + ':' + nom + ":").length
-        if (textarea.setSelectionRange) {
-            textarea.focus();
-            textarea.setSelectionRange(selectionStart, selectionEnd);
-        } else if (textarea.createTextRange) {
-            var range = textarea.createTextRange();
-            range.collapse(true);
-            range.moveEnd('character', selectionEnd);
-            range.moveStart('character', selectionStart);
-            range.select();
-        }
-
-        // textarea.value += ':'+nom+":";
-        textarea.scrollTop = scrollTop;
-        textarea.scrollLeft = scrollLeft;
-    }
+    //     commentContainer = commentContainer.replace(/{{userlink}}/g, jQuery("#member_parameters a:first").attr('href'));
+    //     commentContainer = commentContainer.replace(/{{useravatar}}/g, userData.find('img').attr('src'));
+    //     commentContainer = commentContainer.replace(/{{username}}/g, jQuery("#member_parameters a:first").find('span').text());
+    //     commentContainer = commentContainer.replace(/{{commentaire}}/g, plugin_nl2br(commentaire));
+    //     return commentContainer;
+    // }
 
 
-    function plugin_update_emoticone_textarea() {
-        if (typeof jQuery == "undefined")
-            return;
+    // function plugin_insertSmiley() {
+    //     textarea = jQuery(this).parents('.comment_text_part_textarea').find('textarea');;
+    //     if (textarea.length > 0) {
+    //         textarea = textarea.get(0);
+    //     } else {
+    //         return;
+    //     }
+
+    //     var scrollTop = textarea.scrollTop;
+    //     var scrollLeft = textarea.scrollLeft;
+
+    //     var nom = this.getElementsByTagName('img')[0].getAttribute("title");
+    //     textarea.focus();
+    //     //textarea.value += '[img size="300px"]'+image+"[/img]";
+    //     //add smiley at cursor position
+    //     var cursorPos = jQuery(textarea).prop('selectionStart');
+    //     var v = jQuery(textarea).val()
+    //     v = v.slice(0, textarea.selectionStart) + v.slice(textarea.selectionEnd);
+    //     var textBefore = v.substring(0, cursorPos);
+    //     var textAfter = v.substring(cursorPos, v.length);
+    //     $(textarea).val(textBefore + ':' + nom + ":" + textAfter);
+
+    //     //positionne cursor in textarea
+    //     selectionStart = selectionEnd = (textBefore + ':' + nom + ":").length
+    //     if (textarea.setSelectionRange) {
+    //         textarea.focus();
+    //         textarea.setSelectionRange(selectionStart, selectionEnd);
+    //     } else if (textarea.createTextRange) {
+    //         var range = textarea.createTextRange();
+    //         range.collapse(true);
+    //         range.moveEnd('character', selectionEnd);
+    //         range.moveStart('character', selectionStart);
+    //         range.select();
+    //     }
+
+    //     // textarea.value += ':'+nom+":";
+    //     textarea.scrollTop = scrollTop;
+    //     textarea.scrollLeft = scrollLeft;
+    // }
 
 
-        jQuery('.emoji-content').each(function(index, value) {
-            c = this;
+    // function plugin_update_emoticone_textarea() {
+    //     if (typeof jQuery == "undefined")
+    //         return;
 
-            for (var title in settingsManager.smileys) {
-                mm = document.createElement("a");
-                mm.href = "javascript:;";
-                mm.setAttribute("style", 'text-decoration:none');
-                mm.dataset.role = "emoticone_add_userscript";
-                mm.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + settingsManager.smileys[title] + '" alt="' + title + '"/>';
-                mm.addEventListener("click", plugin_insertSmiley, true);
-                c.appendChild(mm);
-            }
-        });
-    }
+
+    //     jQuery('.emoji-content').each(function(index, value) {
+    //         c = this;
+
+    //         for (var title in settingsManager.smileys) {
+    //             mm = document.createElement("a");
+    //             mm.href = "javascript:;";
+    //             mm.setAttribute("style", 'text-decoration:none');
+    //             mm.dataset.role = "emoticone_add_userscript";
+    //             mm.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + settingsManager.smileys[title] + '" alt="' + title + '"/>';
+    //             mm.addEventListener("click", plugin_insertSmiley, true);
+    //             c.appendChild(mm);
+    //         }
+    //     });
+    // }
 
     function update_theme(theme){
         theme_css = document.querySelectorAll('[data-plugin-role="theme_css"]');
@@ -820,12 +820,9 @@ try{
         //add hour in body for styling
         updateHourBody = function(){
             $("body").addClass("plugin-hour-"+(new Date().getHours()));
-            //relaunch for the nex hour
+            //relaunch for the next hour
             setTimeout(this, 3600000 - new Date().getTime() % 3600000);
         }();
-
-        // $('.click_div_spoiler').removeClass('click_div_spoiler').addClass('plugin_click_div_spoiler');
-        // $('.commentaire_div > div.quote > div.quote_pseudo > p.pseudo_tag > a.open').removeClass('open').addClass('plugin_spoiler_open');
 
         //override spoiler
         $('body').on('click', '#_userscript_preview_container .click_div_spoiler', function(e) {
@@ -842,7 +839,6 @@ try{
         });
 
         //override long quote
-        // inject("$('.click_div_spoiler').off('click');$('.commentaire_div > div.quote > div.quote_pseudo > p.pseudo_tag > a.open').off('click');");
         $('body').on('click', '#_userscript_preview_container div.quote > div.quote_pseudo > p.pseudo_tag > a.open', function(e) {
             quote_height_max = parseInt($(".quote_message").css("max-height"), 10);
             var current_height = $(this).parents(".quote").children('.quote_message').height();

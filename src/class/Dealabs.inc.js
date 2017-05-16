@@ -1,8 +1,31 @@
 class Dealabs{
-    generatePreview(commentContainer, commentaire){
-        userData = jQuery('#open_member_parameters');
+    _matchAll(re, str){
+        var retour = [];
+        while ((m = re.exec(str)) !== null) {
+          if (m.index === re.lastIndex) {
+              re.lastIndex++;
+          }
+          retour.push(m);
+        }
 
-        replacements = {};
+        return retour;
+    }
+
+    _nl2br(str) {
+        return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ '<br>' +'$2');
+    }
+
+    _getUrls(content){
+        var re = /((?:http|ftp|https):\/\/[\w-]+(?:\.[\w-]+)+(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?)/g;
+        return content.match(re) || [];
+    }
+
+    generatePreview(commentContainer, commentaire){
+        var userData = $('#open_member_parameters');
+
+        var replacements = {};
+
+        var baseURLSmileys = "https://static.dealabs.com/images/smiley/";
 
         if (typeof commentaire == "undefined")
             return;
@@ -12,20 +35,20 @@ class Dealabs{
             commentaire = commentaire.replace(new RegExp(':' + this.escapeRegExp(nom) + ':', 'g'), '[img size="300px"]' + current_smileys[nom] + '[/img]');
         }
 
-        for (var i = 0; i < plugin_BBcodes.length; i++) {
-            if (typeof replacements[plugin_BBcodes[i].name] == "undefined")
-                replacements[plugin_BBcodes[i].name] = [];
+        for (var i = 0; i < this.BBcodes.length; i++) {
+            if (typeof replacements[this.BBcodes[i].name] == "undefined")
+                replacements[this.BBcodes[i].name] = [];
 
-            bbcodes_found = plugin_match_all(plugin_BBcodes[i].regex, commentaire);
+            bbcodes_found = this._matchAll(this.BBcodes[i].regex, commentaire);
             for (var j = bbcodes_found.length - 1; j >= 0; j--) {
                 cur_bbcodes_found = bbcodes_found[j][0];
 
-                subst = plugin_BBcodes[i].name + '_' + replacements[plugin_BBcodes[i].name].length
+                subst = this.BBcodes[i].name + '_' + replacements[this.BBcodes[i].name].length
 
                 commentaire = commentaire.replace(new RegExp(this.escapeRegExp(cur_bbcodes_found)), '[' + subst + ']');
-                replacements[plugin_BBcodes[i].name].push({
+                replacements[this.BBcodes[i].name].push({
                     subst: subst,
-                    after: cur_bbcodes_found.replace(plugin_BBcodes[i].regex, plugin_BBcodes[i].html)
+                    after: cur_bbcodes_found.replace(this.BBcodes[i].regex, this.BBcodes[i].html)
                 });
             }
         }
@@ -33,7 +56,7 @@ class Dealabs{
         //match url, and replace by bbcode, for escape smiley
         if (typeof replacements["link"] == "undefined")
             replacements["link"] = [];
-        urls = plugin_getUrls(commentaire);
+        urls = this._getUrls(commentaire);
         for (var i = urls.length - 1; i >= 0; i--) {
             subst = 'link_' + replacements["link"].length
             commentaire = commentaire.replace(new RegExp(this.escapeRegExp(urls[i])), '[' + subst + ']');
@@ -50,12 +73,13 @@ class Dealabs{
         }
 
         //transform smileys to a bbcode
-        for (var i = 0; i < plugin_BBcodesSmiley.length; i++) {
-            commentaire = commentaire.replace(new RegExp(this.escapeRegExp(plugin_BBcodesSmiley[i].smiley), 'gi'), '[' + plugin_BBcodesSmiley[i].name + ']');
+        for (var i = 0; i < this.BBcodesSmiley.length; i++) {
+            commentaire = commentaire.replace(new RegExp(this.escapeRegExp(this.BBcodesSmiley[i].smiley), 'gi'), '[' + this.BBcodesSmiley[i].name + ']');
         }
+
         //transform smiley bbcode to image
-        for (var i = 0; i < plugin_BBcodesSmiley.length; i++) {
-            commentaire = commentaire.replace(new RegExp(this.escapeRegExp('[' + plugin_BBcodesSmiley[i].name + ']'), 'gi'), '<img src="https://static.dealabs.com/images/smiley/' + plugin_BBcodesSmiley[i].icon + '.png" width="auto" height="auto" alt="' + plugin_BBcodesSmiley[i].smiley + '" title="' + plugin_BBcodesSmiley[i].smiley + '" class="bbcode_smiley">')
+        for (var i = 0; i < this.BBcodesSmiley.length; i++) {
+            commentaire = commentaire.replace(new RegExp(this.escapeRegExp('[' + this.BBcodesSmiley[i].name + ']'), 'gi'), '<img src="' baseURLSmileys + this.BBcodesSmiley[i].icon + '.png" width="auto" height="auto" alt="' + this.BBcodesSmiley[i].smiley + '" title="' + this.BBcodesSmiley[i].smiley + '" class="bbcode_smiley">')
         }
 
         for (code in replacements) {
@@ -65,10 +89,10 @@ class Dealabs{
             }
         }
 
-        commentContainer = commentContainer.replace(/{{userlink}}/g, jQuery("#member_parameters a:first").attr('href'));
+        commentContainer = commentContainer.replace(/{{userlink}}/g, $("#member_parameters a:first").attr('href'));
         commentContainer = commentContainer.replace(/{{useravatar}}/g, userData.find('img').attr('src'));
-        commentContainer = commentContainer.replace(/{{username}}/g, jQuery("#member_parameters a:first").find('span').text());
-        commentContainer = commentContainer.replace(/{{commentaire}}/g, plugin_nl2br(commentaire));
+        commentContainer = commentContainer.replace(/{{username}}/g, $("#member_parameters a:first").find('span').text());
+        commentContainer = commentContainer.replace(/{{commentaire}}/g, this._nl2br(commentaire));
         return commentContainer;
     }
 
@@ -160,24 +184,11 @@ class Dealabs{
 
                 $("form").each(function(){
                     //check if this form is supported
-                    supported = false;
+                    var supported = false;
 
-                    if(this.name == "comment_form"){
-                        //formulaire to add a new comment in the forum
-                        // console.log("comment_form found", this);
-                        supported = true;
-                    }
-
-                    if(this.name.match(/formedit_[0-9]+/g)){
-                        //formulaire to edit a comment in the forum
-                        // console.log("edit_form found", this);
-                        supported = true;
-                    }
-
-                    if(this.name == "new_MP_form"){
-                        //formulaire to send a new MP
-                        // console.log("new_MP_form found", this);
-                        supported = true;
+                    for(var name in options.forms_matches){
+                        if (this.name.match(new RegExp(options.forms_matches[name],"g")))
+                            supported = true
                     }
 
                     if(!supported)
@@ -249,24 +260,17 @@ class Dealabs{
                             }.bind(this)
                         );
                     });
-
-                    //generate the preview button
-                    // clone = $(this)
-                    //     .clone(false)
-                    //     .attr('onclick', null)
-                    //     .clone(false)
-                    //     .attr('accesskey', 'p')
-                    //     .attr("tabindex", this.tabindex+1)
-                    //     .css("margin-left", "20px")
-                    //     .text(lang.preview);
-
-                    // $(this).after(clone);
                 });
             }
             this.injectScript(dlbs_plugin_init);
             $(function(){
                 var options = {
                     extensionId : chrome.runtime.id,
+                    forms_matches : {
+                        "new_comment" : "^comment_form",
+                        "edit_comment" : "formedit_[0-9]+",
+                        "send_MP" : "new_MP_form"
+                    },
                     lang: {
                         preview : extension._("preview"),
                         waitImgUpload : extension._("an image is uploading, please wait a little")
@@ -294,59 +298,87 @@ class Dealabs{
                     self.pushTextInSelection(":" + nom + ":" ,textarea);
                 })
 
-                //add the emoticons in the emoticons list
-                $(this).find(".emoji-content, .third_part_button").each(function(index, value) {
-                    var $this = $(this);
-                    for (var title in settingsManager.smileys){
-                        var emoticon = document.createElement("a");
-                        emoticon.href = "javascript:;";
-                        emoticon.setAttribute("style", 'text-decoration:none');
-                        emoticon.dataset.role = "plugin_emoticone_add";
-                        emoticon.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + settingsManager.smileys[title] + '" alt="' + title + '"/>';
-                        $this.append(emoticon)
+                $("form").each(function(){
+                    //check if this form is supported
+                    var supported = false;
+
+                    for(var name in options.forms_matches){
+                        if (this.name.match(new RegExp(options.forms_matches[name],"g")))
+                            supported = true
                     }
+
+                    if(!supported)
+                        return;
+
+
+                    //add the emoticons in the emoticons list
+                    $(this).find(".emoji-content, .third_part_button").each(function(index, value) {
+                        var $this = $(this);
+                        for (var title in settingsManager.smileys){
+                            var emoticon = document.createElement("a");
+                            emoticon.href = "javascript:;";
+                            emoticon.setAttribute("style", 'text-decoration:none');
+                            emoticon.dataset.role = "plugin_emoticone_add";
+                            emoticon.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + settingsManager.smileys[title] + '" alt="' + title + '"/>';
+                            $this.append(emoticon)
+                        }
+                    });
+
+                    var submit_btn = $(this).find(".validate_comment");
+                    //generate the preview button
+                    var clone = $(submit_btn)
+                        .clone(false)
+                        .attr('onclick', null)
+                        .clone(false)
+                        .attr('accesskey', 'p')
+                        .attr("tabindex", parseInt(submit_btn.attr("tabindex"))+1)
+                        .css("margin-left", "20px")
+                        .text(extension._("preview"));
+
+                    clone.on("click", function(){
+                        self.generatePreview(commentContainer, commentaire);
+                    });
+
+                    $(submit_btn).after(clone);
+
+
                 });
             })
-            
-            // $(function(){
-            //     $("#comment_form").each(function(){
-            //         //to submit a form : 
-            //         // - inject script in the page, sending a message to the content.js
-            //         // - from content.js respond with modified version
-
-            //         this.onSubmit =  self.submitForm;
-            //     })
-            //     $(document).on('submit', 'form', function(event) {
-            //         text = $(this).find('[name="post_content"]').val();
-                    // if(text != undefined && text.match(/[img_wait_upload:[0-9]+]/)){
-                    //     event.stopPropagation();
-                    //     $('.spinner_validate').hide(0);
-                    //     $(this).find('.spinner_validate').parent('a').attr('onclick', 'validate_comment();');
-                    //     noty({
-                    //         layout: 'bottom',
-                    //         type: 'error',
-                    //         text: 'une image est en cours d\'upload, reessayer plus tard',
-                    //         dismissQueue: true,
-                    //         timeout: 2000,
-                    //         maxVisible: 1
-                    //     });
-            //             return false;
-            //         }
-            //         if (typeof text == 'undefined') return;
-            //         current_smileys = JSON.parse('"+JSON.stringify(settingsManager.smileys)+"');
-            //         for (var nom in current_smileys) {
-            //             text = text.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size=300px]' + current_smileys[nom] + '#plugin_smiley[/img]');
-            //         };
-            //         $(this).find('[name="post_content"]').val(text);
-            //     })
-            // })
         }
         else if(this.context == "background"){
             this.initBGListeners();
         }
+
         ////////////////
         // RESSOURCES //
         ////////////////
+
+        this.templates = {
+            previews : {
+                new_comment : '\
+                    <div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="padding_comment_contener">\
+                        <div class="profil_part">\
+                            <div class="avatar_contener">\
+                                <a class="avatar" href="{{userlink}}">\
+                                    <img src="{{useravatar}}">\
+                                </a>\
+                            </div>\
+                        </div>\
+                        <div class="comment_text_part">\
+                            <div class="header_comment">\
+                                <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
+                                <p><span>'+extenson._("preview_name")+'</span></p>\
+                            </div>\
+                            <div>\
+                                <div class="commentaire_div">\
+                                    {{commentaire}}\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div>',
+                edit_comment : ''
+            }
+        }
 
         this.BBcodes = [
             {
