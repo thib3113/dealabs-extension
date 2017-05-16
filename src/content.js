@@ -333,14 +333,14 @@ try{
 
     var EmbedLinksManager;
     $(function() {
-        inject(validate_thread);
-        inject(validate_deal);
-        inject(plugin_escapeRegExp);
+        // inject(validate_thread);
+        // inject(validate_deal);
+        // inject(plugin_escapeRegExp);
 
-        inject(plugin_update_emoticone_textarea);
-        inject(plugin_insertSmiley);
+        // inject(plugin_update_emoticone_textarea);
+        // inject(plugin_insertSmiley);
 
-        plugin_update_emoticone_textarea();
+        // plugin_update_emoticone_textarea();
         $body = $('body');
 
         EmbedLinksManager = new Embed($('a.link_a_reduce'));
@@ -1010,29 +1010,29 @@ try{
         script.src = '//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.8/packaged/jquery.noty.packaged.min.js';
         (document.body || document.head || document.documentElement).appendChild(script);
 
-        inject("$(document).on('submit', 'form', function(event) {\
-            text = $(this).find('[name=\"post_content\"]').val();\
-            if(text != undefined && text.match(/\\[img_wait_upload:[0-9]+\\]/)){\
-                event.stopPropagation();\
-                $('.spinner_validate').hide(0);\
-                $(this).find('.spinner_validate').parent('a').attr('onclick', 'validate_comment();');\
-                noty({\
-                    layout: 'bottom',\
-                    type: 'error',\
-                    text: 'une image est en cours d\\'upload, reessayer plus tard',\
-                    dismissQueue: true,\
-                    timeout: 2000,\
-                    maxVisible: 1\
-                });\
-                return false;\
-            }\
-            if (typeof text == 'undefined') return;\
-            current_smileys = JSON.parse('"+JSON.stringify(settingsManager.smileys)+"');\
-            for (var nom in current_smileys) {\
-                text = text.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size=300px]' + current_smileys[nom] + '#plugin_smiley[/img]');\
-            };\
-            $(this).find('[name=\"post_content\"]').val(text);\
-        })");
+        // inject("$(document).on('submit', 'form', function(event) {\
+        //     text = $(this).find('[name=\"post_content\"]').val();\
+        //     if(text != undefined && text.match(/\\[img_wait_upload:[0-9]+\\]/)){\
+        //         event.stopPropagation();\
+        //         $('.spinner_validate').hide(0);\
+        //         $(this).find('.spinner_validate').parent('a').attr('onclick', 'validate_comment();');\
+        //         noty({\
+        //             layout: 'bottom',\
+        //             type: 'error',\
+        //             text: 'une image est en cours d\\'upload, reessayer plus tard',\
+        //             dismissQueue: true,\
+        //             timeout: 2000,\
+        //             maxVisible: 1\
+        //         });\
+        //         return false;\
+        //     }\
+        //     if (typeof text == 'undefined') return;\
+        //     current_smileys = JSON.parse('"+JSON.stringify(settingsManager.smileys)+"');\
+        //     for (var nom in current_smileys) {\
+        //         text = text.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size=300px]' + current_smileys[nom] + '#plugin_smiley[/img]');\
+        //     };\
+        //     $(this).find('[name=\"post_content\"]').val(text);\
+        // })");
 
         if(linkInfos = location.pathname.match(/^\/([^\/]+)\/.*\/([0-9]+)$/)){
             blacklisted =  (typeof settingsManager.blacklist[linkInfos[1]+'-'+linkInfos[2]] != "undefined");

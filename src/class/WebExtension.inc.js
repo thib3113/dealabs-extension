@@ -363,12 +363,23 @@ class WebExtension{
         this.isBackgroundPage = location.href.match(/chrome-extension:\/\/[a-z]+\/_generated_background_page\.html/g)!=null;
 
         if(this.isBackgroundPage){
-            chrome.extension.onConnect.addListener(function(port) {
+            //handle request from dealabs website
+            chrome.runtime.onMessageExternal.addListener(
+                function(msg, sender, sendResponse) {
+                    console.log("Receive a message from a webpage : "+sender.url);
+                    console.log(msg);
+                    if(this._messageListener[msg.event] != undefined){
+                        this._messageListener[msg.event](msg.datas, sendResponse);
+                    }
+                }.bind(this)
+            );
+
+            chrome.runtime.onConnect.addListener(function(port) {
                 port.onMessage.addListener(function(msg, sender, cb) {
                     console.log("Receive a message "+(sender.tab ? "from a content script:" + sender.tab.url : "from the extension"));
                     console.log(msg);
                     if(this._messageListener[msg.event] != undefined){
-                        this._messageListener[msg.event](msg.datas);
+                        this._messageListener[msg.event](msg.datas, cb);
                     }
                 }.bind(this));
             }.bind(this));
@@ -379,7 +390,7 @@ class WebExtension{
                 console.log("Receive a message "+(sender.tab ? "from a content script:" + sender.tab.url : "from the extension"));
                 console.log(msg);
                 if(this._messageListener[msg.event] != undefined){
-                    this._messageListener[msg.event](msg.datas);
+                    this._messageListener[msg.event](msg.datas, cb);
                 }
               }.bind(this)
             );
@@ -394,11 +405,12 @@ class WebExtension{
             }.bind(this));
         }
 
-        this._messagePort = chrome.extension.connect({name: "message"});
-        this._messagePort.onDisconnect.addListener(function(){
-            //if disconnect try to reconnect
-            this._messagePort = chrome.extension.connect({name: "message"});
-        }.bind(this))
+        if(!this.isBackgroundPage){
+            this._messagePort = chrome.runtime.connect({name: "message"});
+            this._messagePort.onDisconnect.addListener(function(){
+                console.log("disconnected", chrome.runtime.lastError);
+            }.bind(this))
+        }
 
         if(chrome.notifications == undefined){
             //notifications are not available

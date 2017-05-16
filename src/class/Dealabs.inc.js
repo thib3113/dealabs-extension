@@ -9,7 +9,7 @@ class Dealabs{
 
         current_smileys = settingsManager.smileys
         for (var nom in current_smileys) {
-            commentaire = commentaire.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size="300px"]' + current_smileys[nom] + '[/img]');
+            commentaire = commentaire.replace(new RegExp(':' + this.escapeRegExp(nom) + ':', 'g'), '[img size="300px"]' + current_smileys[nom] + '[/img]');
         }
 
         for (var i = 0; i < plugin_BBcodes.length; i++) {
@@ -22,7 +22,7 @@ class Dealabs{
 
                 subst = plugin_BBcodes[i].name + '_' + replacements[plugin_BBcodes[i].name].length
 
-                commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(cur_bbcodes_found)), '[' + subst + ']');
+                commentaire = commentaire.replace(new RegExp(this.escapeRegExp(cur_bbcodes_found)), '[' + subst + ']');
                 replacements[plugin_BBcodes[i].name].push({
                     subst: subst,
                     after: cur_bbcodes_found.replace(plugin_BBcodes[i].regex, plugin_BBcodes[i].html)
@@ -36,7 +36,7 @@ class Dealabs{
         urls = plugin_getUrls(commentaire);
         for (var i = urls.length - 1; i >= 0; i--) {
             subst = 'link_' + replacements["link"].length
-            commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(urls[i])), '[' + subst + ']');
+            commentaire = commentaire.replace(new RegExp(this.escapeRegExp(urls[i])), '[' + subst + ']');
             //url length
             if (urls[i].length <= 25)
                 after = '<a href="' + urls[i] + '">' + urls[i] + '</a>';
@@ -51,11 +51,11 @@ class Dealabs{
 
         //transform smileys to a bbcode
         for (var i = 0; i < plugin_BBcodesSmiley.length; i++) {
-            commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp(plugin_BBcodesSmiley[i].smiley), 'gi'), '[' + plugin_BBcodesSmiley[i].name + ']');
+            commentaire = commentaire.replace(new RegExp(this.escapeRegExp(plugin_BBcodesSmiley[i].smiley), 'gi'), '[' + plugin_BBcodesSmiley[i].name + ']');
         }
         //transform smiley bbcode to image
         for (var i = 0; i < plugin_BBcodesSmiley.length; i++) {
-            commentaire = commentaire.replace(new RegExp(plugin_escapeRegExp('[' + plugin_BBcodesSmiley[i].name + ']'), 'gi'), '<img src="https://static.dealabs.com/images/smiley/' + plugin_BBcodesSmiley[i].icon + '.png" width="auto" height="auto" alt="' + plugin_BBcodesSmiley[i].smiley + '" title="' + plugin_BBcodesSmiley[i].smiley + '" class="bbcode_smiley">')
+            commentaire = commentaire.replace(new RegExp(this.escapeRegExp('[' + plugin_BBcodesSmiley[i].name + ']'), 'gi'), '<img src="https://static.dealabs.com/images/smiley/' + plugin_BBcodesSmiley[i].icon + '.png" width="auto" height="auto" alt="' + plugin_BBcodesSmiley[i].smiley + '" title="' + plugin_BBcodesSmiley[i].smiley + '" class="bbcode_smiley">')
         }
 
         for (code in replacements) {
@@ -72,8 +72,69 @@ class Dealabs{
         return commentContainer;
     }
 
-    submitForm(){
-        debugger;
+    injectScript(func){
+        var script = document.createElement('script');
+        script.appendChild(document.createTextNode(func));
+        (document.body || document.head || document.documentElement).appendChild(script);
+    }
+
+    escapeRegExp(str){
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+    }
+
+    parseEmoticons(text){
+        if(text == undefined || text.length == 0)
+            return text
+
+        var current_smileys = settingsManager.smileys
+        for (var nom in current_smileys) {
+            text = text.replace(new RegExp(':' + this.escapeRegExp(nom) + ':', 'g'), '[img size=300px]' + current_smileys[nom] + '#plugin_smiley[/img]');
+        };
+
+        return text;
+    }
+
+    initBGListeners(){
+        extension.onMessage("content-parse_emoticons", function(datas, cb){
+            var text = datas.text;
+            text = this.parseEmoticons(text);
+            cb({
+                success:true,
+                text:text
+            })
+        }.bind(this));
+    }
+
+    pushTextInSelection(text, input){
+        var scrollTop = input.scrollTop;
+        var scrollLeft = input.scrollLeft;
+
+        input.focus();
+        //add smiley at cursor position
+        var cursorPos = $(input).prop('selectionStart');
+        var v = $(input).val()
+        v = v.slice(0, input.selectionStart) + v.slice(input.selectionEnd);
+        var textBefore = v.substring(0, cursorPos);
+        var textAfter = v.substring(cursorPos, v.length);
+        $(input).val(textBefore + text + textAfter);
+
+        //positionne cursor in input
+        var selectionStart = (textBefore + text).length
+        var selectionEnd = selectionStart;
+        if (input.setSelectionRange) {
+            input.focus();
+            input.setSelectionRange(selectionStart, selectionEnd);
+        } else if (input.createTextRange) {
+            var range = input.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', selectionEnd);
+            range.moveStart('character', selectionStart);
+            range.select();
+        }
+
+        // input.value += ':'+nom+":";
+        input.scrollTop = scrollTop;
+        input.scrollLeft = scrollLeft;
     }
 
     constructor(){
@@ -90,39 +151,198 @@ class Dealabs{
 
         if(this.context == "content"){
             self = this;
-            
-            $(function(){
-                $("#comment_form").each(function(){
-                    //to submit a form : 
-                    // - inject script in the page, sending a message to the content.js
-                    // - from content.js respond with modified version
 
-                    this.onSubmit =  self.submitForm;
-                })
-                $(document).on('submit', 'form', function(event) {
-                    text = $(this).find('[name="post_content"]').val();
-                    if(text != undefined && text.match(/[img_wait_upload:[0-9]+]/)){
-                        event.stopPropagation();
-                        $('.spinner_validate').hide(0);
-                        $(this).find('.spinner_validate').parent('a').attr('onclick', 'validate_comment();');
-                        noty({
-                            layout: 'bottom',
-                            type: 'error',
-                            text: 'une image est en cours d\'upload, reessayer plus tard',
-                            dismissQueue: true,
-                            timeout: 2000,
-                            maxVisible: 1
-                        });
-                        return false;
+            var dlbs_plugin_init = function dlbs_plugin_init(options){
+                //this function is injected, don't use vars not in the window
+                extensionId = options.extensionId;
+
+                lang = options.lang;
+
+                $("form").each(function(){
+                    //check if this form is supported
+                    supported = false;
+
+                    if(this.name == "comment_form"){
+                        //formulaire to add a new comment in the forum
+                        // console.log("comment_form found", this);
+                        supported = true;
                     }
-                    if (typeof text == 'undefined') return;
-                    current_smileys = JSON.parse('"+JSON.stringify(settingsManager.smileys)+"');
-                    for (var nom in current_smileys) {
-                        text = text.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size=300px]' + current_smileys[nom] + '#plugin_smiley[/img]');
-                    };
-                    $(this).find('[name="post_content"]').val(text);
+
+                    if(this.name.match(/formedit_[0-9]+/g)){
+                        //formulaire to edit a comment in the forum
+                        // console.log("edit_form found", this);
+                        supported = true;
+                    }
+
+                    if(this.name == "new_MP_form"){
+                        //formulaire to send a new MP
+                        // console.log("new_MP_form found", this);
+                        supported = true;
+                    }
+
+                    if(!supported)
+                        return;
+
+
+                    //continue with supported forms
+                    formError = function(error, event){
+                        // event.stopPropagation();
+                        $('.spinner_validate').hide(0);
+                        noty({
+                            layout: 'bottomRight',
+                            type: 'error',
+                            text: error,
+                            timeout: 2000,
+                        });
+                    }
+                    
+                    //remove validate listener
+                    submit_btn = $(this).find(".validate_comment");
+                    if(submit_btn.length==0)
+                        console.error("submit button not found, design change ?");
+
+                    submit_btn.attr("onclick", null); 
+                    submit_btn.off();
+
+                    submit_btn.on("click", function(){
+                        // this.disabled = true;
+                        $(this).find(".spinner_validate").show(0);
+
+                        event.stopPropagation();
+                        $form = $(this).parents("form");
+                        $textarea = $form.find('[name="post_content"]');
+
+                        //check if an image wait to finish upload
+                        if($textarea.val().match(/\[img_wait_upload:[0-9]+\]/g)){
+                            formError(lang.waitImgUpload);
+                            return false;
+                        }
+
+                        chrome.runtime.sendMessage(extensionId,{
+                                "event":"content-parse_emoticons", 
+                                "datas" : {
+                                    "text":$textarea.val()
+                                }
+                            },
+                            function(response){
+                                if(response == undefined){
+                                    response = {
+                                        success : false,
+                                        error : "error with extension"
+                                    }
+                                }
+
+                                if(response.success){
+                                    $textarea.val(response.text);
+                                    post_id = $form.find('[name="post_id"]');
+                                    $(this).find(".spinner_validate").hide(0);
+                                    if(post_id.length > 0){
+                                        validate_edit_comment(post_id.val());
+                                    }
+                                    else
+                                        validate_comment();
+                                }
+                                else{
+                                    formError(response.error);
+                                    return false;
+                                }
+                            }.bind(this)
+                        );
+                    });
+
+                    //generate the preview button
+                    // clone = $(this)
+                    //     .clone(false)
+                    //     .attr('onclick', null)
+                    //     .clone(false)
+                    //     .attr('accesskey', 'p')
+                    //     .attr("tabindex", this.tabindex+1)
+                    //     .css("margin-left", "20px")
+                    //     .text(lang.preview);
+
+                    // $(this).after(clone);
+                });
+            }
+            this.injectScript(dlbs_plugin_init);
+            $(function(){
+                var options = {
+                    extensionId : chrome.runtime.id,
+                    lang: {
+                        preview : extension._("preview"),
+                        waitImgUpload : extension._("an image is uploading, please wait a little")
+                    }
+                }
+
+
+                self.injectScript("$(function(){\n\
+                    var options =  JSON.parse('"+JSON.stringify(options).replace(/'/g, "&#39;")+"');\n\
+                    dlbs_plugin_init(options)\n\
+                })");
+
+
+                //add the listener for the emoticons
+                $(document).on("click", '[data-role="plugin_emoticone_add"]', function(){
+                    var $textarea = $(this).parents("form").find("textarea");
+                    if ($textarea.length > 0) {
+                        var textarea = $textarea.get(0);
+                    }
+                    else{
+                        return;
+                    }
+
+                    var nom = this.getElementsByTagName('img')[0].getAttribute("title");
+                    self.pushTextInSelection(":" + nom + ":" ,textarea);
                 })
+
+                //add the emoticons in the emoticons list
+                $(this).find(".emoji-content, .third_part_button").each(function(index, value) {
+                    var $this = $(this);
+                    for (var title in settingsManager.smileys){
+                        var emoticon = document.createElement("a");
+                        emoticon.href = "javascript:;";
+                        emoticon.setAttribute("style", 'text-decoration:none');
+                        emoticon.dataset.role = "plugin_emoticone_add";
+                        emoticon.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + settingsManager.smileys[title] + '" alt="' + title + '"/>';
+                        $this.append(emoticon)
+                    }
+                });
             })
+            
+            // $(function(){
+            //     $("#comment_form").each(function(){
+            //         //to submit a form : 
+            //         // - inject script in the page, sending a message to the content.js
+            //         // - from content.js respond with modified version
+
+            //         this.onSubmit =  self.submitForm;
+            //     })
+            //     $(document).on('submit', 'form', function(event) {
+            //         text = $(this).find('[name="post_content"]').val();
+                    // if(text != undefined && text.match(/[img_wait_upload:[0-9]+]/)){
+                    //     event.stopPropagation();
+                    //     $('.spinner_validate').hide(0);
+                    //     $(this).find('.spinner_validate').parent('a').attr('onclick', 'validate_comment();');
+                    //     noty({
+                    //         layout: 'bottom',
+                    //         type: 'error',
+                    //         text: 'une image est en cours d\'upload, reessayer plus tard',
+                    //         dismissQueue: true,
+                    //         timeout: 2000,
+                    //         maxVisible: 1
+                    //     });
+            //             return false;
+            //         }
+            //         if (typeof text == 'undefined') return;
+            //         current_smileys = JSON.parse('"+JSON.stringify(settingsManager.smileys)+"');
+            //         for (var nom in current_smileys) {
+            //             text = text.replace(new RegExp(':' + plugin_escapeRegExp(nom) + ':', 'g'), '[img size=300px]' + current_smileys[nom] + '#plugin_smiley[/img]');
+            //         };
+            //         $(this).find('[name="post_content"]').val(text);
+            //     })
+            // })
+        }
+        else if(this.context == "background"){
+            this.initBGListeners();
         }
         ////////////////
         // RESSOURCES //

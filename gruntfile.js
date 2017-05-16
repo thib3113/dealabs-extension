@@ -69,13 +69,20 @@ module.exports = function (grunt) {
               dest: "./build/Chrome/manifest.json", // Destination file 
               options: merge(grunt.file.readJSON('./src/manifest.json'), grunt.file.readJSON('./src/__specific/Chrome/manifest.json'))
             }            
-        }
+        },
+        watch: {
+            dev:{
+                files: ['src/**/*'],
+                tasks: ['dev'],
+            }
+        },
     });
 
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-json-generator');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     
     grunt.registerTask('default',
         [
@@ -108,6 +115,22 @@ module.exports = function (grunt) {
             'copy:chrome',
             "json_generator:chrome",
             'compress:chrome'
+        ]
+    );
+
+    grunt.registerTask("dev", 
+        [
+            "clean",
+            "copy:chrome",
+            "copy:firefox",
+            "json_generator:firefox",
+            "json_generator:chrome"
+        ]
+    );
+    
+    grunt.registerTask("watch-dev", 
+        [
+            "watch:dev",
         ]
     );
 

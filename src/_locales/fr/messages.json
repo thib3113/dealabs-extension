@@ -112,11 +112,19 @@
       "description": "new MP, singular"
    },
    "new_comment_on_deal_p": {
-      "message": "Nouvelaux commentaires",
+      "message": "Nouveaux commentaires",
       "description": "new comment, plural"
    },
    "new_comment_on_deal": {
       "message": "Nouveau commentaire",
       "description": "new comment, singular"
+   },
+   "preview": {
+      "message": "Previsualiser",
+      "description": "Preview button"
+   },
+   "an_image_is_uploading_please_wait_a_little": {
+      "message": "Une image est en cours d'upload, merci d'attendre qu'elle soit envoyée",
+      "description": "message to wait image upload"
    }
 }
