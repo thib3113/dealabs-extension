@@ -18,6 +18,9 @@
     "background": 
     {
         "scripts": [
+            "third/handlebars.min.js",
+            "third/jquery.min.js",
+            "third/noty/jquery.noty.packaged.min.js",
             "class/WebExtension.inc.js",
             "class/FirefoxExtension.inc.js",
             "class/ChromeExtension.inc.js",
@@ -25,8 +28,6 @@
             "class/Imgur.inc.js",
             "class/Dealabs.inc.js",
             "third/async.min.js",
-            "third/jquery.min.js",
-            "third/noty/jquery.noty.packaged.min.js",
             "global.js",
             "background.js"
         ]
@@ -60,6 +61,9 @@
                 "*://*.dealabs.com/*.js"
             ],
             "js": [            
+                "third/handlebars.min.js",
+                "third/jquery.min.js",
+                "third/noty/jquery.noty.packaged.min.js",
                 "class/WebExtension.inc.js",
                 "class/FirefoxExtension.inc.js",
                 "class/ChromeExtension.inc.js",
@@ -67,8 +71,6 @@
                 "class/Imgur.inc.js",
                 "class/Dealabs.inc.js",
                 "class/Embed.inc.js",
-                "third/jquery.min.js",
-                "third/noty/jquery.noty.packaged.min.js",
                 "global.js",
                 "content.js"
             ],

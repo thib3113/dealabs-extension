@@ -96,11 +96,8 @@ class Dealabs{
             }
         }
 
-        for (var variable in vars){
-            commentContainer = commentContainer.replace(new RegExp('{{'+this.escapeRegExp(variable)+'}}', "g"), vars[variable]);
-        }
-
-        return commentContainer;
+        var html = commentContainer(vars);
+        return html;
     }
 
     injectScript(func){
@@ -199,11 +196,15 @@ class Dealabs{
     }
 
     generateTemplate(formType){
-        var returnTemplate;
+        var htmlTemplate;
+
+        if(this.compiledTemplates == undefined)
+            this.compiledTemplates = {};
+
         switch(formType){
             case "new_comment":
             case "edit_comment" :
-                returnTemplate = '\
+                htmlTemplate = '\
                     <div class="padding_comment_contener" id="_userscript_preview_container" data-userscript="comment_container">\
                             <div class="padding">\
                                 <div class="profil_part">\
@@ -220,7 +221,7 @@ class Dealabs{
                                     </div>\
                                     <div>\
                                         <div class="commentaire_div">\
-                                          {{commentaire}}\
+                                          {{{commentaire}}}\
                                         </div>\
                                     </div>\
                                 </div>\
@@ -230,7 +231,7 @@ class Dealabs{
                 ';
             break;
             case "add_thread" :
-                returnTemplate = '\
+                htmlTemplate = '\
                     <article class="structure" id="deal_details">\
                         <div class="deal_content" id="_userscript_preview_container" data-userscript="comment_container">\
                             <div class="detail_part">\
@@ -257,7 +258,7 @@ class Dealabs{
                                 <div class="deal_content_part">\
                                     <div class="content_part" style="padding:0px;">\
                                         <p class="description">\
-                                            {{commentaire}}\
+                                            {{{commentaire}}}\
                                         </p>\
                                     </div>\
                                 </div>\
@@ -267,7 +268,7 @@ class Dealabs{
                 ';
             break;
             case "reply_MP":
-                returnTemplate = '\
+                htmlTemplate = '\
                     <div id="_userscript_preview_container" data-userscript="comment_container" class="content_message background_color_white">\
                         <div class="profil_message">\
                             <div class="image_profil">\
@@ -281,13 +282,20 @@ class Dealabs{
                             </div>\
                         </div>\
                         <p class="text_color_777777 message_content_text" style="padding:15px 0px;">\
-                            {{commentaire}}\
+                            {{{commentaire}}}\
                         </p>\
+                        {{#if attachment}}\
+                        <div class="piece_jointe_div">\
+                            <div class="type_part">'+extension._("attachment")+'</div>\
+                            <div class="name_part">{{attachment}}</div>\
+                            <div class="download_part"></div>\
+                        </div>\
+                        {{/if}}\
                     </div>\
                 ';
             break;
             case "new_MP":
-                returnTemplate = '\
+                htmlTemplate = '\
                     <div data-userscript="comment_container">\
                         <div class="content_message background_color_white" style="border:none;">\
                             <div class="content_profil_messagerie" style="border-top:1px solid #d9d9d9; padding-bottom:0px;">\
@@ -312,19 +320,29 @@ class Dealabs{
                                     </div>\
                                 </div>\
                                 <p class="text_color_777777 message_content_text" style="padding:0px 0px 15px 0px; float:left; width:100%;">\
-                                    {{commentaire}}\
+                                    {{{commentaire}}}\
                                 </p>\
+                                {{#if attachment}}\
+                                <div class="piece_jointe_div">\
+                                    <div class="type_part">'+extension._("attachment")+'</div>\
+                                    <div class="name_part">{{attachment}}</div>\
+                                    <div class="download_part"></div>\
+                                </div>\
+                                {{/if}}\
                             </div>\
                         </div>\
                     </div>\
                 '
             break;
             default:
-                returnTemplate = '';
+                htmlTemplate = '';
             break;
         }
 
-        return returnTemplate;
+        if(this.compiledTemplates[formType] == undefined)
+            this.compiledTemplates[formType] = Handlebars.compile(htmlTemplate);
+
+        return this.compiledTemplates[formType];
     }
 
     constructor(){
@@ -415,8 +433,8 @@ class Dealabs{
                                     post_id = $form.find('[name="post_id"]');
                                     $(this).find(".spinner_validate").hide(0);
                                     //execute normal process
-                                    this._onclick();
-                                    // debugger;
+                                    // this._onclick();
+                                    debugger;
                                 }
                                 else{
                                     formError(response.error);
@@ -553,10 +571,12 @@ class Dealabs{
 
                                 //add vars
                                 vars.title = $(this).parents("form").find('[name="thread_subject"]').val();
+                                vars.attachment = basename($(this).parents("form").find('[name="post_attachment"]').val()) || null;
                             break;
                             case "reply_MP":
                                 $putContainer = $('#all_contener_messagerie > .content_profil_messagerie:first()');
                                 func = "append";
+                                vars.attachment = basename($(this).parents("form").find('[name="post_attachment"]').val()) || null;
                             break;
                             default:
                                 debugger;
