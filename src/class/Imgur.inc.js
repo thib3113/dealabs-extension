@@ -115,7 +115,9 @@ function Imgur(options){
         catch(e){
           switch(qXHR.status){
             case 0:
-              if(errorThrown == "")
+              if(navigator.onLine != undefined && navigator.onLine === false)
+                error = extension.i18n.getMessage("you're offline, please check your internet connection");
+              else if(errorThrown == "")
                 error = extension.i18n.getMessage("something is wrong .... maybe a cross domain error, checking console can help you");
               else
                 error = extension.i18n.getMessage(errorThrown);

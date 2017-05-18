@@ -55,6 +55,10 @@
       "description": "maybe cross domain error .",
       "message": "Un problème est apparu .... Peut être un problème de requètes entre domaine, seul une vérification de la console pourra vous aider ."
    },
+   "you_re_offline_please_check_your_internet_connection": {
+      "description": "you're offline .",
+      "message": "Vous êtes hors ligne ! Merci de vérifier votre connection internet ."
+   },
    "you_are_connected_with_account_account_": {
       "description": "message if connected",
       "message": "Vous êtes connecté avec le compte $account$ .",
