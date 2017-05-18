@@ -350,7 +350,7 @@ class WebExtension{
             this.i18n.getMessage=function(){
                 var message = arguments[0]
                 arguments[0] = this.i18n.sanitize(message);
-                var text = chrome.i18n.getMessage.apply(this, arguments);
+                var text = chrome.i18n.getMessage.apply(this, arguments) || "";
                 if(text.length == 0){
                     console.warn("oops, text for : \n \""+message+"\" \n with key : \""+arguments[0]+"\" \n is missing from the current language "+this.i18n.getUILanguage())
                     return message;
