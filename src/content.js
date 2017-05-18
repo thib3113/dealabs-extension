@@ -345,13 +345,6 @@ try{
 
         EmbedLinksManager = new Embed($('a.link_a_reduce'));
 
-        //update the smileys image for themes
-        $(".BBcode_image").each(function(){
-            if(this.src.match(/#plugin_smiley$/g)){
-                $(this).removeClass("BBcode_image").addClass("bbcode_smiley");
-            }
-        })
-
         $('body').on('paste drop', 'textarea', function(e){
             reUpload = e.ctrlKey;
 
@@ -859,144 +852,144 @@ try{
             )
                 return;
 
-            clone = $(this)
-                .clone(false)
-                .attr('onclick', null)
-                .clone(false)
-                .attr('accesskey', 'p')
-                .attr("tabindex", this.tabindex+1)
-                .css("margin-left", "20px")
-                .text("Prévisualiser");
-            // console.log(clone);
-            $(this).after(clone);
-            clone.on('click', function(e) {
-                if ($(this).parents('#discussed').length > 0) {
-                    $putContainer = $('#comment_contener');
-                    func = "append";
-                    commentContainer = '<div class="padding_comment_contener" id="_userscript_preview_container" data-userscript="comment_contener">\
-                        <div class="padding">\
-                            <div class="profil_part">\
-                                <div class="avatar_contener">\
-                                    <a class="avatar" href="{{userlink}}">\
-                                        <img src="{{useravatar}}">\
-                                    </a>\
-                                </div>\
-                            </div>\
-                            <div class="comment_text_part">\
-                                <div class="header_comment">\
-                                    <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
-                                    <p><span>prévisualisation</span></p>\
-                                </div>\
-                                <div>\
-                                    <div class="commentaire_div">\
-                                      {{commentaire}}\
-                                    </div>\
-                                </div>\
-                            </div>\
-                        </div>\
-                    </div>\
-                </div>';
-                } else if ($(this).parents('#add_thread_form').length > 0) {
-                    $putContainer = $('#left_global .padding_left_global');
-                    func = "prepend";
-                    commentContainer = '<div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="padding_comment_contener">\
-                  <div class="comment_text_part">\
-                    <fieldset style="padding:20px;margin-bottom:20px;"><legend>Prévisualisation</legend>\
-                      <div class="commentaire_div">\
-                          {{commentaire}}\
-                      </div>\
-                    </fieldset>\
-                  </div>\
-                </div>';
-                } else if ($(this).parents('#reply_ancre').length) {
-                    $putContainer = $('#all_contener_messagerie > .content_profil_messagerie:first()');
-                    func = "append";
-                    commentContainer = '<div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="content_message background_color_white">\
-                    <div class="profil_message">\
-                        <div class="image_profil">\
-                            <img src="{{useravatar}}">\
-                        </div>\
-                        <div class="right_titre_message">\
-                                    </div>\
-                        <div class="info_message">\
-                                            <p class="username text_color_333333">{{username}}</p>\
-                                        <p class="date text_color_777777" style="float:left;">prévisualisation</p>\
-                                    </div>\
-                    </div>\
-                    <p class="text_color_777777 message_content_text" style="padding:15px 0px;">\
-                        {{commentaire}}\
-                    </p>\
-                </div>';
-                } else {
-                    $putContainer = $(this).parents('.padding_comment_contener');
-                    func = "before";
-                    commentContainer = '<div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="padding_comment_contener">\
-                  <div class="profil_part">\
-                        <div class="avatar_contener">\
-                            <a class="avatar" href="{{userlink}}">\
-                                <img src="{{useravatar}}">\
-                            </a>\
-                        </div>\
-                    </div>\
-                    <div class="comment_text_part">\
-                        <div class="header_comment">\
-                            <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
-                            <p><span>prévisualisation</span></p>\
-                        </div>\
-                        <div>\
-                            <div class="commentaire_div">\
-                                {{commentaire}}\
-                            </div>\
-                        </div>\
-                  </div>\
-                </div>';
-                }
+            // clone = $(this)
+            //     .clone(false)
+            //     .attr('onclick', null)
+            //     .clone(false)
+            //     .attr('accesskey', 'p')
+            //     .attr("tabindex", this.tabindex+1)
+            //     .css("margin-left", "20px")
+            //     .text("Prévisualiser");
+            // // console.log(clone);
+            // $(this).after(clone);
+            // clone.on('click', function(e) {
+                // if ($(this).parents('#discussed').length > 0) {
+                //     $putContainer = $('#comment_contener');
+                //     func = "append";
+                //     commentContainer = '<div class="padding_comment_contener" id="_userscript_preview_container" data-userscript="comment_contener">\
+                //         <div class="padding">\
+                //             <div class="profil_part">\
+                //                 <div class="avatar_contener">\
+                //                     <a class="avatar" href="{{userlink}}">\
+                //                         <img src="{{useravatar}}">\
+                //                     </a>\
+                //                 </div>\
+                //             </div>\
+                //             <div class="comment_text_part">\
+                //                 <div class="header_comment">\
+                //                     <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
+                //                     <p><span>prévisualisation</span></p>\
+                //                 </div>\
+                //                 <div>\
+                //                     <div class="commentaire_div">\
+                //                       {{commentaire}}\
+                //                     </div>\
+                //                 </div>\
+                //             </div>\
+                //         </div>\
+                //     </div>\
+                // </div>';
+                // } else if ($(this).parents('#add_thread_form').length > 0) {
+                //     $putContainer = $('#left_global .padding_left_global');
+                //     func = "prepend";
+                //     commentContainer = '<div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="padding_comment_contener">\
+                //   <div class="comment_text_part">\
+                //     <fieldset style="padding:20px;margin-bottom:20px;"><legend>Prévisualisation</legend>\
+                //       <div class="commentaire_div">\
+                //           {{commentaire}}\
+                //       </div>\
+                //     </fieldset>\
+                //   </div>\
+                // </div>';
+                // } else if ($(this).parents('#reply_ancre').length) {
+                //     $putContainer = $('#all_contener_messagerie > .content_profil_messagerie:first()');
+                //     func = "append";
+                //     commentContainer = '<div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="content_message background_color_white">\
+                //     <div class="profil_message">\
+                //         <div class="image_profil">\
+                //             <img src="{{useravatar}}">\
+                //         </div>\
+                //         <div class="right_titre_message">\
+                //                     </div>\
+                //         <div class="info_message">\
+                //                             <p class="username text_color_333333">{{username}}</p>\
+                //                         <p class="date text_color_777777" style="float:left;">prévisualisation</p>\
+                //                     </div>\
+                //     </div>\
+                //     <p class="text_color_777777 message_content_text" style="padding:15px 0px;">\
+                //         {{commentaire}}\
+                //     </p>\
+                // </div>';
+                // } else {
+                //     $putContainer = $(this).parents('.padding_comment_contener');
+                //     func = "before";
+                //     commentContainer = '<div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="padding_comment_contener">\
+                //   <div class="profil_part">\
+                //         <div class="avatar_contener">\
+                //             <a class="avatar" href="{{userlink}}">\
+                //                 <img src="{{useravatar}}">\
+                //             </a>\
+                //         </div>\
+                //     </div>\
+                //     <div class="comment_text_part">\
+                //         <div class="header_comment">\
+                //             <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
+                //             <p><span>prévisualisation</span></p>\
+                //         </div>\
+                //         <div>\
+                //             <div class="commentaire_div">\
+                //                 {{commentaire}}\
+                //             </div>\
+                //         </div>\
+                //   </div>\
+                // </div>';
+                // }
 
-                cb = function() {
-                    //recheck quote
-                    $('.commentaire_div > div.quote').each(function() {
-                        quote_height_max = parseInt($(".quote_message").css("max-height"), 10);
-                        var current_height = $(this).find('.quote_message').height();
-                        if (current_height == quote_height_max) {
-                            $(this).find('a.open:first').stop().fadeTo('fast', 1);
-                            $(this).find('a.open:first').text("Afficher l'intégralité de la citation")
-                        } else if (current_height > quote_height_max) {
-                            $(this).find('a.open:first').stop().fadeTo('fast', 1);
-                            $(this).find('a.open:first').text("Masquer la citation")
-                        }
-                    });
+            //     cb = function() {
+            //         //recheck quote
+            //         $('.commentaire_div > div.quote').each(function() {
+            //             quote_height_max = parseInt($(".quote_message").css("max-height"), 10);
+            //             var current_height = $(this).find('.quote_message').height();
+            //             if (current_height == quote_height_max) {
+            //                 $(this).find('a.open:first').stop().fadeTo('fast', 1);
+            //                 $(this).find('a.open:first').text("Afficher l'intégralité de la citation")
+            //             } else if (current_height > quote_height_max) {
+            //                 $(this).find('a.open:first').stop().fadeTo('fast', 1);
+            //                 $(this).find('a.open:first').text("Masquer la citation")
+            //             }
+            //         });
 
-                    $('#_userscript_preview_container a.link_a_reduce').each(function(){
-                        EmbedLinksManager.addLink(this);
-                    });
-                }
+            //         $('#_userscript_preview_container a.link_a_reduce').each(function(){
+            //             EmbedLinksManager.addLink(this);
+            //         });
+            //     }
 
-                commentaire = $(this).parents('form').find('textarea').val();
+            //     commentaire = $(this).parents('form').find('textarea').val();
                 
-                if(commentaire.match(/\[img_wait_upload:[0-9]+\]/)){
-                    noty({
-                        layout: 'bottom',
-                        type: 'error',
-                        text: "une image est en cours d'upload, reessayer plus tard",
-                        dismissQueue: true,
-                        timeout: 2000,
-                        maxVisible: 1
-                    });
-                    return;
-                }
+            //     if(commentaire.match(/\[img_wait_upload:[0-9]+\]/)){
+            //         noty({
+            //             layout: 'bottom',
+            //             type: 'error',
+            //             text: "une image est en cours d'upload, reessayer plus tard",
+            //             dismissQueue: true,
+            //             timeout: 2000,
+            //             maxVisible: 1
+            //         });
+            //         return;
+            //     }
 
-                if ($('#_userscript_preview_container').length > 0) {
-                    $('#_userscript_preview_container').slideUp(500, function() {
-                        $(this).remove()
-                        $putContainer[func](plugin_generatePreview(commentContainer, commentaire));
-                        $('#_userscript_preview_container').slideDown(500, cb);
-                    });
-                } else {
-                    $putContainer[func](plugin_generatePreview(commentContainer, commentaire));
-                    $('#_userscript_preview_container').slideDown(500, cb);
-                }
+                // if ($('#_userscript_preview_container').length > 0) {
+                //     $('#_userscript_preview_container').slideUp(500, function() {
+                //         $(this).remove()
+                //         $putContainer[func](plugin_generatePreview(commentContainer, commentaire));
+                //         $('#_userscript_preview_container').slideDown(500, cb);
+                //     });
+                // } else {
+                //     $putContainer[func](plugin_generatePreview(commentContainer, commentaire));
+                //     $('#_userscript_preview_container').slideDown(500, cb);
+                // }
 
-            })
+            // })
         })
     })
 

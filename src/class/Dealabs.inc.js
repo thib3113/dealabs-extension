@@ -1,5 +1,5 @@
 class Dealabs{
-    _matchAll(re, str){
+    _matchAll(re, str, m){
         var retour = [];
         while ((m = re.exec(str)) !== null) {
           if (m.index === re.lastIndex) {
@@ -20,32 +20,31 @@ class Dealabs{
         return content.match(re) || [];
     }
 
-    generatePreview(commentContainer, commentaire){
-        var userData = $('#open_member_parameters');
+    generatePreview(commentContainer, vars){
+        vars = vars || {};
 
         var replacements = {};
 
+        var after;
+
         var baseURLSmileys = "https://static.dealabs.com/images/smiley/";
 
-        if (typeof commentaire == "undefined")
+        if (typeof vars.commentaire == "undefined")
             return;
 
-        current_smileys = settingsManager.smileys
-        for (var nom in current_smileys) {
-            commentaire = commentaire.replace(new RegExp(':' + this.escapeRegExp(nom) + ':', 'g'), '[img size="300px"]' + current_smileys[nom] + '[/img]');
-        }
+        vars.commentaire = this.parseEmoticons(vars.commentaire)
 
         for (var i = 0; i < this.BBcodes.length; i++) {
             if (typeof replacements[this.BBcodes[i].name] == "undefined")
                 replacements[this.BBcodes[i].name] = [];
 
-            bbcodes_found = this._matchAll(this.BBcodes[i].regex, commentaire);
+            var bbcodes_found = this._matchAll(this.BBcodes[i].regex, vars.commentaire);
             for (var j = bbcodes_found.length - 1; j >= 0; j--) {
-                cur_bbcodes_found = bbcodes_found[j][0];
+                var cur_bbcodes_found = bbcodes_found[j][0];
 
-                subst = this.BBcodes[i].name + '_' + replacements[this.BBcodes[i].name].length
+                var subst = this.BBcodes[i].name + '_' + replacements[this.BBcodes[i].name].length
 
-                commentaire = commentaire.replace(new RegExp(this.escapeRegExp(cur_bbcodes_found)), '[' + subst + ']');
+                vars.commentaire = vars.commentaire.replace(new RegExp(this.escapeRegExp(cur_bbcodes_found)), '[' + subst + ']');
                 replacements[this.BBcodes[i].name].push({
                     subst: subst,
                     after: cur_bbcodes_found.replace(this.BBcodes[i].regex, this.BBcodes[i].html)
@@ -56,10 +55,10 @@ class Dealabs{
         //match url, and replace by bbcode, for escape smiley
         if (typeof replacements["link"] == "undefined")
             replacements["link"] = [];
-        urls = this._getUrls(commentaire);
+        var urls = this._getUrls(vars.commentaire);
         for (var i = urls.length - 1; i >= 0; i--) {
             subst = 'link_' + replacements["link"].length
-            commentaire = commentaire.replace(new RegExp(this.escapeRegExp(urls[i])), '[' + subst + ']');
+            vars.commentaire = vars.commentaire.replace(new RegExp(this.escapeRegExp(urls[i])), '[' + subst + ']');
             //url length
             if (urls[i].length <= 25)
                 after = '<a href="' + urls[i] + '">' + urls[i] + '</a>';
@@ -74,25 +73,31 @@ class Dealabs{
 
         //transform smileys to a bbcode
         for (var i = 0; i < this.BBcodesSmiley.length; i++) {
-            commentaire = commentaire.replace(new RegExp(this.escapeRegExp(this.BBcodesSmiley[i].smiley), 'gi'), '[' + this.BBcodesSmiley[i].name + ']');
+            vars.commentaire = vars.commentaire.replace(new RegExp(this.escapeRegExp(this.BBcodesSmiley[i].smiley), 'gi'), '[' + this.BBcodesSmiley[i].name + ']');
         }
 
         //transform smiley bbcode to image
         for (var i = 0; i < this.BBcodesSmiley.length; i++) {
-            commentaire = commentaire.replace(new RegExp(this.escapeRegExp('[' + this.BBcodesSmiley[i].name + ']'), 'gi'), '<img src="' baseURLSmileys + this.BBcodesSmiley[i].icon + '.png" width="auto" height="auto" alt="' + this.BBcodesSmiley[i].smiley + '" title="' + this.BBcodesSmiley[i].smiley + '" class="bbcode_smiley">')
+            vars.commentaire = vars.commentaire.replace(
+                new RegExp(
+                    this.escapeRegExp('[' + this.BBcodesSmiley[i].name + ']'),
+                    'gi'
+                ),
+                '<img src="' + baseURLSmileys + this.BBcodesSmiley[i].icon + '.png" width="auto" height="auto" alt="' + this.BBcodesSmiley[i].smiley + '" title="' + this.BBcodesSmiley[i].smiley + '" class="bbcode_smiley">'
+            )
         }
 
-        for (code in replacements) {
+        for (var code in replacements) {
             for (var i = 0; i < replacements[code].length; i++) {
-                cur_code = replacements[code][i];
-                commentaire = commentaire.replace(new RegExp('\\[' + cur_code.subst + '\\]'), cur_code.after);
+                var cur_code = replacements[code][i];
+                vars.commentaire = vars.commentaire.replace(new RegExp('\\[' + cur_code.subst + '\\]'), cur_code.after);
             }
         }
 
-        commentContainer = commentContainer.replace(/{{userlink}}/g, $("#member_parameters a:first").attr('href'));
-        commentContainer = commentContainer.replace(/{{useravatar}}/g, userData.find('img').attr('src'));
-        commentContainer = commentContainer.replace(/{{username}}/g, $("#member_parameters a:first").find('span').text());
-        commentContainer = commentContainer.replace(/{{commentaire}}/g, this._nl2br(commentaire));
+        for (var variable in vars){
+            commentContainer = commentContainer.replace(new RegExp('{{'+this.escapeRegExp(variable)+'}}', "g"), vars[variable]);
+        }
+
         return commentContainer;
     }
 
@@ -161,6 +166,15 @@ class Dealabs{
         input.scrollLeft = scrollLeft;
     }
 
+    changeClassForSmileyAddByPlugin(){
+        //update the smileys image for themes
+        $(".BBcode_image").each(function(){
+            if(this.src.match(/#plugin_smiley$/g)){
+                $(this).removeClass("BBcode_image").addClass("bbcode_smiley");
+            }
+        })
+    }
+
     constructor(){
         //parse context
         if(document.location.pathname.match(/_generated_background_page.html/)){
@@ -208,7 +222,7 @@ class Dealabs{
                     }
                     
                     //remove validate listener
-                    submit_btn = $(this).find(".validate_comment");
+                    submit_btn = $(this).find(".validate_comment, .validate_button_form");
                     if(submit_btn.length==0)
                         console.error("submit button not found, design change ?");
 
@@ -247,11 +261,12 @@ class Dealabs{
                                     $textarea.val(response.text);
                                     post_id = $form.find('[name="post_id"]');
                                     $(this).find(".spinner_validate").hide(0);
-                                    if(post_id.length > 0){
-                                        validate_edit_comment(post_id.val());
-                                    }
-                                    else
-                                        validate_comment();
+                                    // if(post_id.length > 0){
+                                    //     validate_edit_comment(post_id.val());
+                                    // }
+                                    // else
+                                    //     validate_comment();
+                                    debugger;
                                 }
                                 else{
                                     formError(response.error);
@@ -269,7 +284,8 @@ class Dealabs{
                     forms_matches : {
                         "new_comment" : "^comment_form",
                         "edit_comment" : "formedit_[0-9]+",
-                        "send_MP" : "new_MP_form"
+                        "send_MP" : "new_MP_form",
+                        "add_thread" : "add_thread_form"
                     },
                     lang: {
                         preview : extension._("preview"),
@@ -282,6 +298,8 @@ class Dealabs{
                     var options =  JSON.parse('"+JSON.stringify(options).replace(/'/g, "&#39;")+"');\n\
                     dlbs_plugin_init(options)\n\
                 })");
+
+                self.changeClassForSmileyAddByPlugin();
 
 
                 //add the listener for the emoticons
@@ -300,14 +318,14 @@ class Dealabs{
 
                 $("form").each(function(){
                     //check if this form is supported
-                    var supported = false;
+                    var formType = null;
 
                     for(var name in options.forms_matches){
                         if (this.name.match(new RegExp(options.forms_matches[name],"g")))
-                            supported = true
+                            formType = name;
                     }
 
-                    if(!supported)
+                    if(null == formType)
                         return;
 
 
@@ -324,24 +342,92 @@ class Dealabs{
                         }
                     });
 
-                    var submit_btn = $(this).find(".validate_comment");
+                    var submit_btn = $(this).find(".validate_comment, .validate_button_form");
                     //generate the preview button
                     var clone = $(submit_btn)
                         .clone(false)
                         .attr('onclick', null)
                         .clone(false)
+                        .data("preview_type", formType)
                         .attr('accesskey', 'p')
-                        .attr("tabindex", parseInt(submit_btn.attr("tabindex"))+1)
+                        .attr("tabindex", ""+(parseInt(submit_btn.attr("tabindex"))+1))
                         .css("margin-left", "20px")
                         .text(extension._("preview"));
 
                     clone.on("click", function(){
-                        self.generatePreview(commentContainer, commentaire);
+                        var $putContainer, func;
+                        var vars = {}; 
+                        var userData = $('#open_member_parameters');
+
+                        switch($(this).data("preview_type")){
+                            case "add_thread":
+                                vars.title = $(this).parents("form").find('[name="post_title"]').val();
+                            case "new_comment":
+                            case "edit_comment":
+                            case "new_MP_form":
+                                vars.userlink = $("#member_parameters a:first").attr('href')
+                                vars.useravatar = userData.find('img').attr('src')
+                                vars.username = $("#member_parameters a:first").text()
+                                vars.commentaire = self._nl2br($(this).parents("form").find("textarea").val());
+                            break;
+                        }
+                        switch($(this).data("preview_type")){
+                            case "new_comment":
+                                $putContainer = $('#comment_contener');
+                                func = "append";
+                            break;
+                            case "edit_comment":
+                                $putContainer = $(this).parents('.padding_comment_contener');
+                                func = "before";
+                            break;
+                            case "add_thread":
+                                $putContainer = $('body .structure:eq(1)');
+                                func = "before";
+
+                                //need to add some css
+                                var link = document.createElement( "link" );
+                                link.href = "https://static.dealabs.com/css/detail_page.css?20170516";
+                                link.type = "text/css";
+                                link.rel = "stylesheet";
+                                link.dataset.pluginRole = 'preview_css';
+                                link.media = "screen,print";
+                                document.getElementsByTagName("head")[0].appendChild( link );
+
+                                // $putContainer = $('#left_global .padding_left_global');
+                                // func = "prepend";
+                            break;
+                            case "new_MP_form":
+                                $putContainer = $('#all_contener_messagerie > .content_profil_messagerie:first()');
+                                func = "append";
+                            break;
+                            default :
+                                debugger;
+                                // $putContainer = $(this).parents('.padding_comment_contener');
+                                // func = "before";
+                            break;
+                        }
+
+                        if ($(this).parents('#reply_ancre').length) {
+                            debugger;
+                        }
+
+                        var commentContainer = self.templates["previews"][$(this).data("preview_type")];
+
+                        var $previewContainer = $('#_userscript_preview_container');
+                        if ($previewContainer.length > 0) {
+                            $previewContainer.slideUp(500, function() {
+                                $(this).remove()
+                                $putContainer[func](self.generatePreview(commentContainer, vars));
+                                $previewContainer.slideDown(500, cb);
+                            });
+                        } else {
+                            $putContainer[func](self.generatePreview(commentContainer, vars));
+                            $previewContainer.slideDown(500, cb);
+                        }
+                        self.changeClassForSmileyAddByPlugin();
                     });
 
                     $(submit_btn).after(clone);
-
-
                 });
             })
         }
@@ -352,10 +438,34 @@ class Dealabs{
         ////////////////
         // RESSOURCES //
         ////////////////
-
         this.templates = {
             previews : {
                 new_comment : '\
+                    <div class="padding_comment_contener" id="_userscript_preview_container" data-userscript="comment_contener">\
+                            <div class="padding">\
+                                <div class="profil_part">\
+                                    <div class="avatar_contener">\
+                                        <a class="avatar" href="{{userlink}}">\
+                                            <img src="{{useravatar}}">\
+                                        </a>\
+                                    </div>\
+                                </div>\
+                                <div class="comment_text_part">\
+                                    <div class="header_comment">\
+                                        <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
+                                        <p><span>'+extension._("preview_name")+'</span></p>\
+                                    </div>\
+                                    <div>\
+                                        <div class="commentaire_div">\
+                                          {{commentaire}}\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div>\
+                ',
+                default : '\
                     <div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="padding_comment_contener">\
                         <div class="profil_part">\
                             <div class="avatar_contener">\
@@ -367,7 +477,7 @@ class Dealabs{
                         <div class="comment_text_part">\
                             <div class="header_comment">\
                                 <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
-                                <p><span>'+extenson._("preview_name")+'</span></p>\
+                                <p><span>'+extension._("preview_name")+'</span></p>\
                             </div>\
                             <div>\
                                 <div class="commentaire_div">\
@@ -376,7 +486,63 @@ class Dealabs{
                             </div>\
                         </div>\
                     </div>',
-                edit_comment : ''
+                edit_comment : '\
+                    <div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="padding_comment_contener">\
+                      <div class="profil_part">\
+                            <div class="avatar_contener">\
+                                <a class="avatar" href="{{userlink}}">\
+                                    <img src="{{useravatar}}">\
+                                </a>\
+                            </div>\
+                        </div>\
+                        <div class="comment_text_part">\
+                            <div class="header_comment">\
+                                <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
+                                <p><span>'+extension._("preview_name")+'</span></p>\
+                            </div>\
+                            <div>\
+                                <div class="commentaire_div">\
+                                    {{commentaire}}\
+                                </div>\
+                            </div>\
+                      </div>\
+                    </div>\
+                ',
+                add_thread: '\
+                    <article class="structure" id="deal_details">\
+                        <div class="deal_content" id="_userscript_preview_container" data-userscript="comment_contener">\
+                            <div class="detail_part">\
+                                <div class="profil_part">\
+                                    <a class="pseudo" href="{{userlink}}" rel="nofollow">{{username}}</a>\
+                                    <div class="avatar_contener">\
+                                        <a class="avatar" href="{{userlink}}" rel="nofollow">\
+                                            <img src="{{useravatar}}">\
+                                        </a>\
+                                    </div>\
+                                    <div class="rewards">\
+                                    </div>\
+                                </div>\
+                            </div>\
+                            <div class="deal_detail_deal_part">\
+                                <div class="deal_title_part">\
+                                    <div class="title_part">\
+                                        <h1 class="title">{{title}}</h1>\
+                                        <p class="date_deal" original-title="'+extension._("preview_name")+'">\
+                                            <img title="'+extension._("preview_name")+'" style="width: 13px; height: 13px;" src="https://static.dealabs.com/images/deals/icon_deal_published.png">'+extension._("preview_name")+'\
+                                        </p>\
+                                    </div>\
+                                </div>\
+                                <div class="deal_content_part">\
+                                    <div class="content_part" style="padding:0px;">\
+                                        <p class="description">\
+                                            {{commentaire}}\
+                                        </p>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </article>\
+                '
             }
         }
 
