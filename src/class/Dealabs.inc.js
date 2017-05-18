@@ -20,7 +20,7 @@ class Dealabs{
         return content.match(re) || [];
     }
 
-    generatePreview(commentContainer, vars){
+    generatePreview(commentContainer, vars, formType){
         vars = vars || {};
 
         var replacements = {};
@@ -35,6 +35,8 @@ class Dealabs{
         vars.commentaire = this.parseEmoticons(vars.commentaire)
 
         for (var i = 0; i < this.BBcodes.length; i++) {
+            if($.inArray(formType, this.BBcodes[i].not_supported) >= 0)
+                continue;
             if (typeof replacements[this.BBcodes[i].name] == "undefined")
                 replacements[this.BBcodes[i].name] = [];
 
@@ -170,9 +172,159 @@ class Dealabs{
         //update the smileys image for themes
         $(".BBcode_image").each(function(){
             if(this.src.match(/#plugin_smiley$/g)){
-                $(this).removeClass("BBcode_image").addClass("bbcode_smiley");
+                $(this).removeClass("BBcode_image").addClass("bbcode_smiley").attr("onclick", null);
             }
         })
+    }
+
+    reCheckQuotes(){
+        //recheck quote
+        $('.commentaire_div > div.quote').each(function() {
+            var quote_height_max = parseInt($(".quote_message").css("max-height"), 10);
+            var current_height = $(this).find('.quote_message').height();
+            if (current_height == quote_height_max) {
+                $(this).find('a.open:first').stop().fadeTo('fast', 1);
+                $(this).find('a.open:first').text("Afficher l'intégralité de la citation")
+            } else if (current_height > quote_height_max) {
+                $(this).find('a.open:first').stop().fadeTo('fast', 1);
+                $(this).find('a.open:first').text("Masquer la citation")
+            }
+        });
+    }
+
+    checkEmbedInPreview(){
+        $('[data-userscript="comment_container"] a.link_a_reduce').each(function(){
+            EmbedLinksManager.addLink(this);
+        });
+    }
+
+    generateTemplate(formType){
+        var returnTemplate;
+        switch(formType){
+            case "new_comment":
+            case "edit_comment" :
+                returnTemplate = '\
+                    <div class="padding_comment_contener" id="_userscript_preview_container" data-userscript="comment_container">\
+                            <div class="padding">\
+                                <div class="profil_part">\
+                                    <div class="avatar_contener">\
+                                        <a class="avatar" href="{{userlink}}">\
+                                            <img src="{{useravatar}}">\
+                                        </a>\
+                                    </div>\
+                                </div>\
+                                <div class="comment_text_part">\
+                                    <div class="header_comment">\
+                                        <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
+                                        <p><span>'+extension._("preview_name")+'</span></p>\
+                                    </div>\
+                                    <div>\
+                                        <div class="commentaire_div">\
+                                          {{commentaire}}\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div>\
+                ';
+            break;
+            case "add_thread" :
+                returnTemplate = '\
+                    <article class="structure" id="deal_details">\
+                        <div class="deal_content" id="_userscript_preview_container" data-userscript="comment_container">\
+                            <div class="detail_part">\
+                                <div class="profil_part">\
+                                    <a class="pseudo" href="{{userlink}}" rel="nofollow">{{username}}</a>\
+                                    <div class="avatar_contener">\
+                                        <a class="avatar" href="{{userlink}}" rel="nofollow">\
+                                            <img src="{{useravatar}}">\
+                                        </a>\
+                                    </div>\
+                                    <div class="rewards">\
+                                    </div>\
+                                </div>\
+                            </div>\
+                            <div class="deal_detail_deal_part">\
+                                <div class="deal_title_part">\
+                                    <div class="title_part">\
+                                        <h1 class="title">{{title}}</h1>\
+                                        <p class="date_deal" original-title="'+extension._("preview_name")+'">\
+                                            <img title="'+extension._("preview_name")+'" style="width: 13px; height: 13px;" src="https://static.dealabs.com/images/deals/icon_deal_published.png">'+extension._("preview_name")+'\
+                                        </p>\
+                                    </div>\
+                                </div>\
+                                <div class="deal_content_part">\
+                                    <div class="content_part" style="padding:0px;">\
+                                        <p class="description">\
+                                            {{commentaire}}\
+                                        </p>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </article>\
+                ';
+            break;
+            case "reply_MP":
+                returnTemplate = '\
+                    <div id="_userscript_preview_container" data-userscript="comment_container" class="content_message background_color_white">\
+                        <div class="profil_message">\
+                            <div class="image_profil">\
+                                <img src="{{useravatar}}">\
+                            </div>\
+                            <div class="right_titre_message">\
+                            </div>\
+                            <div class="info_message">\
+                                <p class="username text_color_333333">{{username}}</p>\
+                                <p class="date text_color_777777" style="float:left;">'+extension._("preview_name")+'</p>\
+                            </div>\
+                        </div>\
+                        <p class="text_color_777777 message_content_text" style="padding:15px 0px;">\
+                            {{commentaire}}\
+                        </p>\
+                    </div>\
+                ';
+            break;
+            case "new_MP":
+                returnTemplate = '\
+                    <div data-userscript="comment_container">\
+                        <div class="content_message background_color_white" style="border:none;">\
+                            <div class="content_profil_messagerie" style="border-top:1px solid #d9d9d9; padding-bottom:0px;">\
+                                <p id="subject_thread" class="text_color_333333" style="padding-bottom:15px; border-bottom:1px solid #d9d9d9;">\
+                                    {{title}}\
+                                </p>\
+                            </div>\
+                        </div>\
+                        <div class="content_profil_messagerie" style="padding-top:0px;">\
+                            <div class="content_message background_color_white">\
+                                <div class="profil_message">\
+                                    <div class="image_profil">\
+                                        <img src="{{useravatar}}">\
+                                    </div>\
+                                    \
+                                    <div class="right_titre_message">\
+                                    </div>\
+                                    \
+                                    <div class="info_message">\
+                                        <p class="username text_color_333333">{{username}}</p>\
+                                        <p class="date text_color_777777" style="float:left;">'+extension._("preview_name")+'</p>\
+                                    </div>\
+                                </div>\
+                                <p class="text_color_777777 message_content_text" style="padding:0px 0px 15px 0px; float:left; width:100%;">\
+                                    {{commentaire}}\
+                                </p>\
+                            </div>\
+                        </div>\
+                    </div>\
+                '
+            break;
+            default:
+                returnTemplate = '';
+            break;
+        }
+
+        return returnTemplate;
     }
 
     constructor(){
@@ -226,6 +378,7 @@ class Dealabs{
                     if(submit_btn.length==0)
                         console.error("submit button not found, design change ?");
 
+                    submit_btn.get(0)._onclick = submit_btn.get(0).onclick;
                     submit_btn.attr("onclick", null); 
                     submit_btn.off();
 
@@ -261,12 +414,9 @@ class Dealabs{
                                     $textarea.val(response.text);
                                     post_id = $form.find('[name="post_id"]');
                                     $(this).find(".spinner_validate").hide(0);
-                                    // if(post_id.length > 0){
-                                    //     validate_edit_comment(post_id.val());
-                                    // }
-                                    // else
-                                    //     validate_comment();
-                                    debugger;
+                                    //execute normal process
+                                    this._onclick();
+                                    // debugger;
                                 }
                                 else{
                                     formError(response.error);
@@ -284,7 +434,8 @@ class Dealabs{
                     forms_matches : {
                         "new_comment" : "^comment_form",
                         "edit_comment" : "formedit_[0-9]+",
-                        "send_MP" : "new_MP_form",
+                        "new_MP" : "new_MP_form",
+                        "reply_MP" : "reply_MP_form_[0-9+]",
                         "add_thread" : "add_thread_form"
                     },
                     lang: {
@@ -300,7 +451,6 @@ class Dealabs{
                 })");
 
                 self.changeClassForSmileyAddByPlugin();
-
 
                 //add the listener for the emoticons
                 $(document).on("click", '[data-role="plugin_emoticone_add"]', function(){
@@ -358,20 +508,21 @@ class Dealabs{
                         var $putContainer, func;
                         var vars = {}; 
                         var userData = $('#open_member_parameters');
+                        var formType = $(this).data("preview_type");
 
-                        switch($(this).data("preview_type")){
+                        switch(formType){
                             case "add_thread":
-                                vars.title = $(this).parents("form").find('[name="post_title"]').val();
                             case "new_comment":
                             case "edit_comment":
-                            case "new_MP_form":
+                            case "new_MP":
+                            case "reply_MP":
                                 vars.userlink = $("#member_parameters a:first").attr('href')
                                 vars.useravatar = userData.find('img').attr('src')
                                 vars.username = $("#member_parameters a:first").text()
                                 vars.commentaire = self._nl2br($(this).parents("form").find("textarea").val());
                             break;
                         }
-                        switch($(this).data("preview_type")){
+                        switch(formType){
                             case "new_comment":
                                 $putContainer = $('#comment_contener');
                                 func = "append";
@@ -384,6 +535,9 @@ class Dealabs{
                                 $putContainer = $('body .structure:eq(1)');
                                 func = "before";
 
+                                //add vars
+                                vars.title = $(this).parents("form").find('[name="post_title"]').val();
+
                                 //need to add some css
                                 var link = document.createElement( "link" );
                                 link.href = "https://static.dealabs.com/css/detail_page.css?20170516";
@@ -392,39 +546,48 @@ class Dealabs{
                                 link.dataset.pluginRole = 'preview_css';
                                 link.media = "screen,print";
                                 document.getElementsByTagName("head")[0].appendChild( link );
-
-                                // $putContainer = $('#left_global .padding_left_global');
-                                // func = "prepend";
                             break;
-                            case "new_MP_form":
+                            case "new_MP":
+                                $putContainer = $('#all_contener_content_messagerie');
+                                func = "before";
+
+                                //add vars
+                                vars.title = $(this).parents("form").find('[name="thread_subject"]').val();
+                            break;
+                            case "reply_MP":
                                 $putContainer = $('#all_contener_messagerie > .content_profil_messagerie:first()');
                                 func = "append";
                             break;
-                            default :
+                            default:
                                 debugger;
-                                // $putContainer = $(this).parents('.padding_comment_contener');
-                                // func = "before";
                             break;
                         }
 
-                        if ($(this).parents('#reply_ancre').length) {
-                            debugger;
+                        var commentContainer = self.generateTemplate(formType);
+
+                        var cb = function(){
+                            //redo check
+                            self.changeClassForSmileyAddByPlugin();
+                            self.reCheckQuotes();
+                            self.checkEmbedInPreview();
                         }
 
-                        var commentContainer = self.templates["previews"][$(this).data("preview_type")];
-
-                        var $previewContainer = $('#_userscript_preview_container');
+                        var $previewContainer = $('[data-userscript="comment_container"]');
                         if ($previewContainer.length > 0) {
                             $previewContainer.slideUp(500, function() {
+                                $previewContainer.hide(0);
                                 $(this).remove()
-                                $putContainer[func](self.generatePreview(commentContainer, vars));
+                                $putContainer[func](self.generatePreview(commentContainer, vars, formType));
                                 $previewContainer.slideDown(500, cb);
                             });
-                        } else {
-                            $putContainer[func](self.generatePreview(commentContainer, vars));
-                            $previewContainer.slideDown(500, cb);
                         }
-                        self.changeClassForSmileyAddByPlugin();
+                        else {
+                            $previewContainer.hide(0);
+                            $putContainer[func](self.generatePreview(commentContainer, vars, formType));
+                            $previewContainer.slideDown(500);
+                            cb();
+                        }
+
                     });
 
                     $(submit_btn).after(clone);
@@ -438,113 +601,6 @@ class Dealabs{
         ////////////////
         // RESSOURCES //
         ////////////////
-        this.templates = {
-            previews : {
-                new_comment : '\
-                    <div class="padding_comment_contener" id="_userscript_preview_container" data-userscript="comment_contener">\
-                            <div class="padding">\
-                                <div class="profil_part">\
-                                    <div class="avatar_contener">\
-                                        <a class="avatar" href="{{userlink}}">\
-                                            <img src="{{useravatar}}">\
-                                        </a>\
-                                    </div>\
-                                </div>\
-                                <div class="comment_text_part">\
-                                    <div class="header_comment">\
-                                        <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
-                                        <p><span>'+extension._("preview_name")+'</span></p>\
-                                    </div>\
-                                    <div>\
-                                        <div class="commentaire_div">\
-                                          {{commentaire}}\
-                                        </div>\
-                                    </div>\
-                                </div>\
-                            </div>\
-                        </div>\
-                    </div>\
-                ',
-                default : '\
-                    <div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="padding_comment_contener">\
-                        <div class="profil_part">\
-                            <div class="avatar_contener">\
-                                <a class="avatar" href="{{userlink}}">\
-                                    <img src="{{useravatar}}">\
-                                </a>\
-                            </div>\
-                        </div>\
-                        <div class="comment_text_part">\
-                            <div class="header_comment">\
-                                <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
-                                <p><span>'+extension._("preview_name")+'</span></p>\
-                            </div>\
-                            <div>\
-                                <div class="commentaire_div">\
-                                    {{commentaire}}\
-                                </div>\
-                            </div>\
-                        </div>\
-                    </div>',
-                edit_comment : '\
-                    <div id="_userscript_preview_container" data-userscript="comment_contener" style="display:none;" class="padding_comment_contener">\
-                      <div class="profil_part">\
-                            <div class="avatar_contener">\
-                                <a class="avatar" href="{{userlink}}">\
-                                    <img src="{{useravatar}}">\
-                                </a>\
-                            </div>\
-                        </div>\
-                        <div class="comment_text_part">\
-                            <div class="header_comment">\
-                                <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
-                                <p><span>'+extension._("preview_name")+'</span></p>\
-                            </div>\
-                            <div>\
-                                <div class="commentaire_div">\
-                                    {{commentaire}}\
-                                </div>\
-                            </div>\
-                      </div>\
-                    </div>\
-                ',
-                add_thread: '\
-                    <article class="structure" id="deal_details">\
-                        <div class="deal_content" id="_userscript_preview_container" data-userscript="comment_contener">\
-                            <div class="detail_part">\
-                                <div class="profil_part">\
-                                    <a class="pseudo" href="{{userlink}}" rel="nofollow">{{username}}</a>\
-                                    <div class="avatar_contener">\
-                                        <a class="avatar" href="{{userlink}}" rel="nofollow">\
-                                            <img src="{{useravatar}}">\
-                                        </a>\
-                                    </div>\
-                                    <div class="rewards">\
-                                    </div>\
-                                </div>\
-                            </div>\
-                            <div class="deal_detail_deal_part">\
-                                <div class="deal_title_part">\
-                                    <div class="title_part">\
-                                        <h1 class="title">{{title}}</h1>\
-                                        <p class="date_deal" original-title="'+extension._("preview_name")+'">\
-                                            <img title="'+extension._("preview_name")+'" style="width: 13px; height: 13px;" src="https://static.dealabs.com/images/deals/icon_deal_published.png">'+extension._("preview_name")+'\
-                                        </p>\
-                                    </div>\
-                                </div>\
-                                <div class="deal_content_part">\
-                                    <div class="content_part" style="padding:0px;">\
-                                        <p class="description">\
-                                            {{commentaire}}\
-                                        </p>\
-                                    </div>\
-                                </div>\
-                            </div>\
-                        </div>\
-                    </article>\
-                '
-            }
-        }
 
         this.BBcodes = [
             {
@@ -571,7 +627,12 @@ class Dealabs{
                   </p>\
               </div>\
               <div class="quote_message text_color_777777">',
-              name : 'quote_start'
+              name : 'quote_start',
+              not_supported : [
+                "add_thread",
+                "new_MP",
+                "reply_MP"
+              ]
             },
             {
               regex : /\[citer\s*\]/gi,
@@ -582,29 +643,47 @@ class Dealabs{
                   </p>\
               </div>\
               <div class="quote_message text_color_777777">',
-              name : 'quote_start'
+              name : 'quote_start',
+              not_supported : [
+                "add_thread",
+                "new_MP",
+                "reply_MP"
+              ]
             },
             {
               regex : /\[\/citer\]/gi,
               html : '</div></div>',
-              name : 'quote_end'
+              name : 'quote_end',
+              not_supported : [
+                "add_thread",
+                "new_MP",
+                "reply_MP"
+              ]
             },
             {
               regex : /\[spoiler\s*\]/gi,
               html : '<div class="spoiler">\
                     <a href="javascript:;" class="click_div_spoiler text_color_333333">Ce message a été masqué par son auteur. Cliquez pour l’afficher.</a>\
                     <div class="spoiler_hide text_color_777777" style="display: none;">',
-              name : 'spoil_start'
+              name : 'spoil_start',
+              not_supported : [
+                "new_MP",
+                "reply_MP"
+              ]
             },
             {
               regex : /\[\/spoiler\]/gi,
               html : '</div></div>',
-              name : 'spoil_end'
+              name : 'spoil_end',
+              not_supported : [
+                "new_MP",
+                "reply_MP"
+              ]
             },
             {
               regex : /\[b\]/gi,
               html : '<b>',
-              name : 'b_end'
+              name : 'b_start'
             },
             {
               regex : /\[\/b\]/gi,
@@ -614,7 +693,7 @@ class Dealabs{
             {
               regex : /\[i\]/gi,
               html : '<i>',
-              name : 'i_end'
+              name : 'i_start'
             },
             {
               regex : /\[\/i\]/gi,
@@ -624,7 +703,7 @@ class Dealabs{
             {
               regex : /\[u\]/gi,
               html : '<u>',
-              name : 'u_end'
+              name : 'u_start'
             },
             {
               regex : /\[\/u\]/gi,
@@ -634,7 +713,7 @@ class Dealabs{
             {
               regex : /\[s\]/gi,
               html : '<del>',
-              name : 'del_end'
+              name : 'del_start'
             },
             {
               regex : /\[\/s\]/gi,
@@ -644,12 +723,24 @@ class Dealabs{
             {
               regex : /\[up\]/gi,
               html : '<font style="font-size:1.2em;">',
-              name : 'up_end'
+              name : 'up_start',
+              not_supported : [
+                "new_comment",
+                "edit_comment",
+                "new_MP",
+                "reply_MP"
+              ]
             },
             {
               regex : /\[\/up\]/gi,
               html : '</font>',
-              name : 'up_end'
+              name : 'up_end',
+              not_supported : [
+                "new_comment",
+                "edit_comment",
+                "new_MP",
+                "reply_MP"
+              ]
             }
         ];
 
