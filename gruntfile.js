@@ -3,12 +3,29 @@ module.exports = function (grunt) {
     var merge = require('deepmerge');
 
     grunt.initConfig({
-        clean: ['./build/Chrome/**', './build/Firefox/**'],
+        pkg: grunt.file.readJSON('package.json'),
+        clean: {
+            prebuild : ['./build/Chrome/**', './build/Firefox/**'],
+            temp : './build/temp/**'
+        },
         uglify: {
             options : {
                 flatten: true,   // remove all unnecessary nesting
-            }, 
-            'src/third/handlebars.min.js' : ['./node_modules/handlebars/dist/handlebars.min.js', './src/third/handlebars-helper-x.js']
+                sourceMap: true,
+                banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+                    '<%= grunt.template.today("yyyy-mm-dd") %> */'
+            },
+            libs : {
+                files:{
+                    'build/temp/libs.minified/libs.min.js' : './build/temp/libs/*.js'
+                }
+            },
+            helpers : {
+                files:{
+                    'build/temp/libs/zhandlebars-helpers.min.js' : ['./src/third/handlebars-helper-x.js'] //unless z is to add the file at the end
+                }
+            }
+
         },
         compress: {
             chrome: {
@@ -37,11 +54,36 @@ module.exports = function (grunt) {
             }
         },
         copy:{
+            libs: {
+                files: [
+                    {
+                        cwd : '.',
+                        src: [
+                            './node_modules/noty/js/noty/packaged/jquery.noty.packaged.min.js', 
+                            './node_modules/async/dist/async.min.js', 
+                            './node_modules/handlebars/dist/handlebars.min.js',
+                            './node_modules/jquery/dist/jquery.min.js'
+                        ],
+                        flatten: true,
+                        expand:true,
+                        dest: './build/temp/libs/'
+                    },
+                    {
+                        expand: true, 
+                        cwd : './node_modules/mdi/',
+                        src: [
+                            'css/**', 
+                            'fonts/**'
+                        ],
+                        dest: './src/third/material-design-iconic-font/'
+                    }
+                ]
+            },
             chrome: {
                 files: [{
                     expand: true,
                     cwd: 'src/',
-                    src: ['**', "!__specific/**"],
+                    src: ['**', "!__specific/**", "!third/handlebars-helper-x.js"],
                     dest: './build/Chrome/'
                 },
                 {
@@ -49,13 +91,19 @@ module.exports = function (grunt) {
                     cwd: 'src/__specific/Chrome/',
                     src: ["**"],
                     dest: './build/Chrome/'
+                },
+                {
+                    expand: true,
+                    cwd: './build/temp/libs.minified/',
+                    src: ["**"],
+                    dest: './build/Chrome/third'
                 }]
             },
             firefox: {
                 files: [{
                     expand: true,
                     cwd: 'src/',
-                    src: ['**', "!__specific/**"],
+                    src: ['**', "!__specific/**", "!third/handlebars-helper-x.js"],
                     dest: './build/Firefox/'
                 },
                 {
@@ -63,6 +111,12 @@ module.exports = function (grunt) {
                     cwd: 'src/__specific/Firefox/',
                     src: ["**"],
                     dest: './build/Firefox/'
+                },
+                {
+                    expand: true,
+                    cwd: 'build/temp/libs.minified/',
+                    src: ["**"],
+                    dest: './build/Firefox/third'
                 }]
             }
         },
@@ -98,7 +152,6 @@ module.exports = function (grunt) {
 
 
     grunt.loadNpmTasks('grunt-notify');
-
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -108,14 +161,16 @@ module.exports = function (grunt) {
     
     grunt.registerTask('default',
         [
-            "uglify",
+            "copy:libs",
+            "uglify:helpers",
+            "uglify:libs",
             "chrome",
             "firefox",
         ]);    
 
     grunt.registerTask('release',
         [
-            "clean",
+            "clean:prebuild",
             "default",
         ]);
     grunt.registerTask('firefox',
@@ -135,13 +190,15 @@ module.exports = function (grunt) {
 
     grunt.registerTask("dev", 
         [
-            "notify:start",
-            "uglify",
-            "clean",
+            "copy:libs",
+            "uglify:helpers",
+            "uglify:libs",
+            "clean:prebuild",
             "copy:chrome",
             "copy:firefox",
             "json_generator:firefox",
             "json_generator:chrome",
+            "clean:temp",
             "notify:end"
         ]
     );
@@ -157,21 +214,30 @@ module.exports = function (grunt) {
         version_after = versiony
         .from('./src/manifest.json')
         .patch()
-        .to("./src/manifest.json").get();
+        .to("./src/manifest.json")
+        .to("package.json")
+        .get();
       grunt.log.write("update version to "+version_after+"... ").ok();
     });
     grunt.registerTask('minor', 'update minor version', function() {
         version_after = versiony
         .from('./src/manifest.json')
+        .patch(0)
         .minor()
-        .to("./src/manifest.json").get();
+        .to("./src/manifest.json")
+        .to("package.json")
+        .get();
       grunt.log.write("update version to "+version_after+"... ").ok();
     });
     grunt.registerTask('major', 'update major version', function() {
         version_after = versiony
         .from('./src/manifest.json')
+        .patch(0)
+        .minor(0)
         .major()
-        .to("./src/manifest.json").get();
+        .to("./src/manifest.json")
+        .to("package.json")
+        .get();
       grunt.log.write("update version to "+version_after+"... ").ok();
     });
 };

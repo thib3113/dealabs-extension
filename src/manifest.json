@@ -15,19 +15,15 @@
         "default_icon": "img/icon.png",
         "default_title": "__MSG_APPNAME__"
     },
-    "background": 
-    {
+    "background": {
         "scripts": [
-            "third/handlebars.min.js",
-            "third/jquery.min.js",
-            "third/noty/jquery.noty.packaged.min.js",
+            "third/libs.min.js",
             "class/WebExtension.inc.js",
             "class/FirefoxExtension.inc.js",
             "class/ChromeExtension.inc.js",
             "class/Settings.inc.js",
             "class/Imgur.inc.js",
             "class/Dealabs.inc.js",
-            "third/async.min.js",
             "global.js",
             "background.js"
         ]
@@ -36,7 +32,9 @@
         "*"
     ],
     "externally_connectable": {
-        "matches": ["*://*.dealabs.com/*"]
+        "matches": [
+            "*://*.dealabs.com/*"
+        ]
     },
     "permissions": [
         "notifications",
@@ -60,10 +58,8 @@
                 "*://*.dealabs.com/*.css",
                 "*://*.dealabs.com/*.js"
             ],
-            "js": [            
-                "third/handlebars.min.js",
-                "third/jquery.min.js",
-                "third/noty/jquery.noty.packaged.min.js",
+            "js": [
+                "third/libs.min.js",
                 "class/WebExtension.inc.js",
                 "class/FirefoxExtension.inc.js",
                 "class/ChromeExtension.inc.js",

@@ -213,3 +213,49 @@ Handlebars.registerHelper('geach', function(path, options) {
 		value = [];
 	return Handlebars.helpers['each'].apply(this, [value, options]);
 });
+
+
+
+// add Math helper
+Handlebars.registerHelper("math", function(lvalue, operator, rvalue, options) {
+    lvalue = parseFloat(lvalue);
+    rvalue = parseFloat(rvalue);
+        
+    return {
+        "+": lvalue + rvalue,
+        "-": lvalue - rvalue,
+        "*": lvalue * rvalue,
+        "/": lvalue / rvalue,
+        "%": lvalue % rvalue
+    }[operator];
+});
+
+
+//add compare helpers
+Handlebars.registerHelper({
+    seq: function (v1, v2) {
+        return v1 === v2;
+    },
+    eq: function (v1, v2) { 
+        debugger;
+        return v1 == v2;
+    },
+    sne: function (v1, v2) {
+        return v1 !== v2;
+    },
+    ne: function (v1, v2) {
+        return v1 != v2;
+    },
+    lt: function (v1, v2) {
+        return v1 < v2;
+    },
+    gt: function (v1, v2) {
+        return v1 > v2;
+    },
+    lte: function (v1, v2) {
+        return v1 <= v2;
+    },
+    gte: function (v1, v2) {
+        return v1 >= v2;
+    },
+});
