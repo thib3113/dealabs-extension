@@ -187,6 +187,118 @@
       "message": "Débute le",
       "description": "only the"
    },
+   "extension": {
+      "message": "Plugin",
+      "description": "extension menu title"
+   },
+   "extension_settings": {
+      "message": "Configuration du plugin.",
+      "description": "extension menu description"
+   },
+   "update_the_extension_settings_": {
+      "message": "Modifier les paramètres du plugins.",
+      "description": "update the extension settings"
+   },
+   "background_refresh": {
+      "message": "Mise à jour.",
+      "description": "time between refresh"
+   },
+   "refresh_time": {
+      "message": "Intervalle de mise à jour",
+      "description": "time between refresh"
+   },
+   "loading": {
+      "message": "Chargement",
+      "description": "loading message"
+   },
+   "yes": {
+      "message": "oui",
+      "description": "yes"
+   },
+   "no": {
+      "message": "non",
+      "description": "no"
+   },
+   "notifications": {
+      "message": "notifications",
+      "description": "notifications"
+   },
+   "time_in_seconds": {
+      "message": "Temps en secondes",
+      "description": "description for time between refresh"
+   },
+   "notifications_on_desktop": {
+      "message": "Notifications sur le bureau",
+      "description": "notification on desktop"
+   },
+   "deals_notifications": {
+      "message": "Notifications des deals",
+      "description": "notification for deals"
+   },
+   "alert_notifications": {
+      "message": "Notifications des alertes",
+      "description": "notification for alerts"
+   },
+   "pm_notifications": {
+      "message": "Notifications des MPs",
+      "description": "notification for PMs"
+   },
+   "forum_notifications": {
+      "message": "Notifications des forums",
+      "description": "notification for forums"
+   },
+   "UI_modifications": {
+      "message": "Modification de l'interface",
+      "description": "UI modification"
+   },
+   "Theme": {
+      "message": "Theme",
+      "description": "theme"
+   },
+   "smileys": {
+      "message": "Emoticones",
+      "description": "Emoticons"
+   },
+   "Images": {
+      "message": "Images",
+      "description": "Images"
+   },
+   "imgur_connection": {
+      "message": "Connexion à imgur",
+      "description": "imgur connection"
+   },
+   "try_connection_to_imgur": {
+      "message": "test de connexion en cours",
+      "description": "try connection to imgur"
+   },
+   "custom_smileys": {
+      "message": "Emoticones personnalisés",
+      "description": "try connection to imgur"
+   },
+   "Url": {
+      "message": "Url",
+      "description": "url"
+   },
+   "Name": {
+      "message": "Nom",
+      "description": "Name"
+   },
+   "add_a_new_smiley": {
+      "message": "Ajouter un nouveau smiley",
+      "description": "add a new smiley"
+   },
+   "update_settings": {
+      "message": "Sauvegarder les modifications",
+      "description": "update settings button"
+   },
+   "for_security_reason_please_use_https_images": {
+      "message": "Pour des raisons de sécurité, merci de préferer des images en https",
+      "description": "https images warning"
+   },
+   "please_doesn_t_use_special_character_in_smileys_name": {
+      "message": "Ne pas utiliser de caractères spéciaux dans les noms des émoticones",
+      "description": "special chars in smiley name warning"
+   },
    "use_the_navigator_extension": {
       "description": "text for plugin reward .",
       "message": "Utilise le plugin $navigator$",

@@ -16,7 +16,7 @@ class Dealabs{
     }
 
     _getUrls(content){
-        var re = /((?:http|ftp|https):\/\/[\w-]+(?:\.[\w-]+)+(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?)/g;
+        var re = /((?:http|ftp|https):\/\/[\w\-]+(?:\.[\w\-]+)+(?:[\w.,@?\^=%&amp;:\/~+#\-]*[\w@?\^=%&amp;\/~+#\-])?)/g;
         return content.match(re) || [];
     }
 
@@ -193,6 +193,16 @@ class Dealabs{
         $('[data-userscript="comment_container"] a.link_a_reduce').each(function(){
             EmbedLinksManager.addLink(this);
         });
+    }
+
+    _getParameterByName(name, url){
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)", "i"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
     generateTemplate(formType){
@@ -497,7 +507,7 @@ class Dealabs{
                                         </div>\
                                     </div>\
                                     <div class="deal_footer_part">\
-                                        <div id="apps_display" style="background-image:url(\'https://thib3113.github.io/dealabs-extension/img/icon.svg\');background-size: 14px;background-color: #CCC;padding: 10px;">\
+                                        <div id="apps_display" style="background-image:url(\'https://thib3113.github.io/dealabs-extension/img/icon.svg\');background-size: 14px;background-color: #f5f5f5;padding: 10px;">\
                                             <a target="blank" class="apps" href="'+extension.getPluginUrl()+'">'+extension._("preview with dealabs extension")+'</a>\
                                         </div>\
                                         <div id="merchant_display">\
@@ -519,6 +529,446 @@ class Dealabs{
 
         return this.compiledTemplates[formType];
     }
+
+    initSettingsPageListener(){
+
+    }
+
+    generateSettingsPage(){
+        Handlebars.registerPartial("customSmileyTemplate", '\
+                                    <tr>\
+                                        <td>{{#if smiley_url}}<img style="max-height:40px;" src="{{smiley_url}}" alt=":{{smiley_name}}:" />{{/if}}</td>\
+                                        <td style="padding-right: 20px;">\
+                                            <input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_url" value="{{smiley_url}}" />\
+                                        </td>\
+                                        <td style="padding-right: 20px;">\
+                                            <input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_name" value="{{smiley_name}}" />\
+                                        </td>\
+                                        <td onclick="$(this).parent(\'tr\').remove();" style="cursor:pointer;" >\
+                                            <img src="https://static.dealabs.com/images/profil/icon_profile_messages_delete.png">\
+                                        </td>\
+                                    </tr>\
+                                ');
+        var customSmileyTemplate = Handlebars.compile('{{> customSmileyTemplate smiley_url=smiley_url smiley_name=smiley_name}}');
+
+        var htmlTemplates = {
+            menu : '\
+                    <a id="plugin_tab" class="menu_div_param" href="javascript:;" onclick="tab_change_profile(0, this);">\
+                        <div class="div_tab_selector">\
+                            <p>'+extension._("extension")+'</p>\
+                            <p>'+extension._("extension settings")+'</p>\
+                        </div>\
+                    </a>\
+            ',
+            body : '\
+                <div id="plugin_tab_content" class="content_profil_param" style="display: none;">\
+                    <div class="title_tab_contener">\
+                        <p>'+extension._("extension_settings")+' ({{extension_version}})</p>\
+                        <p>'+extension._("update the extension settings .")+'</p>\
+                    </div>\
+                    <div class="content_tab_contener">\
+                        <div class="subtitle_tab_contener">\
+                            <p>'+extension._("background refresh")+'</p>\
+                        </div>\
+                        <div class="profil_param_notification border_grey_bottom">\
+                            <div class="left_profil_param_champs" style="width:50%;">\
+                                <p>'+extension._("refresh time")+'&thinsp;:</p>\
+                            </div>\
+                            <div class="content_profil_param_champs">\
+                                <div class="input_left flag">\
+                                    <select name="plugin_time_between_refresh" id="plugin_time_between_refresh">\
+                                        {{#each refresh_list}}\
+                                        <option value="{{math this "*" 1000}}" {{#if (eq this ../time_between_refresh) }}selected{{/if}}>{{this}}</option>\
+                                        {{/each}}\
+                                    </select>\
+                                </div>\
+                                <span>'+extension._("time in seconds")+'&thinsp;</span>\
+                            </div>\
+                        </div>\
+                        <div class="subtitle_tab_contener">\
+                            <p>'+extension._("notifications")+'</p>\
+                        </div>\
+                        {{#with notifications_manage}}\
+                        <div class="profil_param_notification">\
+                            <div class="left_profil_param_champs" style="width:50%;">\
+                                <p>'+extension._("notifications on desktop")+'&thinsp;:</p>\
+                            </div>\
+                            <div class="content_profil_param_champs">\
+                                <div class="input_left flag">\
+                                    <label for="plugin_desktop_notifications">\
+                                        <input type="checkbox" {{#if desktop}}checked{{/if}} value="1" id="plugin_desktop_notifications" name="plugin_desktop_notifications">\
+                                    '+extension._("yes")+'\
+                                    </label>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div class="profil_param_notification">\
+                            <div class="left_profil_param_champs" style="width:50%;">\
+                                <p>'+extension._("deals notifications")+'&thinsp;:</p>\
+                            </div>\
+                            <div class="content_profil_param_champs">\
+                                <div class="input_left flag">\
+                                    <label for="plugin_deals_notifications">\
+                                        <input type="checkbox" {{#if deals}}checked{{/if}} value="1" id="plugin_deals_notifications" name="plugin_deals_notifications">\
+                                    '+extension._("yes")+'\
+                                    </label>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div class="profil_param_notification">\
+                            <div class="left_profil_param_champs" style="width:50%;">\
+                                <p>'+extension._("alert notifications")+'&thinsp;:</p>\
+                            </div>\
+                            <div class="content_profil_param_champs">\
+                                <div class="input_left flag">\
+                                    <label for="plugin_alertes_notifications">\
+                                        <input type="checkbox" {{#if alertes}}checked{{/if}} value="1" id="plugin_alertes_notifications" name="plugin_alertes_notifications">\
+                                    '+extension._("yes")+'\
+                                    </label>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div class="profil_param_notification">\
+                            <div class="left_profil_param_champs" style="width:50%;">\
+                                <p>'+extension._("pm notifications")+'&thinsp;:</p>\
+                            </div>\
+                            <div class="content_profil_param_champs">\
+                                <div class="input_left flag">\
+                                    <label for="plugin_mp_notifications">\
+                                        <input type="checkbox" {{#if MPs}}checked{{/if}} value="1" id="plugin_mp_notifications" name="plugin_mp_notifications">\
+                                    '+extension._("yes")+'\
+                                    </label>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div class="profil_param_notification border_grey_bottom">\
+                            <div class="left_profil_param_champs" style="width:50%;">\
+                                <p>'+extension._("forum notifications")+'&thinsp;:</p>\
+                            </div>\
+                            <div class="content_profil_param_champs">\
+                                <div class="input_left flag">\
+                                    <input type="checkbox" {{#if forum}}checked{{/if}} value="1" id="plugin_forum_notifications" name="plugin_forum_notifications">\
+                                    <label for="plugin_forum_notifications">'+extension._("yes")+'</label>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        {{/with}}\
+                        <div class="subtitle_tab_contener">\
+                            <p>'+extension._("UI modifications")+'</p>\
+                        </div>\
+                        <div class="profil_param_notification">\
+                            <div class="left_profil_param_champs" style="width:50%;">\
+                                <p>'+extension._("Theme")+'&thinsp;:</p>\
+                            </div>\
+                            <div class="content_profil_param_champs">\
+                                <div class="input_left flag">\
+                                    <select name="plugin_theme" id="plugin_theme">\
+                                        <option value="">'+extension._("loading")+'...</option>\
+                                    </select>\
+                                </div>\
+                            </div>\
+                        </div>\<div class="profil_param_notification border_grey_bottom">\
+                            <div class="left_profil_param_champs" style="width:50%;">\
+                                <p>'+extension._("smileys")+'&thinsp;:</p>\
+                            </div>\
+                            <div class="content_profil_param_champs">\
+                                <div class="input_left flag">\
+                                    <select name="emoticone_theme" id="emoticone_theme">\
+                                        <option value="">'+extension._("loading")+'...</option>\
+                                    </select>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div class="subtitle_tab_contener">\
+                            <p>'+extension._("Images")+'</p>\
+                        </div>\
+                        <div class="profil_param_notification border_grey_bottom">\
+                            <div class="left_profil_param_champs" style="width:50%;">\
+                                <p>'+extension._("imgur connection")+'&thinsp;:</p>\
+                            </div>\
+                            <div class="content_profil_param_champs">\
+                                <p id="imgur-connexion">\
+                                    '+extension._("try connection to imgur")+' ...\
+                                </p>\
+                            </div>\
+                        </div>\
+                        <div class="subtitle_tab_contener">\
+                            <p>'+extension._("custom smileys")+'</p>\
+                        </div>\
+                        <div class="profil_param_notification border_grey_bottom">\
+                            <div class="left_profil_param_champs" id="plugin_smileys_list" style="width: 100%;overflow:auto;">\
+                            <div style="margin: 20px;background: #f5f5f5;padding: 10px;">\
+                                <ul style="list-style: square;">\
+                                    <li>'+extension._("for security reason, please use https images")+'</li>\
+                                    <li>'+extension._("please doesn't use special character in smileys name")+'</li>\
+                                </ul>\
+                            </div>\
+                            <table style="width: 100%;">\
+                                <thead>\
+                                    <tr>\
+                                        <th></th>\
+                                        <th>'+extension._("Url")+'</th>\
+                                        <th>'+extension._("Name")+'</th>\
+                                        <th></th>\
+                                    </tr>\
+                                </thead>\
+                                <tbody>\
+                                {{#each smileys as |smiley_url smiley_name|}}\
+                                    {{> customSmileyTemplate smiley_url=smiley_url smiley_name=smiley_name}}\
+                                {{/each}}\
+                                <tr>\
+                                    <td style="cursor:pointer;text-align: center;" colspan="4">\
+                                        <a data-plugin-role="add_new_smiley" href="javascript:;" class="validate_button_form background_color_button_green enter_validate" style="float:none; display:inline-block; margin-right:0px;">\
+                                            '+extension._("add a new smiley")+'\
+                                        </a>\
+                                    </td>\
+                                </tr>\
+                                </tbody>\
+                            </table>\
+                            </div>\
+                            <div class="content_profil_param_champs">\
+                            </div>\
+                        </div>\
+                        <div class="profil_param_validation" style="padding-top:10px;">\
+                            <a href="javascript:;" data-plugin-role="update_settings" class="validate_button_form background_color_button_blue" style="float:none; display:inline-block; margin-right:0px;">'+extension._("update settings")+'</a>\
+                        </div>\
+                        <div onClick="$(this).next(\'div\').toggle()" class="subtitle_tab_contener plugin-debug">\
+                            <p>Debug</p>\
+                        </div>\
+                        <div class="profil_param_notification border_grey_bottom plugin-debug" style="display:none;">\
+                            <div class="left_profil_param_champs" style="width:50%;">\
+                                <p>Liste des erreurs apparues&thinsp;:</p>\
+                            </div>\
+                            <div>\
+                                <textarea name="" id="debug-logs" style="width:98%">'+extension._("loading")+'...</textarea>\
+                            </div>\
+                        </div>\
+                    </div>\
+                </div>\
+            ',
+            list: '\
+                <option value="{{value}}" {{#if selected}}selected {{/if}}>{{name}}</option>\
+            '
+        }
+
+        $('#left_profil_param').append(Handlebars.compile(htmlTemplates.menu)());
+
+        $('#right_profil_param .padding_right_profil_param').append(Handlebars.compile(htmlTemplates.body)({
+            extension_version : extension.getManifest().version,
+            smileys : settingsManager.smileys,
+            refresh_list : time_between_refresh_list,
+            time_between_refresh : settingsManager.time_between_refresh/1000,
+            notifications_manage : settingsManager.notifications_manage
+        }));
+
+        $(document).on('click', '[data-plugin-role="add_new_smiley"]', function() {
+            var tpl = customSmileyTemplate({});
+            $(this).parents('tr').before(tpl);
+        })
+
+        //generate async parameters
+        //check imgur API
+        imgurManager.checkConnexion(function(response){
+            if(response!=false){
+                $("#imgur-connexion").html(extension._("you are connected with account $account$", response.url));
+            }
+            else{
+                $("#imgur-connexion").html(extension._("you are not connected :")+"<em data-plugin-role=\"ask_for_imgur_token\" style=\"cursor:pointer\">"+extension._("click here")+"</em>");
+                $(document).on("click", '[data-plugin-role="ask_for_imgur_token"]', function(){
+                    imgurManager.askForToken();
+                })
+            }
+        });
+    
+        if(settingsManager.imadevelopper){
+            extension.getLogs(function(result){
+                if(result == undefined || result.logs == undefined || result.logs.length==0){
+                    $(".plugin-debug").hide();
+                    return;
+                }
+
+                var logs = result.logs;
+                var text = "";
+                for (var i = logs.length - 1; i >= 0; i--) {
+                    text += logs[i].stack
+                    if(i-1>=0)
+                        text+= "=================";
+                }
+                this.textarea.innerText = text;
+            }.bind({textarea:document.querySelector("#debug-logs")}))
+        }
+        else{
+            var debugElements = document.querySelectorAll(".plugin-debug");
+            for (var i = 0; i < debugElements.length; i++) {
+                debugElements[i].remove();
+            }
+        }
+
+        var tryToBecomeDevelopper = 0;
+        $(document).on("click", '[data-plugin-role="version"]', function(){
+            if(settingsManager.imadevelopper){
+                noty({
+                    layout: 'bottomRight',
+                    type: 'warning',
+                    text: 'Vous êtes déjà un développeur ;) !',
+                    dismissQueue: true,
+                    timeout: 2000,
+                    maxVisible: 1
+                });
+                return;   
+            }
+
+            if(++tryToBecomeDevelopper >= 7){
+                noty({
+                    layout: 'bottomRight',
+                    type: 'success',
+                    text: 'Yeahhh, vous êtes désormais considéré comme un développeur !',
+                    dismissQueue: true,
+                    timeout: 2000,
+                    maxVisible: 1
+                });
+                settingsManager.imadevelopper = true;
+            }
+        });
+
+        var asyncLists = Handlebars.compile(htmlTemplates.list);
+        //load emoticone themes
+        $('#emoticone_theme').on('change', function(){
+            update_emoticone_theme($(this).find(":selected").data("emoticone_theme"));
+        })
+        $('#emoticone_theme').html("");
+        var theme_list = [
+          {
+            "safeName" : "default",
+            "name": "Par défaut"
+          },
+        ];
+
+        try{
+            if(settingsManager.emoticone_theme.safeName != "default")
+                theme_list.append(settingsManager.emoticone_theme);
+        }
+        catch(e){
+        }
+        var $option;
+        for(name in theme_list){
+            $option = $(asyncLists({
+                value :  theme_list[name].safeName,
+                selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
+                name :  theme_list[name].name,
+            }));
+            $option.data("emoticone_theme", theme_list[name]);
+            $('#emoticone_theme').append($option);
+        }
+
+        $.ajax({
+          url: emoticone_theme_list_url,
+          dataType: "json",
+          success: function(theme_list){
+            $('#emoticone_theme').html("");
+            for(name in theme_list){
+                $option = $(asyncLists({
+                    value :  theme_list[name].safeName,
+                    selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
+                    name :  theme_list[name].name,
+                }));
+                $option.data("emoticone_theme", theme_list[name]);
+                $('#emoticone_theme').append($option);
+            }
+          }
+        });
+
+        $('#plugin_theme').on('change', function(){
+            update_theme($(this).find(":selected").data("theme"));
+        })
+        $('#plugin_theme').html("");
+        theme_list = [
+          {
+            "safeName" : "default",
+            "name": "Par défaut"
+          },
+        ];
+
+        try{
+            if(settingsManager.theme.safeName != "default")
+                theme_list.append(settingsManager.theme);
+        }
+        catch(e){
+        }
+        
+        for(name in theme_list){
+            $option = $(asyncLists({
+                value :  theme_list[name].safeName,
+                selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
+                name :  theme_list[name].name,
+            }));
+            $option.data("theme", theme_list[name]);
+            $('#plugin_theme').append($option);
+        }
+
+        $.ajax({
+          url: theme_list_url,
+          dataType: "json",
+          success: function(theme_list){
+            $('#plugin_theme').html("");
+            for(name in theme_list){
+                $option = $(asyncLists({
+                    value :  theme_list[name].safeName,
+                    selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
+                    name :  theme_list[name].name,
+                }));
+                $option.data("theme", theme_list[name]);
+                $('#plugin_theme').append($option);
+            }
+          }
+        });
+
+        //update settings
+        $(document).on('click', '[data-plugin-role="update_settings"]', function() {
+            var save_smileys = {};
+            $('#plugin_smileys_list tbody tr').each(function() {
+                smiley_url = $(this).find('[data-plugin-role="smiley_url"]').val();
+                if($(this).find('[data-plugin-role="smiley_url"]').val() != undefined){
+                    smiley_name = $(this).find('[data-plugin-role="smiley_name"]').val().replace(/[^\w]/gi, "_").replace(/_+/gi, "_");
+                    if (smiley_url != "" && typeof smiley_url != "undefined" && smiley_name != "" && typeof smiley_name != "undefined")
+                        save_smileys[smiley_name] = smiley_url;
+                }
+            });
+
+            newSettings = {
+                time_between_refresh: parseInt($('#plugin_time_between_refresh').val()),
+                theme: $('#plugin_theme').find(":selected").data("theme"),
+                emoticone_theme: $('#emoticone_theme').find(":selected").data("emoticone_theme"),
+                notifications_manage: {
+                    desktop : $('#plugin_desktop_notifications').is(':checked'),
+                    forum : $('#plugin_forum_notifications').is(':checked'),
+                    MPs : $('#plugin_mp_notifications').is(':checked'),
+                    deals : $('#plugin_deals_notifications').is(':checked'),
+                    alertes : $('#plugin_alertes_notifications').is(':checked')
+                },
+                smileys: save_smileys
+            }
+
+            noty({
+                layout: 'bottomRight',
+                type: 'success',
+                text: 'Vos paramètres ont bien été enregistrés.',
+                dismissQueue: true,
+                timeout: 2000,
+                maxVisible: 1
+            });
+
+
+            settingsManager._updateCb = function(){
+                extension.sendMessage('update_settings', {});
+                settingsManager._updateCb = null;
+            }
+            settingsManager.settings = newSettings;
+        });
+
+    }
+
+
 
     constructor(){
         //parse context
@@ -923,7 +1373,6 @@ class Dealabs{
 
                         var $previewContainer = $('[data-userscript="comment_container"]');
                         var $content;
-                        console.log($putContainer);
                         if ($previewContainer.length > 0) {
                             $previewContainer.slideUp({
                                 "duration":500,
@@ -931,7 +1380,6 @@ class Dealabs{
                                     $(this).remove();
                                     $content = $(self.generatePreview(commentContainer, vars, formType));
                                     $content.hide(0);
-                                    console.log($putContainer);
                                     $putContainer[func]($content);
                                     $content.slideDown(500, cb);
                                 }
@@ -943,25 +1391,353 @@ class Dealabs{
                             $putContainer[func]($content);
                             $content.slideDown(500, cb);
                         }
-                        // if ($previewContainer.length > 0) {
-                        //     $previewContainer.slideUp(500, function() {
-                        //         $previewContainer.hide(0);
-                        //         $(this).remove()
-                        //         $putContainer[func](self.generatePreview(commentContainer, vars, formType));
-                        //         $previewContainer.slideDown(500, cb);
-                        //     });
-                        // }
-                        // else {
-                        //     $previewContainer.hide(0);
-                        //     $putContainer[func](self.generatePreview(commentContainer, vars, formType));
-                        //     $previewContainer.slideDown(500);
-                        //     cb();
-                        // }
-
                     });
 
                     $(submit_btn).after(clone);
                 });
+
+                //override spoiler
+                $('body').on('click', '[data-userscript="comment_container"] .click_div_spoiler', function(e) {
+                    if ($(this).next().is(":hidden")) {
+                        $(this).parents(".quote").last().children('.quote_message').css('max-height', 'none')
+                    }
+                    $(this).next().slideToggle("fast", function() {
+                        if ($(this).is(":hidden")) {
+                            $(this).parent().children('.click_div_spoiler').html('Ce message a été masqué par son auteur. Cliquez pour l’afficher.')
+                        } else {
+                            $(this).parent().children('.click_div_spoiler').html('Contenu du message :')
+                        }
+                    })
+                });
+
+                //override long quote
+                $('body').on('click', '[data-userscript="comment_container"] div.quote > div.quote_pseudo > p.pseudo_tag > a.open', function(e) {
+                    var quote_height_max = parseInt($(".quote_message").css("max-height"), 10);
+                    var current_height = $(this).parents(".quote").children('.quote_message').height();
+                    if (current_height <= quote_height_max) {
+                        $(this).parents(".quote").children('.quote_message').css('max-height', 'none');
+                        $(this).text("Masquer la citation")
+                    } else {
+                        $(this).parents(".quote").children('.quote_message').css('max-height', quote_height_max + 'px');
+                        $(this).text("Afficher l'intégralité de la citation")
+                    }
+                });
+
+
+                //add hour in body for styling
+                var updateHourBody = function(){
+                    $("body").addClass("plugin-hour-"+(new Date().getHours()));
+                    //relaunch for the next hour
+                    setTimeout(this, 3600000 - new Date().getTime() % 3600000);
+                }();
+
+                //add menu for sound, and menu for blacklist
+                var linkInfos, blacklist, blacklisted, notifications_with_sound
+                if(linkInfos = location.pathname.match(/^\/([^\/]+)\/.*\/([0-9]+)$/)){
+                    blacklisted =  (typeof settingsManager.blacklist[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
+                    $('#bloc_option .bloc_option_white').prepend('\
+                        <div class="button_part">\
+                            <div class="bouton_contener_border" data-plugin-link-info="'+linkInfos[1]+'-'+linkInfos[2]+'" id="plugin-blacklist-notification">\
+                                <div class="yes_part '+(blacklisted?'yes':'')+'"></div>\
+                                <div class="no_part '+(blacklisted?'':'no')+'"></div>\
+                            </div>\
+                        </div>\
+                        \
+                        <div class="title_button_part">\
+                            <p>Bloquer les notifications</p>\
+                            <p>Cacher les notifications des nouvelles réponses</p>\
+                        </div>\
+                    ');
+
+                    $(document).on('click', '#plugin-blacklist-notification', function(e){
+                        e.preventDefault();
+                        e.stopPropagation();
+                        blacklist = settingsManager.blacklist
+                        if($(this).find('.yes').length == 0){// => is not already blacklisted
+                            blacklist[$(this).data('plugin-link-info')] = true;
+                        }
+                        else{
+                            delete blacklist[$(this).data('plugin-link-info')];
+                        }
+
+                        settingsManager._updateCb = function(){
+                            extension.sendMessage('update_settings', {});
+                            settingsManager._updateCb = null;
+                        }
+                        settingsManager.blacklist = blacklist;
+                        
+                        blacklisted = (typeof settingsManager.blacklist[$(this).data('plugin-link-info')] != "undefined");
+                        $(this).html('<div class="yes_part '+(blacklisted?'yes':'')+'"></div>\
+                                <div class="no_part '+(blacklisted?'':'no')+'"></div>');
+
+                        return false;
+                    });
+
+                    notifications_with_sound =  (typeof settingsManager.notifications_with_sound[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
+                    $('#bloc_option .bloc_option_white').prepend('\
+                        <div class="button_part">\
+                            <div class="bouton_contener_border" data-plugin-link-info="'+linkInfos[1]+'-'+linkInfos[2]+'" id="plugin-sounded-notification">\
+                                <div class="yes_part '+(notifications_with_sound?'yes':'')+'"></div>\
+                                <div class="no_part '+(notifications_with_sound?'':'no')+'"></div>\
+                            </div>\
+                        </div>\
+                        <div class="title_button_part">\
+                            <p>Jouer un son</p>\
+                            <p>Jouer un son lors d\'une nouvelle réponse</p>\
+                        </div>\
+                    ');
+
+                    $(document).on('click', '#plugin-sounded-notification', function(e){
+                        e.preventDefault();
+                        e.stopPropagation();
+                        notifications_with_sound = settingsManager.notifications_with_sound
+                        if($(this).find('.yes').length == 0){// => is not already notifications_with_sound
+                            notifications_with_sound[$(this).data('plugin-link-info')] = true;
+                        }
+                        else{
+                            delete notifications_with_sound[$(this).data('plugin-link-info')];
+                        }
+
+                        settingsManager._updateCb = function(){
+                            extension.sendMessage('update_settings', {});
+                            settingsManager._updateCb = null;
+                        }
+                        settingsManager.notifications_with_sound = notifications_with_sound;
+                        
+                        notifications_with_sound = (typeof settingsManager.notifications_with_sound[$(this).data('plugin-link-info')] != "undefined");
+                        $(this).html('<div class="yes_part '+(notifications_with_sound?'yes':'')+'"></div>\
+                                <div class="no_part '+(notifications_with_sound?'':'no')+'"></div>');
+
+                        return false;
+                    });
+                }
+
+                //settings
+                if (self._getParameterByName('tab', location.href) == "settings") {
+                    self.generateSettingsPage();
+                }
+                //     
+                //     //load version
+                //     $('[data-plugin-role="version"]').text(extension.getManifest().version);
+
+                //     //load time_between_refresh
+                //     $('#plugin_time_between_refresh').html("");
+                //     for (var i = 0; i < time_between_refresh_list.length; i++) {
+                //         $('#plugin_time_between_refresh').append('<option value="' + time_between_refresh_list[i] * 1000 + '"' + (settingsManager.time_between_refresh == time_between_refresh_list[i] * 1000 ? ' selected' : '') + '>' + time_between_refresh_list[i] + '</option>');
+                //     }
+
+                    // //check imgur API
+                    // imgurManager.checkConnexion(function(response){
+                    //     if(response!=false){
+                    //         $("#imgur-connexion").html(extension._("you are connected with account $account$", response.url));
+                    //     }
+                    //     else{
+                    //         $("#imgur-connexion").html(extension._("you are not connected :")+"<em data-plugin-role=\"ask_for_imgur_token\" style=\"cursor:pointer\">"+extension._("click here")+"</em>");
+                    //         $(document).on("click", '[data-plugin-role="ask_for_imgur_token"]', function(){
+                    //             imgurManager.askForToken();
+                    //         })
+                    //     }
+                    // });
+
+                    // if(settingsManager.imadevelopper){
+                    //     extension.getLogs(function(result){
+                    //         if(result == undefined || result.logs == undefined || result.logs.length==0){
+                    //             $(".plugin-debug").hide();
+                    //             return;
+                    //         }
+
+                    //         logs = result.logs;
+                    //         text = "";
+                    //         for (var i = logs.length - 1; i >= 0; i--) {
+                    //             text += logs[i].stack
+                    //             if(i-1>=0)
+                    //                 text+= "=================";
+                    //         }
+                    //         this.textarea.innerText = text;
+                    //     }.bind({textarea:document.querySelector("#debug-logs")}))
+                    // }
+                    // else{
+                    //     debugElements = document.querySelectorAll(".plugin-debug");
+                    //     for (var i = 0; i < debugElements.length; i++) {
+                    //         debugElements[i].remove();
+                    //     }
+                    // }
+
+                    // tryToBecomeDevelopper = 0;
+                    // $(document).on("click", '[data-plugin-role="version"]', function(){
+                    //     if(settingsManager.imadevelopper){
+                    //         noty({
+                    //             layout: 'topRight',
+                    //             type: 'warning',
+                    //             text: 'Vous êtes déjà un développeur ;) !',
+                    //             dismissQueue: true,
+                    //             timeout: 2000,
+                    //             maxVisible: 1
+                    //         });
+                    //         return;   
+                    //     }
+
+                    //     if(++tryToBecomeDevelopper >= 7){
+                    //         noty({
+                    //             layout: 'topRight',
+                    //             type: 'success',
+                    //             text: 'Yeahhh, vous êtes désormais considéré comme un développeur !',
+                    //             dismissQueue: true,
+                    //             timeout: 2000,
+                    //             maxVisible: 1
+                    //         });
+                    //         settingsManager.imadevelopper = true;
+                    //     }
+                    // })
+
+                    // //load emoticone themes
+                    // $('#emoticone_theme').on('change', function(){
+                    //     update_emoticone_theme($(this).find(":selected").data("emoticone_theme"));
+                    // })
+                    // $('#emoticone_theme').html("");
+                    // theme_list = [
+                    //   {
+                    //     "safeName" : "default",
+                    //     "name": "Par défaut"
+                    //   },
+                    // ];
+
+                    // try{
+                    //     if(settingsManager.emoticone_theme.safeName != "default")
+                    //         theme_list.append(settingsManager.emoticone_theme);
+                    // }
+                    // catch(e){
+                    // }
+                    
+                    // for(name in theme_list){
+                    //     $option = $('<option value="' + theme_list[name].safeName + '"' + (settingsManager.emoticone_theme.safeName == theme_list[name].safeName ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
+                    //     $option.data("emoticone_theme", theme_list[name]);
+                    //     $('#emoticone_theme').append($option);
+                    // }
+
+                    // $.ajax({
+                    //   url: emoticone_theme_list_url,
+                    //   dataType: "json",
+                    //   success: function(theme_list){
+                    //     $('#emoticone_theme').html("");
+                    //     for(name in theme_list){
+                    //         $option = $('<option value="' + theme_list[name].safeName + '"' + (settingsManager.emoticone_theme.safeName == theme_list[name].safeName ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
+                    //         $option.data("emoticone_theme", theme_list[name]);
+                    //         $('#emoticone_theme').append($option);
+                    //     }
+                    //   }
+                    // });
+
+                    // $('#plugin_theme').on('change', function(){
+                    //     update_theme($(this).find(":selected").data("theme"));
+                    // })
+                    // $('#plugin_theme').html("");
+                    // theme_list = [
+                    //   {
+                    //     "safeName" : "default",
+                    //     "name": "Par défaut"
+                    //   },
+                    // ];
+
+                    // try{
+                    //     if(settingsManager.theme.safeName != "default")
+                    //         theme_list.append(settingsManager.theme);
+                    // }
+                    // catch(e){
+                    // }
+                    
+                    // for(name in theme_list){
+                    //     $option = $('<option value="' + theme_list[name].safeName + '"' + (settingsManager.theme.safeName == theme_list[name].safeName ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
+                    //     $option.data("theme", theme_list[name]);
+                    //     $('#plugin_theme').append($option);
+                    // }
+
+                    // $.ajax({
+                    //   url: theme_list_url,
+                    //   dataType: "json",
+                    //   success: function(theme_list){
+                    //     $('#plugin_theme').html("");
+                    //     for(name in theme_list){
+                    //         $option = $('<option value="' + theme_list[name].safeName + '"' + (settingsManager.theme.safeName == theme_list[name].safeName ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
+                    //         $option.data("theme", theme_list[name]);
+                    //         $('#plugin_theme').append($option);
+                    //     }
+                    //   }
+                    // });
+
+                //     $('#plugin_desktop_notifications').attr('checked', settingsManager.notifications_manage.desktop);
+                //     $('#plugin_deals_notifications').attr('checked', settingsManager.notifications_manage.deals);
+                //     $('#plugin_alertes_notifications').attr('checked', settingsManager.notifications_manage.alertes);
+                //     $('#plugin_mp_notifications').attr('checked', settingsManager.notifications_manage.MPs);
+                //     $('#plugin_forum_notifications').attr('checked', settingsManager.notifications_manage.forum);
+
+                //     // //load turbopix key
+                //     // $('#plugin_turbopix_key').val(settingsManager.turbopixAPIKey);
+
+                //     //load smileys
+                //     smileyTPL = '<tr><td>{{img}}</td><td style="padding-right: 20px;"><input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_url" value="{{smiley_url}}" /></td><td style="padding-right: 20px;"><input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_name" value="{{smiley_name}}" /></td><td onclick="$(this).parent(\'tr\').remove();" style="cursor:pointer;" ><img src="https://static.dealabs.com/images/profil/icon_profile_messages_delete.png"></td></tr>';
+                //     $('#plugin_smileys_list tbody').html("");
+                //     smileyList = settingsManager.smileys;
+                //     for (smiley in smileyList) {
+                //         tpl = smileyTPL.replace(/{{img}}/g, '<img style="max-height:40px;" src="{{smiley_url}}" alt=":{{smiley_name}}:" />').replace(/{{smiley_url}}/g, smileyList[smiley]).replace(/{{smiley_name}}/g, smiley);
+                //         $('#plugin_smileys_list tbody').append(tpl);
+                //     }
+                //     //add plus button
+                //     $('#plugin_smileys_list tbody').append('<tr><td style="cursor:pointer;text-align: center;" colspan="4"><a data-plugin-role="add_new_smiley" href="javascript:;" class="validate_button_form background_color_button_green enter_validate" style="float:none; display:inline-block; margin-right:0px;">Ajouter un nouveau smiley</a></td></tr>')
+
+                    // $body.on('click', '[data-plugin-role="add_new_smiley"]', function() {
+                    //     $this = $(this);
+                    //     tpl = smileyTPL.replace(/{{img}}/g, "").replace(/{{smiley_url}}/g, "").replace(/{{smiley_name}}/g, "");
+                    //     $this.parents('tr').before(tpl);
+                    // })
+
+                    // //update settings
+                    // $body.on('click', '[data-plugin-role="update_settings"]', function() {
+                    //     var save_smileys = {};
+                    //     $('#plugin_smileys_list tbody tr').each(function() {
+                    //         smiley_url = $(this).find('[data-plugin-role="smiley_url"]').val();
+                    //         if($(this).find('[data-plugin-role="smiley_url"]').val() != undefined){
+                    //             smiley_name = $(this).find('[data-plugin-role="smiley_name"]').val().replace(/[^\w]/gi, "_").replace(/_+/gi, "_");
+                    //             if (smiley_url != "" && typeof smiley_url != "undefined" && smiley_name != "" && typeof smiley_name != "undefined")
+                    //                 save_smileys[smiley_name] = smiley_url;
+                    //         }
+                    //     });
+
+                    //     newSettings = {
+                    //         time_between_refresh: parseInt($('#plugin_time_between_refresh').val()),
+                    //         theme: $('#plugin_theme').find(":selected").data("theme"),
+                    //         emoticone_theme: $('#emoticone_theme').find(":selected").data("emoticone_theme"),
+                    //         notifications_manage: {
+                    //             desktop : $('#plugin_desktop_notifications').is(':checked'),
+                    //             forum : $('#plugin_forum_notifications').is(':checked'),
+                    //             MPs : $('#plugin_mp_notifications').is(':checked'),
+                    //             deals : $('#plugin_deals_notifications').is(':checked'),
+                    //             alertes : $('#plugin_alertes_notifications').is(':checked')
+                    //         },
+                    //         smileys: save_smileys
+                    //     }
+
+                    //     noty({
+                    //         layout: 'topRight',
+                    //         type: 'success',
+                    //         text: 'Vos paramètres ont bien été enregistrés.',
+                    //         dismissQueue: true,
+                    //         timeout: 2000,
+                    //         maxVisible: 1
+                    //     });
+
+
+                    //     settingsManager._updateCb = function(){
+                    //         extension.sendMessage('update_settings', {});
+                    //         settingsManager._updateCb = null;
+                    //     }
+                    //     settingsManager.settings = newSettings;
+                    // });
+
+                //     // #plugin_tab_content .content_tab_contener
+                //     if (plugin_getParameterByName('what', location.href) == "plugin") {
+                //         setTimeout(function(){$('#plugin_tab').get(0).click();}, 20);
+                //     }
             })
         }
         else if(this.context == "background"){
