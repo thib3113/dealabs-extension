@@ -27,8 +27,11 @@
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-compress": "^1.4.1",
     "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "^3.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-json-generator": "^0.1.0",
+    "grunt-notify": "^0.4.5",
+    "handlebars": "^4.0.8",
     "selenium-webdriver": "^3.3.0",
     "versiony": "^1.4.0"
   }

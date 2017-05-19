@@ -151,7 +151,7 @@ class WebExtension{
         }.bind(this))
     }
 
-    static getNavigator(){
+    getNavigator(){
         if(navigator.userAgent.match(/Chrome/gi)){ 
             return "chrome"
         } 
@@ -160,6 +160,20 @@ class WebExtension{
         } 
         else
             throw new Error("unknown navigator "+navigator.userAgent); 
+    }
+
+    getPluginUrl(){
+        switch(this.getNavigator()){
+            case "chrome":
+                return 'https://chrome.google.com/webstore/detail/'+(extension.getManifest().name.replace(/\s+/g, "-").replace(/--/g, "-").toLowerCase())+'/'+(chrome.runtime.id)
+            break;
+            case "firefox":
+                return "https://addons.mozilla.org/fr/developers/addon/dealabs-non-officiel";
+            break;
+            default:
+                return "javascript:;";
+            break;
+        }
     }
 
     sendNotification(pOptions){

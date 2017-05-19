@@ -5,3 +5,5 @@ node_modules/
 *.zip
 
 build/
+
+src/third/handlebars\.min\.js

@@ -4,6 +4,12 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         clean: ['./build/Chrome/**', './build/Firefox/**'],
+        uglify: {
+            options : {
+                flatten: true,   // remove all unnecessary nesting
+            }, 
+            'src/third/handlebars.min.js' : ['./node_modules/handlebars/dist/handlebars.min.js', './src/third/handlebars-helper-x.js']
+        },
         compress: {
             chrome: {
                 options: {
@@ -76,32 +82,41 @@ module.exports = function (grunt) {
                 tasks: ['dev'],
             }
         },
+        notify: {
+            start: {
+                options: {
+                    message: 'Extension start compilation', //required
+                }
+            },
+            end: {
+                options: {
+                    message: 'Extension is compiled', //required
+                }
+            }
+        }
     });
+
+
+    grunt.loadNpmTasks('grunt-notify');
 
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-json-generator');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     
     grunt.registerTask('default',
         [
-            // "clean",
-            "copy:chrome",
-            "copy:firefox",
-            "json_generator:firefox",
-            "json_generator:chrome"
+            "uglify",
+            "chrome",
+            "firefox",
         ]);    
 
     grunt.registerTask('release',
         [
             "clean",
-            "copy:chrome",
-            "copy:firefox",
-            "json_generator:firefox",
-            "json_generator:chrome",
-            'compress:firefox',
-            "compress:chrome"
+            "default",
         ]);
     grunt.registerTask('firefox',
         [
@@ -120,11 +135,14 @@ module.exports = function (grunt) {
 
     grunt.registerTask("dev", 
         [
+            "notify:start",
+            "uglify",
             "clean",
             "copy:chrome",
             "copy:firefox",
             "json_generator:firefox",
-            "json_generator:chrome"
+            "json_generator:chrome",
+            "notify:end"
         ]
     );
     

@@ -212,6 +212,9 @@ class Dealabs{
                                         <a class="avatar" href="{{userlink}}">\
                                             <img src="{{useravatar}}">\
                                         </a>\
+                                        <div class="rewards">\
+                                            <a class="reward_tipsy" original-title="'+extension._("use the $navigator$ extension", extension.getNavigator())+'" href="javascript:;" rel="nofollow"><img src="https://thib3113.github.io/dealabs-extension/img/rewards_dealabs_extension.png"></a>\
+                                        </div>\
                                     </div>\
                                 </div>\
                                 <div class="comment_text_part">\
@@ -243,6 +246,7 @@ class Dealabs{
                                         </a>\
                                     </div>\
                                     <div class="rewards">\
+                                        <a class="reward_tipsy" original-title="'+extension._("use the $navigator$ extension", extension.getNavigator())+'" href="javascript:;" rel="nofollow"><img src="https://thib3113.github.io/dealabs-extension/img/rewards_dealabs_extension.png"></a>\
                                     </div>\
                                 </div>\
                             </div>\
@@ -334,6 +338,177 @@ class Dealabs{
                     </div>\
                 '
             break;
+            case "new_deal":
+                htmlTemplate = '\
+                    <div data-userscript="comment_container">\
+                        <div class="mouai">\
+                            <div id="menu_white_background_replace_float"></div>\
+                            <div id="menu_white_background">\
+                                <div class="structure white">\
+                                    <nav>\
+                            <div id="contener_type">\
+                                <a href="javascript:;" class="home"><img src="https://static.dealabs.com/images/header/ic_header_breadcrumb_home.png"></a>\
+                                <p class="separate_chemin_deal">&gt;</p>\
+                                <a class="button_chemin_deal" href="javascript:;">{{deal_type_name}}</a>\
+                                <p class="separate_chemin_deal">&gt;</p>\
+                                <a class="button_chemin_deal" href="javascript:;">{{cat}}</a>\
+                                <p class="separate_chemin_deal">&gt;</p>\
+                                <a class="button_chemin_deal" href="javascript:;">{{sub_cat}}</a>\
+                            </div>\
+                        </nav>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <article class="structure " id="deal_details">\
+                            <!-- Première partie -> Deal et posteur -->\
+                            <div class="deal_content">\
+                                <div class="detail_part">\
+                                    <div class="profil_part">\
+                                        <a class="pseudo" href="{{userlink}}" rel="nofollow">{{username}}</a>\
+                                        <div class="avatar_contener">\
+                                            <a class="avatar" href="{{userlink}}" rel="nofollow">\
+                                                <img src="{{useravatar}}">\
+                                            </a>\
+                                        </div>\
+                                        <div class="rewards">\
+                                            <a class="reward_tipsy" original-title="'+extension._("use the $navigator$ extension", extension.getNavigator())+'" href="javascript:;" rel="nofollow"><img src="https://thib3113.github.io/dealabs-extension/img/rewards_dealabs_extension.png"></a>\
+                                        </div>\
+                                    </div>\
+                                    <div class="option_part">\
+                                        <a href="javascript:;" class="button save" ></a>\
+                                        <a class="button report"></a>\
+                                        <a href="javascript:;" class="button expire"></a>\
+                                        {{#if add_calendar}}\
+                                        <a class="button add_calendar" href="javascript:;" rel="nofollow"></a>\
+                                        {{/if}}\
+                                        <div class="social">\
+                                            <div class="social_part">\
+                                                <a href="javascript:;" title="Partager via Facebook" rel="nofollow" class="icone facebook">\
+                                                    <div class="border"></div>\
+                                                </a>\
+                                            </div>\
+                                            <div class="social_part">\
+                                                <a href="javascript:;" title="Partager via Twitter" rel="nofollow" class="icone twitter">\
+                                                    <div class="border"></div>\
+                                                </a>\
+                                            </div>\
+                                            <div class="social_part">\
+                                                <a title="Partager via Google+" href="javascript:;" rel="nofollow" class="icone google">\
+                                                    <div class="border"></div>\
+                                                </a>\
+                                            </div>\
+                                            <div class="social_part">\
+                                                <a href="javascript:;" title="Partager via courriel" class="icone mail"></a>\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="deal_detail_deal_part">\
+                                    <div class="deal_title_part">\
+                                        <div class="link_to_deal_part">\
+                                            <a target="_blank" href="{{deal_url}}" class="link_to_deal {{#if instore}}instore{{/if}}" style="text-transform: uppercase;" rel="nofollow">\
+                                                {{#if instore}}'+extension._("in store")+'{{else}}'+extension._("see the deal")+'{{/if}}\
+                                            </a>\
+                                        </div>\
+                                        <div class="title_part">\
+                                            <h1 class="title">{{title}} {{#xif "deal_type != 3"}}à {{price}}{{/xif}} {{#if instore}}'+extension._("in store")+'{{/if}} @ {{storename}}</h1>\
+                                            <p class="date_deal" original-title="'+extension._("preview_name")+'">\
+                                                <img title="'+extension._("preview_name")+' " style="width: 13px; height: 13px;" src="https://static.dealabs.com/images/deals/icon_deal_published.png">\
+                                                '+extension._("preview_name")+'\
+                                            </p>\
+                                        </div>\
+                                    </div>\
+                                    <div class="deal_content_part">\
+                                        <div class="image_part">\
+                                            <div class="image_part_contener">\
+                                                <a id="image_link_to_deal" class="link_to_deal" target="_blank" href="{{deal_url}}" rel="nofollow">\
+                                                    <div id="over" style="position:absolute; width:100%; height:100%">\
+                                                        <img style="max-width:160px;max-height:160px;" alt="{{title}} {{#xif "deal_type != 3"}}à {{price}}{{/xif}} {{#if instore}}'+extension._("in store")+'{{/if}} @ {{storename}}" src="{{deal_img}}">\
+                                                    </div>\
+                                                </a>\
+                                                <!-- elements on image -->\
+                                                {{#if addon_element}}\
+                                                <div class="addon-element date">\
+                                                    <p>{{addon_element}}</p>\
+                                                </div>\
+                                                {{/if}}\
+                                                <!-- elements on image -->\
+                                                <!-- price-element -->\
+                                                <div class="price-element">\
+                                                    {{#if shipping_cost}}\
+                                                    <div class="shipping">\
+                                                        <div class="left_border"></div>\
+                                                        <img src="https://static.dealabs.com/images/deals/icon_deal_shipping.png">\
+                                                        <p>{{shipping_cost}}</p>\
+                                                    </div>\
+                                                    {{/if}}\
+                                                    <p class="price {{#if shipping_cost}}{{else}}alone{{/if}}">\
+                                                        <span class="deal_price">{{price}}</span>\
+                                                        {{#if original_cost}}\
+                                                        <span class="original_price"><s>{{original_cost}}</s> ({{percent_reduc}}%)</span>\
+                                                        {{/if}}\
+                                                    </p>\
+                                                </div>\
+                                                <!-- price-element -->\
+                                            </div>\
+                                        </div>\
+                                        <div class="vote_part">\
+                                            <div class="vote_div_deal_index">\
+                                                <div class="tube_flat_contener">\
+                                                    <div style="" class="contener_progress_bar">\
+                                                        <div class="color_fill" style="height:0%; "></div>\
+                                                        <div class="bottom_crop_round"><div class="round"></div></div>\
+                                                        <div class="top_crop_round"><div class="round"></div></div>\
+                                                    </div>\
+                                                </div>\
+                                                <div class="vote_contener">\
+                                                    <a href="javascript:;" class="vote_button up blocked"></a>\
+                                                    <div class="temperature_div ">\
+                                                        <p>new</p>\
+                                                    </div>\
+                                                    <a href="javascript:;" class="vote_button down blocked"></a>\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                        <div class="content_part">\
+                                            {{#xif "expiry_date || localisation" }}\
+                                            <div class="info_sup_div">\
+                                                {{#if expiry_date}}\
+                                                <p class="info_sup" style="margin-right:35px;"><img style="margin-top:1px;" src="https://static.dealabs.com/images/deals/icon_deal_expiredate.png"><b>'+extension._("Expire the")+' {{expiry_date}}</b></p>\
+                                                {{/if}}\
+                                                {{#if localisation}}\
+                                                <p class="info_sup"><img src="https://static.dealabs.com/images/deals/icon_deal_localization.png"><b>Localisation : {{localisation}}</b></p>\
+                                                {{/if}}\
+                                            </div>\
+                                            {{/xif}}\
+                                            {{#if voucher_code}}\
+                                            <div class="voucher_code" style="margin-bottom:20px;">\
+                                                <div class="div_right">\
+                                                    <p>'+extension._("voucher").toUpperCase()+'</p>\
+                                                </div>\
+                                                <div class="field">\
+                                                    <input type="text" name="email" value="{{voucher_code}}" readonly="">\
+                                                </div>\
+                                            </div>\
+                                            {{/if}}\
+                                            <p class="description">\
+                                                {{{commentaire}}}\
+                                            </p>\
+                                        </div>\
+                                    </div>\
+                                    <div class="deal_footer_part">\
+                                        <div id="apps_display" style="background-image:url(\'https://thib3113.github.io/dealabs-extension/img/icon.svg\');background-size: 14px;background-color: #CCC;padding: 10px;">\
+                                            <a target="blank" class="apps" href="'+extension.getPluginUrl()+'">'+extension._("preview with dealabs extension")+'</a>\
+                                        </div>\
+                                        <div id="merchant_display">\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </article>\
+                    </div>\
+                ';
+            break;
             default:
                 htmlTemplate = '';
             break;
@@ -362,9 +537,39 @@ class Dealabs{
 
             var dlbs_plugin_init = function dlbs_plugin_init(options){
                 //this function is injected, don't use vars not in the window
-                extensionId = options.extensionId;
+                var extensionId = options.extensionId;
 
                 lang = options.lang;
+
+                //add listener to check tipsy
+                window.onmessage = function(request) {
+                    if (request.data.event == "recheckTipsy"){
+                        $('.reward_tipsy').tipsy({
+                            gravity: 'n',
+                            opacity: 1
+                        });
+                        $('.like_tipsy').tipsy({
+                            gravity: 'n',
+                            opacity: 1
+                        });
+                        $('.pinned_hide').tipsy({
+                            gravity: 'w',
+                            opacity: 1
+                        });
+                        $('.pinned_explain').tipsy({
+                            gravity: 'n',
+                            opacity: 1
+                        });
+                        $('.vote_button_pinned_up').tipsy({
+                            gravity: 'e',
+                            opacity: 1
+                        });
+                        $('.vote_button_pinned_down').tipsy({
+                            gravity: 'e',
+                            opacity: 1
+                        });
+                    }
+                }
 
                 $("form").each(function(){
                     //check if this form is supported
@@ -454,7 +659,8 @@ class Dealabs{
                         "edit_comment" : "formedit_[0-9]+",
                         "new_MP" : "new_MP_form",
                         "reply_MP" : "reply_MP_form_[0-9+]",
-                        "add_thread" : "add_thread_form"
+                        "add_thread" : "add_thread_form",
+                        "new_deal" : "add_deal_form"
                     },
                     lang: {
                         preview : extension._("preview"),
@@ -530,6 +736,7 @@ class Dealabs{
 
                         switch(formType){
                             case "add_thread":
+                            case "new_deal":
                             case "new_comment":
                             case "edit_comment":
                             case "new_MP":
@@ -549,9 +756,129 @@ class Dealabs{
                                 $putContainer = $(this).parents('.padding_comment_contener');
                                 func = "before";
                             break;
+                            case "new_deal":
+                                $putContainer = $('body .structure:eq(1)');
+                                func = "prepend";
+
+                                //add vars
+                                var $form = $(this).parents("form");
+                                vars.expiredate = null;
+                                vars.localisation = null;
+                                //get deal_type
+                                vars.deal_type = parseInt($("#type_deal").val())
+                                switch(vars.deal_type){
+                                    case 1:
+                                        vars.deal_type_name = extension._("Deals"); 
+                                    break;
+                                    case 2:                                  
+                                        vars.deal_type_name = extension._("Vouchers"); 
+                                    break;
+                                    case 3:
+                                        vars.deal_type_name = extension._("Freebies");
+                                    break;
+                                }
+                                //get cat
+                                vars.cat = $('[name="category"]').find(":selected").text();
+                                vars.sub_cat = $('[name="subcategory"]').find(":selected").text();
+                                //get img
+                                vars.deal_img = $("#image_deal").attr("src");
+                                vars.title = $form.find('[name="title"]').val();
+                                vars.storename = $form.find('[name="merchant"]').val();
+                                vars.deal_url = $form.find('[name="url"]').val();
+                                vars.shipping_cost = $form.find('[name="shipping_cost"]').val();
+                                if(vars.deal_type == 3){
+                                    vars.price = extension._("Free");
+                                }
+                                else if(vars.deal_type == 2){
+                                    vars.price = $form.find('[name="discount"]').val();
+                                    switch($form.find('[name="discount_type"]').val().toLowerCase()){
+                                        case "percent":
+                                            vars.price += "%";
+                                        break;
+                                        case "euro":
+                                            vars.price += "€";
+                                        break;
+                                        case "port gratuit":
+                                            vars.price = extension._("free delivery");
+                                            vars.shipping_cost = "";
+                                        break;
+                                    }
+                                }
+                                else{
+                                    var price = parseInt($form.find('[name="price"]').val()) || 0;
+                                    vars.price = price+"€";
+                                }
+                                vars.original_cost = $form.find('[name="original_cost"]').val();
+                                if(vars.original_cost != "" && price > 0 ){
+                                    var original_cost = parseInt(vars.original_cost);
+                                    if(original_cost > 0){
+                                        vars.percent_reduc = Math.round((100-(price*100/original_cost))*-10)/10;
+                                        if(vars.percent_reduc > 0)
+                                            vars.percent_reduc = "+"+vars.percent_reduc;
+                                    }
+                                    vars.original_cost = original_cost+"€";
+                                }
+
+
+                                if(vars.shipping_cost != ""){
+                                    vars.shipping_cost = parseInt(vars.shipping_cost)==0?extension._("free"):vars.shipping_cost+"€";
+                                }
+
+                                if(vars.deal_type != 1){
+                                    //remove original_cost percent and shipping
+                                    vars.original_cost = null;
+                                    vars.percent_reduc = null;
+                                    vars.shipping_cost = null;
+                                }
+                                vars.instore = $form.find('[name="online_status"]').val()=="instore";
+                                if(vars.instore){
+                                    vars.localisation = $("#name_select_region").text();
+                                }
+                                else{
+                                    vars.localisation = $form.find('[name="foreign_country"]').val();
+                                }
+                                vars.voucher_code = $form.find('[name="code"]').val();
+                                vars.start_date = $form.find('[name="start_date"]').val();
+                                vars.expiry_date = $form.find('[name="expiry_date"]').val();
+
+                                //convert french date to date
+                                if(vars.start_date != undefined){
+                                    var start_date=vars.start_date.split("/");
+                                    start_date=new Date(start_date[1]+"/"+start_date[0]+"/"+start_date[2]);
+                                }
+                                else
+                                    start_date = new Date(0);
+                                if(vars.expiry_date != undefined){
+                                    //convert french date to date
+                                    var expiry_date=vars.expiry_date.split("/");
+                                    expiry_date=new Date(expiry_date[1]+"/"+expiry_date[0]+"/"+expiry_date[2]);
+                                }
+                                else
+                                    expiry_date = new Date(0);
+                                vars.add_calendar = (start_date > (new Date())) || (expiry_date > (new Date())); 
+
+                                //add the addon element
+                                if(!isNaN(start_date.getTime()) && start_date.getTime() == expiry_date.getTime()){
+                                    vars.addon_element = extension._("only the");
+                                }
+                                else if(start_date > new Date()){
+                                    vars.addon_element = extension._("start the");
+                                }
+                                if(vars.addon_element != undefined && vars.addon_element != "")
+                                    vars.addon_element +=  " " + ('0' + (start_date.getDate())).slice(-2) + "/" + ('0' + (start_date.getMonth()+1)).slice(-2)
+
+                                //need to add some css
+                                var link = document.createElement( "link" );
+                                link.href = "https://static.dealabs.com/css/detail_page.css?20170516";
+                                link.type = "text/css";
+                                link.rel = "stylesheet";
+                                link.dataset.pluginRole = 'preview_css';
+                                link.media = "screen,print";
+                                document.getElementsByTagName("head")[0].appendChild( link );
+                            break;
                             case "add_thread":
                                 $putContainer = $('body .structure:eq(1)');
-                                func = "before";
+                                func = "prepend";
 
                                 //add vars
                                 vars.title = $(this).parents("form").find('[name="post_title"]').val();
@@ -590,23 +917,46 @@ class Dealabs{
                             self.changeClassForSmileyAddByPlugin();
                             self.reCheckQuotes();
                             self.checkEmbedInPreview();
+                            // extension.sendMessage("recheckTipsy");
+                            window.postMessage({"event":"recheckTipsy"}, "*");
                         }
 
                         var $previewContainer = $('[data-userscript="comment_container"]');
+                        var $content;
+                        console.log($putContainer);
                         if ($previewContainer.length > 0) {
-                            $previewContainer.slideUp(500, function() {
-                                $previewContainer.hide(0);
-                                $(this).remove()
-                                $putContainer[func](self.generatePreview(commentContainer, vars, formType));
-                                $previewContainer.slideDown(500, cb);
-                            });
+                            $previewContainer.slideUp({
+                                "duration":500,
+                                "always":function(){
+                                    $(this).remove();
+                                    $content = $(self.generatePreview(commentContainer, vars, formType));
+                                    $content.hide(0);
+                                    console.log($putContainer);
+                                    $putContainer[func]($content);
+                                    $content.slideDown(500, cb);
+                                }
+                            })    
                         }
                         else {
-                            $previewContainer.hide(0);
-                            $putContainer[func](self.generatePreview(commentContainer, vars, formType));
-                            $previewContainer.slideDown(500);
-                            cb();
+                            $content = $(self.generatePreview(commentContainer, vars, formType));
+                            $content.hide(0)
+                            $putContainer[func]($content);
+                            $content.slideDown(500, cb);
                         }
+                        // if ($previewContainer.length > 0) {
+                        //     $previewContainer.slideUp(500, function() {
+                        //         $previewContainer.hide(0);
+                        //         $(this).remove()
+                        //         $putContainer[func](self.generatePreview(commentContainer, vars, formType));
+                        //         $previewContainer.slideDown(500, cb);
+                        //     });
+                        // }
+                        // else {
+                        //     $previewContainer.hide(0);
+                        //     $putContainer[func](self.generatePreview(commentContainer, vars, formType));
+                        //     $previewContainer.slideDown(500);
+                        //     cb();
+                        // }
 
                     });
 
@@ -626,17 +976,26 @@ class Dealabs{
             {
               regex : /\[img size="?([0-9]*)px"?\]([^\]]*)\[\/img\]/gi,
               html : '<img alt="" class="BBcode_image" onclick="window.open(this.src);" style="max-width:$1px;" src="$2">',
-              name : 'img'
+              name : 'img',
+              not_supported : [
+                "new_deal"
+              ]
             },
             {
               regex : /\[img size="?([0-9]*)"?\]([^\]]*)\[\/img\]/gi,
               html : '<img alt="" class="BBcode_image" onclick="window.open(this.src);" style="max-width:$1px;" src="$2">',
-              name : 'img'
+              name : 'img',
+              not_supported : [
+                "new_deal"
+              ]
             },
             {
               regex : /\[img\s*\]([^\]]*)\[\/img\]/gi,
               html : '<img alt="" class="BBcode_image" onclick="window.open(this.src);" style="max-width:300px;" src="$1">',
-              name : 'img'
+              name : 'img',
+              not_supported : [
+                "new_deal"
+              ]
             },
             {
               regex : /\[citer pseudo="?([^"]*)"?\]/gi,
@@ -649,6 +1008,7 @@ class Dealabs{
               <div class="quote_message text_color_777777">',
               name : 'quote_start',
               not_supported : [
+                "new_deal",
                 "add_thread",
                 "new_MP",
                 "reply_MP"
@@ -665,6 +1025,7 @@ class Dealabs{
               <div class="quote_message text_color_777777">',
               name : 'quote_start',
               not_supported : [
+                "new_deal",
                 "add_thread",
                 "new_MP",
                 "reply_MP"
@@ -675,6 +1036,7 @@ class Dealabs{
               html : '</div></div>',
               name : 'quote_end',
               not_supported : [
+                "new_deal",
                 "add_thread",
                 "new_MP",
                 "reply_MP"
@@ -687,6 +1049,7 @@ class Dealabs{
                     <div class="spoiler_hide text_color_777777" style="display: none;">',
               name : 'spoil_start',
               not_supported : [
+                "new_deal",
                 "new_MP",
                 "reply_MP"
               ]
@@ -696,6 +1059,7 @@ class Dealabs{
               html : '</div></div>',
               name : 'spoil_end',
               not_supported : [
+                "new_deal",
                 "new_MP",
                 "reply_MP"
               ]
@@ -910,7 +1274,7 @@ class Dealabs{
              "name" : "shocked",
              "smiley" : "(shock)"
             }
-        ]
+        ];
     }
     
 }

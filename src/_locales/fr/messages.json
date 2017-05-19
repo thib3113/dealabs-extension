@@ -138,5 +138,63 @@
    "attachment": {
       "message": "Pièce jointe",
       "description": "attachment"
+   },
+   "in_store": {
+      "message": "en magasin",
+      "description": "in store"
+   },
+   "see_the_deal": {
+      "message": "voir le deal",
+      "description": "see the deal"
+   },
+   "Deals": {
+      "message": "Bon plan",
+      "description": "deal"
+   },
+   "Vouchers": {
+      "message": "Code promo",
+      "description": "voucher"
+   },
+   "Freebies": {
+      "message": "Gratuit",
+      "description": "Freebies"
+   },
+   "preview_with_dealabs_extension": {
+      "message": "Prévisualiser via l'extension chrome.",
+      "description": "Freebies"
+   },
+   "expire_the": {
+      "message": "Expire le",
+      "description": "expire_the"
+   },
+   "free": {
+      "message": "Gratuit",
+      "description": "free"
+   },
+   "voucher": {
+      "message": "code promo",
+      "description": "voucher"
+   },
+   "free_delivery": {
+      "message": "Port gratuit",
+      "description": "free delivery"
+   },
+   "only_the": {
+      "message": "Uniquement le",
+      "description": "only the"
+   },
+   "start_the": {
+      "message": "Débute le",
+      "description": "only the"
+   },
+   "use_the_navigator_extension": {
+      "description": "text for plugin reward .",
+      "message": "Utilise le plugin $navigator$",
+      "placeholders": {
+         "navigator": {
+            "content": "$1",
+            "example": "chrome"
+         }
+      }
    }
 }

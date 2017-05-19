@@ -1,0 +1,88 @@
+Message de test de preview 
+======================
+
+[b]gras[/b]
+[i]italique[/i]
+[u]sousligner[/u]
+[s]barrer[/s]
+
+======================
+
+emoji normal :  :)
+emoji généré :  :fouet:
+
+======================
+
+Citations : 
+
+Courte : 
+[citer pseudo="test"]test[/citer]
+Course sans pseudo
+[citer]test[/citer]
+Longue : 
+[citer pseudo="test"]Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo![/citer]
+Longue sans pseudo : 
+[citer]Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo![/citer]
+Avec lien embed : 
+[citer pseudo="test"]https://www.youtube.com/watch?v=dQw4w9WgXcQ[/citer]
+
+======================
+
+Spoiler
+[spoiler]lorem ipsum[/spoiler]
+
+Spoilerecption
+[spoiler]lorem
+[spoiler]ipsum[/spoiler]
+[/spoiler]
+
+======================
+
+Up
+[up]Lorem[/up]
+
+======================
+
+image sans taille :
+[img]//i.imgur.com/Z4MJRUQ.png[/img]
+image avec taille standard double quotes :
+[img size="300px"]//i.imgur.com/Z4MJRUQ.png[/img]
+image avec taille standard sans quotes :
+[img size=300px]//i.imgur.com/Z4MJRUQ.png[/img]
+Image avec taille custom sans quotes :
+[img size=100px]//i.imgur.com/Z4MJRUQ.png[/img]
+Image avec taille custom double quotes :
+[img size="100px"]//i.imgur.com/Z4MJRUQ.png[/img]
+
+======================
+
+Liens embed : 
+
+Youtube : 
+https://www.youtube.com/watch?v=dQw4w9WgXcQ
+Youtube playlist :
+https://www.youtube.com/watch?v=5dsGWM5XGdg&list=PLwlF1uffYtXrBWkdhf9AJtrSws-djZ_aX
+Youtube commencement à un temps custom :
+https://youtu.be/dQw4w9WgXcQ?t=24s
+Dailymotion : 
+http://www.dailymotion.com/video/x5ykzv_rick-roll_music
+Soundcloud :
+https://soundcloud.com/gramatik/grizmatik-dlimf
+
+======================
+
+Balise inconnue :
+
+[code]lalalala[/code]
