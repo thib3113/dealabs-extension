@@ -1,4 +1,4 @@
-class Dealabs{
+class Dealabs{ 
     _matchAll(re, str, m){
         var retour = [];
         while ((m = re.exec(str)) !== null) {
@@ -123,6 +123,7 @@ class Dealabs{
     }
 
     initBGListeners(){
+        this.initBgTemplatePart();
         extension.onMessage("content-parse_emoticons", function(datas, cb){
             var text = datas.text;
             text = this.parseEmoticons(text);
@@ -191,7 +192,7 @@ class Dealabs{
 
     checkEmbedInPreview(){
         $('[data-userscript="comment_container"] a.link_a_reduce').each(function(){
-            EmbedLinksManager.addLink(this);
+            self.EmbedLinksManager.addLink(this);
         });
     }
 
@@ -205,737 +206,101 @@ class Dealabs{
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    generateTemplate(formType){
-        var htmlTemplate;
-
-        if(this.compiledTemplates == undefined)
-            this.compiledTemplates = {};
-
-        switch(formType){
-            case "new_comment":
-            case "edit_comment" :
-                htmlTemplate = '\
-                    <div class="padding_comment_contener" id="_userscript_preview_container" data-userscript="comment_container">\
-                            <div class="padding">\
-                                <div class="profil_part">\
-                                    <div class="avatar_contener">\
-                                        <a class="avatar" href="{{userlink}}">\
-                                            <img src="{{useravatar}}">\
-                                        </a>\
-                                        <div class="rewards">\
-                                            <a class="reward_tipsy" original-title="'+extension._("use the $navigator$ extension", extension.getNavigator())+'" href="javascript:;" rel="nofollow"><img src="https://thib3113.github.io/dealabs-extension/img/rewards_dealabs_extension.png"></a>\
-                                        </div>\
-                                    </div>\
-                                </div>\
-                                <div class="comment_text_part">\
-                                    <div class="header_comment">\
-                                        <a href="{{userlink}}" class="pseudo text_color_blue">{{username}}</a>\
-                                        <p><span>'+extension._("preview_name")+'</span></p>\
-                                    </div>\
-                                    <div>\
-                                        <div class="commentaire_div">\
-                                          {{{commentaire}}}\
-                                        </div>\
-                                    </div>\
-                                </div>\
-                            </div>\
-                        </div>\
-                    </div>\
-                ';
-            break;
-            case "add_thread" :
-                htmlTemplate = '\
-                    <article class="structure" id="deal_details">\
-                        <div class="deal_content" id="_userscript_preview_container" data-userscript="comment_container">\
-                            <div class="detail_part">\
-                                <div class="profil_part">\
-                                    <a class="pseudo" href="{{userlink}}" rel="nofollow">{{username}}</a>\
-                                    <div class="avatar_contener">\
-                                        <a class="avatar" href="{{userlink}}" rel="nofollow">\
-                                            <img src="{{useravatar}}">\
-                                        </a>\
-                                    </div>\
-                                    <div class="rewards">\
-                                        <a class="reward_tipsy" original-title="'+extension._("use the $navigator$ extension", extension.getNavigator())+'" href="javascript:;" rel="nofollow"><img src="https://thib3113.github.io/dealabs-extension/img/rewards_dealabs_extension.png"></a>\
-                                    </div>\
-                                </div>\
-                            </div>\
-                            <div class="deal_detail_deal_part">\
-                                <div class="deal_title_part">\
-                                    <div class="title_part">\
-                                        <h1 class="title">{{title}}</h1>\
-                                        <p class="date_deal" original-title="'+extension._("preview_name")+'">\
-                                            <img title="'+extension._("preview_name")+'" style="width: 13px; height: 13px;" src="https://static.dealabs.com/images/deals/icon_deal_published.png">'+extension._("preview_name")+'\
-                                        </p>\
-                                    </div>\
-                                </div>\
-                                <div class="deal_content_part">\
-                                    <div class="content_part" style="padding:0px;">\
-                                        <p class="description">\
-                                            {{{commentaire}}}\
-                                        </p>\
-                                    </div>\
-                                </div>\
-                            </div>\
-                        </div>\
-                    </article>\
-                ';
-            break;
-            case "reply_MP":
-                htmlTemplate = '\
-                    <div id="_userscript_preview_container" data-userscript="comment_container" class="content_message background_color_white">\
-                        <div class="profil_message">\
-                            <div class="image_profil">\
-                                <img src="{{useravatar}}">\
-                            </div>\
-                            <div class="right_titre_message">\
-                            </div>\
-                            <div class="info_message">\
-                                <p class="username text_color_333333">{{username}}</p>\
-                                <p class="date text_color_777777" style="float:left;">'+extension._("preview_name")+'</p>\
-                            </div>\
-                        </div>\
-                        <p class="text_color_777777 message_content_text" style="padding:15px 0px;">\
-                            {{{commentaire}}}\
-                        </p>\
-                        {{#if attachment}}\
-                        <div class="piece_jointe_div">\
-                            <div class="type_part">'+extension._("attachment")+'</div>\
-                            <div class="name_part">{{attachment}}</div>\
-                            <div class="download_part"></div>\
-                        </div>\
-                        {{/if}}\
-                    </div>\
-                ';
-            break;
-            case "new_MP":
-                htmlTemplate = '\
-                    <div data-userscript="comment_container">\
-                        <div class="content_message background_color_white" style="border:none;">\
-                            <div class="content_profil_messagerie" style="border-top:1px solid #d9d9d9; padding-bottom:0px;">\
-                                <p id="subject_thread" class="text_color_333333" style="padding-bottom:15px; border-bottom:1px solid #d9d9d9;">\
-                                    {{title}}\
-                                </p>\
-                            </div>\
-                        </div>\
-                        <div class="content_profil_messagerie" style="padding-top:0px;">\
-                            <div class="content_message background_color_white">\
-                                <div class="profil_message">\
-                                    <div class="image_profil">\
-                                        <img src="{{useravatar}}">\
-                                    </div>\
-                                    \
-                                    <div class="right_titre_message">\
-                                    </div>\
-                                    \
-                                    <div class="info_message">\
-                                        <p class="username text_color_333333">{{username}}</p>\
-                                        <p class="date text_color_777777" style="float:left;">'+extension._("preview_name")+'</p>\
-                                    </div>\
-                                </div>\
-                                <p class="text_color_777777 message_content_text" style="padding:0px 0px 15px 0px; float:left; width:100%;">\
-                                    {{{commentaire}}}\
-                                </p>\
-                                {{#if attachment}}\
-                                <div class="piece_jointe_div">\
-                                    <div class="type_part">'+extension._("attachment")+'</div>\
-                                    <div class="name_part">{{attachment}}</div>\
-                                    <div class="download_part"></div>\
-                                </div>\
-                                {{/if}}\
-                            </div>\
-                        </div>\
-                    </div>\
-                '
-            break;
-            case "new_deal":
-                htmlTemplate = '\
-                    <div data-userscript="comment_container">\
-                        <div class="mouai">\
-                            <div id="menu_white_background_replace_float"></div>\
-                            <div id="menu_white_background">\
-                                <div class="structure white">\
-                                    <nav>\
-                            <div id="contener_type">\
-                                <a href="javascript:;" class="home"><img src="https://static.dealabs.com/images/header/ic_header_breadcrumb_home.png"></a>\
-                                <p class="separate_chemin_deal">&gt;</p>\
-                                <a class="button_chemin_deal" href="javascript:;">{{deal_type_name}}</a>\
-                                <p class="separate_chemin_deal">&gt;</p>\
-                                <a class="button_chemin_deal" href="javascript:;">{{cat}}</a>\
-                                <p class="separate_chemin_deal">&gt;</p>\
-                                <a class="button_chemin_deal" href="javascript:;">{{sub_cat}}</a>\
-                            </div>\
-                        </nav>\
-                                </div>\
-                            </div>\
-                        </div>\
-                        <article class="structure " id="deal_details">\
-                            <!-- Première partie -> Deal et posteur -->\
-                            <div class="deal_content">\
-                                <div class="detail_part">\
-                                    <div class="profil_part">\
-                                        <a class="pseudo" href="{{userlink}}" rel="nofollow">{{username}}</a>\
-                                        <div class="avatar_contener">\
-                                            <a class="avatar" href="{{userlink}}" rel="nofollow">\
-                                                <img src="{{useravatar}}">\
-                                            </a>\
-                                        </div>\
-                                        <div class="rewards">\
-                                            <a class="reward_tipsy" original-title="'+extension._("use the $navigator$ extension", extension.getNavigator())+'" href="javascript:;" rel="nofollow"><img src="https://thib3113.github.io/dealabs-extension/img/rewards_dealabs_extension.png"></a>\
-                                        </div>\
-                                    </div>\
-                                    <div class="option_part">\
-                                        <a href="javascript:;" class="button save" ></a>\
-                                        <a class="button report"></a>\
-                                        <a href="javascript:;" class="button expire"></a>\
-                                        {{#if add_calendar}}\
-                                        <a class="button add_calendar" href="javascript:;" rel="nofollow"></a>\
-                                        {{/if}}\
-                                        <div class="social">\
-                                            <div class="social_part">\
-                                                <a href="javascript:;" title="Partager via Facebook" rel="nofollow" class="icone facebook">\
-                                                    <div class="border"></div>\
-                                                </a>\
-                                            </div>\
-                                            <div class="social_part">\
-                                                <a href="javascript:;" title="Partager via Twitter" rel="nofollow" class="icone twitter">\
-                                                    <div class="border"></div>\
-                                                </a>\
-                                            </div>\
-                                            <div class="social_part">\
-                                                <a title="Partager via Google+" href="javascript:;" rel="nofollow" class="icone google">\
-                                                    <div class="border"></div>\
-                                                </a>\
-                                            </div>\
-                                            <div class="social_part">\
-                                                <a href="javascript:;" title="Partager via courriel" class="icone mail"></a>\
-                                            </div>\
-                                        </div>\
-                                    </div>\
-                                </div>\
-                                <div class="deal_detail_deal_part">\
-                                    <div class="deal_title_part">\
-                                        <div class="link_to_deal_part">\
-                                            <a target="_blank" href="{{deal_url}}" class="link_to_deal {{#if instore}}instore{{/if}}" style="text-transform: uppercase;" rel="nofollow">\
-                                                {{#if instore}}'+extension._("in store")+'{{else}}'+extension._("see the deal")+'{{/if}}\
-                                            </a>\
-                                        </div>\
-                                        <div class="title_part">\
-                                            <h1 class="title">{{title}} {{#xif "deal_type != 3"}}à {{price}}{{/xif}} {{#if instore}}'+extension._("in store")+'{{/if}} @ {{storename}}</h1>\
-                                            <p class="date_deal" original-title="'+extension._("preview_name")+'">\
-                                                <img title="'+extension._("preview_name")+' " style="width: 13px; height: 13px;" src="https://static.dealabs.com/images/deals/icon_deal_published.png">\
-                                                '+extension._("preview_name")+'\
-                                            </p>\
-                                        </div>\
-                                    </div>\
-                                    <div class="deal_content_part">\
-                                        <div class="image_part">\
-                                            <div class="image_part_contener">\
-                                                <a id="image_link_to_deal" class="link_to_deal" target="_blank" href="{{deal_url}}" rel="nofollow">\
-                                                    <div id="over" style="position:absolute; width:100%; height:100%">\
-                                                        <img style="max-width:160px;max-height:160px;" alt="{{title}} {{#xif "deal_type != 3"}}à {{price}}{{/xif}} {{#if instore}}'+extension._("in store")+'{{/if}} @ {{storename}}" src="{{deal_img}}">\
-                                                    </div>\
-                                                </a>\
-                                                <!-- elements on image -->\
-                                                {{#if addon_element}}\
-                                                <div class="addon-element date">\
-                                                    <p>{{addon_element}}</p>\
-                                                </div>\
-                                                {{/if}}\
-                                                <!-- elements on image -->\
-                                                <!-- price-element -->\
-                                                <div class="price-element">\
-                                                    {{#if shipping_cost}}\
-                                                    <div class="shipping">\
-                                                        <div class="left_border"></div>\
-                                                        <img src="https://static.dealabs.com/images/deals/icon_deal_shipping.png">\
-                                                        <p>{{shipping_cost}}</p>\
-                                                    </div>\
-                                                    {{/if}}\
-                                                    <p class="price {{#if shipping_cost}}{{else}}alone{{/if}}">\
-                                                        <span class="deal_price">{{price}}</span>\
-                                                        {{#if original_cost}}\
-                                                        <span class="original_price"><s>{{original_cost}}</s> ({{percent_reduc}}%)</span>\
-                                                        {{/if}}\
-                                                    </p>\
-                                                </div>\
-                                                <!-- price-element -->\
-                                            </div>\
-                                        </div>\
-                                        <div class="vote_part">\
-                                            <div class="vote_div_deal_index">\
-                                                <div class="tube_flat_contener">\
-                                                    <div style="" class="contener_progress_bar">\
-                                                        <div class="color_fill" style="height:0%; "></div>\
-                                                        <div class="bottom_crop_round"><div class="round"></div></div>\
-                                                        <div class="top_crop_round"><div class="round"></div></div>\
-                                                    </div>\
-                                                </div>\
-                                                <div class="vote_contener">\
-                                                    <a href="javascript:;" class="vote_button up blocked"></a>\
-                                                    <div class="temperature_div ">\
-                                                        <p>new</p>\
-                                                    </div>\
-                                                    <a href="javascript:;" class="vote_button down blocked"></a>\
-                                                </div>\
-                                            </div>\
-                                        </div>\
-                                        <div class="content_part">\
-                                            {{#xif "expiry_date || localisation" }}\
-                                            <div class="info_sup_div">\
-                                                {{#if expiry_date}}\
-                                                <p class="info_sup" style="margin-right:35px;"><img style="margin-top:1px;" src="https://static.dealabs.com/images/deals/icon_deal_expiredate.png"><b>'+extension._("Expire the")+' {{expiry_date}}</b></p>\
-                                                {{/if}}\
-                                                {{#if localisation}}\
-                                                <p class="info_sup"><img src="https://static.dealabs.com/images/deals/icon_deal_localization.png"><b>Localisation : {{localisation}}</b></p>\
-                                                {{/if}}\
-                                            </div>\
-                                            {{/xif}}\
-                                            {{#if voucher_code}}\
-                                            <div class="voucher_code" style="margin-bottom:20px;">\
-                                                <div class="div_right">\
-                                                    <p>'+extension._("voucher").toUpperCase()+'</p>\
-                                                </div>\
-                                                <div class="field">\
-                                                    <input type="text" name="email" value="{{voucher_code}}" readonly="">\
-                                                </div>\
-                                            </div>\
-                                            {{/if}}\
-                                            <p class="description">\
-                                                {{{commentaire}}}\
-                                            </p>\
-                                        </div>\
-                                    </div>\
-                                    <div class="deal_footer_part">\
-                                        <div id="apps_display" style="background-image:url(\'https://thib3113.github.io/dealabs-extension/img/icon.svg\');background-size: 14px;background-color: #f5f5f5;padding: 10px;">\
-                                            <a target="blank" class="apps" href="'+extension.getPluginUrl()+'">'+extension._("preview with dealabs extension")+'</a>\
-                                        </div>\
-                                        <div id="merchant_display">\
-                                        </div>\
-                                    </div>\
-                                </div>\
-                            </div>\
-                        </article>\
-                    </div>\
-                ';
-            break;
-            default:
-                htmlTemplate = '';
-            break;
+    injectCss(css, role, link){
+        role = role || "css";
+        link = link || false;
+        if(link){
+            //need to add some css
+            var linkObj = document.createElement( "link" );
+            linkObj.href = css;
+            linkObj.type = "text/css";
+            linkObj.rel = "stylesheet";
+            linkObj.dataset.pluginRole = role;
+            linkObj.media = "screen,print";
+            document.getElementsByTagName("head")[0].appendChild( linkObj );
+        }        
+        else{
+            //need to add some css
+            var style = document.createElement( "style" );
+            style.innerText = css;
+            style.dataset.pluginRole = role;
+            document.getElementsByTagName("head")[0].appendChild( style );
         }
+    }
 
-        if(this.compiledTemplates[formType] == undefined)
-            this.compiledTemplates[formType] = Handlebars.compile(htmlTemplate);
-
-        return this.compiledTemplates[formType];
+    generateTemplate(formType, cb){
+        self.getTemplate("previews/"+formType, cb);
     }
 
     initSettingsPageListener(){
-
-    }
-
-    generateSettingsPage(){
-        Handlebars.registerPartial("customSmileyTemplate", '\
-                                    <tr>\
-                                        <td>{{#if smiley_url}}<img style="max-height:40px;" src="{{smiley_url}}" alt=":{{smiley_name}}:" />{{/if}}</td>\
-                                        <td style="padding-right: 20px;">\
-                                            <input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_url" value="{{smiley_url}}" />\
-                                        </td>\
-                                        <td style="padding-right: 20px;">\
-                                            <input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_name" value="{{smiley_name}}" />\
-                                        </td>\
-                                        <td onclick="$(this).parent(\'tr\').remove();" style="cursor:pointer;" >\
-                                            <img src="https://static.dealabs.com/images/profil/icon_profile_messages_delete.png">\
-                                        </td>\
-                                    </tr>\
-                                ');
-        var customSmileyTemplate = Handlebars.compile('{{> customSmileyTemplate smiley_url=smiley_url smiley_name=smiley_name}}');
-
-        var htmlTemplates = {
-            menu : '\
-                    <a id="plugin_tab" class="menu_div_param" href="javascript:;" onclick="tab_change_profile(0, this);">\
-                        <div class="div_tab_selector">\
-                            <p>'+extension._("extension")+'</p>\
-                            <p>'+extension._("extension settings")+'</p>\
-                        </div>\
-                    </a>\
-            ',
-            body : '\
-                <div id="plugin_tab_content" class="content_profil_param" style="display: none;">\
-                    <div class="title_tab_contener">\
-                        <p>'+extension._("extension_settings")+' ({{extension_version}})</p>\
-                        <p>'+extension._("update the extension settings .")+'</p>\
-                    </div>\
-                    <div class="content_tab_contener">\
-                        <div class="subtitle_tab_contener">\
-                            <p>'+extension._("background refresh")+'</p>\
-                        </div>\
-                        <div class="profil_param_notification border_grey_bottom">\
-                            <div class="left_profil_param_champs" style="width:50%;">\
-                                <p>'+extension._("refresh time")+'&thinsp;:</p>\
-                            </div>\
-                            <div class="content_profil_param_champs">\
-                                <div class="input_left flag">\
-                                    <select name="plugin_time_between_refresh" id="plugin_time_between_refresh">\
-                                        {{#each refresh_list}}\
-                                        <option value="{{math this "*" 1000}}" {{#if (eq this ../time_between_refresh) }}selected{{/if}}>{{this}}</option>\
-                                        {{/each}}\
-                                    </select>\
-                                </div>\
-                                <span>'+extension._("time in seconds")+'&thinsp;</span>\
-                            </div>\
-                        </div>\
-                        <div class="subtitle_tab_contener">\
-                            <p>'+extension._("notifications")+'</p>\
-                        </div>\
-                        {{#with notifications_manage}}\
-                        <div class="profil_param_notification">\
-                            <div class="left_profil_param_champs" style="width:50%;">\
-                                <p>'+extension._("notifications on desktop")+'&thinsp;:</p>\
-                            </div>\
-                            <div class="content_profil_param_champs">\
-                                <div class="input_left flag">\
-                                    <label for="plugin_desktop_notifications">\
-                                        <input type="checkbox" {{#if desktop}}checked{{/if}} value="1" id="plugin_desktop_notifications" name="plugin_desktop_notifications">\
-                                    '+extension._("yes")+'\
-                                    </label>\
-                                </div>\
-                            </div>\
-                        </div>\
-                        <div class="profil_param_notification">\
-                            <div class="left_profil_param_champs" style="width:50%;">\
-                                <p>'+extension._("deals notifications")+'&thinsp;:</p>\
-                            </div>\
-                            <div class="content_profil_param_champs">\
-                                <div class="input_left flag">\
-                                    <label for="plugin_deals_notifications">\
-                                        <input type="checkbox" {{#if deals}}checked{{/if}} value="1" id="plugin_deals_notifications" name="plugin_deals_notifications">\
-                                    '+extension._("yes")+'\
-                                    </label>\
-                                </div>\
-                            </div>\
-                        </div>\
-                        <div class="profil_param_notification">\
-                            <div class="left_profil_param_champs" style="width:50%;">\
-                                <p>'+extension._("alert notifications")+'&thinsp;:</p>\
-                            </div>\
-                            <div class="content_profil_param_champs">\
-                                <div class="input_left flag">\
-                                    <label for="plugin_alertes_notifications">\
-                                        <input type="checkbox" {{#if alertes}}checked{{/if}} value="1" id="plugin_alertes_notifications" name="plugin_alertes_notifications">\
-                                    '+extension._("yes")+'\
-                                    </label>\
-                                </div>\
-                            </div>\
-                        </div>\
-                        <div class="profil_param_notification">\
-                            <div class="left_profil_param_champs" style="width:50%;">\
-                                <p>'+extension._("pm notifications")+'&thinsp;:</p>\
-                            </div>\
-                            <div class="content_profil_param_champs">\
-                                <div class="input_left flag">\
-                                    <label for="plugin_mp_notifications">\
-                                        <input type="checkbox" {{#if MPs}}checked{{/if}} value="1" id="plugin_mp_notifications" name="plugin_mp_notifications">\
-                                    '+extension._("yes")+'\
-                                    </label>\
-                                </div>\
-                            </div>\
-                        </div>\
-                        <div class="profil_param_notification border_grey_bottom">\
-                            <div class="left_profil_param_champs" style="width:50%;">\
-                                <p>'+extension._("forum notifications")+'&thinsp;:</p>\
-                            </div>\
-                            <div class="content_profil_param_champs">\
-                                <div class="input_left flag">\
-                                    <input type="checkbox" {{#if forum}}checked{{/if}} value="1" id="plugin_forum_notifications" name="plugin_forum_notifications">\
-                                    <label for="plugin_forum_notifications">'+extension._("yes")+'</label>\
-                                </div>\
-                            </div>\
-                        </div>\
-                        {{/with}}\
-                        <div class="subtitle_tab_contener">\
-                            <p>'+extension._("UI modifications")+'</p>\
-                        </div>\
-                        <div class="profil_param_notification">\
-                            <div class="left_profil_param_champs" style="width:50%;">\
-                                <p>'+extension._("Theme")+'&thinsp;:</p>\
-                            </div>\
-                            <div class="content_profil_param_champs">\
-                                <div class="input_left flag">\
-                                    <select name="plugin_theme" id="plugin_theme">\
-                                        <option value="">'+extension._("loading")+'...</option>\
-                                    </select>\
-                                </div>\
-                            </div>\
-                        </div>\<div class="profil_param_notification border_grey_bottom">\
-                            <div class="left_profil_param_champs" style="width:50%;">\
-                                <p>'+extension._("smileys")+'&thinsp;:</p>\
-                            </div>\
-                            <div class="content_profil_param_champs">\
-                                <div class="input_left flag">\
-                                    <select name="emoticone_theme" id="emoticone_theme">\
-                                        <option value="">'+extension._("loading")+'...</option>\
-                                    </select>\
-                                </div>\
-                            </div>\
-                        </div>\
-                        <div class="subtitle_tab_contener">\
-                            <p>'+extension._("Images")+'</p>\
-                        </div>\
-                        <div class="profil_param_notification border_grey_bottom">\
-                            <div class="left_profil_param_champs" style="width:50%;">\
-                                <p>'+extension._("imgur connection")+'&thinsp;:</p>\
-                            </div>\
-                            <div class="content_profil_param_champs">\
-                                <p id="imgur-connexion">\
-                                    '+extension._("try connection to imgur")+' ...\
-                                </p>\
-                            </div>\
-                        </div>\
-                        <div class="subtitle_tab_contener">\
-                            <p>'+extension._("custom smileys")+'</p>\
-                        </div>\
-                        <div class="profil_param_notification border_grey_bottom">\
-                            <div class="left_profil_param_champs" id="plugin_smileys_list" style="width: 100%;overflow:auto;">\
-                            <div style="margin: 20px;background: #f5f5f5;padding: 10px;">\
-                                <ul style="list-style: square;">\
-                                    <li>'+extension._("for security reason, please use https images")+'</li>\
-                                    <li>'+extension._("please doesn't use special character in smileys name")+'</li>\
-                                </ul>\
-                            </div>\
-                            <table style="width: 100%;">\
-                                <thead>\
-                                    <tr>\
-                                        <th></th>\
-                                        <th>'+extension._("Url")+'</th>\
-                                        <th>'+extension._("Name")+'</th>\
-                                        <th></th>\
-                                    </tr>\
-                                </thead>\
-                                <tbody>\
-                                {{#each smileys as |smiley_url smiley_name|}}\
-                                    {{> customSmileyTemplate smiley_url=smiley_url smiley_name=smiley_name}}\
-                                {{/each}}\
-                                <tr>\
-                                    <td style="cursor:pointer;text-align: center;" colspan="4">\
-                                        <a data-plugin-role="add_new_smiley" href="javascript:;" class="validate_button_form background_color_button_green enter_validate" style="float:none; display:inline-block; margin-right:0px;">\
-                                            '+extension._("add a new smiley")+'\
-                                        </a>\
-                                    </td>\
-                                </tr>\
-                                </tbody>\
-                            </table>\
-                            </div>\
-                            <div class="content_profil_param_champs">\
-                            </div>\
-                        </div>\
-                        <div class="profil_param_validation" style="padding-top:10px;">\
-                            <a href="javascript:;" data-plugin-role="update_settings" class="validate_button_form background_color_button_blue" style="float:none; display:inline-block; margin-right:0px;">'+extension._("update settings")+'</a>\
-                        </div>\
-                        <div onClick="$(this).next(\'div\').toggle()" class="subtitle_tab_contener plugin-debug">\
-                            <p>Debug</p>\
-                        </div>\
-                        <div class="profil_param_notification border_grey_bottom plugin-debug" style="display:none;">\
-                            <div class="left_profil_param_champs" style="width:50%;">\
-                                <p>Liste des erreurs apparues&thinsp;:</p>\
-                            </div>\
-                            <div>\
-                                <textarea name="" id="debug-logs" style="width:98%">'+extension._("loading")+'...</textarea>\
-                            </div>\
-                        </div>\
-                    </div>\
-                </div>\
-            ',
-            list: '\
-                <option value="{{value}}" {{#if selected}}selected {{/if}}>{{name}}</option>\
-            '
-        }
-
-        $('#left_profil_param').append(Handlebars.compile(htmlTemplates.menu)());
-
-        $('#right_profil_param .padding_right_profil_param').append(Handlebars.compile(htmlTemplates.body)({
-            extension_version : extension.getManifest().version,
-            smileys : settingsManager.smileys,
-            refresh_list : time_between_refresh_list,
-            time_between_refresh : settingsManager.time_between_refresh/1000,
-            notifications_manage : settingsManager.notifications_manage
-        }));
-
-        $(document).on('click', '[data-plugin-role="add_new_smiley"]', function() {
-            var tpl = customSmileyTemplate({});
-            $(this).parents('tr').before(tpl);
+        //load emoticone themes
+        $(document).on('change', '#emoticone_theme', function(){
+            self.set_theme($(this).find(":selected").data("emoticone_theme"), "emoticone_theme_css");
         })
 
-        //generate async parameters
-        //check imgur API
-        imgurManager.checkConnexion(function(response){
-            if(response!=false){
-                $("#imgur-connexion").html(extension._("you are connected with account $account$", response.url));
-            }
-            else{
-                $("#imgur-connexion").html(extension._("you are not connected :")+"<em data-plugin-role=\"ask_for_imgur_token\" style=\"cursor:pointer\">"+extension._("click here")+"</em>");
-                $(document).on("click", '[data-plugin-role="ask_for_imgur_token"]', function(){
-                    imgurManager.askForToken();
-                })
-            }
-        });
-    
-        if(settingsManager.imadevelopper){
-            extension.getLogs(function(result){
-                if(result == undefined || result.logs == undefined || result.logs.length==0){
-                    $(".plugin-debug").hide();
-                    return;
-                }
+        $(document).on('change', '#plugin_theme', function(){
+            self.set_theme($(this).find(":selected").data("theme"), "theme_css");
+        })
 
-                var logs = result.logs;
-                var text = "";
-                for (var i = logs.length - 1; i >= 0; i--) {
-                    text += logs[i].stack
-                    if(i-1>=0)
-                        text+= "=================";
-                }
-                this.textarea.innerText = text;
-            }.bind({textarea:document.querySelector("#debug-logs")}))
-        }
-        else{
-            var debugElements = document.querySelectorAll(".plugin-debug");
-            for (var i = 0; i < debugElements.length; i++) {
-                debugElements[i].remove();
-            }
-        }
+        $(document).on('click', '[data-plugin-role="add_new_smiley"]', function() {
+            self.getTemplate("partials/customSmileyTemplate", function(tpl){
+                $(this).parents('tr').before(tpl());
+            }.bind(this));
+        })
+
 
         var tryToBecomeDevelopper = 0;
         $(document).on("click", '[data-plugin-role="version"]', function(){
-            if(settingsManager.imadevelopper){
-                noty({
-                    layout: 'bottomRight',
-                    type: 'warning',
-                    text: 'Vous êtes déjà un développeur ;) !',
-                    dismissQueue: true,
-                    timeout: 2000,
-                    maxVisible: 1
-                });
-                return;   
-            }
+            tryToBecomeDevelopper++;
 
-            if(++tryToBecomeDevelopper >= 7){
-                noty({
-                    layout: 'bottomRight',
-                    type: 'success',
-                    text: 'Yeahhh, vous êtes désormais considéré comme un développeur !',
-                    dismissQueue: true,
-                    timeout: 2000,
-                    maxVisible: 1
-                });
-                settingsManager.imadevelopper = true;
+            var numberToBecomeDeveloper = 7;
+
+            if(tryToBecomeDevelopper >= numberToBecomeDeveloper-3){
+                if(tryToBecomeDevelopper == numberToBecomeDeveloper && !settingsManager.imadevelopper){
+                    new Noty({
+                        type: 'success',
+                        text: extension._('Yeahhh, you are now considerate like a developer')+' <img src="https://static.dealabs.com/images/smiley/emoji_smiling.png" width="auto" height="auto" alt=":)" title=":)" class="bbcode_smiley">',
+                        killer:true
+                    }).show();
+                    settingsManager._updateCb = function(){
+                        extension.sendMessage('update_settings', {});
+                        settingsManager._updateCb = null;
+                    }
+                    settingsManager.imadevelopper = true;
+                    tryToBecomeDevelopper = 0;
+                }
+                else if(settingsManager.imadevelopper){
+                    new Noty({
+                        type: 'warning',
+                        text: extension._('You already are a developer')+' <img src="https://static.dealabs.com/images/smiley/emoji_wink.png" width="auto" height="auto" alt=";)" title=";)" class="bbcode_smiley">',
+                        killer:true
+                    }).show();
+                    return;   
+                }
+                else{
+                    new Noty({
+                        type: 'information',
+                        text: extension._('$number$ more to become a developer ', ""+(numberToBecomeDeveloper-tryToBecomeDevelopper))+' <img src="https://static.dealabs.com/images/smiley/emoji_wink.png" width="auto" height="auto" alt=";)" title=";)" class="bbcode_smiley">',
+                        killer:true
+                    }).show();
+                }
             }
         });
 
-        var asyncLists = Handlebars.compile(htmlTemplates.list);
-        //load emoticone themes
-        $('#emoticone_theme').on('change', function(){
-            update_emoticone_theme($(this).find(":selected").data("emoticone_theme"));
-        })
-        $('#emoticone_theme').html("");
-        var theme_list = [
-          {
-            "safeName" : "default",
-            "name": "Par défaut"
-          },
-        ];
-
-        try{
-            if(settingsManager.emoticone_theme.safeName != "default")
-                theme_list.append(settingsManager.emoticone_theme);
-        }
-        catch(e){
-        }
-        var $option;
-        for(name in theme_list){
-            $option = $(asyncLists({
-                value :  theme_list[name].safeName,
-                selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
-                name :  theme_list[name].name,
-            }));
-            $option.data("emoticone_theme", theme_list[name]);
-            $('#emoticone_theme').append($option);
-        }
-
-        $.ajax({
-          url: emoticone_theme_list_url,
-          dataType: "json",
-          success: function(theme_list){
-            $('#emoticone_theme').html("");
-            for(name in theme_list){
-                $option = $(asyncLists({
-                    value :  theme_list[name].safeName,
-                    selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
-                    name :  theme_list[name].name,
-                }));
-                $option.data("emoticone_theme", theme_list[name]);
-                $('#emoticone_theme').append($option);
-            }
-          }
-        });
-
-        $('#plugin_theme').on('change', function(){
-            update_theme($(this).find(":selected").data("theme"));
-        })
-        $('#plugin_theme').html("");
-        theme_list = [
-          {
-            "safeName" : "default",
-            "name": "Par défaut"
-          },
-        ];
-
-        try{
-            if(settingsManager.theme.safeName != "default")
-                theme_list.append(settingsManager.theme);
-        }
-        catch(e){
-        }
-        
-        for(name in theme_list){
-            $option = $(asyncLists({
-                value :  theme_list[name].safeName,
-                selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
-                name :  theme_list[name].name,
-            }));
-            $option.data("theme", theme_list[name]);
-            $('#plugin_theme').append($option);
-        }
-
-        $.ajax({
-          url: theme_list_url,
-          dataType: "json",
-          success: function(theme_list){
-            $('#plugin_theme').html("");
-            for(name in theme_list){
-                $option = $(asyncLists({
-                    value :  theme_list[name].safeName,
-                    selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
-                    name :  theme_list[name].name,
-                }));
-                $option.data("theme", theme_list[name]);
-                $('#plugin_theme').append($option);
-            }
-          }
-        });
 
         //update settings
         $(document).on('click', '[data-plugin-role="update_settings"]', function() {
             var save_smileys = {};
             $('#plugin_smileys_list tbody tr').each(function() {
-                smiley_url = $(this).find('[data-plugin-role="smiley_url"]').val();
+                var smiley_url = $(this).find('[data-plugin-role="smiley_url"]').val();
                 if($(this).find('[data-plugin-role="smiley_url"]').val() != undefined){
-                    smiley_name = $(this).find('[data-plugin-role="smiley_name"]').val().replace(/[^\w]/gi, "_").replace(/_+/gi, "_");
+                    var smiley_name = $(this).find('[data-plugin-role="smiley_name"]').val().replace(/[^\w]/gi, "_").replace(/_+/gi, "_");
                     if (smiley_url != "" && typeof smiley_url != "undefined" && smiley_name != "" && typeof smiley_name != "undefined")
                         save_smileys[smiley_name] = smiley_url;
                 }
             });
 
-            newSettings = {
+            var newSettings = {
                 time_between_refresh: parseInt($('#plugin_time_between_refresh').val()),
                 theme: $('#plugin_theme').find(":selected").data("theme"),
                 emoticone_theme: $('#emoticone_theme').find(":selected").data("emoticone_theme"),
@@ -949,15 +314,10 @@ class Dealabs{
                 smileys: save_smileys
             }
 
-            noty({
-                layout: 'bottomRight',
+            new Noty({
                 type: 'success',
-                text: 'Vos paramètres ont bien été enregistrés.',
-                dismissQueue: true,
-                timeout: 2000,
-                maxVisible: 1
-            });
-
+                text: 'Vos paramètres ont bien été enregistrés.'
+            }).show();
 
             settingsManager._updateCb = function(){
                 extension.sendMessage('update_settings', {});
@@ -965,13 +325,267 @@ class Dealabs{
             }
             settingsManager.settings = newSettings;
         });
+    }
+
+    set_theme(theme, type){
+        type = type || "theme_css";
+        var container_url = (type=="theme_css"?theme_url:emoticone_theme_url) 
+        //remove current nodes with same role
+        var themeAlreadyInjected = document.querySelectorAll('[data-plugin-role="'+type+'"]');
+        for (var i = 0; i < themeAlreadyInjected.length; i++) {
+            themeAlreadyInjected[i].parentNode.removeChild(themeAlreadyInjected[i]);
+        }
+
+        var url;
+        if(theme.safeName != "default"){
+            for (var i = 0; i < theme.styles.length; i++) {
+                if(theme.styles[i].urlRegex == undefined ||  window.location.pathname.match(theme.styles[i].urlRegex)){                   
+                    if(theme.styles[i].url.slice(0,5) == "https")
+                        url = theme.styles[i].url;
+                    else
+                        url = container_url+theme.styles[i].url+(theme.styles[i].version!=undefined? "?v="+theme.styles[i].version:"");
+                   
+                    self.injectCss(url, type, true);
+                }
+            }
+        }
+    }
+
+    generateThemesLists(){
+        self.getTemplate("settings/list", function(tpl){
+            var asyncLists = tpl;
+            $('#emoticone_theme').html("");
+            var theme_list = [
+              {
+                "safeName" : "default",
+                "name": "Par défaut"
+              },
+            ];
+
+            try{
+                if(settingsManager.emoticone_theme.safeName != "default")
+                    theme_list.append(settingsManager.emoticone_theme);
+            }
+            catch(e){
+            }
+            var $option;
+            for(name in theme_list){
+                $option = $(asyncLists({
+                    value :  theme_list[name].safeName,
+                    selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
+                    name :  theme_list[name].name,
+                }));
+                $option.data("emoticone_theme", theme_list[name]);
+                $('#emoticone_theme').append($option);
+            }
+
+            $.ajax({
+              url: emoticone_theme_list_url,
+              dataType: "json",
+              success: function(theme_list){
+                $('#emoticone_theme').html("");
+                for(name in theme_list){
+                    $option = $(asyncLists({
+                        value :  theme_list[name].safeName,
+                        selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
+                        name :  theme_list[name].name,
+                    }));
+                    $option.data("emoticone_theme", theme_list[name]);
+                    $('#emoticone_theme').append($option);
+                }
+              }
+            });
+    
+            $('#plugin_theme').html("");
+            theme_list = [
+              {
+                "safeName" : "default",
+                "name": "Par défaut"
+              },
+            ];
+
+            try{
+                if(settingsManager.theme.safeName != "default")
+                    theme_list.append(settingsManager.theme);
+            }
+            catch(e){
+            }
+            
+            for(name in theme_list){
+                $option = $(asyncLists({
+                    value :  theme_list[name].safeName,
+                    selected :  (settingsManager.theme.safeName == theme_list[name].safeName),
+                    name :  theme_list[name].name,
+                }));
+                $option.data("theme", theme_list[name]);
+                $('#plugin_theme').append($option);
+            }
+
+            $.ajax({
+              url: theme_list_url,
+              dataType: "json",
+              success: function(theme_list){
+                $('#plugin_theme').html("");
+                for(name in theme_list){
+                    $option = $(asyncLists({
+                        value :  theme_list[name].safeName,
+                        selected :  (settingsManager.theme.safeName == theme_list[name].safeName),
+                        name :  theme_list[name].name,
+                    }));
+                    $option.data("theme", theme_list[name]);
+                    $('#plugin_theme').append($option);
+                }
+              }
+            });
+        }.bind(this));
+    }
+
+    generateSettingsMenu(){
+        self.getTemplate("settings/menu", function(tpl){
+            $('#left_profil_param').append(tpl());
+            if(self._getParameterByName('what', location.href) == "plugin")
+                $('#plugin_tab').get(0).click();
+        });
+    }
+
+    generateSettingsPage(){
+        self.getTemplate("settings/body", function(tpl){
+            var blacklisted_thread = [];
+            var sounded_thread = [];
+            for(var thread in settingsManager.blacklist){
+                var thread_split = thread.split("-");
+                blacklisted_thread.push("https://www.dealabs.com/"+thread_split[0]+"/X/X/X/"+thread_split[1])
+            }
+            for(var thread in settingsManager.notifications_with_sound){
+                var thread_split = thread.split("-");
+                sounded_thread.push("https://www.dealabs.com/"+thread_split[0]+"/X/X/X/"+thread_split[1])
+            }
+
+            $('#right_profil_param .padding_right_profil_param').append(tpl({
+                extension_version : extension.getManifest().version,
+                smileys : settingsManager.smileys,
+                refresh_list : time_between_refresh_list,
+                time_between_refresh : settingsManager.time_between_refresh/1000,
+                notifications_manage : settingsManager.notifications_manage,
+                blacklisted_thread:blacklisted_thread,
+                sounded_thread:sounded_thread,
+            }));
+
+            //generate async parameters
+            //check imgur API
+            imgurManager.checkConnexion(function(response){
+                if(response!=false){
+                    $("#imgur-connexion").html(extension._("you are connected with account $account$", response.url));
+                }
+                else{
+                    $("#imgur-connexion").html(extension._("you are not connected :")+"<em data-plugin-role=\"ask_for_imgur_token\" style=\"cursor:pointer\">"+extension._("click here")+"</em>");
+                    $(document).on("click", '[data-plugin-role="ask_for_imgur_token"]', function(){
+                        imgurManager.askForToken();
+                    })
+                }
+            });
+        
+            if(settingsManager.imadevelopper){
+                extension.getLogs(function(result){
+                    if(result == undefined || result.logs == undefined || result.logs.length==0){
+                        $(".plugin-debug").hide();
+                        return;
+                    }
+
+                    var logs = result.logs;
+                    var text = "";
+                    for (var i = logs.length - 1; i >= 0; i--) {
+                        text += logs[i].stack
+                        if(i-1>=0)
+                            text+= "=================";
+                    }
+                    this.textarea.innerText = text;
+                }.bind({textarea:document.querySelector("#debug-logs")}))
+            }
+            else{
+                var debugElements = document.querySelectorAll(".plugin-debug");
+                for (var i = 0; i < debugElements.length; i++) {
+                    debugElements[i].remove();
+                }
+            }
+
+            self.generateThemesLists();
+            self.generateSettingsMenu();
+        }.bind(this));
 
     }
 
+    getTemplate(tplName, cb){
+        this.compiledTemplates = {}
 
+        //check if partials are loaded
+        if(!this.partialsLoaded){
+            var basicParams = arguments;
+            $.ajax({
+                url:extension.extension.getURL("assets/templates/partials/partials.json"),
+                dataType:"json",
+                success : function(response){
+                    async.each(response, function(file, cb){
+                        var partialName = basename(file, ".tpl");
+                        extension.sendMessage("getTemplate", {template:"partials/"+partialName}, function(template){
+                            var compiledTemplate = Handlebars.compile(template);
+                            Handlebars.registerPartial(partialName,template);
+                            this.compiledTemplates["partials/"+partialName] = compiledTemplate;
+                            cb(null);
+                        }.bind(this));
+                    }.bind(this),
+                    function(err){
+                        this.partialsLoaded = true;
+                        this.getTemplate.apply(this,basicParams);
+                    }.bind(this))
+                }.bind(this),
+                error:function(){
+                    throw new Error("Can't load partials.json");
+                }
+            })
+            return;
+        }
+
+        if(this.compiledTemplates[tplName] != undefined){
+            cb(this.compiledTemplates[tplName]);
+        }
+
+        extension.sendMessage("getTemplate", {template:tplName}, function(template){
+            var compiledTemplate = Handlebars.compile(template);
+            this.compiledTemplates[tplName] = compiledTemplate;
+            cb(this.compiledTemplates[tplName]);
+        }.bind(this));
+    }
+
+    initBgTemplatePart(){
+        this.templates = {};
+        // load templates
+        extension.onMessage("getTemplate", function(datas, cb){
+            var template = datas.template;
+
+            if(this.templates[template] != undefined){
+                cb(this.templates[template]);
+                return;
+            }
+            else{
+                $.ajax({
+                    url : extension.extension.getURL("assets/templates/"+template+".tpl"),
+                    type : "html",
+                    success : function(tpl){
+                        this.templates[template] = tpl;
+                        cb(tpl);
+                    }.bind(this),
+                    error : function(){
+                        cb(false)
+                    }
+                })
+            }
+            return true;
+        }.bind(this));
+    }
 
     constructor(){
-        //parse context
+        //parse context 
         if(document.location.pathname.match(/_generated_background_page.html/)){
             this.context = "background";
         }
@@ -984,6 +598,13 @@ class Dealabs{
 
         if(this.context == "content"){
             self = this;
+
+            //update theme on init
+            extension.getStorage('settings', function(value){
+                self.set_theme(value.settings.theme, "theme_css");
+                self.set_theme(value.settings.emoticone_theme, "emoticone_theme_css");
+            }, true);
+
 
             var dlbs_plugin_init = function dlbs_plugin_init(options){
                 //this function is injected, don't use vars not in the window
@@ -1038,12 +659,10 @@ class Dealabs{
                     formError = function(error, event){
                         // event.stopPropagation();
                         $('.spinner_validate').hide(0);
-                        noty({
-                            layout: 'bottomRight',
+                        new Noty({
                             type: 'error',
                             text: error,
-                            timeout: 2000,
-                        });
+                        }).show();
                     }
                     
                     //remove validate listener
@@ -1119,6 +738,16 @@ class Dealabs{
                 }
 
 
+                self.injectCss(extension.extension.getURL("assets/css/noty.css"), "lib_css", true);
+                Noty.overrideDefaults({
+                    layout   : 'bottomRight',
+                    theme    : 'relax',
+                    type     : 'success',
+                    closeWith: ['click', 'button'],
+                    progressBar: true,
+                    timeout: 5000
+                }); 
+                
                 self.injectScript("$(function(){\n\
                     var options =  JSON.parse('"+JSON.stringify(options).replace(/'/g, "&#39;")+"');\n\
                     dlbs_plugin_init(options)\n\
@@ -1140,6 +769,7 @@ class Dealabs{
                     self.pushTextInSelection(":" + nom + ":" ,textarea);
                 })
 
+                //add functions to forms
                 $("form").each(function(){
                     //check if this form is supported
                     var formType = null;
@@ -1184,6 +814,9 @@ class Dealabs{
                         var userData = $('#open_member_parameters');
                         var formType = $(this).data("preview_type");
 
+
+                        vars.navigator = extension.getNavigator();
+                        vars.plugin_url = extension.getPluginUrl();
                         switch(formType){
                             case "add_thread":
                             case "new_deal":
@@ -1207,8 +840,8 @@ class Dealabs{
                                 func = "before";
                             break;
                             case "new_deal":
-                                $putContainer = $('body .structure:eq(1)');
-                                func = "prepend";
+                                $putContainer = $('.popup_center_signalement');
+                                func = "after";
 
                                 //add vars
                                 var $form = $(this).parents("form");
@@ -1317,14 +950,7 @@ class Dealabs{
                                 if(vars.addon_element != undefined && vars.addon_element != "")
                                     vars.addon_element +=  " " + ('0' + (start_date.getDate())).slice(-2) + "/" + ('0' + (start_date.getMonth()+1)).slice(-2)
 
-                                //need to add some css
-                                var link = document.createElement( "link" );
-                                link.href = "https://static.dealabs.com/css/detail_page.css?20170516";
-                                link.type = "text/css";
-                                link.rel = "stylesheet";
-                                link.dataset.pluginRole = 'preview_css';
-                                link.media = "screen,print";
-                                document.getElementsByTagName("head")[0].appendChild( link );
+                                self.injectCss("https://static.dealabs.com/css/detail_page.css?20170516", "preview_css", true);
                             break;
                             case "add_thread":
                                 $putContainer = $('body .structure:eq(1)');
@@ -1333,14 +959,7 @@ class Dealabs{
                                 //add vars
                                 vars.title = $(this).parents("form").find('[name="post_title"]').val();
 
-                                //need to add some css
-                                var link = document.createElement( "link" );
-                                link.href = "https://static.dealabs.com/css/detail_page.css?20170516";
-                                link.type = "text/css";
-                                link.rel = "stylesheet";
-                                link.dataset.pluginRole = 'preview_css';
-                                link.media = "screen,print";
-                                document.getElementsByTagName("head")[0].appendChild( link );
+                                self.injectCss("https://static.dealabs.com/css/detail_page.css?20170516", "preview_css", true);
                             break;
                             case "new_MP":
                                 $putContainer = $('#all_contener_content_messagerie');
@@ -1360,37 +979,38 @@ class Dealabs{
                             break;
                         }
 
-                        var commentContainer = self.generateTemplate(formType);
+                        self.generateTemplate(formType, function(commentContainer){
+                            var cb = function(){
+                                //redo check
+                                self.changeClassForSmileyAddByPlugin();
+                                self.reCheckQuotes();
+                                self.checkEmbedInPreview();
+                                // extension.sendMessage("recheckTipsy");
+                                window.postMessage({"event":"recheckTipsy"}, "*");
+                            }
 
-                        var cb = function(){
-                            //redo check
-                            self.changeClassForSmileyAddByPlugin();
-                            self.reCheckQuotes();
-                            self.checkEmbedInPreview();
-                            // extension.sendMessage("recheckTipsy");
-                            window.postMessage({"event":"recheckTipsy"}, "*");
-                        }
+                            var $previewContainer = $('[data-userscript="comment_container"]');
+                            var $content;
+                            if ($previewContainer.length > 0) {
+                                $previewContainer.slideUp({
+                                    "duration":500,
+                                    "always":function(){
+                                        $(this).remove();
+                                        $content = $(self.generatePreview(commentContainer, vars, formType));
+                                        $content.hide(0);
+                                        $putContainer[func]($content);
+                                        $content.slideDown(500, cb);
+                                    }
+                                })    
+                            }
+                            else {
+                                $content = $(self.generatePreview(commentContainer, vars, formType));
+                                $content.hide(0)
+                                $putContainer[func]($content);
+                                $content.slideDown(500, cb);
+                            }
+                        });
 
-                        var $previewContainer = $('[data-userscript="comment_container"]');
-                        var $content;
-                        if ($previewContainer.length > 0) {
-                            $previewContainer.slideUp({
-                                "duration":500,
-                                "always":function(){
-                                    $(this).remove();
-                                    $content = $(self.generatePreview(commentContainer, vars, formType));
-                                    $content.hide(0);
-                                    $putContainer[func]($content);
-                                    $content.slideDown(500, cb);
-                                }
-                            })    
-                        }
-                        else {
-                            $content = $(self.generatePreview(commentContainer, vars, formType));
-                            $content.hide(0)
-                            $putContainer[func]($content);
-                            $content.slideDown(500, cb);
-                        }
                     });
 
                     $(submit_btn).after(clone);
@@ -1424,6 +1044,9 @@ class Dealabs{
                 });
 
 
+                //init embedManager
+                self.EmbedLinksManager = new Embed($('a.link_a_reduce'));
+
                 //add hour in body for styling
                 var updateHourBody = function(){
                     $("body").addClass("plugin-hour-"+(new Date().getHours()));
@@ -1434,22 +1057,18 @@ class Dealabs{
                 //add menu for sound, and menu for blacklist
                 var linkInfos, blacklist, blacklisted, notifications_with_sound
                 if(linkInfos = location.pathname.match(/^\/([^\/]+)\/.*\/([0-9]+)$/)){
-                    blacklisted =  (typeof settingsManager.blacklist[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
-                    $('#bloc_option .bloc_option_white').prepend('\
-                        <div class="button_part">\
-                            <div class="bouton_contener_border" data-plugin-link-info="'+linkInfos[1]+'-'+linkInfos[2]+'" id="plugin-blacklist-notification">\
-                                <div class="yes_part '+(blacklisted?'yes':'')+'"></div>\
-                                <div class="no_part '+(blacklisted?'':'no')+'"></div>\
-                            </div>\
-                        </div>\
-                        \
-                        <div class="title_button_part">\
-                            <p>Bloquer les notifications</p>\
-                            <p>Cacher les notifications des nouvelles réponses</p>\
-                        </div>\
-                    ');
+                    self.getTemplate("UI/yes_no", function(tpl){
+                        blacklisted =  (typeof settingsManager.blacklist[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
+                        $('#bloc_option .bloc_option_white').prepend(tpl({
+                            link_info: linkInfos[1]+'-'+linkInfos[2],
+                            role: "blacklist-notification",
+                            yes: blacklisted,
+                            title: extension._("blacklist notifications"),
+                            description: extension._("blacklist notifications from this thread")
+                        }))
+                    }.bind(this));
 
-                    $(document).on('click', '#plugin-blacklist-notification', function(e){
+                    $(document).on('click', '[data-plugin-role="blacklist-notification"]', function(e){
                         e.preventDefault();
                         e.stopPropagation();
                         blacklist = settingsManager.blacklist
@@ -1466,28 +1085,38 @@ class Dealabs{
                         }
                         settingsManager.blacklist = blacklist;
                         
-                        blacklisted = (typeof settingsManager.blacklist[$(this).data('plugin-link-info')] != "undefined");
-                        $(this).html('<div class="yes_part '+(blacklisted?'yes':'')+'"></div>\
-                                <div class="no_part '+(blacklisted?'':'no')+'"></div>');
+                        self.getTemplate("partials/yes_no", function(tpl){
+                            blacklisted = (typeof settingsManager.blacklist[$(this).data('plugin-link-info')] != "undefined");
+                            $(this).html(tpl({yes:blacklisted}));
+                        }.bind(this));
 
                         return false;
                     });
 
-                    notifications_with_sound =  (typeof settingsManager.notifications_with_sound[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
-                    $('#bloc_option .bloc_option_white').prepend('\
-                        <div class="button_part">\
-                            <div class="bouton_contener_border" data-plugin-link-info="'+linkInfos[1]+'-'+linkInfos[2]+'" id="plugin-sounded-notification">\
-                                <div class="yes_part '+(notifications_with_sound?'yes':'')+'"></div>\
-                                <div class="no_part '+(notifications_with_sound?'':'no')+'"></div>\
-                            </div>\
-                        </div>\
-                        <div class="title_button_part">\
-                            <p>Jouer un son</p>\
-                            <p>Jouer un son lors d\'une nouvelle réponse</p>\
-                        </div>\
-                    ');
+                    self.getTemplate("UI/yes_no", function(tpl){
+                        notifications_with_sound =  (typeof settingsManager.notifications_with_sound[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
+                        $('#bloc_option .bloc_option_white').prepend(tpl({
+                            link_info: linkInfos[1]+'-'+linkInfos[2],
+                            role: "sounded-notification",
+                            yes: notifications_with_sound,
+                            title: extension._("play sound"),
+                            description: extension._("play a sound when you get a new notification for this thread")
+                        }))
+                    });
+                    // $('#bloc_option .bloc_option_white').prepend('\
+                    //     <div class="button_part">\
+                    //         <div class="bouton_contener_border" data-plugin-link-info="'+linkInfos[1]+'-'+linkInfos[2]+'" id="plugin-sounded-notification">\
+                    //             <div class="yes_part '+(notifications_with_sound?'yes':'')+'"></div>\
+                    //             <div class="no_part '+(notifications_with_sound?'':'no')+'"></div>\
+                    //         </div>\
+                    //     </div>\
+                    //     <div class="title_button_part">\
+                    //         <p>Jouer un son</p>\
+                    //         <p>Jouer un son lors d\'une nouvelle réponse</p>\
+                    //     </div>\
+                    // ');
 
-                    $(document).on('click', '#plugin-sounded-notification', function(e){
+                    $(document).on('click', '[data-plugin-role="sounded-notification"]', function(e){
                         e.preventDefault();
                         e.stopPropagation();
                         notifications_with_sound = settingsManager.notifications_with_sound
@@ -1504,10 +1133,10 @@ class Dealabs{
                         }
                         settingsManager.notifications_with_sound = notifications_with_sound;
                         
-                        notifications_with_sound = (typeof settingsManager.notifications_with_sound[$(this).data('plugin-link-info')] != "undefined");
-                        $(this).html('<div class="yes_part '+(notifications_with_sound?'yes':'')+'"></div>\
-                                <div class="no_part '+(notifications_with_sound?'':'no')+'"></div>');
-
+                        self.getTemplate("partials/yes_no", function(tpl){
+                            notifications_with_sound = (typeof settingsManager.notifications_with_sound[$(this).data('plugin-link-info')] != "undefined");
+                            $(this).html(tpl({yes:notifications_with_sound}));
+                        }.bind(this));
                         return false;
                     });
                 }
@@ -1515,232 +1144,14 @@ class Dealabs{
                 //settings
                 if (self._getParameterByName('tab', location.href) == "settings") {
                     self.generateSettingsPage();
+                    self.initSettingsPageListener();
                 }
-                //     
-                //     //load version
-                //     $('[data-plugin-role="version"]').text(extension.getManifest().version);
 
-                //     //load time_between_refresh
-                //     $('#plugin_time_between_refresh').html("");
-                //     for (var i = 0; i < time_between_refresh_list.length; i++) {
-                //         $('#plugin_time_between_refresh').append('<option value="' + time_between_refresh_list[i] * 1000 + '"' + (settingsManager.time_between_refresh == time_between_refresh_list[i] * 1000 ? ' selected' : '') + '>' + time_between_refresh_list[i] + '</option>');
-                //     }
-
-                    // //check imgur API
-                    // imgurManager.checkConnexion(function(response){
-                    //     if(response!=false){
-                    //         $("#imgur-connexion").html(extension._("you are connected with account $account$", response.url));
-                    //     }
-                    //     else{
-                    //         $("#imgur-connexion").html(extension._("you are not connected :")+"<em data-plugin-role=\"ask_for_imgur_token\" style=\"cursor:pointer\">"+extension._("click here")+"</em>");
-                    //         $(document).on("click", '[data-plugin-role="ask_for_imgur_token"]', function(){
-                    //             imgurManager.askForToken();
-                    //         })
-                    //     }
-                    // });
-
-                    // if(settingsManager.imadevelopper){
-                    //     extension.getLogs(function(result){
-                    //         if(result == undefined || result.logs == undefined || result.logs.length==0){
-                    //             $(".plugin-debug").hide();
-                    //             return;
-                    //         }
-
-                    //         logs = result.logs;
-                    //         text = "";
-                    //         for (var i = logs.length - 1; i >= 0; i--) {
-                    //             text += logs[i].stack
-                    //             if(i-1>=0)
-                    //                 text+= "=================";
-                    //         }
-                    //         this.textarea.innerText = text;
-                    //     }.bind({textarea:document.querySelector("#debug-logs")}))
-                    // }
-                    // else{
-                    //     debugElements = document.querySelectorAll(".plugin-debug");
-                    //     for (var i = 0; i < debugElements.length; i++) {
-                    //         debugElements[i].remove();
-                    //     }
-                    // }
-
-                    // tryToBecomeDevelopper = 0;
-                    // $(document).on("click", '[data-plugin-role="version"]', function(){
-                    //     if(settingsManager.imadevelopper){
-                    //         noty({
-                    //             layout: 'topRight',
-                    //             type: 'warning',
-                    //             text: 'Vous êtes déjà un développeur ;) !',
-                    //             dismissQueue: true,
-                    //             timeout: 2000,
-                    //             maxVisible: 1
-                    //         });
-                    //         return;   
-                    //     }
-
-                    //     if(++tryToBecomeDevelopper >= 7){
-                    //         noty({
-                    //             layout: 'topRight',
-                    //             type: 'success',
-                    //             text: 'Yeahhh, vous êtes désormais considéré comme un développeur !',
-                    //             dismissQueue: true,
-                    //             timeout: 2000,
-                    //             maxVisible: 1
-                    //         });
-                    //         settingsManager.imadevelopper = true;
-                    //     }
-                    // })
-
-                    // //load emoticone themes
-                    // $('#emoticone_theme').on('change', function(){
-                    //     update_emoticone_theme($(this).find(":selected").data("emoticone_theme"));
-                    // })
-                    // $('#emoticone_theme').html("");
-                    // theme_list = [
-                    //   {
-                    //     "safeName" : "default",
-                    //     "name": "Par défaut"
-                    //   },
-                    // ];
-
-                    // try{
-                    //     if(settingsManager.emoticone_theme.safeName != "default")
-                    //         theme_list.append(settingsManager.emoticone_theme);
-                    // }
-                    // catch(e){
-                    // }
-                    
-                    // for(name in theme_list){
-                    //     $option = $('<option value="' + theme_list[name].safeName + '"' + (settingsManager.emoticone_theme.safeName == theme_list[name].safeName ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
-                    //     $option.data("emoticone_theme", theme_list[name]);
-                    //     $('#emoticone_theme').append($option);
-                    // }
-
-                    // $.ajax({
-                    //   url: emoticone_theme_list_url,
-                    //   dataType: "json",
-                    //   success: function(theme_list){
-                    //     $('#emoticone_theme').html("");
-                    //     for(name in theme_list){
-                    //         $option = $('<option value="' + theme_list[name].safeName + '"' + (settingsManager.emoticone_theme.safeName == theme_list[name].safeName ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
-                    //         $option.data("emoticone_theme", theme_list[name]);
-                    //         $('#emoticone_theme').append($option);
-                    //     }
-                    //   }
-                    // });
-
-                    // $('#plugin_theme').on('change', function(){
-                    //     update_theme($(this).find(":selected").data("theme"));
-                    // })
-                    // $('#plugin_theme').html("");
-                    // theme_list = [
-                    //   {
-                    //     "safeName" : "default",
-                    //     "name": "Par défaut"
-                    //   },
-                    // ];
-
-                    // try{
-                    //     if(settingsManager.theme.safeName != "default")
-                    //         theme_list.append(settingsManager.theme);
-                    // }
-                    // catch(e){
-                    // }
-                    
-                    // for(name in theme_list){
-                    //     $option = $('<option value="' + theme_list[name].safeName + '"' + (settingsManager.theme.safeName == theme_list[name].safeName ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
-                    //     $option.data("theme", theme_list[name]);
-                    //     $('#plugin_theme').append($option);
-                    // }
-
-                    // $.ajax({
-                    //   url: theme_list_url,
-                    //   dataType: "json",
-                    //   success: function(theme_list){
-                    //     $('#plugin_theme').html("");
-                    //     for(name in theme_list){
-                    //         $option = $('<option value="' + theme_list[name].safeName + '"' + (settingsManager.theme.safeName == theme_list[name].safeName ? ' selected' : '') + '>' + theme_list[name].name + '</option>');
-                    //         $option.data("theme", theme_list[name]);
-                    //         $('#plugin_theme').append($option);
-                    //     }
-                    //   }
-                    // });
-
-                //     $('#plugin_desktop_notifications').attr('checked', settingsManager.notifications_manage.desktop);
-                //     $('#plugin_deals_notifications').attr('checked', settingsManager.notifications_manage.deals);
-                //     $('#plugin_alertes_notifications').attr('checked', settingsManager.notifications_manage.alertes);
-                //     $('#plugin_mp_notifications').attr('checked', settingsManager.notifications_manage.MPs);
-                //     $('#plugin_forum_notifications').attr('checked', settingsManager.notifications_manage.forum);
-
-                //     // //load turbopix key
-                //     // $('#plugin_turbopix_key').val(settingsManager.turbopixAPIKey);
-
-                //     //load smileys
-                //     smileyTPL = '<tr><td>{{img}}</td><td style="padding-right: 20px;"><input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_url" value="{{smiley_url}}" /></td><td style="padding-right: 20px;"><input style="box-sizing: border-box;" type="text" data-plugin-role="smiley_name" value="{{smiley_name}}" /></td><td onclick="$(this).parent(\'tr\').remove();" style="cursor:pointer;" ><img src="https://static.dealabs.com/images/profil/icon_profile_messages_delete.png"></td></tr>';
-                //     $('#plugin_smileys_list tbody').html("");
-                //     smileyList = settingsManager.smileys;
-                //     for (smiley in smileyList) {
-                //         tpl = smileyTPL.replace(/{{img}}/g, '<img style="max-height:40px;" src="{{smiley_url}}" alt=":{{smiley_name}}:" />').replace(/{{smiley_url}}/g, smileyList[smiley]).replace(/{{smiley_name}}/g, smiley);
-                //         $('#plugin_smileys_list tbody').append(tpl);
-                //     }
-                //     //add plus button
-                //     $('#plugin_smileys_list tbody').append('<tr><td style="cursor:pointer;text-align: center;" colspan="4"><a data-plugin-role="add_new_smiley" href="javascript:;" class="validate_button_form background_color_button_green enter_validate" style="float:none; display:inline-block; margin-right:0px;">Ajouter un nouveau smiley</a></td></tr>')
-
-                    // $body.on('click', '[data-plugin-role="add_new_smiley"]', function() {
-                    //     $this = $(this);
-                    //     tpl = smileyTPL.replace(/{{img}}/g, "").replace(/{{smiley_url}}/g, "").replace(/{{smiley_name}}/g, "");
-                    //     $this.parents('tr').before(tpl);
-                    // })
-
-                    // //update settings
-                    // $body.on('click', '[data-plugin-role="update_settings"]', function() {
-                    //     var save_smileys = {};
-                    //     $('#plugin_smileys_list tbody tr').each(function() {
-                    //         smiley_url = $(this).find('[data-plugin-role="smiley_url"]').val();
-                    //         if($(this).find('[data-plugin-role="smiley_url"]').val() != undefined){
-                    //             smiley_name = $(this).find('[data-plugin-role="smiley_name"]').val().replace(/[^\w]/gi, "_").replace(/_+/gi, "_");
-                    //             if (smiley_url != "" && typeof smiley_url != "undefined" && smiley_name != "" && typeof smiley_name != "undefined")
-                    //                 save_smileys[smiley_name] = smiley_url;
-                    //         }
-                    //     });
-
-                    //     newSettings = {
-                    //         time_between_refresh: parseInt($('#plugin_time_between_refresh').val()),
-                    //         theme: $('#plugin_theme').find(":selected").data("theme"),
-                    //         emoticone_theme: $('#emoticone_theme').find(":selected").data("emoticone_theme"),
-                    //         notifications_manage: {
-                    //             desktop : $('#plugin_desktop_notifications').is(':checked'),
-                    //             forum : $('#plugin_forum_notifications').is(':checked'),
-                    //             MPs : $('#plugin_mp_notifications').is(':checked'),
-                    //             deals : $('#plugin_deals_notifications').is(':checked'),
-                    //             alertes : $('#plugin_alertes_notifications').is(':checked')
-                    //         },
-                    //         smileys: save_smileys
-                    //     }
-
-                    //     noty({
-                    //         layout: 'topRight',
-                    //         type: 'success',
-                    //         text: 'Vos paramètres ont bien été enregistrés.',
-                    //         dismissQueue: true,
-                    //         timeout: 2000,
-                    //         maxVisible: 1
-                    //     });
-
-
-                    //     settingsManager._updateCb = function(){
-                    //         extension.sendMessage('update_settings', {});
-                    //         settingsManager._updateCb = null;
-                    //     }
-                    //     settingsManager.settings = newSettings;
-                    // });
-
-                //     // #plugin_tab_content .content_tab_contener
-                //     if (plugin_getParameterByName('what', location.href) == "plugin") {
-                //         setTimeout(function(){$('#plugin_tab').get(0).click();}, 20);
-                //     }
             })
         }
         else if(this.context == "background"){
+            
+            this.initBgTemplatePart();
             this.initBGListeners();
         }
 

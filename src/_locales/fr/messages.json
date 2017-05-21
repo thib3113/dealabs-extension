@@ -299,6 +299,64 @@
       "message": "Ne pas utiliser de caractères spéciaux dans les noms des émoticones",
       "description": "special chars in smiley name warning"
    },
+   "You_already_are_a_developer": {
+      "message": "Vous êtes déjà un développeur",
+      "description": "you are now a developer"
+   },
+   "Yeahhh_you_are_now_considerate_like_a_developer": {
+      "message": "Yeahhh, vous êtes désormais considéré comme un développeur",
+      "description": "you are considerate like a developer"
+   }, 
+   "blacklist_notifications": {
+      "message": "Bloquer les notifications",
+      "description": "blacklisted notifications"
+   },
+   "blacklist_notifications_from_this_thread": {
+      "message": "Cacher les notifications des nouvelles réponses",
+      "description": "blacklist notifications from this thread"
+   },
+   "play_sound": {
+      "message": "Jouer un son",
+      "description": "play sound"
+   },
+   "play_a_sound_when_you_get_a_new_notification_for_this_thread": {
+      "message": "Jouer un son lors d'une nouvelle réponse",
+      "description": "play a sound when you get a new notification for this thread"
+   },
+   "no_thread_with_sound": {
+      "message": "Aucun topic n'utilise de notifications sonores",
+      "description": "no thread with sound"
+   },
+   "no_thread_blacklisted": {
+      "message": "Aucun topic n'est bloqué",
+      "description": "no thread blacklisted"
+   },
+   "List_of_threads_with_sounds": {
+      "message": "Liste des topics avec notifications sonore",
+      "description": "List of threads with sounds"
+   },
+   "notification_with_sound": {
+      "message": "Notifications sonores",
+      "description": "notification with sound"
+   },
+   "List_of_blacklisted_threads": {
+      "message": "Liste des topics avec notifications bloquées",
+      "description": "List of blacklisted threads"
+   },
+   "notification_blacklist": {
+      "message": "Notifications bloquées",
+      "description": "notification blacklist"
+   },
+   "_number_more_to_become_a_developer_": {
+      "message": "Encore $number$ pour devenir développeur",
+      "description": "number to become a developer",
+      "placeholders": {
+         "number": {
+            "content": "$1",
+            "example": "1"
+         }
+      }
+   },
    "use_the_navigator_extension": {
       "description": "text for plugin reward .",
       "message": "Utilise le plugin $navigator$",

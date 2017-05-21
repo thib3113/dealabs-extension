@@ -17,7 +17,7 @@ try{
   // GLOBAL FUNCTIONS //
   //////////////////////
   function soundAlert(){
-    audio = new Audio('sounds/alert.mp3');
+    audio = new Audio('assets/sounds/alert.mp3');
     audio.play();
     audio = null;
   }
@@ -128,6 +128,16 @@ try{
     }
   }
 
+
+  Object.size = function(obj) {
+      var size = 0,
+          key;
+      for (key in obj) {
+          if (obj.hasOwnProperty(key)) size++;
+      }
+      return size;
+  };
+
   var extractToken = function(hash) {
     var match = hash.match(/access_token=(\w+)/);
     return !!match && match[1];
@@ -167,12 +177,11 @@ try{
     $image_progress.append(oImg);
     cbFunction = function(error, response){
       failcb = function(textarea, id, error, img){
-        noty({
+        new Noty({
           layout: 'bottom',
           type: 'error',
           text: '<span style="height:100px;line-height:100px;display:inline-flex;"><span style="margin:5px">'+img+'</span> '+error+'</span>',
-          timeout: 20000
-        });
+        }).show();
 
         oldValue = $(textarea).val();
         newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+id+'\\]'), '');

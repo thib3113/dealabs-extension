@@ -86,8 +86,12 @@ class WebExtension{
         return chrome.runtime.getManifest();
     }
 
-    onMessage(message, cb){
-        this._messageListener[message] = cb;
+    onMessage(message, cb, allowExternal){
+        allowExternal = allowExternal || false;
+        this._messageListener[message] = {
+            cb : cb,
+            allowExternal : allowExternal
+        };
     }
 
     off(message){
@@ -96,8 +100,9 @@ class WebExtension{
 
     sendMessage(event, datas, cb){
         cb = cb || function(){};
+
         if(!this.isBackgroundPage) // background can't send message to background page ....
-            this._messagePort.postMessage({"event":event, datas:datas}, cb);
+            chrome.runtime.sendMessage({"event":event, "datas":datas}, cb)
         else{
             chrome.tabs.query({
                 url:chrome.runtime.getManifest().content_scripts[0].matches
@@ -224,8 +229,12 @@ class WebExtension{
     _(text){
         if(chrome.i18n == undefined)
             return text;
-
-        return this.i18n.getMessage.apply(this, arguments);
+        try{
+            return this.i18n.getMessage.apply(this, arguments);
+        }
+        catch(e){
+            debugger;
+        }
     }
 
     _n(text,number){
@@ -376,39 +385,46 @@ class WebExtension{
 
         this.isBackgroundPage = location.href.match(/chrome-extension:\/\/[a-z]+\/_generated_background_page\.html/g)!=null;
 
+        // if(this.isBackgroundPage){
+
+        //     chrome.runtime.onConnect.addListener(function(port) {
+        //         //todo !!
+        //         //cb don't exist
+        //         port.onMessage.addListener(function(msg, sender, cb) {
+        //             console.log("Receive a message "+(sender.tab ? "from a content script:" + sender.tab.url : "from the extension"));
+        //             console.log(msg);
+        //             if(this._messageListener[msg.event] != undefined){
+        //                 this._messageListener[msg.event](msg.datas, cb);
+        //             }
+        //         }.bind(this));
+        //     }.bind(this));
+        // }
+        // else{
+        // }
+        // 
+        
+        //handle request from dealabs website
         if(this.isBackgroundPage){
-            //handle request from dealabs website
             chrome.runtime.onMessageExternal.addListener(
                 function(msg, sender, sendResponse) {
                     console.log("Receive a message from a webpage : "+sender.url);
                     console.log(msg);
-                    if(this._messageListener[msg.event] != undefined){
-                        this._messageListener[msg.event](msg.datas, sendResponse);
+                    if(this._messageListener[msg.event] != undefined && this._messageListener[msg.event]["allowExternal"]){
+                        return this._messageListener[msg.event](msg.datas, sendResponse);
                     }
                 }.bind(this)
             );
+        }
 
-            chrome.runtime.onConnect.addListener(function(port) {
-                port.onMessage.addListener(function(msg, sender, cb) {
-                    console.log("Receive a message "+(sender.tab ? "from a content script:" + sender.tab.url : "from the extension"));
-                    console.log(msg);
-                    if(this._messageListener[msg.event] != undefined){
-                        this._messageListener[msg.event](msg.datas, cb);
-                    }
-                }.bind(this));
-            }.bind(this));
-        }
-        else{
-            chrome.runtime.onMessage.addListener(
-              function(msg, sender, cb) {
-                console.log("Receive a message "+(sender.tab ? "from a content script:" + sender.tab.url : "from the extension"));
-                console.log(msg);
-                if(this._messageListener[msg.event] != undefined){
-                    this._messageListener[msg.event](msg.datas, cb);
-                }
-              }.bind(this)
-            );
-        }
+        chrome.runtime.onMessage.addListener(
+          function(msg, sender, cb) {
+            console.log("Receive a message "+(sender.tab ? "from a content script:" + sender.tab.url : "from the extension"));
+            console.log(msg);
+            if(this._messageListener[msg.event] != undefined){
+                return this._messageListener[msg.event]["cb"](msg.datas, cb);
+            }
+          }.bind(this)
+        );
 
         if(chrome.tabs != undefined){
             chrome.tabs.onUpdated.addListener(function(tabId , info) {
@@ -419,12 +435,12 @@ class WebExtension{
             }.bind(this));
         }
 
-        if(!this.isBackgroundPage){
-            this._messagePort = chrome.runtime.connect({name: "message"});
-            this._messagePort.onDisconnect.addListener(function(){
-                console.log("disconnected", chrome.runtime.lastError);
-            }.bind(this))
-        }
+        // if(!this.isBackgroundPage){
+        //     this._messagePort = chrome.runtime.connect({name: "message"});
+        //     this._messagePort.onDisconnect.addListener(function(){
+        //         console.log("disconnected", chrome.runtime.lastError);
+        //     }.bind(this))
+        // }
 
         if(chrome.notifications == undefined){
             //notifications are not available

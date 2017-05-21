@@ -17,34 +17,8 @@ module.exports = function (grunt) {
             },
             prebuild : {
                 files:{
-                    'build/temp/assets/js/libs.min.js' : './build/temp/assets/js/*.js'
+                    'build/temp/assets/js/libs.min.js' : ['./build/temp/assets/js/*.js', '!./build/temp/assets/js/libs.js']
                 }
-            }
-        },
-        compress: {
-            chrome: {
-                options: {
-                    archive: './build/zip/Chrome.zip',
-                    mode: 'zip'
-                },
-                files: [{
-                    expand: true,
-                    cwd: './build/Chrome/',
-                    src: ['**'],
-                    dest: '/'
-                }]
-            },
-            firefox: {
-                options: {
-                    archive: './build/zip/Firefox.zip',
-                    mode: 'zip'
-                },
-                files: [{
-                    expand: true,
-                    cwd: './build/Firefox/',
-                    src: ['**'],
-                    dest: '/'
-                }]
             }
         },
         copy:{
@@ -131,6 +105,19 @@ module.exports = function (grunt) {
               options: merge(grunt.file.readJSON('./src/manifest.json'), grunt.file.readJSON('./src/__specific/Chrome/manifest.json'))
             }            
         },
+        filenamesToJson : {
+            options : {
+                // true if full path should be included, default is false
+                fullPath : false,
+                // true if file extension should be included, default is false 
+                extensions : true
+            },
+            // any valid glob
+            files : './build/temp/assets/templates/partials/*.tpl',
+
+            // path to write json to
+            destination : './build/temp/assets/templates/partials/partials.json'
+        },
         watch: {
             dev:{
                 files: ['src/**/*'],
@@ -148,6 +135,32 @@ module.exports = function (grunt) {
                     message: 'Extension is ready', //required
                 }
             }
+        },
+        compress: {
+            chrome: {
+                options: {
+                    archive: './build/zip/Chrome.zip',
+                    mode: 'zip'
+                },
+                files: [{
+                    expand: true,
+                    cwd: './build/Chrome/',
+                    src: ['**'],
+                    dest: '/'
+                }]
+            },
+            firefox: {
+                options: {
+                    archive: './build/zip/Firefox.zip',
+                    mode: 'zip'
+                },
+                files: [{
+                    expand: true,
+                    cwd: './build/Firefox/',
+                    src: ['**'],
+                    dest: '/'
+                }]
+            }
         }
     });
 
@@ -160,6 +173,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-newer');
+    grunt.loadNpmTasks('grunt-filenames-to-json');
     
     grunt.registerTask('default',
         [
@@ -199,6 +213,7 @@ module.exports = function (grunt) {
         [
             "newer:copy:prebuild",
             "newer:uglify:prebuild",
+            "newer:filenamesToJson",
             "copy:chrome",
             "copy:firefox",
             "json_generator:firefox",

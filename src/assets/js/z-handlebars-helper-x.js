@@ -233,7 +233,6 @@ Handlebars.registerHelper("math", function(lvalue, operator, rvalue, options) {
   }[operator];
 });
 
-
 //add compare helpers
 Handlebars.registerHelper({
   seq: function (v1, v2) {
@@ -260,5 +259,21 @@ Handlebars.registerHelper({
   },
   gte: function (v1, v2) {
     return v1 >= v2;
-  },
+  }
+});
+
+// add uppercase helper
+Handlebars.registerHelper("upper", function(text, options) {
+  return text.toUpperCase();
+});
+
+
+// add i18n helper
+Handlebars.registerHelper("_", function(text, replacements) {
+    var args = [];
+    for(var argument in arguments ){
+        if(typeof arguments[argument] == "string")
+            args.push(arguments[argument]);
+    }
+    return extension._.apply(extension, args);
 });
