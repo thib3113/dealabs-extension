@@ -1,3 +1,6 @@
+/// z at the start is to compile handlebars before
+
+
   // for detailed comments and demo, see my SO answer here http://stackoverflow.com/questions/8853396/logical-operator-in-a-handlebars-js-if-conditional/21915381#21915381
   
   /* a helper to execute an IF statement with any expression
@@ -14,7 +17,7 @@
    </p>
    */
 
-  Handlebars.registerHelper("xif", function (expression, options) {
+   Handlebars.registerHelper("xif", function (expression, options) {
     return Handlebars.helpers["x"].apply(this, [expression, options]) ? options.fn(this) : options.inverse(this);
   });
 
@@ -26,9 +29,9 @@
    <p>Url: {{x " \"hi\" + name + \", \" + window.location.href + \" <---- this is your href,\" + " your Age is:" + window.parseInt(this.age, 10) "}}</p>
    OUTPUT:
    <p>Url: hi Sam, http://example.com <---- this is your href, your Age is: 20</p>
-  */
- Handlebars.registerHelper("x", function(expression, options) {
-   var result;
+   */
+   Handlebars.registerHelper("x", function(expression, options) {
+     var result;
 
    // you can change the context, or merge it with options.data, options.hash
    var context = this;
@@ -47,8 +50,8 @@
      }).call(context); // to make eval's lexical this=context
    }
    return result;
-});
-  
+ });
+
   /* 
     if you want access upper level scope, this one is slightly different
     the expression is the JOIN of all arguments
@@ -65,24 +68,24 @@
     	{{#with address}}
         	{{z '"hi " + "' ../this.name '" + " you live with " + "' city '"' }}
        	{{/with}}
-  */
-  Handlebars.registerHelper("z", function () {
-    var options = arguments[arguments.length - 1]
-    delete arguments[arguments.length - 1];
-    return Handlebars.helpers["x"].apply(this, [Array.prototype.slice.call(arguments, 0).join(''), options]);
-  });
-  
-  Handlebars.registerHelper("zif", function () {
-    var options = arguments[arguments.length - 1]
-    delete arguments[arguments.length - 1];
-    return Handlebars.helpers["x"].apply(this, [Array.prototype.slice.call(arguments, 0).join(''), options]) ? options.fn(this) : options.inverse(this);
-  });
-  
-  
-  
+        */
+        Handlebars.registerHelper("z", function () {
+          var options = arguments[arguments.length - 1]
+          delete arguments[arguments.length - 1];
+          return Handlebars.helpers["x"].apply(this, [Array.prototype.slice.call(arguments, 0).join(''), options]);
+        });
+
+        Handlebars.registerHelper("zif", function () {
+          var options = arguments[arguments.length - 1]
+          delete arguments[arguments.length - 1];
+          return Handlebars.helpers["x"].apply(this, [Array.prototype.slice.call(arguments, 0).join(''), options]) ? options.fn(this) : options.inverse(this);
+        });
+
+
+
 /*
  More goodies since you're reading this gist.
-*/
+ */
 
 // say you have some utility object with helpful functions which you want to use inside of your handlebars templates
 
@@ -96,64 +99,64 @@ util = {
   // [IMPORTANT] THIS .prop function is REQUIRED if you want to use the handlebars helpers below, 
   // if you decide to move it somewhere else, update the helpers below accordingly
   prop: function() {
-    	if (typeof props == 'string') {
-			  props = props.split('.');
-		  }
-		  if (!props || !props.length) {
-			  return obj;
-		  }
-		  if (!obj || !Object.prototype.hasOwnProperty.call(obj, props[0])) {
-			  return null;
-		  } else {
-			  var newObj = obj[props[0]];
-			  props.shift();
-			  return util.prop(newObj, props);  
-      }
-  },
-  
+   if (typeof props == 'string') {
+     props = props.split('.');
+   }
+   if (!props || !props.length) {
+     return obj;
+   }
+   if (!obj || !Object.prototype.hasOwnProperty.call(obj, props[0])) {
+     return null;
+   } else {
+     var newObj = obj[props[0]];
+     props.shift();
+     return util.prop(newObj, props);  
+   }
+ },
+
   // some more helpers .. just examples, none is required
   isNumber: function(n) {
-		return !isNaN(parseFloat(n)) && isFinite(n);
-	},
-	daysInMonth: function (m, y) {
-		y = y || (new Date).getFullYear();
-		return /8|3|5|10/.test(m) ? 30 : m == 1 ? (!(y % 4) && y % 100) || !(y % 400) ? 29 : 28 : 31;
-	},
-	uppercaseFirstLetter: function (str) {
-		str || (str = '');
-		return str.charAt(0).toUpperCase() + str.slice(1);
-	},
-	hasNumber: function (n) {
-		return !isNaN(parseFloat(n));
-	},
-	truncate: function (str, len) {
-		if (typeof str != 'string') return str;
-		len = util.isNumber(len) ? len : 20;
-		return str.length <= len ? str : str.substr(0, len - 3) + '...';
-	}
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  },
+  daysInMonth: function (m, y) {
+    y = y || (new Date).getFullYear();
+    return /8|3|5|10/.test(m) ? 30 : m == 1 ? (!(y % 4) && y % 100) || !(y % 400) ? 29 : 28 : 31;
+  },
+  uppercaseFirstLetter: function (str) {
+    str || (str = '');
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  },
+  hasNumber: function (n) {
+    return !isNaN(parseFloat(n));
+  },
+  truncate: function (str, len) {
+    if (typeof str != 'string') return str;
+    len = util.isNumber(len) ? len : 20;
+    return str.length <= len ? str : str.substr(0, len - 3) + '...';
+  }
 };
 
 // a helper to execute any util functions and get its return
 // usage: {{u 'truncate' this.title 30}} to truncate the title 
 Handlebars.registerHelper('u', function() {
-    var key = '';
-    var args = Array.prototype.slice.call(arguments, 0);
-    
-	if (args.length) {
-        key = args[0];
+  var key = '';
+  var args = Array.prototype.slice.call(arguments, 0);
+
+  if (args.length) {
+    key = args[0];
         // delete the util[functionName] as the first element in the array
         args.shift();
         // delete the options arguments passed by handlebars, which is the last argument
         args.pop();
-    }
-	if (util.hasOwnProperty(key)) {
+      }
+      if (util.hasOwnProperty(key)) {
 	  // notice the reference to util here
-		return typeof util[key] == 'function' ?
-			util[key].apply(util, args) :
-			util[key];
-	} else {
-		log.error('util.' + key + ' is not a function nor a property');
-	}
+    return typeof util[key] == 'function' ?
+    util[key].apply(util, args) :
+    util[key];
+  } else {
+    log.error('util.' + key + ' is not a function nor a property');
+  }
 });
 
 // a helper to execute any util function as an if helper, 
@@ -173,24 +176,24 @@ Handlebars.registerHelper('uif', function() {
 // or will execute a function
 // {{g 'meta.account.foo'}} to print whatever foo returns
 Handlebars.registerHelper('g', function() {
-    var path, value;
-	if (arguments.length) {
+  var path, value;
+  if (arguments.length) {
     path = arguments[0];
     delete arguments[0];
-        
+
     // delete the options arguments passed by handlebars
     delete arguments[arguments.length - 1];
   }
   
   // notice the util.prop is required here  
-	value = util.prop(window, path);
-	if (typeof value != 'undefined' && value !== null) {
-		return typeof value == 'function' ?
-			value.apply({}, arguments) :
-			value;
-	} else {
-		log.warn('window.' + path + ' is not a function nor a property');
-	}
+  value = util.prop(window, path);
+  if (typeof value != 'undefined' && value !== null) {
+    return typeof value == 'function' ?
+    value.apply({}, arguments) :
+    value;
+  } else {
+    log.warn('window.' + path + ' is not a function nor a property');
+  }
 });
 
 // global if 
@@ -218,44 +221,44 @@ Handlebars.registerHelper('geach', function(path, options) {
 
 // add Math helper
 Handlebars.registerHelper("math", function(lvalue, operator, rvalue, options) {
-    lvalue = parseFloat(lvalue);
-    rvalue = parseFloat(rvalue);
-        
-    return {
-        "+": lvalue + rvalue,
-        "-": lvalue - rvalue,
-        "*": lvalue * rvalue,
-        "/": lvalue / rvalue,
-        "%": lvalue % rvalue
-    }[operator];
+  lvalue = parseFloat(lvalue);
+  rvalue = parseFloat(rvalue);
+
+  return {
+    "+": lvalue + rvalue,
+    "-": lvalue - rvalue,
+    "*": lvalue * rvalue,
+    "/": lvalue / rvalue,
+    "%": lvalue % rvalue
+  }[operator];
 });
 
 
 //add compare helpers
 Handlebars.registerHelper({
-    seq: function (v1, v2) {
-        return v1 === v2;
-    },
-    eq: function (v1, v2) { 
-        debugger;
-        return v1 == v2;
-    },
-    sne: function (v1, v2) {
-        return v1 !== v2;
-    },
-    ne: function (v1, v2) {
-        return v1 != v2;
-    },
-    lt: function (v1, v2) {
-        return v1 < v2;
-    },
-    gt: function (v1, v2) {
-        return v1 > v2;
-    },
-    lte: function (v1, v2) {
-        return v1 <= v2;
-    },
-    gte: function (v1, v2) {
-        return v1 >= v2;
-    },
+  seq: function (v1, v2) {
+    return v1 === v2;
+  },
+  eq: function (v1, v2) { 
+    debugger;
+    return v1 == v2;
+  },
+  sne: function (v1, v2) {
+    return v1 !== v2;
+  },
+  ne: function (v1, v2) {
+    return v1 != v2;
+  },
+  lt: function (v1, v2) {
+    return v1 < v2;
+  },
+  gt: function (v1, v2) {
+    return v1 > v2;
+  },
+  lte: function (v1, v2) {
+    return v1 <= v2;
+  },
+  gte: function (v1, v2) {
+    return v1 >= v2;
+  },
 });

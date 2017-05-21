@@ -13,19 +13,13 @@ module.exports = function (grunt) {
                 flatten: true,   // remove all unnecessary nesting
                 sourceMap: true,
                 banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-                    '<%= grunt.template.today("yyyy-mm-dd") %> */'
+                    '<%= grunt.template.today("yyyy-mm-dd") %> . This templates contain also some other libraries, see package.json for more informations . */'
             },
-            libs : {
+            prebuild : {
                 files:{
-                    'build/temp/libs.minified/libs.min.js' : './build/temp/libs/*.js'
-                }
-            },
-            helpers : {
-                files:{
-                    'build/temp/libs/zhandlebars-helpers.min.js' : ['./src/third/handlebars-helper-x.js'] //unless z is to add the file at the end
+                    'build/temp/assets/js/libs.min.js' : './build/temp/assets/js/*.js'
                 }
             }
-
         },
         compress: {
             chrome: {
@@ -54,20 +48,32 @@ module.exports = function (grunt) {
             }
         },
         copy:{
-            libs: {
+            prebuild: {
                 files: [
+                    //js
                     {
                         cwd : '.',
                         src: [
-                            './node_modules/noty/js/noty/packaged/jquery.noty.packaged.min.js', 
-                            './node_modules/async/dist/async.min.js', 
-                            './node_modules/handlebars/dist/handlebars.min.js',
-                            './node_modules/jquery/dist/jquery.min.js'
+                            './node_modules/noty/lib/noty.js', 
+                            './node_modules/async/dist/async.js', 
+                            './node_modules/handlebars/dist/handlebars.js',
+                            './node_modules/jquery/dist/jquery.js'
                         ],
                         flatten: true,
                         expand:true,
-                        dest: './build/temp/libs/'
+                        dest: './build/temp/assets/js/'
                     },
+                    //css
+                    {
+                        cwd : '.',
+                        src: [
+                            './node_modules/noty/lib/noty.css'
+                        ],
+                        flatten: true,
+                        expand:true,
+                        dest: './build/temp/assets/css/'
+                    },
+                    // fonts
                     {
                         expand: true, 
                         cwd : './node_modules/mdi/',
@@ -75,15 +81,22 @@ module.exports = function (grunt) {
                             'css/**', 
                             'fonts/**'
                         ],
-                        dest: './src/third/material-design-iconic-font/'
+                        dest: './build/temp/assets/fonts/material-design-iconic-font/'
+                    },
+                    //content from src
+                    {
+                        cwd : 'src',
+                        src: ['**', '!__specific/**'],
+                        expand: true,
+                        dest: './build/temp/'
                     }
                 ]
             },
             chrome: {
                 files: [{
                     expand: true,
-                    cwd: 'src/',
-                    src: ['**', "!__specific/**", "!third/handlebars-helper-x.js"],
+                    cwd: 'build/temp/',
+                    src: ['**'],
                     dest: './build/Chrome/'
                 },
                 {
@@ -91,19 +104,13 @@ module.exports = function (grunt) {
                     cwd: 'src/__specific/Chrome/',
                     src: ["**"],
                     dest: './build/Chrome/'
-                },
-                {
-                    expand: true,
-                    cwd: './build/temp/libs.minified/',
-                    src: ["**"],
-                    dest: './build/Chrome/third'
                 }]
             },
             firefox: {
                 files: [{
                     expand: true,
-                    cwd: 'src/',
-                    src: ['**', "!__specific/**", "!third/handlebars-helper-x.js"],
+                    cwd: 'build/temp/',
+                    src: ['**'],
                     dest: './build/Firefox/'
                 },
                 {
@@ -111,12 +118,6 @@ module.exports = function (grunt) {
                     cwd: 'src/__specific/Firefox/',
                     src: ["**"],
                     dest: './build/Firefox/'
-                },
-                {
-                    expand: true,
-                    cwd: 'build/temp/libs.minified/',
-                    src: ["**"],
-                    dest: './build/Firefox/third'
                 }]
             }
         },
@@ -144,7 +145,7 @@ module.exports = function (grunt) {
             },
             end: {
                 options: {
-                    message: 'Extension is compiled', //required
+                    message: 'Extension is ready', //required
                 }
             }
         }
@@ -158,15 +159,21 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-json-generator');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-newer');
     
     grunt.registerTask('default',
         [
-            "copy:libs",
-            "uglify:helpers",
-            "uglify:libs",
+            "prebuild",
             "chrome",
             "firefox",
         ]);    
+
+    grunt.registerTask("prebuild",
+        [
+            "clean:prebuild",
+            "copy:prebuild",
+            "newer:uglify:prebuild"
+        ])
 
     grunt.registerTask('release',
         [
@@ -190,15 +197,12 @@ module.exports = function (grunt) {
 
     grunt.registerTask("dev", 
         [
-            "copy:libs",
-            "uglify:helpers",
-            "uglify:libs",
-            "clean:prebuild",
+            "newer:copy:prebuild",
+            "newer:uglify:prebuild",
             "copy:chrome",
             "copy:firefox",
             "json_generator:firefox",
             "json_generator:chrome",
-            "clean:temp",
             "notify:end"
         ]
     );
