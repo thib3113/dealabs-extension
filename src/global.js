@@ -211,7 +211,7 @@ try{
       }
     }.bind({textarea:textarea, id:addImageInFormCounter,$image_progress:$image_progress});
 
-    $(textarea).parents(".comment_text_part_textarea").after($image_progress);
+    $(textarea).parents("form").find(".validate_form, .input_div").before($image_progress);
     cbProgress = function(evt) {
       if (evt.lengthComputable) {
         var percentComplete = evt.loaded / evt.total;

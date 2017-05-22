@@ -860,8 +860,8 @@ class Dealabs{
                                 func = "before";
                             break;
                             case "new_deal":
-                                $putContainer = $('.popup_center_signalement');
-                                func = "after";
+                                $putContainer = $("body > div.structure")
+                                func = "before";
 
                                 //add vars
                                 var $form = $(this).parents("form");
@@ -973,11 +973,15 @@ class Dealabs{
                                 self.injectCss("https://static.dealabs.com/css/detail_page.css?20170516", "preview_css", true);
                             break;
                             case "add_thread":
-                                $putContainer = $('body .structure:eq(1)');
-                                func = "prepend";
+                                $putContainer = $('body > div.structure');
+                                func = "before";
 
+                                $form =  $(this).parents("form");
                                 //add vars
-                                vars.title = $(this).parents("form").find('[name="post_title"]').val();
+                                vars.title = $form.find('[name="post_title"]').val();
+
+                                vars.cat = $form.find('[name="forum_id"]').find(":checked").text();
+                                vars.sub_cat = $form.find('[name="subforum_id"]').find(":checked").text();
 
                                 self.injectCss("https://static.dealabs.com/css/detail_page.css?20170516", "preview_css", true);
                             break;
@@ -1166,7 +1170,7 @@ class Dealabs{
                     extension.sendMessage("getImgurStatus", {}, function(response){
                         self.getTemplate("UI/imgurStatus", function(tpl){
                             $('[data-plugin-role="imgurStatus"]').remove();
-                            $(".comment_text_part_textarea").after(tpl({
+                            $(".validate_form, .input_div").before(tpl({
                                 status: response.status,
                                 time : moment.unix(response.lastTime/1000).fromNow()
                             }));
