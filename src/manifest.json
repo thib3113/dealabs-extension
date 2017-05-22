@@ -17,7 +17,7 @@
     },
     "background": {
         "scripts": [
-            "assets/js/libs.min.js",
+            "assets/js/min/libs.min.js",
             "class/WebExtension.inc.js",
             "class/FirefoxExtension.inc.js",
             "class/ChromeExtension.inc.js",
@@ -59,7 +59,7 @@
                 "*://*.dealabs.com/*.js"
             ],
             "js": [
-                "assets/js/libs.min.js",
+                "assets/js/min/libs.min.js",
                 "class/WebExtension.inc.js",
                 "class/FirefoxExtension.inc.js",
                 "class/ChromeExtension.inc.js",

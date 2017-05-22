@@ -126,7 +126,7 @@
                 <p>{{_ "imgur connection"}}&thinsp;:</p>
             </div>
             <div class="content_profil_param_champs">
-                <p id="imgur-connexion">
+                <p id="imgur-connection">
                     {{_ "try connection to imgur"}} ...
                 </p>
             </div>
@@ -178,8 +178,8 @@
             <div class="content_profil_param_champs">
                 <p id="blacklisted-threads">
                     <ul>
-                    {{#each blacklisted_thread as |url bool|}}
-                        <li><a href="{{url}}">{{url}}</a></li>
+                    {{#each blacklisted_thread as |url name|}}
+                        <li><a href="{{url}}">{{name}}</a></li>
                     {{else}}
                         <li>{{_ "no thread blacklisted"}}</li>
                     {{/each}}
@@ -197,8 +197,8 @@
             <div class="content_profil_param_champs">
                 <p id="sounded-threads">
                     <ul>
-                    {{#each sounded_thread as |url bool|}}
-                        <li><a href="{{url}}">{{url}}</a></li>
+                    {{#each sounded_thread as |url name|}}
+                        <li><a href="{{url}}">{{name}}</a></li>
                     {{else}}
                         <li>{{_ "no thread with sound"}}</li>
                     {{/each}}

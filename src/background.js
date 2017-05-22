@@ -71,12 +71,9 @@ try{
     });
 
 
-    extension.onMessage('update', function(datas){
-        if(datas!=undefined)
-            cb = datas.cb || function(){};
-        else
-            cb = function(){};
-
+    extension.onMessage('update', function(datas, cb){
+            cb = cb || function(){};
+        
         // cb = function(){
         //     extension.sendMessage('finish_update');
         // }
@@ -136,43 +133,6 @@ try{
         });
     }
 
-    // function parseUpdate(response, cb){
-    //     $page = $(response);
-    //     if($page.find('#login_blue').length > 0){
-
-    //         extension.browserAction.setTitle({title:'Vous n\'êtes pas connecté'});
-    //         extension.browserAction.setBadgeText({text:'!'});
-    //         extension.browserAction.setPopup({popup:''});
-    //         extension.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
-    //         extension.setStorage({'notifications':{}});
-    //     }
-    //     else{
-    //         extension.removeWaitFor('disconnected');
-    //         extension.stopWaitFor('connected');
-
-    //         extension.browserAction.setPopup({popup:'popup.html'});
-
-    //         //profil informations
-    //         profil = {
-    //             link : $page.find('#pseudo_right_header_contener').attr('href')
-    //         }
-    //         try{
-    //             profilInfos = profil.link.match(/\/([0-9]+)\/(.*)$/);
-    //             profil.id = profilInfos[1];
-    //             profil.name = profilInfos[2];
-    //         }
-    //         catch(e){
-    //             profil.id = null;
-    //             profil.name = null;
-    //         }
-
-    //         extension.setStorage({
-    //             profil:profil
-    //         });
-    //     }
-    //     cb();
-    // }
-
     function iconState(state){
         switch(state){
             case "connected":
@@ -188,7 +148,7 @@ try{
             break;
             case "error":
                 //here we have an error
-                extension.browserAction.setTitle({title:extension.i18n.getMessage("Connexion error")});
+                extension.browserAction.setTitle({title:extension.i18n.getMessage("Connection error")});
                 extension.browserAction.setBadgeText({text:'⚠️'});
                 extension.browserAction.setBadgeBackgroundColor({color:[255, 0, 0, 10]});
             break;
@@ -258,7 +218,6 @@ try{
                         notification_list.push(notification);
                     })
 
-                    // debugger;
                     async.parallel({
                         notifications: function(callback) {
                             var index = 5;
@@ -347,9 +306,7 @@ try{
                             notificationUpdateTimeout = setTimeout(updateNotifications, settingsManager.settings.time_between_refresh);  
                             return;
                         }
-
                         notification_list = $.merge(results.notifications, results.mps);
-
                         async.map(notification_list, 
                             function(notification,cb){
                             return_notif = {
@@ -556,6 +513,29 @@ try{
         })
     }
 
+    var checkImgurConnectionTimeout = 0;
+    var checkImgurStatus = {
+        status:false,
+        lastTime : 0
+    };
+    function checkImgurConnection(){
+        if(checkImgurConnectionTimeout!=0)
+            clearTimeout(checkImgurConnectionTimeout);
+        
+        imgurManager.checkConnection(function(response){
+            checkImgurStatus = {
+                status:(response!=false),
+                lastTime : new Date().getTime()
+            }
+            checkImgurConnectionTimeout = setTimeout(checkImgurConnection, 1000*60*15); //check every 15 minutes
+        });
+    }
+
+    extension.onMessage("getImgurStatus", function(datas, cb){
+        cb(checkImgurStatus);
+    },true)
+
+
     notificationUpdateTimeout = 0;
 
     extension.removeAllContextMenu(function(){
@@ -584,6 +564,18 @@ try{
             onclick : function(info){
                 extension.getStorage(['profil'], function(value){
                     openInTab(value.profil.link);
+                });
+            }
+        });
+        extension.addContextMenu({
+            title : 'Mes MPs',
+            id: 'myMps',
+            parentId: 'open',
+            contexts : ['browser_action'],
+            enabled:false,
+            onclick : function(info){
+                extension.getStorage(['profil'], function(value){
+                    openInTab(value.profil.link+"?tab=messaging&what=inbox");
                 });
             }
         });
@@ -655,6 +647,7 @@ try{
 
     extension.waitFor('connected', function(){
         extension.updateContextMenu("mark_all_read", {enabled:true});
+        extension.updateContextMenu("myMps", {enabled:true});
         extension.updateContextMenu("profile", {enabled:true});
         extension.updateContextMenu("refresh", {enabled:true});
     })
@@ -665,6 +658,7 @@ try{
             extension.openTab({ url: newURL });
         });
         updateNotifications();
+        checkImgurConnection();
     })
 }
 catch(e){

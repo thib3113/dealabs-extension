@@ -21,7 +21,7 @@ function Imgur(options){
         
     // }
     
-    this.checkConnexion=function(cb){
+    this.checkConnection=function(cb){
       $.ajax({
           url : 'https://api.imgur.com/3/account/me',
           dataType: 'JSON',

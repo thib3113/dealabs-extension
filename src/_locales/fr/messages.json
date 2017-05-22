@@ -11,9 +11,9 @@
       "description": "The short name of the application",
       "message": "Cette extension apporte plusieurs nouvelles fonctionnalités au site dealabs . Plus d'information sur le topic de l'extension"
    },
-   "Connexion_error":{
+   "Connection_error":{
       "description": "connexion error",
-      "message": "Une erreur de connection s'est produite"
+      "message": "Une erreur de connexion s'est produite"
    },
    "IF_NOT_REDIRECTED_OPTIONS": {
       "description": "explain what to do if the option page don't redirect",
@@ -57,7 +57,7 @@
    },
    "you_re_offline_please_check_your_internet_connection": {
       "description": "you're offline .",
-      "message": "Vous êtes hors ligne ! Merci de vérifier votre connection internet ."
+      "message": "Vous êtes hors ligne ! Merci de vérifier votre connexion internet ."
    },
    "you_are_connected_with_account_account_": {
       "description": "message if connected",
@@ -273,7 +273,7 @@
    },
    "custom_smileys": {
       "message": "Emoticones personnalisés",
-      "description": "try connection to imgur"
+      "description": "custom smileys"
    },
    "Url": {
       "message": "Url",
@@ -347,6 +347,10 @@
       "message": "Notifications bloquées",
       "description": "notification blacklist"
    },
+   "imgur_connection_status": {
+      "message": "Statut de connexion imgur",
+      "description": "imgur connection status"
+   },
    "_number_more_to_become_a_developer_": {
       "message": "Encore $number$ pour devenir développeur",
       "description": "number to become a developer",
@@ -354,6 +358,16 @@
          "number": {
             "content": "$1",
             "example": "1"
+         }
+      }
+   },
+   "connection_checked_time_ago": {
+      "message": "Connexion vérifiée $time$",
+      "description": "connection checked time ago",
+      "placeholders": {
+         "time": {
+            "content": "$1",
+            "example": "XX ago"
          }
       }
    },

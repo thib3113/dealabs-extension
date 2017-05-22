@@ -17,7 +17,7 @@ module.exports = function (grunt) {
             },
             prebuild : {
                 files:{
-                    'build/temp/assets/js/libs.min.js' : ['./build/temp/assets/js/*.js', '!./build/temp/assets/js/libs.js']
+                    'build/temp/assets/js/min/libs.min.js' : ['./build/temp/assets/js/*.js']
                 }
             }
         },
@@ -31,7 +31,8 @@ module.exports = function (grunt) {
                             './node_modules/noty/lib/noty.js', 
                             './node_modules/async/dist/async.js', 
                             './node_modules/handlebars/dist/handlebars.js',
-                            './node_modules/jquery/dist/jquery.js'
+                            './node_modules/jquery/dist/jquery.js',
+                            './node_modules/moment/min/moment-with-locales.js'
                         ],
                         flatten: true,
                         expand:true,

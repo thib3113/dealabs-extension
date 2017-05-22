@@ -94,6 +94,9 @@ try{
     settingsManager.syncSettings();
   });
 
+
+  moment.locale(extension.i18n.getUILanguage());
+
   var profilsCache = {};
   var getProfile = function(profile_id, cb){
     if(profile_id == undefined)

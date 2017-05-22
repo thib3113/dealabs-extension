@@ -139,7 +139,6 @@ class Dealabs{
         var scrollLeft = input.scrollLeft;
 
         input.focus();
-        //add smiley at cursor position
         var cursorPos = $(input).prop('selectionStart');
         var v = $(input).val()
         v = v.slice(0, input.selectionStart) + v.slice(input.selectionEnd);
@@ -450,15 +449,15 @@ class Dealabs{
 
     generateSettingsPage(){
         self.getTemplate("settings/body", function(tpl){
-            var blacklisted_thread = [];
-            var sounded_thread = [];
+            var blacklisted_thread = {};
+            var sounded_thread = {};
             for(var thread in settingsManager.blacklist){
                 var thread_split = thread.split("-");
-                blacklisted_thread.push("https://www.dealabs.com/"+thread_split[0]+"/X/X/X/"+thread_split[1])
+                blacklisted_thread[thread] = "https://www.dealabs.com/"+thread_split[0]+"/X/X/X/"+thread_split[1];
             }
             for(var thread in settingsManager.notifications_with_sound){
                 var thread_split = thread.split("-");
-                sounded_thread.push("https://www.dealabs.com/"+thread_split[0]+"/X/X/X/"+thread_split[1])
+                sounded_thread[thread] = "https://www.dealabs.com/"+thread_split[0]+"/X/X/X/"+thread_split[1];
             }
 
             $('#right_profil_param .padding_right_profil_param').append(tpl({
@@ -473,12 +472,12 @@ class Dealabs{
 
             //generate async parameters
             //check imgur API
-            imgurManager.checkConnexion(function(response){
+            imgurManager.checkConnection(function(response){
                 if(response!=false){
-                    $("#imgur-connexion").html(extension._("you are connected with account $account$", response.url));
+                    $("#imgur-connection").html(extension._("you are connected with account $account$", response.url));
                 }
                 else{
-                    $("#imgur-connexion").html(extension._("you are not connected :")+"<em data-plugin-role=\"ask_for_imgur_token\" style=\"cursor:pointer\">"+extension._("click here")+"</em>");
+                    $("#imgur-connection").html(extension._("you are not connected :")+"<em data-plugin-role=\"ask_for_imgur_token\" style=\"cursor:pointer\">"+extension._("click here")+"</em>");
                     $(document).on("click", '[data-plugin-role="ask_for_imgur_token"]', function(){
                         imgurManager.askForToken();
                     })
@@ -1141,16 +1140,29 @@ class Dealabs{
                     });
                 }
 
+                //add informations about imgur
+                var updateImgurConnectionStatus = function(){
+                    extension.sendMessage("getImgurStatus", {}, function(response){
+                        self.getTemplate("UI/imgurStatus", function(tpl){
+                            $('[data-plugin-role="imgurStatus"]').remove();
+                            $(".comment_text_part_textarea").after(tpl({
+                                status: response.status,
+                                time : moment.unix(response.lastTime/1000).fromNow()
+                            }));
+                        })
+                    })
+                    //relaunch in 30 seconds
+                    setTimeout(this, 1000*30);
+                }()
+
                 //settings
                 if (self._getParameterByName('tab', location.href) == "settings") {
                     self.generateSettingsPage();
                     self.initSettingsPageListener();
                 }
-
             })
         }
         else if(this.context == "background"){
-            
             this.initBgTemplatePart();
             this.initBGListeners();
         }
