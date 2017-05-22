@@ -32,7 +32,7 @@ class Dealabs{
         if (typeof vars.commentaire == "undefined")
             return;
 
-        vars.commentaire = this.parseEmoticons(vars.commentaire)
+        vars.commentaire = this.parseEmoticons(vars.commentaire, formType)
 
         for (var i = 0; i < this.BBcodes.length; i++) {
             if($.inArray(formType, this.BBcodes[i].not_supported) >= 0)
@@ -110,9 +110,19 @@ class Dealabs{
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
     }
 
-    parseEmoticons(text){
+    parseEmoticons(text, formType){
         if(text == undefined || text.length == 0)
             return text
+
+        var smileys_supported = false;
+        for(var bbcode of self.BBcodes){
+            if(bbcode.name == "img" && $.inArray(formType, bbcode.not_supported) < 0){
+                smileys_supported = true
+                break;
+            }
+        }
+        if(!smileys_supported)
+            return text;
 
         var current_smileys = settingsManager.smileys
         for (var nom in current_smileys) {
@@ -126,7 +136,8 @@ class Dealabs{
         this.initBgTemplatePart();
         extension.onMessage("content-parse_emoticons", function(datas, cb){
             var text = datas.text;
-            text = this.parseEmoticons(text);
+            var formType = datas.formType;
+            text = this.parseEmoticons(text, formType);
             cb({
                 success:true,
                 text:text
@@ -643,14 +654,14 @@ class Dealabs{
 
                 $("form").each(function(){
                     //check if this form is supported
-                    var supported = false;
+                    var formType = null;
 
                     for(var name in options.forms_matches){
                         if (this.name.match(new RegExp(options.forms_matches[name],"g")))
-                            supported = true
+                            formType = name;
                     }
 
-                    if(!supported)
+                    if(null == formType)
                         return;
 
 
@@ -690,7 +701,8 @@ class Dealabs{
                         chrome.runtime.sendMessage(extensionId,{
                                 "event":"content-parse_emoticons", 
                                 "datas" : {
-                                    "text":$textarea.val()
+                                    "text":$textarea.val(),
+                                    "formType":formType
                                 }
                             },
                             function(response){
@@ -703,7 +715,6 @@ class Dealabs{
 
                                 if(response.success){
                                     $textarea.val(response.text);
-                                    post_id = $form.find('[name="post_id"]');
                                     $(this).find(".spinner_validate").hide(0);
                                     //execute normal process
                                     // this._onclick();
@@ -782,18 +793,28 @@ class Dealabs{
                         return;
 
 
-                    //add the emoticons in the emoticons list
-                    $(this).find(".emoji-content, .third_part_button").each(function(index, value) {
-                        var $this = $(this);
-                        for (var title in settingsManager.smileys){
-                            var emoticon = document.createElement("a");
-                            emoticon.href = "javascript:;";
-                            emoticon.setAttribute("style", 'text-decoration:none');
-                            emoticon.dataset.role = "plugin_emoticone_add";
-                            emoticon.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + settingsManager.smileys[title] + '" alt="' + title + '"/>';
-                            $this.append(emoticon)
+                    //check if emoticons work on this field
+                    var smileys_supported = false;
+                    for(var bbcode of self.BBcodes){
+                        if(bbcode.name == "img" && $.inArray(formType, bbcode.not_supported) < 0){
+                            smileys_supported = true
+                            break;
                         }
-                    });
+                    }
+                    if(smileys_supported){
+                        //add the emoticons in the emoticons list
+                        $(this).find(".emoji-content, .third_part_button").each(function(index, value) {
+                            var $this = $(this);
+                            for (var title in settingsManager.smileys){
+                                var emoticon = document.createElement("a");
+                                emoticon.href = "javascript:;";
+                                emoticon.setAttribute("style", 'text-decoration:none');
+                                emoticon.dataset.role = "plugin_emoticone_add";
+                                emoticon.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + settingsManager.smileys[title] + '" alt="' + title + '"/>';
+                                $this.append(emoticon)
+                            }
+                        });
+                    }
 
                     var submit_btn = $(this).find(".validate_comment, .validate_button_form");
                     //generate the preview button
