@@ -351,6 +351,10 @@
       "message": "Statut de connexion imgur",
       "description": "imgur connection status"
    },
+   "never": {
+      "message": "jamais",
+      "description": "never"
+   },
    "_number_more_to_become_a_developer_": {
       "message": "Encore $number$ pour devenir développeur",
       "description": "number to become a developer",

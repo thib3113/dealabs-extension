@@ -516,7 +516,7 @@ try{
     var checkImgurConnectionTimeout = 0;
     var checkImgurStatus = {
         status:false,
-        lastTime : 0
+        lastTime : null
     };
     function checkImgurConnection(){
         if(checkImgurConnectionTimeout!=0)

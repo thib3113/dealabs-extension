@@ -1172,12 +1172,12 @@ class Dealabs{
                             $('[data-plugin-role="imgurStatus"]').remove();
                             $(".validate_form, .input_div").before(tpl({
                                 status: response.status,
-                                time : moment.unix(response.lastTime/1000).fromNow()
+                                time : (response.lastTime!=null)?moment.unix(response.lastTime/1000).fromNow():extension._("never")
                             }));
+                            //relaunch in 30 seconds
+                            setTimeout(updateImgurConnectionStatus, 1000*30);
                         })
                     })
-                    //relaunch in 30 seconds
-                    setTimeout(this, 1000*30);
                 }()
 
                 //settings
