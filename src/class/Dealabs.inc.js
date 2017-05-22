@@ -1166,7 +1166,7 @@ class Dealabs{
                 }
 
                 //add informations about imgur
-                var updateImgurConnectionStatus = function(){
+                function updateImgurConnectionStatus(){
                     extension.sendMessage("getImgurStatus", {}, function(response){
                         self.getTemplate("UI/imgurStatus", function(tpl){
                             $('[data-plugin-role="imgurStatus"]').remove();
@@ -1178,7 +1178,8 @@ class Dealabs{
                             setTimeout(updateImgurConnectionStatus, 1000*30);
                         })
                     })
-                }()
+                }
+                updateImgurConnectionStatus();
 
                 //settings
                 if (self._getParameterByName('tab', location.href) == "settings") {
@@ -1222,7 +1223,7 @@ class Dealabs{
               ]
             },
             {
-              regex : /\[citer pseudo="?([^"]*)"?\]/gi,
+              regex : /\[citer pseudo="?([^"^\]]*)"?\]/gi,
               html : '<div class="quote">\
               <div class="quote_pseudo text_color_777777">\
                   <p class="pseudo_tag">\
