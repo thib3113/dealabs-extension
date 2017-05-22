@@ -17,6 +17,8 @@ Citations :
 
 Courte : 
 [citer pseudo="test"]test[/citer]
+Courte sans double quotes : 
+[citer pseudo=test]test[/citer]
 Course sans pseudo
 [citer]test[/citer]
 Longue : 
@@ -57,8 +59,14 @@ Up
 
 image sans taille :
 [img]//i.imgur.com/Z4MJRUQ.png[/img]
+images avec espaces
+[img ]//i.imgur.com/Z4MJRUQ.png[/img]
+[img  size="300px" ]//i.imgur.com/Z4MJRUQ.png[/img]
+
 image avec taille standard double quotes :
 [img size="300px"]//i.imgur.com/Z4MJRUQ.png[/img]
+image avec taille standard sans px :
+[img size="300"]//i.imgur.com/Z4MJRUQ.png[/img]
 image avec taille standard sans quotes :
 [img size=300px]//i.imgur.com/Z4MJRUQ.png[/img]
 Image avec taille custom sans quotes :
