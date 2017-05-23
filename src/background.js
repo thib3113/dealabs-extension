@@ -1,5 +1,9 @@
 try{
-    notificationsNotified = {};
+    var notificationsNotified = {};
+    var lastUpdateRequested = {
+        imgur : new Date(0),
+        dealabs : new Date(0)
+    };
 
     dbg = {
         getSettings : function(){
@@ -73,11 +77,7 @@ try{
 
     extension.onMessage('update', function(datas, cb){
             cb = cb || function(){};
-        
-        // cb = function(){
-        //     extension.sendMessage('finish_update');
-        // }
-
+    
         try{
             if(datas.content != undefined)
                 updateNotifications(datas.content, cb);
@@ -518,7 +518,8 @@ try{
         status:false,
         lastTime : null
     };
-    function checkImgurConnection(){
+    function checkImgurConnection(cb){
+        cb = cb || function(){};
         if(checkImgurConnectionTimeout!=0)
             clearTimeout(checkImgurConnectionTimeout);
         
@@ -528,12 +529,43 @@ try{
                 lastTime : new Date().getTime()
             }
             checkImgurConnectionTimeout = setTimeout(checkImgurConnection, 1000*60*15); //check every 15 minutes
+            cb(checkImgurStatus);
         });
     }
 
     extension.onMessage("getImgurStatus", function(datas, cb){
         cb(checkImgurStatus);
-    },true)
+    },true);
+    extension.onMessage("updateImgurStatus", function(datas, cb){
+        current_date = new Date();
+        if((current_date - lastUpdateRequested.imgur)/1000 < 10 ){
+            cb({
+                success:false,
+                error:extension._(
+                    "please wait $time$s before refresh",
+                    moment.duration(
+                        Math.ceil(
+                            10 - (current_date - lastUpdateRequested.imgur)/1000
+                        )
+                    ,"seconds").format("mm[m]ss[s]", {forceLength:false})
+                )
+            });
+            return;
+        }
+        else{
+            //update to block fast dbl click
+            lastUpdateRequested.imgur = new Date();
+        }
+
+        checkImgurConnection(function(status){
+            lastUpdateRequested.imgur = new Date();
+            cb({
+                success:true,
+                status:status
+            });
+        }.bind(this));
+        return true;
+    },true);
 
 
     notificationUpdateTimeout = 0;
@@ -664,9 +696,12 @@ try{
 catch(e){
     try{
         extension.log(e.message, e.stack);
+
+        //try to popup error
+        extension.sendMessage("criticalError", {message:"Error from background page :<br>"+e.message});
     }
     catch(err){
-        console.error(e);
+        console.error(err);
     }
     finally{
         throw e;

@@ -18,6 +18,7 @@
     "background": {
         "scripts": [
             "assets/js/min/libs.min.js",
+            "class/EventEmitter.inc.js",
             "class/WebExtension.inc.js",
             "class/FirefoxExtension.inc.js",
             "class/ChromeExtension.inc.js",
@@ -60,6 +61,7 @@
             ],
             "js": [
                 "assets/js/min/libs.min.js",
+                "class/EventEmitter.inc.js",
                 "class/WebExtension.inc.js",
                 "class/FirefoxExtension.inc.js",
                 "class/ChromeExtension.inc.js",

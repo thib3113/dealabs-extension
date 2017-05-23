@@ -154,7 +154,7 @@ function Imgur(options){
             if(response.success){
               //use current http scheme
               response.data.link = response.data.link.replace(/^https?\:/i, "");
-              this.cb(null, response.data)
+              this.cb(null, response.data.link)
             }
             else{
               //try reading errors

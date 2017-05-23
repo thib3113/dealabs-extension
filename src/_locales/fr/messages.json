@@ -131,8 +131,8 @@
       "message": "Previsualisation",
       "description": "Preview name"
    },
-   "an_image_is_uploading_please_wait_a_little": {
-      "message": "Une image est en cours d'upload, merci d'attendre qu'elle soit envoyée",
+   "an_image_is_uploading_you_r_form_will_be_automatically_send_after": {
+      "message": "Une image est en cours d'upload, votre formulaire sera envoyé automatiquement après !",
       "description": "message to wait image upload"
    },
    "attachment": {
@@ -355,6 +355,34 @@
       "message": "jamais",
       "description": "never"
    },
+   "refresh": {
+      "message": "Rafraichir",
+      "description": "refresh"
+   },
+   "unknown_error": {
+      "message": "Erreur inconnue",
+      "description": "unknown error"
+   },
+   "imgur_status_up_to_date": {
+      "message": "Statut de connexion imgur mis à jour",
+      "description": "imgur status up to date"
+   },
+   "image_waiting_upload": {
+      "message": "image en cours d'envoie",
+      "description": "image waiting upload"
+   },
+   "error": {
+      "message": "Erreur",
+      "description": "error"
+   },
+   "retry": {
+      "message": "Réessayer",
+      "description": "retry"
+   },
+   "abort": {
+      "message": "Abandonner",
+      "description": "abort"
+   },
    "_number_more_to_become_a_developer_": {
       "message": "Encore $number$ pour devenir développeur",
       "description": "number to become a developer",
@@ -362,6 +390,16 @@
          "number": {
             "content": "$1",
             "example": "1"
+         }
+      }
+   },
+   "please_wait_time_s_before_refresh": {
+      "message": "Merci d'attendre $time$ avant de rafraichir",
+      "description": "please wait $time$s before refresh",
+      "placeholders": {
+         "time": {
+            "content": "$1",
+            "example": "2s"
          }
       }
    },

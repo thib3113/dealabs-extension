@@ -18,55 +18,55 @@ try{
         (document.body || document.head || document.documentElement).appendChild(script);
     }
  
-    $(function() {
-        $('body').on('paste drop', 'textarea', function(e){
-            reUpload = e.ctrlKey;
+    // $(function() {
+    //     $('body').on('paste drop', 'textarea', function(e){
+    //         reUpload = e.ctrlKey;
 
-            if(e.type == "paste"){
-                var items = (e.clipboardData || e.originalEvent.clipboardData).items;
-            }
-            else if(e.type == "drop"){
-                e.stopPropagation();
-                e.preventDefault();
+    //         if(e.type == "paste"){
+    //             var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+    //         }
+    //         else if(e.type == "drop"){
+    //             e.stopPropagation();
+    //             e.preventDefault();
                 
-                var items = (e.dataTransfer || e.originalEvent.dataTransfer).items;
-            }
-            else{
-                alert("error");
-            }
-            for (index in items) {
-                var item = items[index];
-                if (item.type != undefined && item.type.indexOf("image") !== -1) {
-                    blob = item.getAsFile(); 
-                    addImageInForm(this, blob, $(this).prop('selectionStart'), true);
-                }
-                if (item.kind === "string"){
-                    item.getAsString(function(str) {
-                        try{
-                            is_image = $(str).is('img');
-                        }
-                        catch(e){
-                            is_image = false;
-                        }
+    //             var items = (e.dataTransfer || e.originalEvent.dataTransfer).items;
+    //         }
+    //         else{
+    //             alert("error");
+    //         }
+    //         for (index in items) {
+    //             var item = items[index];
+    //             if (item.type != undefined && item.type.indexOf("image") !== -1) {
+    //                 blob = item.getAsFile(); 
+    //                 addImageInForm(this, blob, $(this).prop('selectionStart'), true);
+    //             }
+    //             if (item.kind === "string"){
+    //                 item.getAsString(function(str) {
+    //                     try{
+    //                         is_image = $(str).is('img');
+    //                     }
+    //                     catch(e){
+    //                         is_image = false;
+    //                     }
 
-                        if(is_image){
-                            src = $(str).attr('src');
-                            if(src != undefined){
-                                if(isDataURL(src)){
-                                    fetch(src)
-                                    .then(res => res.blob())
-                                    .then(blob => addImageInForm(this, blob, $(this).prop('selectionStart'), true))
-                                }
-                                else{
-                                    addImageInForm(this, src, $(this).prop('selectionStart'), reUpload);
-                                }
-                            }
-                        }
-                    }.bind(this));
-                }
-            }
-        });
-    })
+    //                     if(is_image){
+    //                         src = $(str).attr('src');
+    //                         if(src != undefined){
+    //                             if(isDataURL(src)){
+    //                                 fetch(src)
+    //                                 .then(res => res.blob())
+    //                                 .then(blob => addImageInForm(this, blob, $(this).prop('selectionStart'), true))
+    //                             }
+    //                             else{
+    //                                 addImageInForm(this, src, $(this).prop('selectionStart'), reUpload);
+    //                             }
+    //                         }
+    //                     }
+    //                 }.bind(this));
+    //             }
+    //         }
+    //     });
+    // })
 }
 catch(e){
     try{

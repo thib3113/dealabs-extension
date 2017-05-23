@@ -19,3 +19,68 @@ div.spoiler > a.plugin_click_div_spoiler {
     background-image: url(//static.dealabs.com/images/all/icon_all_spoiler.png);
     padding-left: 38px;
 }
+
+[data-plugin-role="img_uploading"]{
+    margin:10px;
+    display:inline-block;
+    position:relative;
+    height:100px;
+}
+
+[data-plugin-role="img_uploading"] .float_loader{
+    width:100%;
+    background:white;
+    bottom:0;
+    height:100px;
+    opacity:0;
+    position:relative;
+    z-index: 20;
+}
+
+[data-plugin-role="img_uploading"] .hover_text{
+    left: 0;
+    position:absolute;
+    text-align:center;
+    top: 50%;
+    width: 100%;
+    z-index: 30;
+}
+[data-plugin-role="img_uploading"].error{
+    border: 2px solid red;
+    opacity: 1;
+    color: red;
+    font-weight: bolder;
+}
+
+[data-plugin-role="img_uploading"] img{
+    height:100px;
+}
+
+.noty_bar .noty-button {
+  margin-right: 5px;
+}
+
+.noty-button {
+  display: inline-block;
+  position: relative;
+  padding: .8em 1.3em;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.2;
+  outline: 0;
+  background: #AC8FFD;
+  border: 2px solid #948CE2;
+  color: #fff;
+  text-shadow: none;
+  border-radius: 2px;
+  text-decoration: none;
+}
+
+.noty-button:hover {
+  color: #fff;
+  background-color: #c0a7fd;
+  border-color: #948CE2;
+  text-decoration: none;
+}

@@ -7,7 +7,6 @@ class Dealabs{
           }
           retour.push(m);
         }
-
         return retour;
     }
 
@@ -115,7 +114,7 @@ class Dealabs{
             return text
 
         var smileys_supported = false;
-        for(var bbcode of self.BBcodes){
+        for(var bbcode of this.BBcodes){
             if(bbcode.name == "img" && $.inArray(formType, bbcode.not_supported) < 0){
                 smileys_supported = true
                 break;
@@ -137,12 +136,28 @@ class Dealabs{
         extension.onMessage("content-parse_emoticons", function(datas, cb){
             var text = datas.text;
             var formType = datas.formType;
-            text = this.parseEmoticons(text, formType);
-            cb({
-                success:true,
-                text:text
-            })
-        }.bind(this));
+            var returnCb = function() {
+                var self = this;
+                text = this.parseEmoticons(text, formType);
+                cb({
+                    success:true,
+                    text:text
+                })
+            }.bind(this)
+            
+            var ids = this._matchAll(/\[img_wait_upload:([0-9]+)\]/g, text);
+            if(ids.length > 0){
+                extension.sendMessage("waitImgUpload", {ids:ids}, function(){
+                    cb({
+                        retry:true
+                    })
+                }.bind(this))
+            }
+            else{
+                returnCb();
+            }
+            return true;
+        }.bind(this), true);
     }
 
     pushTextInSelection(text, input){
@@ -483,17 +498,15 @@ class Dealabs{
 
             //generate async parameters
             //check imgur API
-            imgurManager.checkConnection(function(response){
-                if(response!=false){
-                    $("#imgur-connection").html(extension._("you are connected with account $account$", response.url));
-                }
-                else{
-                    $("#imgur-connection").html(extension._("you are not connected :")+"<em data-plugin-role=\"ask_for_imgur_token\" style=\"cursor:pointer\">"+extension._("click here")+"</em>");
-                    $(document).on("click", '[data-plugin-role="ask_for_imgur_token"]', function(){
-                        imgurManager.askForToken();
-                    })
-                }
-            });
+            // imgurManager.checkConnection(function(response){
+            //     if(response!=false){
+            //         $("#imgur-connection").html(extension._("you are connected with account $account$", response.url));
+            //     }
+            //     else{
+            //         $("#imgur-connection").html(extension._("you are not connected :")+"<em data-plugin-role=\"ask_for_imgur_token\" style=\"cursor:pointer\">"+extension._("click here")+"</em>");
+                    // 
+            //     }
+            // });
         
             if(settingsManager.imadevelopper){
                 extension.getLogs(function(result){
@@ -594,7 +607,23 @@ class Dealabs{
         }.bind(this));
     }
 
+    uploadImage(textarea, img, upload, width){
+        var id = Object.size(this.imgUploading)+1;
+        this.imgUploading[id] = new ImgUploading({
+            img : img,
+            onProgress: null,
+            onFinish:null,
+            textarea:textarea,
+            upload:upload,
+            $container:$('[plugin-role="image_upload_container"]'),
+            id:id,
+            width:width
+        }); 
+    }
+
     constructor(){
+        this.imgUploading = {};
+
         //parse context 
         if(document.location.pathname.match(/_generated_background_page.html/)){
             this.context = "background";
@@ -614,7 +643,6 @@ class Dealabs{
                 self.set_theme(value.settings.theme, "theme_css");
                 self.set_theme(value.settings.emoticone_theme, "emoticone_theme_css");
             }, true);
-
 
             var dlbs_plugin_init = function dlbs_plugin_init(options){
                 //this function is injected, don't use vars not in the window
@@ -664,15 +692,12 @@ class Dealabs{
                     if(null == formType)
                         return;
 
-
                     //continue with supported forms
                     formError = function(error, event){
                         // event.stopPropagation();
                         $('.spinner_validate').hide(0);
-                        new Noty({
-                            type: 'error',
-                            text: error,
-                        }).show();
+                        console.error(error);
+                        alert(error);
                     }
                     
                     //remove validate listener
@@ -684,19 +709,15 @@ class Dealabs{
                     submit_btn.attr("onclick", null); 
                     submit_btn.off();
 
-                    submit_btn.on("click", function(){
-                        // this.disabled = true;
+                    submit_btn.on("click", function(event, overrideDisabled){
+                        if(this.disabled && !overrideDisabled)
+                            return;
+                        this.disabled = true;
                         $(this).find(".spinner_validate").show(0);
 
                         event.stopPropagation();
                         $form = $(this).parents("form");
                         $textarea = $form.find('[name="post_content"]');
-
-                        //check if an image wait to finish upload
-                        if($textarea.val().match(/\[img_wait_upload:[0-9]+\]/g)){
-                            formError(lang.waitImgUpload);
-                            return false;
-                        }
 
                         chrome.runtime.sendMessage(extensionId,{
                                 "event":"content-parse_emoticons", 
@@ -712,13 +733,16 @@ class Dealabs{
                                         error : "error with extension"
                                     }
                                 }
-
+                                this.disabled = false;
                                 if(response.success){
                                     $textarea.val(response.text);
                                     $(this).find(".spinner_validate").hide(0);
                                     //execute normal process
-                                    // this._onclick();
-                                    debugger;
+                                    this._onclick();
+                                }
+                                else if (response.retry){
+                                    submit_btn.trigger("click", {overrideDisabled:true});
+                                    return;
                                 }
                                 else{
                                     formError(response.error);
@@ -742,11 +766,9 @@ class Dealabs{
                         "new_deal" : "add_deal_form"
                     },
                     lang: {
-                        preview : extension._("preview"),
-                        waitImgUpload : extension._("an image is uploading, please wait a little")
+                        preview : extension._("preview")
                     }
                 }
-
 
                 self.injectCss(extension.extension.getURL("assets/css/noty.css"), "lib_css", true);
                 Noty.overrideDefaults({
@@ -792,6 +814,19 @@ class Dealabs{
                     if(null == formType)
                         return;
 
+
+                    //add formType for other uses
+                    $(this).data("plugin-formType", formType);
+
+                    //add image container
+                    self.getTemplate("UI/imageWaitingUploadContainer", function(tpl){
+                        if(formType != "reply_MP" && formType != "new_MP"){
+                            $(this).find(".validate_form").before(tpl());
+                        }
+                        else{
+                            $(this).find("> .input_left").after(tpl());
+                        }
+                    }.bind(this));
 
                     //check if emoticons work on this field
                     var smileys_supported = false;
@@ -1034,7 +1069,6 @@ class Dealabs{
                                 $content.slideDown(500, cb);
                             }
                         });
-
                     });
 
                     $(submit_btn).after(clone);
@@ -1165,19 +1199,158 @@ class Dealabs{
                     });
                 }
 
+                //add listener for critical errors from background or popup
+                extension.onMessage("criticalError",function(datas, cb){
+                    new Noty({
+                        text:datas.message,
+                        type:"error",
+                        timeout:false
+                    }).show();
+                } ,true)
+
+                //dropzone for image
+                $(document).on('paste drop', 'textarea', function(e){
+                    var reUpload = e.ctrlKey;
+                    var is_image, items, src;
+
+                    if(e.type == "paste"){
+                        items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                    }
+                    else if(e.type == "drop"){
+                        e.stopPropagation();
+                        e.preventDefault();
+                        
+                        items = (e.dataTransfer || e.originalEvent.dataTransfer).items;
+                    }
+                    else{
+                        new Noty({
+                            text:extension._("unknown event type : $type$", e.type),
+                            type:"error",
+                            timeout:false
+                        });
+                    }
+
+                    for (let item of items) {
+                        if (item.type != undefined && item.type.indexOf("image") !== -1) {
+                            var blob = item.getAsFile(); 
+                            self.uploadImage(this, blob, true);
+                        }
+                        if (item.kind === "string"){
+                            item.getAsString(function(str) {
+                                try{
+                                    is_image = $(str).is('img');
+                                }
+                                catch(e){
+                                    is_image = false;
+                                }
+
+                                if(is_image){
+                                    var img = $(str)
+                                    var width = img.get(0).naturalWidth;
+                                    src = img.attr('src');
+
+                                    if(src != undefined){
+                                        if(isDataURL(src)){
+                                            fetch(src)
+                                            .then(res => res.blob())
+                                            .then(blob => self.uploadImage(this, blob, true))
+                                        }
+                                        else{
+                                            self.uploadImage(this, src, reUpload, width);
+                                        }
+                                    }
+                                }
+                            }.bind(this));
+                        }
+                    }
+                })
+
+                //add listener for image wait upload
+                extension.onMessage("waitImgUpload", function(datas, cb){
+                    var ids = datas.ids;
+                    var functions = [];
+                    Noty.setMaxVisible(10, 'imgWait');
+                    for(let id of ids){
+                        var c_id = id[1];
+                        if(this.imgUploading[c_id] != undefined){
+                            var uploadInProgressNotification = new Noty({
+                                                                    type: 'warning',
+                                                                    text: extension._('an image is uploading you\'r form will be automatically send after')+' <img src="https://static.dealabs.com/images/smiley/emoji_smiling.png" width="auto" height="auto" alt=":)" title=":)" class="bbcode_smiley">',
+                                                                    timeout:false,
+                                                                    queue:"imgWait"
+                                                                }).show();
+                            functions.push(function(callback){
+                                    this.obj.imgUploading[this.c_id].afterFinish(function(){
+                                        uploadInProgressNotification.close();
+                                        callback(null);
+                                    }.bind(this.obj))
+                                }.bind({obj:this,c_id:c_id})
+                            );
+                        }
+                        else{
+                            new Noty({
+                                type: 'error',
+                                text: extension._('unknown error'),
+                                timeout:false,
+                                queue:"imgWait"
+                            }).show();
+                        }
+                    }
+                    async.parallel(functions, function(){
+                        cb();
+                    }.bind(this));
+                    return true;
+                }.bind(self), true)
+
+                //add listener to link account with imgur
+                $(document).on("click", '[data-plugin-role="ask_for_imgur_token"]', function(){
+                    imgurManager.askForToken();
+                })
+
+                //add listener to refresh informations about imgur
+                $(document).on("click", '[data-plugin-role="refresh"]', function(){
+                    extension.sendMessage("updateImgurStatus", {}, function(response){
+                        if(response == undefined)
+                            response = {success:false,error:extension._("unknown error")};
+
+                        if(response.success){
+                            new Noty({
+                                text:extension._("imgur status up to date")
+                            }).show();
+                            updateImgurConnectionStatus(response.status);
+                        }
+                        else{
+                            new Noty({
+                                type:"error",
+                                killer:true,
+                                text:response.error
+                            }).show();
+                        }
+                    });
+                })
+
                 //add informations about imgur
-                function updateImgurConnectionStatus(){
-                    extension.sendMessage("getImgurStatus", {}, function(response){
+                function updateImgurConnectionStatus(status){
+                    var cb = function(response){
                         self.getTemplate("UI/imgurStatus", function(tpl){
                             $('[data-plugin-role="imgurStatus"]').remove();
-                            $(".validate_form, .input_div").before(tpl({
+                            $('[plugin-role="image_upload_container"]').prepend(tpl({
                                 status: response.status,
                                 time : (response.lastTime!=null)?moment.unix(response.lastTime/1000).fromNow():extension._("never")
                             }));
                             //relaunch in 30 seconds
                             setTimeout(updateImgurConnectionStatus, 1000*30);
                         })
-                    })
+                    }
+
+                    if(status == undefined){
+                        extension.sendMessage("getImgurStatus", {}, function(response){
+                            cb(response);
+                        })
+                    }
+                    else{
+                        cb(status);
+                    }
                 }
                 updateImgurConnectionStatus();
 
@@ -1502,4 +1675,196 @@ class Dealabs{
         ];
     }
     
+}
+
+
+class ImgUploading extends EventEmitter{
+    afterFinish(cb){
+        if(this.isFinished())
+            cb();
+        else
+            this.on("finish", cb);
+    }
+
+    isFinished(){
+        return this._isFinish;
+    }
+
+    addPlaceHolder(){
+        dealabs.pushTextInSelection('[img_wait_upload:'+this.id+']', this.textarea);
+    }
+
+    replacePlaceHolderByBBcode(url, imgWidth){
+        imgWidth = imgWidth || null;
+        if(imgWidth == null){
+            if(this.$htmlPlaceholder != null && this.$htmlPlaceholder.length > 0){
+                imgWidth = this.$htmlPlaceholder.find("img").get(0).naturalWidth
+            }
+            else{
+                imgWidth = 300;
+            }
+        }
+
+        if(url != null)
+            var replacement = '[img size='+imgWidth+'px]'+url+'[/img]';
+        else
+            var replacement = '';
+
+        var oldValue = $(this.textarea).val();
+        var newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+this.id+'\\]'), replacement);
+        $(this.textarea).val(newValue);
+    }
+
+    addHtmlPlaceHolder($container, imageUrl, cb){
+        dealabs.getTemplate("UI/imageUploading", function(tpl){
+            this.$htmlPlaceholder = $(tpl({
+                id : this.id,
+                imageSrc : imageUrl
+            }));
+
+            //add events
+            this.$htmlPlaceholder.on("progress", function(evt, datas){
+                var percentComplete = datas.percentComplete;
+                $(this).find(".float_loader")
+                    .css("opacity", percentComplete/100);
+
+                $(this).find(".hover_text")
+                    .text(percentComplete+"%");
+            })
+
+            this.$htmlPlaceholder.on("img_upload_error", function(){
+                $(this).addClass("error");
+                $(this).find(".float_loader")
+                    .css("opacity", 1);
+
+                $(this).find(".hover_text").text(extension._("error"));
+            })
+            
+            $container.append(this.$htmlPlaceholder);
+            cb();
+        }.bind(this))
+    }
+
+    uploadImg(img, imgName){
+        imgurManager.sendImage(
+            img,
+            function(...args){
+                this.emit("finish",...args);
+            }.bind(this),
+            imgName,
+            function(...args){
+                this.emit("progress",...args);
+            }.bind(this)
+        );
+    }
+
+    destroy(){
+        this.replacePlaceHolderByBBcode(null);
+        if(this.$htmlPlaceholder != null){
+            this.$htmlPlaceholder.remove();
+        }   
+    }
+
+    finish(error, link, width){
+        if(null == error){
+            this.replacePlaceHolderByBBcode(link, width);
+            this.destroy();
+        }
+        else{
+            this.$htmlPlaceholder.trigger("img_upload_error", {err:error});
+            this.errorNotification = new Noty({
+                                        text:error,
+                                        type:"error",
+                                        timeout:false,
+                                        queue:"imgUploading",
+                                        buttons: [
+                                            Noty.button(extension._("abort"), 'noty-button', function () {
+                                                console.log('button 2 clicked');
+                                                this.destroy();
+                                                this.errorNotification.close();
+                                            }.bind(this)),
+                                            Noty.button(extension._("retry"), 'noty-button', function () {
+                                                this.$htmlPlaceholder.removeClass("error");
+                                                this.$htmlPlaceholder.trigger("progress", {percentComplete:0});
+                                                this.uploadImg(this.options.img, null);
+                                                this.errorNotification.close();                                                
+                                            }.bind(this))
+                                          ]
+                                    }).show();
+        }
+    }
+
+    progress(evt){
+      if (evt.lengthComputable) {
+        var percentComplete = evt.loaded / evt.total;
+        this.$htmlPlaceholder.trigger("progress", {
+            percentComplete:Math.round(percentComplete * 100)
+        });
+      }
+    }
+
+    constructor(pOptions){
+
+        //init eventEmitter
+        super();
+
+        this.$htmlPlaceholder = null;
+        this._isFinish = false;
+
+        var defaultOption = {
+            img : null,
+            onProgress: null,
+            onFinish:null,
+            textarea:null,
+            upload:null,
+            $container:null,
+            width:null,
+            id:0
+        }
+ 
+        var pOptions = $.extend(defaultOption, pOptions);
+
+        if(pOptions.onProgress != null){
+            this.on("progress", pOptions.onProgress);
+            delete pOptions.onProgress;
+        }
+        
+        if(pOptions.onFinish != null){
+            this.on("finish", pOptions.onFinish);
+            delete pOptions.onFinish;
+        }
+
+        this.id = pOptions.id
+        this.textarea = pOptions.textarea
+
+        this.options = pOptions;
+
+        this.addPlaceHolder();
+
+        var img = this.options.img;
+        var imageUrl;
+        //check if it's an https? url
+        if(typeof img == "string" && img.match(/(https?:\/\/[^\]\s]+)(?: ([^\]]*))?/)){
+          imageUrl = img;
+        }
+        else{
+          var urlCreator = window.URL || window.webkitURL;
+          imageUrl = urlCreator.createObjectURL(img);
+        }
+
+        this.on("finish", this.finish.bind(this));
+        if(this.options.upload){
+            //register progress event to update html place holder
+            this.on("progress", this.progress.bind(this));
+
+            this.addHtmlPlaceHolder(this.options.$container, imageUrl, function(){
+                this.uploadImg(img, null);
+            }.bind(this));
+
+        }
+        else{
+            this.emit("finish", null, imageUrl, this.options.width);
+            // this.replacePlaceHolderByUrl(imageUrl);
+        }
+    }
 }

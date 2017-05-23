@@ -1,6 +1,3 @@
-/// z at the start is to compile handlebars before
-
-
   // for detailed comments and demo, see my SO answer here http://stackoverflow.com/questions/8853396/logical-operator-in-a-handlebars-js-if-conditional/21915381#21915381
   
   /* a helper to execute an IF statement with any expression

@@ -17,7 +17,7 @@ module.exports = function (grunt) {
             },
             prebuild : {
                 files:{
-                    'build/temp/assets/js/min/libs.min.js' : ['./build/temp/assets/js/*.js']
+                    'build/temp/assets/js/min/libs.min.js' : ['./build/temp/assets/js/*.js', './build/temp/assets/js/addons/*.js']
                 }
             }
         },
@@ -37,6 +37,16 @@ module.exports = function (grunt) {
                         flatten: true,
                         expand:true,
                         dest: './build/temp/assets/js/'
+                    },
+                    //js addons
+                    {
+                        cwd : '.',
+                        src: [
+                            './node_modules/moment-duration-format/lib/moment-duration-format.js', 
+                        ],
+                        flatten: true,
+                        expand:true,
+                        dest: './build/temp/assets/js/addons'
                     },
                     //css
                     {

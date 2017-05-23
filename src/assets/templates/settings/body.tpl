@@ -127,7 +127,7 @@
             </div>
             <div class="content_profil_param_champs">
                 <p id="imgur-connection">
-                    {{_ "try connection to imgur"}} ...
+                    <span></span>
                 </p>
             </div>
         </div>

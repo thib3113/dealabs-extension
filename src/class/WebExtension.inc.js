@@ -410,7 +410,10 @@ class WebExtension{
                     console.log("Receive a message from a webpage : "+sender.url);
                     console.log(msg);
                     if(this._messageListener[msg.event] != undefined && this._messageListener[msg.event]["allowExternal"]){
-                        return this._messageListener[msg.event](msg.datas, sendResponse);
+                        return this._messageListener[msg.event]["cb"](msg.datas, sendResponse);
+                    }
+                    else{
+                        console.warn("no listener for this message");
                     }
                 }.bind(this)
             );
@@ -422,6 +425,9 @@ class WebExtension{
             console.log(msg);
             if(this._messageListener[msg.event] != undefined){
                 return this._messageListener[msg.event]["cb"](msg.datas, cb);
+            }
+            else{
+                console.warn("no listener for this message");
             }
           }.bind(this)
         );
