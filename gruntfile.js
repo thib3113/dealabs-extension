@@ -188,9 +188,14 @@ module.exports = function (grunt) {
     
     grunt.registerTask('default',
         [
-            "prebuild",
-            "chrome",
-            "firefox",
+            "newer:copy:prebuild",
+            "newer:uglify:prebuild",
+            "newer:filenamesToJson",
+            "copy:chrome",
+            "copy:firefox",
+            "json_generator:firefox",
+            "json_generator:chrome",
+            "notify:end"
         ]);    
 
     grunt.registerTask("prebuild",

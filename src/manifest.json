@@ -3,7 +3,7 @@
     "name": "__MSG_APPNAME__",
     "short_name": "__MSG_APPNAME_SHORT__",
     "description": "__MSG_DESCRIPTION__",
-    "version": "1.6.5",
+    "version": "2.0.0",
     "author": "thib3113 <thib3113@gmail.com>",
     "icons": {
         "16": "icon_16.png",
