@@ -17,9 +17,41 @@ try{
   // GLOBAL FUNCTIONS //
   //////////////////////
   function soundAlert(){
-    audio = new Audio('sounds/alert.mp3');
+    audio = new Audio('assets/sounds/alert.mp3');
     audio.play();
     audio = null;
+  }
+
+  function basename (path, suffix) {
+    //  discuss at: http://locutus.io/php/basename/
+    // original by: Kevin van Zonneveld (http://kvz.io)
+    // improved by: Ash Searle (http://hexmen.com/blog/)
+    // improved by: Lincoln Ramsay
+    // improved by: djmix
+    // improved by: Dmitry Gorelenkov
+    //   example 1: basename('/www/site/home.htm', '.htm')
+    //   returns 1: 'home'
+    //   example 2: basename('ecra.php?p=1')
+    //   returns 2: 'ecra.php?p=1'
+    //   example 3: basename('/some/path/')
+    //   returns 3: 'path'
+    //   example 4: basename('/some/path_ext.ext/','.ext')
+    //   returns 4: 'path_ext'
+
+    var b = path
+    var lastChar = b.charAt(b.length - 1)
+
+    if (lastChar === '/' || lastChar === '\\') {
+      b = b.slice(0, -1)
+    }
+
+    b = b.replace(/^.*[\/\\]/g, '')
+
+    if (typeof suffix === 'string' && b.substr(b.length - suffix.length) === suffix) {
+      b = b.substr(0, b.length - suffix.length)
+    }
+
+    return b
   }
 
   get_params_from_url = function(search_string) {
@@ -62,6 +94,9 @@ try{
     settingsManager.syncSettings();
   });
 
+
+  moment.locale(extension.i18n.getUILanguage());
+
   var profilsCache = {};
   var getProfile = function(profile_id, cb){
     if(profile_id == undefined)
@@ -95,6 +130,16 @@ try{
       })
     }
   }
+
+
+  Object.size = function(obj) {
+      var size = 0,
+          key;
+      for (key in obj) {
+          if (obj.hasOwnProperty(key)) size++;
+      }
+      return size;
+  };
 
   var extractToken = function(hash) {
     var match = hash.match(/access_token=(\w+)/);
@@ -135,12 +180,11 @@ try{
     $image_progress.append(oImg);
     cbFunction = function(error, response){
       failcb = function(textarea, id, error, img){
-        noty({
+        new Noty({
           layout: 'bottom',
           type: 'error',
           text: '<span style="height:100px;line-height:100px;display:inline-flex;"><span style="margin:5px">'+img+'</span> '+error+'</span>',
-          timeout: 20000
-        });
+        }).show();
 
         oldValue = $(textarea).val();
         newValue = oldValue.replace(new RegExp('\\[img_wait_upload:'+id+'\\]'), '');
@@ -167,7 +211,7 @@ try{
       }
     }.bind({textarea:textarea, id:addImageInFormCounter,$image_progress:$image_progress});
 
-    $(textarea).parents(".comment_text_part_textarea").after($image_progress);
+    $(textarea).parents("form").find(".validate_form, .input_div").before($image_progress);
     cbProgress = function(evt) {
       if (evt.lengthComputable) {
         var percentComplete = evt.loaded / evt.total;
@@ -285,6 +329,8 @@ try{
     var re = /((?:http|ftp|https):\/\/[\w-]+(?:\.[\w-]+)+(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?)/g;
     return content.match(re) || [];
   }
+
+  dealabs = new Dealabs();
 
   plugin_BBcodes = [
     {

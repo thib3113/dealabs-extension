@@ -1,4 +1,4 @@
-class WebExtension{
+class WebExtension extends EventEmitter{
     setStorage(object, sync, cb){
         object = object || null;
         sync = sync || false;
@@ -16,32 +16,32 @@ class WebExtension{
         return chrome.extension.getViews({type:'popup'})
     }
 
-    stopWaitFor(event){
-        if(this._waitForWaiter[event] != undefined){
-            for (var i = this._waitForWaiter[event].length - 1; i >= 0; i--) {
-                this._waitForWaiter[event][i]();
-            }
-            delete this._waitForWaiter[event];
-        }
-        this._waitFor[event] = true;
-    }
+    // stopWaitFor(event){
+    //     if(this._waitForWaiter[event] != undefined){
+    //         for (var i = this._waitForWaiter[event].length - 1; i >= 0; i--) {
+    //             this._waitForWaiter[event][i]();
+    //         }
+    //         delete this._waitForWaiter[event];
+    //     }
+    //     this._waitFor[event] = true;
+    // }
 
-    removeWaitFor(event){
-        if(this._waitForWaiter[event] != undefined){
-            delete this._waitForWaiter[event];
-        }
-    }
+    // removeWaitFor(event){
+    //     if(this._waitForWaiter[event] != undefined){
+    //         delete this._waitForWaiter[event];
+    //     }
+    // }
 
-    waitFor(event, cb){
-        if(this._waitFor[event] != undefined){
-            cb();
-        }
-        else{
-            if(this._waitForWaiter[event] == undefined)
-                this._waitForWaiter[event] = [];
-            this._waitForWaiter[event].push(cb);
-        }
-    }
+    // waitFor(event, cb){
+    //     if(this._waitFor[event] != undefined){
+    //         cb();
+    //     }
+    //     else{
+    //         if(this._waitForWaiter[event] == undefined)
+    //             this._waitForWaiter[event] = [];
+    //         this._waitForWaiter[event].push(cb);
+    //     }
+    // }
 
     getStorage(names, cb, sync){
         if(sync){
@@ -86,18 +86,23 @@ class WebExtension{
         return chrome.runtime.getManifest();
     }
 
-    onMessage(message, cb){
-        this._messageListener[message] = cb;
+    onMessage(message, cb, allowExternal){
+        allowExternal = allowExternal || false;
+        this._messageListener[message] = {
+            cb : cb,
+            allowExternal : allowExternal
+        };
     }
 
-    off(message){
+    offMessage(message){
         delete this._messageListener[message];
     }
 
     sendMessage(event, datas, cb){
         cb = cb || function(){};
+
         if(!this.isBackgroundPage) // background can't send message to background page ....
-            this._messagePort.postMessage({"event":event, datas:datas}, cb);
+            chrome.runtime.sendMessage({"event":event, "datas":datas}, cb)
         else{
             chrome.tabs.query({
                 url:chrome.runtime.getManifest().content_scripts[0].matches
@@ -151,7 +156,7 @@ class WebExtension{
         }.bind(this))
     }
 
-    static getNavigator(){
+    getNavigator(){
         if(navigator.userAgent.match(/Chrome/gi)){ 
             return "chrome"
         } 
@@ -160,6 +165,20 @@ class WebExtension{
         } 
         else
             throw new Error("unknown navigator "+navigator.userAgent); 
+    }
+
+    getPluginUrl(){
+        switch(this.getNavigator()){
+            case "chrome":
+                return 'https://chrome.google.com/webstore/detail/'+(extension.getManifest().name.replace(/\s+/g, "-").replace(/--/g, "-").toLowerCase())+'/'+(chrome.runtime.id)
+            break;
+            case "firefox":
+                return "https://addons.mozilla.org/fr/developers/addon/dealabs-non-officiel";
+            break;
+            default:
+                return "javascript:;";
+            break;
+        }
     }
 
     sendNotification(pOptions){
@@ -210,8 +229,12 @@ class WebExtension{
     _(text){
         if(chrome.i18n == undefined)
             return text;
-
-        return this.i18n.getMessage.apply(this, arguments);
+        try{
+            return this.i18n.getMessage.apply(this, arguments);
+        }
+        catch(e){
+            debugger;
+        }
     }
 
     _n(text,number){
@@ -267,6 +290,8 @@ class WebExtension{
     }
 
     constructor(){
+        super();
+
         this._notifications = {};
         this._tabs = {};
         this._messageListener = {};
@@ -350,7 +375,7 @@ class WebExtension{
             this.i18n.getMessage=function(){
                 var message = arguments[0]
                 arguments[0] = this.i18n.sanitize(message);
-                var text = chrome.i18n.getMessage.apply(this, arguments);
+                var text = chrome.i18n.getMessage.apply(this, arguments) || "";
                 if(text.length == 0){
                     console.warn("oops, text for : \n \""+message+"\" \n with key : \""+arguments[0]+"\" \n is missing from the current language "+this.i18n.getUILanguage())
                     return message;
@@ -362,28 +387,52 @@ class WebExtension{
 
         this.isBackgroundPage = location.href.match(/chrome-extension:\/\/[a-z]+\/_generated_background_page\.html/g)!=null;
 
+        // if(this.isBackgroundPage){
+
+        //     chrome.runtime.onConnect.addListener(function(port) {
+        //         //todo !!
+        //         //cb don't exist
+        //         port.onMessage.addListener(function(msg, sender, cb) {
+        //             console.log("Receive a message "+(sender.tab ? "from a content script:" + sender.tab.url : "from the extension"));
+        //             console.log(msg);
+        //             if(this._messageListener[msg.event] != undefined){
+        //                 this._messageListener[msg.event](msg.datas, cb);
+        //             }
+        //         }.bind(this));
+        //     }.bind(this));
+        // }
+        // else{
+        // }
+        // 
+        
+        //handle request from dealabs website
         if(this.isBackgroundPage){
-            chrome.extension.onConnect.addListener(function(port) {
-                port.onMessage.addListener(function(msg, sender, cb) {
-                    console.log("Receive a message "+(sender.tab ? "from a content script:" + sender.tab.url : "from the extension"));
+            chrome.runtime.onMessageExternal.addListener(
+                function(msg, sender, sendResponse) {
+                    console.log("Receive a message from a webpage : "+sender.url);
                     console.log(msg);
-                    if(this._messageListener[msg.event] != undefined){
-                        this._messageListener[msg.event](msg.datas);
+                    if(this._messageListener[msg.event] != undefined && this._messageListener[msg.event]["allowExternal"]){
+                        return this._messageListener[msg.event]["cb"](msg.datas, sendResponse);
                     }
-                }.bind(this));
-            }.bind(this));
-        }
-        else{
-            chrome.runtime.onMessage.addListener(
-              function(msg, sender, cb) {
-                console.log("Receive a message "+(sender.tab ? "from a content script:" + sender.tab.url : "from the extension"));
-                console.log(msg);
-                if(this._messageListener[msg.event] != undefined){
-                    this._messageListener[msg.event](msg.datas);
-                }
-              }.bind(this)
+                    else{
+                        console.warn("no listener for this message");
+                    }
+                }.bind(this)
             );
         }
+
+        chrome.runtime.onMessage.addListener(
+          function(msg, sender, cb) {
+            console.log("Receive a message "+(sender.tab ? "from a content script:" + sender.tab.url : "from the extension"));
+            console.log(msg);
+            if(this._messageListener[msg.event] != undefined){
+                return this._messageListener[msg.event]["cb"](msg.datas, cb);
+            }
+            else{
+                console.warn("no listener for this message");
+            }
+          }.bind(this)
+        );
 
         if(chrome.tabs != undefined){
             chrome.tabs.onUpdated.addListener(function(tabId , info) {
@@ -394,11 +443,12 @@ class WebExtension{
             }.bind(this));
         }
 
-        this._messagePort = chrome.extension.connect({name: "message"});
-        this._messagePort.onDisconnect.addListener(function(){
-            //if disconnect try to reconnect
-            this._messagePort = chrome.extension.connect({name: "message"});
-        }.bind(this))
+        // if(!this.isBackgroundPage){
+        //     this._messagePort = chrome.runtime.connect({name: "message"});
+        //     this._messagePort.onDisconnect.addListener(function(){
+        //         console.log("disconnected", chrome.runtime.lastError);
+        //     }.bind(this))
+        // }
 
         if(chrome.notifications == undefined){
             //notifications are not available

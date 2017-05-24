@@ -2,16 +2,17 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <script src="./assets/js/min/libs.min.js"></script>
+  <script src="./class/EventEmitter.inc.js"></script>
   <script src="class/WebExtension.inc.js"></script>
   <script src="class/FirefoxExtension.inc.js"></script>
   <script src="class/ChromeExtension.inc.js"></script>
   <script src="class/Settings.inc.js"></script>
   <script src="class/Imgur.inc.js"></script>
-  <script src="third/jquery.min.js"></script>
+  <script src="class/Dealabs.inc.js"></script>
   <script src="global.js"></script>
   <script src="popup.js"></script>
-  <!-- <link rel="stylesheet" href="third/font-awesome/css/font-awesome.min.css"> -->
-  <link rel="stylesheet" href="/third/material-design-iconic-font/css/material-design-iconic-font.min.css">
+  <link rel="stylesheet" href="./assets/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
   <style>
     body{
       margin: 0;
@@ -95,10 +96,10 @@
 <body width="250">
 <img style="display:none;" data-why="to-add-preload-image" src="https://thib3113.github.io/dealabs-extension/img/message.png">
     <header>
-        <span class="link"><i data-btn="see_dealabs_home" class="zmdi zmdi-home" title="Accueil"></i></span>
-        <span class="link"><i data-btn="see_profil" class="zmdi zmdi-account-circle" title="mon profil"></i></span>
-        <span><i data-btn="refresh" class="zmdi zmdi-refresh" title="rafraichir"></i></span>
-        <span><i data-btn="remove_all" class="zmdi zmdi-format-clear-all" style="transform: scaleX(-1);" title="Tout supprimer"></i></span>
+        <span class="link"><i data-btn="see_dealabs_home" class="mdi mdi-home" title="Accueil"></i></span>
+        <span class="link"><i data-btn="see_profil" class="mdi mdi-account-circle" title="mon profil"></i></span>
+        <span><i data-btn="refresh" class="mdi mdi-refresh" title="rafraichir"></i></span>
+        <span><i data-btn="remove_all" class="mdi mdi-notification-clear-all" title="Tout supprimer"></i></span>
     </header>
     <table id="notifications">
       <tr class="notification"><td class="no_notification" colspan="">Aucune notification</td></tr>

@@ -9,7 +9,7 @@ try{
             notifications_counter = value.notifications_counter;
             profil_link = value.profil_link;
             
-            $('[data-btn="refresh"]').removeClass('zmdi-hc-spin');
+            $('[data-btn="refresh"]').removeClass('mdi-spin');
 
             if(JSON.stringify(oldNotifs) == JSON.stringify(notifications))
                 return
@@ -88,7 +88,7 @@ try{
                     })
                 break;
                 case 'refresh' :
-                    $('[data-btn="refresh"]').addClass('zmdi-hc-spin');
+                    $('[data-btn="refresh"]').addClass('mdi-spin');
                     extension.sendMessage("update");
                 break;
                 case 'remove_all' :

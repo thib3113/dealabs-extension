@@ -5,7 +5,6 @@
     "description": "__MSG_DESCRIPTION__",
     "version": "1.6.5",
     "author": "thib3113 <thib3113@gmail.com>",
-    "minimum_chrome_version": "50.0",
     "icons": {
         "16": "icon_16.png",
         "48": "icon_48.png",
@@ -13,21 +12,19 @@
     },
     "default_locale": "fr",
     "browser_action": {
-        "default_icon": "img/icon.png",
+        "default_icon": "assets/img/icon.png",
         "default_title": "__MSG_APPNAME__"
     },
-    "background": 
-    {
+    "background": {
         "scripts": [
+            "assets/js/min/libs.min.js",
+            "class/EventEmitter.inc.js",
             "class/WebExtension.inc.js",
             "class/FirefoxExtension.inc.js",
             "class/ChromeExtension.inc.js",
             "class/Settings.inc.js",
             "class/Imgur.inc.js",
-            "class/Dlbs_plugin.inc.js",
-            "third/async.min.js",
-            "third/jquery.min.js",
-            "third/noty/jquery.noty.packaged.min.js",
+            "class/Dealabs.inc.js",
             "global.js",
             "background.js"
         ]
@@ -35,6 +32,11 @@
     "web_accessible_resources": [
         "*"
     ],
+    "externally_connectable": {
+        "matches": [
+            "*://*.dealabs.com/*"
+        ]
+    },
     "permissions": [
         "notifications",
         "storage",
@@ -57,15 +59,16 @@
                 "*://*.dealabs.com/*.css",
                 "*://*.dealabs.com/*.js"
             ],
-            "js": [            
+            "js": [
+                "assets/js/min/libs.min.js",
+                "class/EventEmitter.inc.js",
                 "class/WebExtension.inc.js",
                 "class/FirefoxExtension.inc.js",
                 "class/ChromeExtension.inc.js",
                 "class/Settings.inc.js",
                 "class/Imgur.inc.js",
+                "class/Dealabs.inc.js",
                 "class/Embed.inc.js",
-                "third/jquery.min.js",
-                "third/noty/jquery.noty.packaged.min.js",
                 "global.js",
                 "content.js"
             ],

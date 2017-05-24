@@ -21,7 +21,7 @@ function Imgur(options){
         
     // }
     
-    this.checkConnexion=function(cb){
+    this.checkConnection=function(cb){
       $.ajax({
           url : 'https://api.imgur.com/3/account/me',
           dataType: 'JSON',
@@ -115,7 +115,9 @@ function Imgur(options){
         catch(e){
           switch(qXHR.status){
             case 0:
-              if(errorThrown == "")
+              if(navigator.onLine != undefined && navigator.onLine === false)
+                error = extension.i18n.getMessage("you're offline, please check your internet connection");
+              else if(errorThrown == "")
                 error = extension.i18n.getMessage("something is wrong .... maybe a cross domain error, checking console can help you");
               else
                 error = extension.i18n.getMessage(errorThrown);
@@ -151,8 +153,8 @@ function Imgur(options){
           success:function(response){
             if(response.success){
               //use current http scheme
-              response.data.link = response.data.link.replace(/^https?\:/i, "");
-              this.cb(null, response.data)
+              response.data.link = response.data.link.replace(/^https?\:/i, "https:");
+              this.cb(null, response.data.link)
             }
             else{
               //try reading errors
