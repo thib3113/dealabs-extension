@@ -1,13 +1,17 @@
 class EventEmitter{  
     constructor() {
         this.listeners = new Map();
+        this.uniqListeners = {};
     }
     
     on(label, callback) {
         this.listeners.has(label) || this.listeners.set(label, []);
-        this.listeners.get(label).push(callback);
+        var args = this.uniqListenersFired(label)
+        if(args)
+            callback(...args);
+        else
+            this.listeners.get(label).push(callback);
     }
-    
 
     off(label, callback) {  
         let isFunction = function(obj) {  
@@ -33,7 +37,25 @@ class EventEmitter{
         return false;
     }
 
+    uniqListenersFired(label){
+        if(this.uniqListeners[label] != undefined && this.uniqListeners[label].fired !== false)
+            return this.uniqListeners[label].args;
+
+        return false; 
+    }
+
+    registerUniqEvent(label){
+        this.uniqListeners[label] = {fired:false};
+    }
+
     emit(label, ...args) {
+        if(this.uniqListeners[label] != undefined){
+            this.uniqListeners[label] = {
+                fired:true,
+                args:args
+            };
+        }
+        
         let listeners = this.listeners.get(label);
         if (listeners && listeners.length) {
             listeners.forEach((listener) => {

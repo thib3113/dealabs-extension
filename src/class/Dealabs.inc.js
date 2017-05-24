@@ -1,4 +1,4 @@
-class Dealabs{ 
+class Dealabs extends EventEmitter{ 
     _matchAll(re, str, m){
         var retour = [];
         while ((m = re.exec(str)) !== null) {
@@ -541,9 +541,28 @@ class Dealabs{
     getTemplate(tplName, cb){
         this.compiledTemplates = {}
 
+        var compileFunction = function(){
+            if(this.compiledTemplates[tplName] != undefined){
+                cb(this.compiledTemplates[tplName]);
+            }
+
+            extension.sendMessage("getTemplate", {template:tplName}, function(template){
+                var compiledTemplate = Handlebars.compile(template);
+                this.compiledTemplates[tplName] = compiledTemplate;
+                cb(this.compiledTemplates[tplName]);
+            }.bind(this));
+        }.bind(this);
+
         //check if partials are loaded
-        if(!this.partialsLoaded){
+        if(!this.partialsLoaded && !this.partialsLoading){
             var basicParams = arguments;
+            //set it here to avoid multiple calls
+            this.partialsLoading = true;
+            
+            this.on("partialsLoaded", function(){
+                compileFunction();
+            }.bind(this))
+            
             $.ajax({
                 url:extension.extension.getURL("assets/templates/partials/partials.json"),
                 dataType:"json",
@@ -559,7 +578,8 @@ class Dealabs{
                     }.bind(this),
                     function(err){
                         this.partialsLoaded = true;
-                        this.getTemplate.apply(this,basicParams);
+                        this.partialsLoading = false;
+                        this.emit("partialsLoaded");
                     }.bind(this))
                 }.bind(this),
                 error:function(){
@@ -569,15 +589,15 @@ class Dealabs{
             return;
         }
 
-        if(this.compiledTemplates[tplName] != undefined){
-            cb(this.compiledTemplates[tplName]);
+        if(this.partialsLoading){
+            this.on("partialsLoaded", function(){
+                compileFunction();
+            }.bind(this))
+        }
+        else{
+            compileFunction();
         }
 
-        extension.sendMessage("getTemplate", {template:tplName}, function(template){
-            var compiledTemplate = Handlebars.compile(template);
-            this.compiledTemplates[tplName] = compiledTemplate;
-            cb(this.compiledTemplates[tplName]);
-        }.bind(this));
     }
 
     initBgTemplatePart(){
@@ -622,7 +642,10 @@ class Dealabs{
     }
 
     constructor(){
+        super();
         this.imgUploading = {};
+
+        this.registerUniqEvent("partialsLoaded");
 
         //parse context 
         if(document.location.pathname.match(/_generated_background_page.html/)){
