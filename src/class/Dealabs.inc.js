@@ -641,6 +641,15 @@ class Dealabs extends EventEmitter{
         }); 
     }
 
+    bbcodeSupported(bbcodeName, formType){
+        for(var bbcode of this.BBcodes){
+            if(bbcode.name == bbcodeName && $.inArray(formType, bbcode.not_supported) < 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
     constructor(){
         super();
         this.imgUploading = {};
@@ -1717,8 +1726,10 @@ class ImgUploading extends EventEmitter{
         dealabs.pushTextInSelection('[img_wait_upload:'+this.id+']', this.textarea);
     }
 
-    replacePlaceHolderByBBcode(url, imgWidth){
+    replacePlaceHolderByBBcode(url, imgWidth, formType){
+        debugger;
         imgWidth = imgWidth || null;
+        formType = formType || "";
         if(imgWidth == null){
             if(this.$htmlPlaceholder != null && this.$htmlPlaceholder.length > 0){
                 imgWidth = this.$htmlPlaceholder.find("img").get(0).naturalWidth
@@ -1728,8 +1739,14 @@ class ImgUploading extends EventEmitter{
             }
         }
 
-        if(url != null)
+        if(url != null && dealabs.bbcodeSupported("img", formType))
             var replacement = '[img size='+imgWidth+'px]'+url+'[/img]';
+        else if(url != null){
+            var replacement = url;
+            new Noty({
+                text: extension._("this form doesn't support img tag, so we just add a link")
+            }).show();
+        }
         else
             var replacement = '';
 
@@ -1790,7 +1807,7 @@ class ImgUploading extends EventEmitter{
 
     finish(error, link, width){
         if(null == error){
-            this.replacePlaceHolderByBBcode(link, width);
+            this.replacePlaceHolderByBBcode(link, width, this.formType);
             this.destroy();
         }
         else{
@@ -1859,6 +1876,9 @@ class ImgUploading extends EventEmitter{
 
         this.id = pOptions.id
         this.textarea = pOptions.textarea
+
+        //get the formType
+        this.formType = $(this.textarea).parents("form").data("plugin-formType");
 
         this.options = pOptions;
 

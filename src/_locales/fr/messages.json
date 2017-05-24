@@ -383,6 +383,10 @@
       "message": "Abandonner",
       "description": "abort"
    },
+   "this_form_doesn_t_support_img_tag_so_we_just_add_a_link": {
+      "message": "Ce formulaire ne supporte pas les images, nous avons donc ajouter un simple lien.",
+      "description": "this form doesn't support img tag so we just add a link"
+   },
    "_number_more_to_become_a_developer_": {
       "message": "Encore $number$ pour devenir développeur",
       "description": "number to become a developer",
