@@ -1312,7 +1312,7 @@ class Dealabs extends EventEmitter{
                                                                     queue:"imgWait"
                                                                 }).show();
                             functions.push(function(callback){
-                                    this.obj.imgUploading[this.c_id].afterFinish(function(){
+                                    this.obj.imgUploading[this.c_id].on("finish", function(){
                                         uploadInProgressNotification.close();
                                         callback(null);
                                     }.bind(this.obj))
@@ -1711,12 +1711,12 @@ class Dealabs extends EventEmitter{
 
 
 class ImgUploading extends EventEmitter{
-    afterFinish(cb){
-        if(this.isFinished())
-            cb();
-        else
-            this.on("finish", cb);
-    }
+    // afterFinish(cb){
+    //     if(this.isFinished())
+    //         cb();
+    //     else
+    //         this.on("finish", cb);
+    // }
 
     isFinished(){
         return this._isFinish;
@@ -1847,6 +1847,9 @@ class ImgUploading extends EventEmitter{
 
         //init eventEmitter
         super();
+
+        //register the finish event
+        this.registerUniqEvent("finish");
 
         this.$htmlPlaceholder = null;
         this._isFinish = false;

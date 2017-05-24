@@ -175,11 +175,12 @@ try{
                 });
                 if($page.find("#login_header").length>0){
                     iconState("disconnected");
+                    extension.emit("disconnected");
                 }
                 else{
+                    // extension.offMessage("disconnected");
+                    extension.emit("connected");
                     //we are connected
-                    extension.removeWaitFor('disconnected');
-                    extension.stopWaitFor('connected');
 
                     iconState("connected");
 
@@ -677,11 +678,26 @@ try{
         });
     });
 
-    extension.waitFor('connected', function(){
+    extension.on('connected', function(){
         extension.updateContextMenu("mark_all_read", {enabled:true});
         extension.updateContextMenu("myMps", {enabled:true});
         extension.updateContextMenu("profile", {enabled:true});
         extension.updateContextMenu("refresh", {enabled:true});
+        extension.updateContextMenu("alertes", {enabled:true});
+        extension.updateContextMenu("saved_deals", {enabled:true});
+        extension.updateContextMenu("custom_flux", {enabled:true});
+        extension.updateContextMenu("mark_all_read", {enabled:true});
+    })
+
+    extension.on('disconnected', function(){
+        extension.updateContextMenu("mark_all_read", {enabled:false});
+        extension.updateContextMenu("myMps", {enabled:false});
+        extension.updateContextMenu("profile", {enabled:false});
+        extension.updateContextMenu("refresh", {enabled:false});
+        extension.updateContextMenu("alertes", {enabled:false});
+        extension.updateContextMenu("saved_deals", {enabled:false});
+        extension.updateContextMenu("custom_flux", {enabled:false});
+        extension.updateContextMenu("mark_all_read", {enabled:false});
     })
 
     $(function(){

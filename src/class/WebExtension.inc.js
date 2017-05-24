@@ -1,4 +1,4 @@
-class WebExtension{
+class WebExtension extends EventEmitter{
     setStorage(object, sync, cb){
         object = object || null;
         sync = sync || false;
@@ -16,32 +16,32 @@ class WebExtension{
         return chrome.extension.getViews({type:'popup'})
     }
 
-    stopWaitFor(event){
-        if(this._waitForWaiter[event] != undefined){
-            for (var i = this._waitForWaiter[event].length - 1; i >= 0; i--) {
-                this._waitForWaiter[event][i]();
-            }
-            delete this._waitForWaiter[event];
-        }
-        this._waitFor[event] = true;
-    }
+    // stopWaitFor(event){
+    //     if(this._waitForWaiter[event] != undefined){
+    //         for (var i = this._waitForWaiter[event].length - 1; i >= 0; i--) {
+    //             this._waitForWaiter[event][i]();
+    //         }
+    //         delete this._waitForWaiter[event];
+    //     }
+    //     this._waitFor[event] = true;
+    // }
 
-    removeWaitFor(event){
-        if(this._waitForWaiter[event] != undefined){
-            delete this._waitForWaiter[event];
-        }
-    }
+    // removeWaitFor(event){
+    //     if(this._waitForWaiter[event] != undefined){
+    //         delete this._waitForWaiter[event];
+    //     }
+    // }
 
-    waitFor(event, cb){
-        if(this._waitFor[event] != undefined){
-            cb();
-        }
-        else{
-            if(this._waitForWaiter[event] == undefined)
-                this._waitForWaiter[event] = [];
-            this._waitForWaiter[event].push(cb);
-        }
-    }
+    // waitFor(event, cb){
+    //     if(this._waitFor[event] != undefined){
+    //         cb();
+    //     }
+    //     else{
+    //         if(this._waitForWaiter[event] == undefined)
+    //             this._waitForWaiter[event] = [];
+    //         this._waitForWaiter[event].push(cb);
+    //     }
+    // }
 
     getStorage(names, cb, sync){
         if(sync){
@@ -94,7 +94,7 @@ class WebExtension{
         };
     }
 
-    off(message){
+    offMessage(message){
         delete this._messageListener[message];
     }
 
@@ -290,6 +290,8 @@ class WebExtension{
     }
 
     constructor(){
+        super();
+
         this._notifications = {};
         this._tabs = {};
         this._messageListener = {};
