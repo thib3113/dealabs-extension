@@ -209,12 +209,18 @@
         <div class="profil_param_validation" style="padding-top:10px;">
             <a href="javascript:;" data-plugin-role="update_settings" class="validate_button_form background_color_button_blue" style="float:none; display:inline-block; margin-right:0px;">{{_ "update settings"}}</a>
         </div>
-        <div onClick="$(this).next('div').toggle()" class="subtitle_tab_contener plugin-debug">
-            <p>Debug</p>
+        <div class="subtitle_tab_contener plugin-debug">
+            <p>
+                {{_ "Developer part"}}
+                <span title="{{_ "leave the developer world"}}" data-plugin-role="leave_developer_world" style="float: right;cursor: pointer;">✘</span>
+            </p>
         </div>
-        <div class="profil_param_notification border_grey_bottom plugin-debug" style="display:none;">
-            <div class="left_profil_param_champs" style="width:50%;">
-                <p>Liste des erreurs apparues&thinsp;:</p>
+        <div class="profil_param_notification border_grey_bottom plugin-debug">
+            <div class="" style="padding: 10px 0;">
+                <p>
+                    {{_ "list of errors"}}&thinsp;:
+                    <img title="{{_ "clean the list"}}" data-plugin-role="clean_error_list" src="https://static.dealabs.com/images/profil/icon_profile_messages_delete.png" style="cursor: pointer;float: right;">
+                </p>
             </div>
             <div>
                 <textarea name="" id="debug-logs" style="width:98%">{{_ "loading"}}...</textarea>
