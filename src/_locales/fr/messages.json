@@ -395,6 +395,26 @@
       "message": "Relancer.",
       "description": "resume"
    },
+   "Developer_part": {
+      "message": "Partie développeur.",
+      "description": "Developer part"
+   },
+   "List_of_errors": {
+      "message": "Liste des erreurs.",
+      "description": "error list"
+   },
+   "leave_the_developer_world": {
+      "message": "quitter le monde des développeurs.",
+      "description": "leave the developer world"
+   },
+   "clean_the_list": {
+      "message": "nettoyer la liste.",
+      "description": "clean the list"
+   },
+   "you_leave_the_developer_world_bye": {
+      "message": "Vous avez quitté le monde des développeurs ... Bye",
+      "description": "you leave the developer world ... bye"
+   },
    "_number_more_to_become_a_developer_": {
       "message": "Encore $number$ pour devenir développeur",
       "description": "number to become a developer",

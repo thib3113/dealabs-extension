@@ -257,7 +257,7 @@ class Dealabs extends EventEmitter{
         self.getTemplate("previews/"+formType, cb);
     }
 
-    initSettingsPageListener(){
+    initSettingsPageListeners(){
         //load emoticone themes
         $(document).on('change', '#emoticone_theme', function(){
             self.set_theme($(this).find(":selected").data("emoticone_theme"), "emoticone_theme_css");
@@ -312,6 +312,24 @@ class Dealabs extends EventEmitter{
             }
         });
 
+        $(document).on("click", '[data-plugin-role="leave_developer_world"]', function(){
+            event.stopPropagation();
+            settingsManager._updateCb = function(){
+                extension.sendMessage('update_settings', {});
+                settingsManager._updateCb = null;
+            }
+            settingsManager.imadevelopper = false;
+            new Noty({
+                text:extension._("You leave the developer world ... bye")+' <img src="https://static.dealabs.com/images/smiley/emoji_loudly_crying.png" width="auto" height="auto" alt=":\'(" title=":\'(" class="bbcode_smiley">'
+            }).show();
+            $(".plugin-debug").remove();
+        });
+        
+        $(document).on("click", '[data-plugin-role="clean_error_list"]', function(event){
+            event.stopPropagation();
+            extension.cleanLogs();
+            $("#debug-logs").text("");
+        })
 
         //update settings
         $(document).on('click', '[data-plugin-role="update_settings"]', function() {
@@ -510,10 +528,10 @@ class Dealabs extends EventEmitter{
         
             if(settingsManager.imadevelopper){
                 extension.getLogs(function(result){
-                    if(result == undefined || result.logs == undefined || result.logs.length==0){
-                        $(".plugin-debug").hide();
-                        return;
-                    }
+                    // if(result == undefined || result.logs == undefined || result.logs.length==0){
+                    //     $(".plugin-debug").hide();
+                    //     return;
+                    // }
 
                     var logs = result.logs;
                     var text = "";
@@ -1396,7 +1414,7 @@ class Dealabs extends EventEmitter{
                 //settings
                 if (self._getParameterByName('tab', location.href) == "settings") {
                     self.generateSettingsPage();
-                    self.initSettingsPageListener();
+                    self.initSettingsPageListeners();
                 }
 
                 self.ImgUploadQueue = async.queue(function(task, cb){
