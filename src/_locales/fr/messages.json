@@ -47,9 +47,9 @@
          }
       }
    },
-   "click_here": {
-      "description": "Click here",
-      "message": "Cliquez ici ."
+   "click_here_to_link_your_account": {
+      "description": "click here to link your account",
+      "message": "Cliquez ici pour lier votre compte imgur."
    },
    "something_is_wrong_maybe_a_cross_domain_error_checking_console_can_help_you": {
       "description": "maybe cross domain error .",
@@ -386,6 +386,14 @@
    "this_form_doesn_t_support_img_tag_so_we_just_add_a_link": {
       "message": "Ce formulaire ne supporte pas les images, nous avons donc ajouter un simple lien.",
       "description": "this form doesn't support img tag so we just add a link"
+   },
+   "An_error_appear_so_we_stopped_the_queue_resolve_the_error_and_resume": {
+      "message": "Une erreur est apparue pendant l'upload des images, nous avons donc arrété l'upload, merci de résoudre l'erreur, puis de la relancer.",
+      "description": "An error appear, so we stopped the queue, resolve the error and resume"
+   },
+   "resume": {
+      "message": "Relancer.",
+      "description": "resume"
    },
    "_number_more_to_become_a_developer_": {
       "message": "Encore $number$ pour devenir développeur",

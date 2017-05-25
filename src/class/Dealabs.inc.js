@@ -1365,11 +1365,18 @@ class Dealabs extends EventEmitter{
                 function updateImgurConnectionStatus(status){
                     var cb = function(response){
                         self.getTemplate("UI/imgurStatus", function(tpl){
+
+                            //if no image container return (here to delay a little)
+                            if($('[plugin-role="image_upload_container"]').length == 0)
+                                return;
+
                             $('[data-plugin-role="imgurStatus"]').remove();
                             $('[plugin-role="image_upload_container"]').prepend(tpl({
                                 status: response.status,
                                 time : (response.lastTime!=null)?moment.unix(response.lastTime/1000).fromNow():extension._("never")
                             }));
+                            //if we found one status
+                            
                             //relaunch in 30 seconds
                             setTimeout(updateImgurConnectionStatus, 1000*30);
                         })
@@ -1391,6 +1398,37 @@ class Dealabs extends EventEmitter{
                     self.generateSettingsPage();
                     self.initSettingsPageListener();
                 }
+
+                self.ImgUploadQueue = async.queue(function(task, cb){
+                    console.log("start task "+task.id);
+                    var cbFunction = function(...args){
+                        task.obj.off("finish", cbFunction);
+                        cb(...args);
+                    }
+                    task.obj.on("finish", cbFunction);
+                    task.obj.uploadImg(task.obj.options.img, null);
+                },3);
+
+                self.ImgUploadQueue.error = function(error, task){
+                    if(this._stopNotified)
+                        return
+                    else
+                        this._stopNotified = true;
+
+                    this.pause();
+
+                    this._stopNotification = new Noty({
+                        type:"error",
+                        text:extension._("An error appear, so we stopped the queue, resolve the error and resume"),
+                        timeout:false,
+                        buttons: [
+                            Noty.button(extension._("resume"), 'noty-button', function () {
+                                this.queue._stopNotification.close();
+                                this.queue.resume();
+                            }.bind({queue:this}))
+                        ]
+                    }).show()
+                }.bind(self.ImgUploadQueue);
             })
         }
         else if(this.context == "background"){
@@ -1401,7 +1439,6 @@ class Dealabs extends EventEmitter{
         ////////////////
         // RESSOURCES //
         ////////////////
-
         this.BBcodes = [
             {
               regex : /\[img size="?([0-9]*)px"?\]([^\]]*)\[\/img\]/gi,
@@ -1727,7 +1764,6 @@ class ImgUploading extends EventEmitter{
     }
 
     replacePlaceHolderByBBcode(url, imgWidth, formType){
-        debugger;
         imgWidth = imgWidth || null;
         formType = formType || "";
         if(imgWidth == null){
@@ -1826,7 +1862,7 @@ class ImgUploading extends EventEmitter{
                                             Noty.button(extension._("retry"), 'noty-button', function () {
                                                 this.$htmlPlaceholder.removeClass("error");
                                                 this.$htmlPlaceholder.trigger("progress", {percentComplete:0});
-                                                this.uploadImg(this.options.img, null);
+                                                dealabs.ImgUploadQueue.push({id: this.id, obj:this});
                                                 this.errorNotification.close();                                                
                                             }.bind(this))
                                           ]
@@ -1904,7 +1940,8 @@ class ImgUploading extends EventEmitter{
             this.on("progress", this.progress.bind(this));
 
             this.addHtmlPlaceHolder(this.options.$container, imageUrl, function(){
-                this.uploadImg(img, null);
+                // this.uploadImg(img, null);
+                dealabs.ImgUploadQueue.push({id: this.id, obj:this});
             }.bind(this));
 
         }
