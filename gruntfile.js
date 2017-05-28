@@ -209,6 +209,9 @@ module.exports = function (grunt) {
         [
             "clean:prebuild",
             "default",
+            'compress:firefox',
+            "compress:chrome"
+
         ]);
     grunt.registerTask('firefox',
         [

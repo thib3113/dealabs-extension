@@ -6,11 +6,7 @@ vars :
  - link_info
  - role
 --}}
-<div class="button_part">
-    <div class="bouton_contener_border" data-plugin-link-info="{{link_info}}" data-plugin-role="{{role}}">
-        {{> yes_no yes=yes}}
-    </div>
-</div>
+{{> yes_no_button yes=yes link_info=link_info role=role}}
 
 <div class="title_button_part">
     <p>{{title}}</p>

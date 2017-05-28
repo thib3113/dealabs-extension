@@ -415,6 +415,10 @@
       "message": "Vous avez quitté le monde des développeurs ... Bye",
       "description": "you leave the developer world ... bye"
    },
+   "show_imgur_connection_under_form_": {
+      "message": "Voir le statut imgur sous les formulaires ?",
+      "description": "show imgur connection under form ?"
+   },
    "_number_more_to_become_a_developer_": {
       "message": "Encore $number$ pour devenir développeur",
       "description": "number to become a developer",

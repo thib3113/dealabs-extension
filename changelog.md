@@ -1,3 +1,24 @@
+2.1.0 : 
+    - add settings to hide imgur status
+2.0.0 :
+    - fix : use event emitter when available
+    - feat : add a link if form doesn't support img tag
+    - fix : add a link to link with the imgur account
+    - fix : remove smiley is they are not supported
+    - feat : add imgur status under forms
+    - feat  : use async templates
+    - feat : review the build system to optimize it
+    - fix : redo the build process
+    - fix : reformat setting generator
+    - feat : add preview to new deal
+    - feat : add handlebarsjs to manage templates
+    - fix : work MP + forum + deal comments
+    - fix : bug with empty string
+    - fix : add new error message when offline
+    - fix : correct the preview on new thread
+    - fix : start the reformating of the preview
+    - fix : reformat emoticons managments
+    - fix : start injecting less script in page and use messages
 1.6.5 :
     - update notification system
     - add translations
