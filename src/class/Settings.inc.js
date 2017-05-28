@@ -20,6 +20,7 @@ function SettingsManager(){
             // log the expire date
             expires_date: null
         },
+        show_imgur_connection_under_form:false,
         // turbopixAPIKey : "",
         theme : {
             "safeName" : "default",

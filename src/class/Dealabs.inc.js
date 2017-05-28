@@ -260,11 +260,11 @@ class Dealabs extends EventEmitter{
     initSettingsPageListeners(){
         //load emoticone themes
         $(document).on('change', '#emoticone_theme', function(){
-            self.set_theme($(this).find(":selected").data("emoticone_theme"), "emoticone_theme_css");
+            self.setTheme($(this).find(":selected").data("value"), "emoticone_theme_css");
         })
 
         $(document).on('change', '#plugin_theme', function(){
-            self.set_theme($(this).find(":selected").data("theme"), "theme_css");
+            self.setTheme($(this).find(":selected").data("value"), "theme_css");
         })
 
         $(document).on('click', '[data-plugin-role="add_new_smiley"]', function() {
@@ -333,29 +333,64 @@ class Dealabs extends EventEmitter{
 
         //update settings
         $(document).on('click', '[data-plugin-role="update_settings"]', function() {
-            var save_smileys = {};
+            var newSettings = {};
+
+            newSettings.smileys = {};
             $('#plugin_smileys_list tbody tr').each(function() {
                 var smiley_url = $(this).find('[data-plugin-role="smiley_url"]').val();
                 if($(this).find('[data-plugin-role="smiley_url"]').val() != undefined){
                     var smiley_name = $(this).find('[data-plugin-role="smiley_name"]').val().replace(/[^\w]/gi, "_").replace(/_+/gi, "_");
                     if (smiley_url != "" && typeof smiley_url != "undefined" && smiley_name != "" && typeof smiley_name != "undefined")
-                        save_smileys[smiley_name] = smiley_url;
+                        newSettings.smileys[smiley_name] = smiley_url;
                 }
             });
 
-            var newSettings = {
-                time_between_refresh: parseInt($('#plugin_time_between_refresh').val()),
-                theme: $('#plugin_theme').find(":selected").data("theme"),
-                emoticone_theme: $('#emoticone_theme').find(":selected").data("emoticone_theme"),
-                notifications_manage: {
-                    desktop : $('#plugin_desktop_notifications').is(':checked'),
-                    forum : $('#plugin_forum_notifications').is(':checked'),
-                    MPs : $('#plugin_mp_notifications').is(':checked'),
-                    deals : $('#plugin_deals_notifications').is(':checked'),
-                    alertes : $('#plugin_alertes_notifications').is(':checked')
-                },
-                smileys: save_smileys
-            }
+
+            $('[data-plugin-option]').each(function(){
+                var val;
+                var $this = $(this);
+
+                switch(this.nodeName.toUpperCase()){
+                    case "SELECT":
+                        val = $this.find(":selected");
+                    break;
+                    case "INPUT":
+                        switch(this.type.toUpperCase()){
+                            case "CHECKBOX":
+                                val = $this.is(":checked");
+                            break;
+                            default :
+                                val = $this.val();
+                        }
+                    break;
+                }
+
+                //check if a sub_cat existe
+                var cat = false;
+                if($this.data("plugin-option-cat") != undefined)
+                    cat = $this.data("plugin-option-cat");
+
+                //check if a data-value exist
+                if($(val).data("value") != undefined)
+                    val = $(val).data("value");
+                else if (val instanceof jQuery)
+                    val = $(val).val();
+
+                //convert string representing int to int
+                if(parseInt(val) == val)
+                    val = parseInt(val);
+
+                var sub_cat = $this.data("plugin-option");
+
+                if(cat){
+                    if(newSettings[cat] == undefined)
+                        newSettings[cat] = {};
+
+                    newSettings[cat][sub_cat] = val;
+                }
+                else
+                    newSettings[sub_cat] = val;
+            });
 
             new Noty({
                 type: 'success',
@@ -370,7 +405,7 @@ class Dealabs extends EventEmitter{
         });
     }
 
-    set_theme(theme, type){
+    setTheme(theme, type){
         type = type || "theme_css";
         var container_url = (type=="theme_css"?theme_url:emoticone_theme_url) 
         //remove current nodes with same role
@@ -418,7 +453,7 @@ class Dealabs extends EventEmitter{
                     selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
                     name :  theme_list[name].name,
                 }));
-                $option.data("emoticone_theme", theme_list[name]);
+                $option.data("value", theme_list[name]);
                 $('#emoticone_theme').append($option);
             }
 
@@ -433,7 +468,7 @@ class Dealabs extends EventEmitter{
                         selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
                         name :  theme_list[name].name,
                     }));
-                    $option.data("emoticone_theme", theme_list[name]);
+                    $option.data("value", theme_list[name]);
                     $('#emoticone_theme').append($option);
                 }
               }
@@ -460,7 +495,7 @@ class Dealabs extends EventEmitter{
                     selected :  (settingsManager.theme.safeName == theme_list[name].safeName),
                     name :  theme_list[name].name,
                 }));
-                $option.data("theme", theme_list[name]);
+                $option.data("value", theme_list[name]);
                 $('#plugin_theme').append($option);
             }
 
@@ -475,7 +510,7 @@ class Dealabs extends EventEmitter{
                         selected :  (settingsManager.theme.safeName == theme_list[name].safeName),
                         name :  theme_list[name].name,
                     }));
-                    $option.data("theme", theme_list[name]);
+                    $option.data("value", theme_list[name]);
                     $('#plugin_theme').append($option);
                 }
               }
@@ -512,6 +547,7 @@ class Dealabs extends EventEmitter{
                 notifications_manage : settingsManager.notifications_manage,
                 blacklisted_thread:blacklisted_thread,
                 sounded_thread:sounded_thread,
+                show_imgur_connection_under_form: settingsManager.show_imgur_connection_under_form
             }));
 
             //generate async parameters
@@ -690,8 +726,8 @@ class Dealabs extends EventEmitter{
 
             //update theme on init
             extension.getStorage('settings', function(value){
-                self.set_theme(value.settings.theme, "theme_css");
-                self.set_theme(value.settings.emoticone_theme, "emoticone_theme_css");
+                self.setTheme(value.settings.theme, "theme_css");
+                self.setTheme(value.settings.emoticone_theme, "emoticone_theme_css");
             }, true);
 
             var dlbs_plugin_init = function dlbs_plugin_init(options){
@@ -1381,10 +1417,14 @@ class Dealabs extends EventEmitter{
 
                 //add informations about imgur
                 function updateImgurConnectionStatus(status){
+                    // console.log(settingsManager.show_imgur_connection_under_form);
+                    if(!settingsManager.show_imgur_connection_under_form && self._getParameterByName('what', location.href) != "plugin")
+                        return;
+
                     var cb = function(response){
                         self.getTemplate("UI/imgurStatus", function(tpl){
 
-                            //if no image container return (here to delay a little)
+                            //if no image container return or not in settings page(here to delay a little)
                             if($('[plugin-role="image_upload_container"]').length == 0)
                                 return;
 
@@ -1418,7 +1458,7 @@ class Dealabs extends EventEmitter{
                 }
 
                 self.ImgUploadQueue = async.queue(function(task, cb){
-                    console.log("start task "+task.id);
+                    // console.log("start task "+task.id);
                     var cbFunction = function(...args){
                         task.obj.off("finish", cbFunction);
                         cb(...args);
@@ -1873,7 +1913,7 @@ class ImgUploading extends EventEmitter{
                                         queue:"imgUploading",
                                         buttons: [
                                             Noty.button(extension._("abort"), 'noty-button', function () {
-                                                console.log('button 2 clicked');
+                                                // console.log('button 2 clicked');
                                                 this.destroy();
                                                 this.errorNotification.close();
                                             }.bind(this)),

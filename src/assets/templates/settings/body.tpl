@@ -1,4 +1,18 @@
-{{!-- Handlebarsjs template --}}
+{{!-- Handlebarsjs template 
+ vars :
+    - extension_version
+    - refresh_list
+    - notifications_manage
+        - desktop
+        - deals
+        - alertes
+        - MPs
+        - forum
+    - show_imgur_connection_under_form
+    - smileys
+    - blacklisted_thread
+    - sounded_thread
+--}}
 <div id="plugin_tab_content" class="content_profil_param" style="display: none;">
     <div class="title_tab_contener">
         <p>{{_ "extension_settings"}} (<span style="cursor:pointer;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;" data-plugin-role="version">{{extension_version}}</span>)</p>
@@ -14,7 +28,7 @@
             </div>
             <div class="content_profil_param_champs">
                 <div class="input_left flag">
-                    <select name="plugin_time_between_refresh" id="plugin_time_between_refresh">
+                    <select name="plugin_time_between_refresh" data-plugin-option="time_between_refresh" id="plugin_time_between_refresh">
                         {{#each refresh_list}}
                         <option value="{{math this "*" 1000}}" {{#if (eq this ../time_between_refresh) }}selected{{/if}}>{{this}}</option>
                         {{/each}}
@@ -33,8 +47,9 @@
             </div>
             <div class="content_profil_param_champs">
                 <div class="input_left flag">
+                    {{!-- {{> yes_no_button yes=desktop role="desktop"}} --}}
                     <label for="plugin_desktop_notifications">
-                        <input type="checkbox" {{#if desktop}}checked{{/if}} value="1" id="plugin_desktop_notifications" name="plugin_desktop_notifications">
+                        <input data-plugin-option="desktop" data-plugin-option-cat="notifications_manage" type="checkbox" {{#if desktop}}checked{{/if}} value="1" id="plugin_desktop_notifications" name="plugin_desktop_notifications">
                         {{_ "yes"}}
                     </label>
                 </div>
@@ -47,7 +62,7 @@
             <div class="content_profil_param_champs">
                 <div class="input_left flag">
                     <label for="plugin_deals_notifications">
-                        <input type="checkbox" {{#if deals}}checked{{/if}} value="1" id="plugin_deals_notifications" name="plugin_deals_notifications">
+                        <input data-plugin-option="deals" data-plugin-option-cat="notifications_manage" type="checkbox" {{#if deals}}checked{{/if}} value="1" id="plugin_deals_notifications" name="plugin_deals_notifications">
                         {{_ "yes"}}
                     </label>
                 </div>
@@ -60,7 +75,7 @@
             <div class="content_profil_param_champs">
                 <div class="input_left flag">
                     <label for="plugin_alertes_notifications">
-                        <input type="checkbox" {{#if alertes}}checked{{/if}} value="1" id="plugin_alertes_notifications" name="plugin_alertes_notifications">
+                        <input data-plugin-option="alertes" data-plugin-option-cat="notifications_manage" type="checkbox" {{#if alertes}}checked{{/if}} value="1" id="plugin_alertes_notifications" name="plugin_alertes_notifications">
                         {{_ "yes"}}
                     </label>
                 </div>
@@ -73,7 +88,7 @@
             <div class="content_profil_param_champs">
                 <div class="input_left flag">
                     <label for="plugin_mp_notifications">
-                        <input type="checkbox" {{#if MPs}}checked{{/if}} value="1" id="plugin_mp_notifications" name="plugin_mp_notifications">
+                        <input data-plugin-option="MPs" data-plugin-option-cat="notifications_manage" type="checkbox" {{#if MPs}}checked{{/if}} value="1" id="plugin_mp_notifications" name="plugin_mp_notifications">
                         {{_ "yes"}}
                     </label>
                 </div>
@@ -85,7 +100,7 @@
             </div>
             <div class="content_profil_param_champs">
                 <div class="input_left flag">
-                    <input type="checkbox" {{#if forum}}checked{{/if}} value="1" id="plugin_forum_notifications" name="plugin_forum_notifications">
+                    <input data-plugin-option="forum" data-plugin-option-cat="notifications_manage" type="checkbox" {{#if forum}}checked{{/if}} value="1" id="plugin_forum_notifications" name="plugin_forum_notifications">
                     <label for="plugin_forum_notifications">{{_ "yes"}}</label>
                 </div>
             </div>
@@ -100,7 +115,7 @@
             </div>
             <div class="content_profil_param_champs">
                 <div class="input_left flag">
-                    <select name="plugin_theme" id="plugin_theme">
+                    <select name="plugin_theme" data-plugin-option="theme" id="plugin_theme">
                         <option value="">{{_ "loading"}}...</option>
                     </select>
                 </div>
@@ -112,7 +127,7 @@
             </div>
             <div class="content_profil_param_champs">
                 <div class="input_left flag">
-                    <select name="emoticone_theme" id="emoticone_theme">
+                    <select name="emoticone_theme" data-plugin-option="emoticone_theme" id="emoticone_theme">
                         <option value="">{{_ "loading"}}...</option>
                     </select>
                 </div>
@@ -121,14 +136,25 @@
         <div class="subtitle_tab_contener">
             <p>{{_ "Images"}}</p>
         </div>
-        <div class="profil_param_notification border_grey_bottom">
+        <div class="profil_param_notification">
             <div class="left_profil_param_champs" style="width:50%;">
                 <p>{{_ "imgur connection"}}&thinsp;:</p>
             </div>
             <div class="content_profil_param_champs">
-                <p id="imgur-connection">
-                    <span></span>
-                </p>
+                <div plugin-role="image_upload_container"></div>
+            </div>
+        </div>
+        <div class="profil_param_notification border_grey_bottom">
+            <div class="left_profil_param_champs" style="width:50%;">
+                <p>{{_ "show imgur connection under form ?"}}&thinsp;:</p>
+            </div>
+            <div class="content_profil_param_champs">
+                <div class="input_left flag">
+                    <label for="show_imgur_connection_under_form">
+                        <input data-plugin-option="show_imgur_connection_under_form" type="checkbox" {{#if show_imgur_connection_under_form}}checked{{/if}} value="1" id="show_imgur_connection_under_form" name="show_imgur_connection_under_form">
+                        {{_ "yes"}}
+                    </label>
+                </div>
             </div>
         </div>
         <div class="subtitle_tab_contener">

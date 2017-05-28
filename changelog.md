@@ -1,3 +1,5 @@
+2.1.0 : 
+    - add settings to hide imgur status
 2.0.0 :
     - fix : use event emitter when available
     - feat : add a link if form doesn't support img tag
