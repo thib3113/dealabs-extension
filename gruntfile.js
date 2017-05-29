@@ -91,6 +91,14 @@ module.exports = function (grunt) {
                     dest: './build/Chrome/'
                 }]
             },
+            ES5: {
+                files:[{
+                    expand: true,
+                    cwd: 'build/Chrome/',
+                    src: ['**'],
+                    dest: './build/ES5/'
+                }]
+            },
             firefox: {
                 files: [{
                     expand: true,
@@ -103,6 +111,20 @@ module.exports = function (grunt) {
                     cwd: 'src/__specific/Firefox/',
                     src: ["**"],
                     dest: './build/Firefox/'
+                }]
+            }
+        },
+        babel: {
+            options: {
+                sourceMap: true,
+                presets: ['es2015']
+            },
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: './build/Chrome',
+                    src: ['**/*.js'],
+                    dest: './build/ES5/'
                 }]
             }
         },
@@ -185,6 +207,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-filenames-to-json');
+    grunt.loadNpmTasks('grunt-babel');
     
     grunt.registerTask('default',
         [
@@ -227,6 +250,13 @@ module.exports = function (grunt) {
             'compress:chrome'
         ]
     );
+    
+    // grunt.registerTask('ES5',
+    //     [
+    //         'copy:ES5',
+    //         "babel"
+    //     ]
+    // );
 
     grunt.registerTask("dev", 
         [

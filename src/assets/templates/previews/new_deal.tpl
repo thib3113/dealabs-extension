@@ -70,7 +70,7 @@
                         </a>
                     </div>
                     <div class="title_part">
-                        <h1 class="title">{{title}} {{#xif "deal_type != 3"}}à {{price}}{{/xif}} {{#if instore}}{{_ "in store"}}{{/if}} @ {{storename}}</h1>
+                        <h1 class="title">{{title}} {{#xif "this.deal_type != 3"}}à {{price}}{{/xif}} {{#if instore}}{{_ "in store"}}{{/if}} @ {{storename}}</h1>
                         <p class="date_deal" original-title="{{_ "preview_name"}}">
                             <img title="{{_ "preview_name"}} " style="width: 13px; height: 13px;" src="https://static.dealabs.com/images/deals/icon_deal_published.png">
                             {{_ "preview_name"}}
@@ -82,7 +82,7 @@
                         <div class="image_part_contener">
                             <a id="image_link_to_deal" class="link_to_deal" target="_blank" href="{{deal_url}}" rel="nofollow">
                                 <div id="over" style="position:absolute; width:100%; height:100%">
-                                    <img style="max-width:160px;max-height:160px;" alt="{{title}} {{#xif "deal_type != 3"}}à {{price}}{{/xif}} {{#if instore}}{{_ "in store"}}{{/if}} @ {{storename}}" src="{{deal_img}}">
+                                    <img style="max-width:160px;max-height:160px;" alt="{{title}} {{#xif "this.deal_type != 3"}}à {{price}}{{/xif}} {{#if instore}}{{_ "in store"}}{{/if}} @ {{storename}}" src="{{deal_img}}">
                                 </div>
                             </a>
                             <!-- elements on image -->
@@ -130,7 +130,7 @@
                         </div>
                     </div>
                     <div class="content_part">
-                        {{#xif "expiry_date || localisation" }}
+                        {{#xif "this.expiry_date || this.localisation" }}
                         <div class="info_sup_div">
                             {{#if expiry_date}}
                             <p class="info_sup" style="margin-right:35px;"><img style="margin-top:1px;" src="https://static.dealabs.com/images/deals/icon_deal_expiredate.png"><b>{{_ "Expire the"}} {{expiry_date}}</b></p>

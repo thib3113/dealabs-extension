@@ -37,7 +37,7 @@
    // you don't need to do {{x 'this.age + 2'}}
    // but you can also do {{x 'age + 2'}}
    // HOWEVER including an UNINITIALIZED var in a expression will return undefined as the result.
-   with(context) {
+   // with(context) {
      result = (function() {
        try {
          return eval(expression);
@@ -45,7 +45,7 @@
          console.warn('•Expression: {{x \'' + expression + '\'}}\n•JS-Error: ', e, '\n•Context: ', context);
        }
      }).call(context); // to make eval's lexical this=context
-   }
+   // }
    return result;
  });
 
