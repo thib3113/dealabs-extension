@@ -8,7 +8,7 @@
         </div>
         <div class="info_message">
             <p class="username text_color_333333">{{username}}</p>
-            <p class="date text_color_777777" style="float:left;">{{_"preview_name"}}</p>
+            <p class="date text_color_777777" style="float:left;">{{_ "preview_name"}}</p>
         </div>
     </div>
     <p class="text_color_777777 message_content_text" style="padding:15px 0px;">

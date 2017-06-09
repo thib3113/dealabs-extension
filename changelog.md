@@ -1,3 +1,5 @@
+2.1.1 : 
+    - bug with preview when reply on a MP
 2.1.0 : 
     - add settings to hide imgur status
 2.0.0 :
