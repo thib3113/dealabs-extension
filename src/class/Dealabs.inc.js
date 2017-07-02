@@ -887,6 +887,7 @@ class Dealabs extends EventEmitter{
                     self.pushTextInSelection(":" + nom + ":" ,textarea);
                 })
 
+                var tabIndex = 1;
                 //add functions to forms
                 $("form").each(function(){
                     //check if this form is supported
@@ -937,7 +938,11 @@ class Dealabs extends EventEmitter{
                         });
                     }
 
+                    var textarea = $(this).find("textarea").attr("tabindex", tabIndex++);
+
+
                     var submit_btn = $(this).find(".validate_comment, .validate_button_form");
+                    submit_btn.attr("tabindex",tabIndex++);
                     //generate the preview button
                     var clone = $(submit_btn)
                         .clone(false)
@@ -945,7 +950,7 @@ class Dealabs extends EventEmitter{
                         .clone(false)
                         .data("preview_type", formType)
                         .attr('accesskey', 'p')
-                        .attr("tabindex", ""+(parseInt(submit_btn.attr("tabindex"))+1))
+                        .attr("tabindex", ""+(parseInt(tabIndex++)))
                         .css("margin-left", "20px")
                         .text(extension._("preview"));
 

@@ -1,3 +1,5 @@
+2.1.2 :
+    - correct bug with tabindexes
 2.1.1 : 
     - bug with preview when reply on a MP
 2.1.0 : 
