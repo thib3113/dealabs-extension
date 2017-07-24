@@ -21,7 +21,13 @@ function Imgur(options){
         
     // }
     
+    this.updateOptions = function(){
+      this.options = settingsManager.imgurAPI;
+    }
+
     this.checkConnection=function(cb){
+      self.updateOptions();
+
       $.ajax({
           url : 'https://api.imgur.com/3/account/me',
           dataType: 'JSON',
@@ -210,7 +216,7 @@ function Imgur(options){
         return;
       }
 
-      this.options = settingsManager.imgurAPI;
+      this.updateOptions();
 
       if(this.options.expires_date != null && this.options.expires_date<(Date.now()/1000)){
         expires_date = new Date(this.options.expires_date*1000);
