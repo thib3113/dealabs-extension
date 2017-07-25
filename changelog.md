@@ -1,3 +1,6 @@
+2.1.4 : 
+    - refactoring of imgur class
+    - repair a self created bug ( I remove the apps on imgur ... oops )
 2.1.3 :
     - correct bug with imgur ( the access token used to check the connection is not up to date )
 2.1.2 :

@@ -1,32 +1,20 @@
-function Imgur(options){
-    var self = this;
-    this.options = options || {};
-
-    this.ImgurApiKey = "9c5bf06791861cb";
-
-    this.oauth2Url = "https://api.imgur.com/oauth2/authorize?response_type=token&client_id="+this.ImgurApiKey
-
-    this.askForToken = function(){
+class Imgur extends EventEmitter{
+  
+    askForToken(){
       extension.setStorage({
           page_before_imgur_request:document.location.href,
       });
       document.location = this.oauth2Url;
     }
 
-    // this._generateAjax = function(){
-
-    // }
-
-    // this.refreshToken = function(){
-        
-    // }
-    
-    this.updateOptions = function(){
+    updateOptions(){
       this.options = settingsManager.imgurAPI;
     }
 
-    this.checkConnection=function(cb){
-      self.updateOptions();
+    checkConnection(cb){
+      var self = this;
+      this.updateOptions();
+
 
       $.ajax({
           url : 'https://api.imgur.com/3/account/me',
@@ -54,7 +42,8 @@ function Imgur(options){
       });
     }
 
-    this.getImageType=function(type){
+
+    getImageType(type){
         switch(type){
           case "image/gif":
               return ".gif";
@@ -77,14 +66,15 @@ function Imgur(options){
         }
     }
 
-    this.sendImage=function(img, cb, imgName, cbProgress){
+    sendImage(img, cb, imgName, cbProgress){
+      var self = this;
       cb = cb || function(){}; 
       cbProgress = cbProgress || function(){}; 
-      isBlob = img instanceof Blob;
+      var isBlob = img instanceof Blob;
 
       if(isBlob){
         try{
-            image_extension = this.getImageType(img.type);
+            var image_extension = this.getImageType(img.type);
         }
         catch(e){
           cb(e.message)
@@ -97,7 +87,7 @@ function Imgur(options){
       }
       else{
         //get the name from the link
-        img_parts = img.split("/");
+        var img_parts = img.split("/");
 
         var data = new FormData();
         data.append("image", img);
@@ -105,10 +95,11 @@ function Imgur(options){
         data.append("type", "url");
       }
 
-      errorFunction=function(qXHR, textStatus, errorThrown, sendManually){
+      var errorFunction=function(qXHR, textStatus, errorThrown, sendManually){
         sendManually = sendManually || false;
+        var waitingTime;
         try{
-          response = JSON.parse(qXHR.responseText);
+          var response = JSON.parse(qXHR.responseText);
           if(response.data.error != ""){
             error = response.data.error;
             if(waitingTime = response.data.error.match(/You are uploading too fast\. Please wait ([0-9]+) more minutes\./)){
@@ -164,7 +155,7 @@ function Imgur(options){
             }
             else{
               //try reading errors
-              status = 0;
+              var status = 0;
               errorText = "unknown error";
               if(response != undefined){
                 if(response.status != undefined)
@@ -190,13 +181,23 @@ function Imgur(options){
       });
     }
 
-    this.init=function(){
+    constructor(options){
+      super();
+
+      this.options = options || {};
+
+      this.ImgurApiKey = "c9223aef62f4ebe";
+
+      this.oauth2Url = "https://api.imgur.com/oauth2/authorize?response_type=token&client_id="+this.ImgurApiKey
+    
+
       if(location.hostname+location.pathname == "thib3113.github.io/dealabs-extension/redirect.html"){
+        var errorMessage;
         if(errorMessage = location.search.match(/error=([^&\s]+)/g)){
           alert(extension._("an error appear when we try to get a token from imgur : XX", errorMessage));
         }
         else{
-          params = get_params_from_url(location.hash);
+          var params = get_params_from_url(location.hash);
 
           if(params.access_token != undefined && params.access_token.length>0){
             extension.sendMessage("save_imgur_informations", params);
@@ -204,7 +205,7 @@ function Imgur(options){
         }
 
         extension.getStorage(["page_before_imgur_request"], function(storage){
-          // debugger;
+          var link;
           if(storage.page_before_imgur_request != undefined && storage.page_before_imgur_request.length>0)
             link = storage.page_before_imgur_request;
           else
@@ -232,6 +233,6 @@ function Imgur(options){
           requireInteraction:true
         });
       }
+
     }
-    this.init();
 }
