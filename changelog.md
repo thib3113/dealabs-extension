@@ -1,3 +1,5 @@
+2.1.5 :
+    - stop system because dealabs refactoring (avoid DDOS, and ip ban before tests)   
 2.1.4 : 
     - refactoring of imgur class
     - repair a self created bug ( I remove the apps on imgur ... oops )

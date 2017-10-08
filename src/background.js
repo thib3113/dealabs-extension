@@ -159,6 +159,13 @@ try{
         content = content || null;
         var cb = cb || function(){};
 
+        //maintenance mode //remove after tests
+        extension.browserAction.setTitle({title:"Suite à la mise à jour de dealabs, cette partie est désactivée temporairement"});
+        extension.browserAction.setBadgeText({text:'⚠️'});
+        extension.browserAction.setBadgeBackgroundColor({color:[255, 0, 0, 10]});
+        return;
+        
+
         clearTimeout(notificationUpdateTimeout);
         // if(content == null){
         var notification_list = [];
