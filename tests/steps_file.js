@@ -18,6 +18,7 @@ module.exports = function() {
             this.fillField("username", user);
             this.fillField("password", password);
             this.click(".validate_div .validate_button_form");
+            this.saveScreenshot('connexion/connexion-form.png');
             this.wait(1);
             this.dontSee("Mot de passe incorrect.");
             // this.saveScreenshot('connexion.png');
