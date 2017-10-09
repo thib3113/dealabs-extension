@@ -159,13 +159,6 @@ try{
         content = content || null;
         var cb = cb || function(){};
 
-        //maintenance mode //remove after tests
-        extension.browserAction.setTitle({title:"Suite à la mise à jour de dealabs, cette partie est désactivée temporairement"});
-        extension.browserAction.setBadgeText({text:'⚠️'});
-        extension.browserAction.setBadgeBackgroundColor({color:[255, 0, 0, 10]});
-        return;
-        
-
         clearTimeout(notificationUpdateTimeout);
         // if(content == null){
         var notification_list = [];
@@ -194,7 +187,7 @@ try{
                     //profil informations
                     profil = {
                         link : $page.find('#member_parameters a:first').attr('href')
-                    }
+                    };
                     try{
                         profilInfos = profil.link.match(/\/([0-9]+)\/(.*)$/);
                         profil.id = profilInfos[1];
@@ -213,10 +206,10 @@ try{
                     //get notifications from webpage, because servlet don't work correctly
                     notification_list = [];
                     $page.find("#notification_box .sub_menu_box_item").each(function(index,item){
-                        $item = $(item);
-                        id = $item.attr("id").split("_");
-                        img_src = $item.find(".notification_image_content img").data("src") || "";
-                        notification = {
+                        let $item = $(item);
+                        let id = $item.attr("id").split("_");
+                        let img_src = $item.find(".notification_image_content img").data("src") || "";
+                        let notification = {
                             id: id[1],
                             type: id[0],
                             deal_thumb_image: img_src.slice("https://static.dealabs.com/".length),
@@ -224,7 +217,7 @@ try{
                             url: $item.find(".notification_first_text_content a").attr("href"),
                         };
                         notification_list.push(notification);
-                    })
+                    });
 
                     async.parallel({
                         notifications: function(callback) {
@@ -233,36 +226,39 @@ try{
                             $.ajax({
                                 cb:callback,
                                 notification_list:notification_list,
-                                url:dealabs_protocol+"www.dealabs.com/ajax/notification-scroll",
-                                data:{
-                                    index:index,
-                                    offset:offset
-                                },
-                                method:"POST",
+                                url:dealabs_protocol+"www.dealabs.com/user-activities",
+                                method:"GET",
                                 dataType:"json",
                                 success:function(resp){
-                                    if(resp.notifications != undefined && resp.notifications.length > 0){
-                                        for (var i = resp.notifications.length - 1; i >= 0; i--) {
-                                            this.notification_list.push(resp.notifications[i])
-                                        }
+                                    let notifications = $(resp.data.content).find("a").not(".btn");
+                                    if(notifications != undefined && notifications.length > 0){
+                                        for (var i = notifications.length - 1; i >= 0; i--) {
+                                            let rawNotification = $(notifications[i]);
+                                            //remove useless text
+                                            rawNotification.find(".mute--text").remove();
 
-                                        this.data = {
-                                            index:index ,
-                                            offset:resp.offset+index
+                                            let notification = {
+                                                id:rawNotification.get(0).href,
+                                                title:rawNotification.text().trim(),
+                                                url:rawNotification.get(0).href,
+                                                deal_thumb_image:rawNotification.find(".avatar, .imgFrame-img").get(0).src,
+                                                type : "deal"
+                                            };
+                                            this.notification_list.push(notification)
                                         }
-                                        $.ajax(this);
+                                        this.cb(null, this.notification_list);
                                     }
                                     else{
                                         this.cb(null, this.notification_list);
                                     }
                                 },
-                                error:function(jqXHR, textStatus, errorThrown){
-                                    this.cb({
-                                        "jqXHR" : jqXHR,
-                                        "textStatus" : textStatus,
-                                        "errorThrown" : errorThrown
-                                    }, this.notification_list)
-                                }
+                                // error:function(jqXHR, textStatus, errorThrown){
+                                //     this.cb({
+                                //         "jqXHR" : jqXHR,
+                                //         "textStatus" : textStatus,
+                                //         "errorThrown" : errorThrown
+                                //     }, this.notification_list)
+                                // }
                             });
                         },
                         mps: function(callback) {
@@ -270,30 +266,30 @@ try{
                             $.ajax({
                                 cb:callback,
                                 notification_list:[],
-                                url:dealabs_protocol+"www.dealabs.com/ajax/mailbox-scroll",
-                                data:{
-                                    index:index
-                                },
-                                method:"POST",
+                                url:dealabs_protocol+"www.dealabs.com/conversation/recent/10/1",
+                                method:"GET",
                                 dataType:"json",
-                                success:function(resp){
-                                    if(resp.pms != undefined && resp.pms.length > 0){
-                                        for (var i = resp.pms.length - 1; i >= 0; i--) {
-                                            notification = resp.pms[i];
-                                            notification.type = "MP";
+                                success:function(response){
+                                    let pms = $("<ul>"+response.data.content+"</ul>").find("li").not(".conversationList-msg--read").not(".moreConversations");
+                                    if(pms != undefined && pms.length > 0){
+                                        for (var i = pms.length - 1; i >= 0; i--) {
+                                            let pm = $(pms[i]);
+                                            let notification = {
+                                                profile_image: pm.find(".avatar").get(0).src,
+                                                profile_username: pm.find(".conversationList-senderLine").text(),
+                                                link_to_pm: "",
+                                                subject: pm.find(".conversationList-msgPreview").text(),
+                                                type : "MP"
+                                            };
+                                            // pms[i];
+                                            // notification.type = "MP";
                                             this.notification_list.push(notification)
-                                            
-                                            //add the user to the cache
-                                            profilsCache[notification.profile_id] = {
-                                                img : notification.profile_image,
-                                                pseudo : notification.profile_username
-                                            }
-
                                         }
-                                        this.data = {
-                                            index: ++index
-                                        }
-                                        $.ajax(this);
+                                        this.cb(null, this.notification_list);
+                                        // this.data = {
+                                        //     index: ++index
+                                        // }
+                                        // $.ajax(this);
                                     }
                                     else{
                                         this.cb(null, this.notification_list);
@@ -317,7 +313,7 @@ try{
                         notification_list = $.merge(results.notifications, results.mps);
                         async.map(notification_list, 
                             function(notification,cb){
-                            return_notif = {
+                            let return_notif = {
                                 plugin_name : "unknown",
                                 icon : "",
                                 title : "unknown",
@@ -340,7 +336,7 @@ try{
                                 case "deal":
                                     return_notif = {
                                         categorie : "deals",
-                                        icon : dealabs_protocol+"static.dealabs.com/"+notification.deal_thumb_image,
+                                        icon : notification.deal_thumb_image,
                                         title : "Nouvelle notification",
                                         slug : notification.id,
                                         text : notification.title,

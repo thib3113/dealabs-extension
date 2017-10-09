@@ -226,7 +226,7 @@ module.exports = function (grunt) {
             "clean:prebuild",
             "copy:prebuild",
             "newer:uglify:prebuild"
-        ])
+        ]);
 
     grunt.registerTask('release',
         [
