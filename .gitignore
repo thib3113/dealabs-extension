@@ -7,3 +7,5 @@ node_modules/
 build/
 
 src/third/handlebars\.min\.js
+
+\.idea/

@@ -12,7 +12,7 @@ try{
           if(value.profil == undefined)
             throw Error("you're not connected");
 
-          document.location = value.profil.link+"?tab=settings&what=plugin";
+          document.location = value.profil.link+"/settings#plugin";
       }
       catch(e){
         logError(e);
