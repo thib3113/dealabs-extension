@@ -123,7 +123,7 @@ class Dealabs extends EventEmitter{
         if(!smileys_supported)
             return text;
 
-        var current_smileys = settingsManager.smileys
+        var current_smileys = settingsManager.smileys;
         for (var nom in current_smileys) {
             text = text.replace(new RegExp(':' + this.escapeRegExp(nom) + ':', 'g'), '[img size=300px]' + current_smileys[nom] + '#plugin_smiley[/img]');
         };
@@ -260,18 +260,22 @@ class Dealabs extends EventEmitter{
     initSettingsPageListeners(){
         //load emoticone themes
         $(document).on('change', '#emoticone_theme', function(){
-            self.setTheme($(this).find(":selected").data("value"), "emoticone_theme_css");
-        })
+            let value = $(this).find(":selected").data("value");
+            self.setTheme(value, "emoticone_theme_css");
+            settingsManager.emoticone_theme = value;
+        });
 
         $(document).on('change', '#plugin_theme', function(){
-            self.setTheme($(this).find(":selected").data("value"), "theme_css");
-        })
+            let value = $(this).find(":selected").data("value");
+            self.setTheme(value, "theme_css");
+            settingsManager.theme = value;
+        });
 
         $(document).on('click', '[data-plugin-role="add_new_smiley"]', function() {
             self.getTemplate("partials/customSmileyTemplate", function(tpl){
                 $(this).parents('tr').before(tpl());
             }.bind(this));
-        })
+        });
 
 
         var tryToBecomeDevelopper = 0;
@@ -448,6 +452,7 @@ class Dealabs extends EventEmitter{
             }
             var $option;
             for(name in theme_list){
+                let selected = (settingsManager.emoticone_theme.safeName == theme_list[name].safeName);
                 $option = $(asyncLists({
                     value :  theme_list[name].safeName,
                     selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
@@ -455,6 +460,8 @@ class Dealabs extends EventEmitter{
                 }));
                 $option.data("value", theme_list[name]);
                 $('#emoticone_theme').append($option);
+                if(selected)
+                    $('[data-plugin="actual_emoticone_theme"]').text(theme_list[name].name);
             }
 
             $.ajax({
@@ -463,6 +470,7 @@ class Dealabs extends EventEmitter{
               success: function(theme_list){
                 $('#emoticone_theme').html("");
                 for(name in theme_list){
+                    let selected = (settingsManager.emoticone_theme.safeName == theme_list[name].safeName);
                     $option = $(asyncLists({
                         value :  theme_list[name].safeName,
                         selected :  (settingsManager.emoticone_theme.safeName == theme_list[name].safeName),
@@ -470,6 +478,8 @@ class Dealabs extends EventEmitter{
                     }));
                     $option.data("value", theme_list[name]);
                     $('#emoticone_theme').append($option);
+                    if(selected)
+                        $('[data-plugin="actual_emoticone_theme"]').text(theme_list[name].name);
                 }
               }
             });
@@ -489,14 +499,17 @@ class Dealabs extends EventEmitter{
             catch(e){
             }
             
-            for(name in theme_list){
+            for(let name in theme_list){
+                let selected = (settingsManager.theme.safeName == theme_list[name].safeName);
                 $option = $(asyncLists({
                     value :  theme_list[name].safeName,
-                    selected :  (settingsManager.theme.safeName == theme_list[name].safeName),
+                    selected :  selected,
                     name :  theme_list[name].name,
                 }));
                 $option.data("value", theme_list[name]);
                 $('#plugin_theme').append($option);
+                if(selected)
+                    $('[data-plugin="actual_theme"]').text(theme_list[name].name);
             }
 
             $.ajax({
@@ -505,6 +518,7 @@ class Dealabs extends EventEmitter{
               success: function(theme_list){
                 $('#plugin_theme').html("");
                 for(name in theme_list){
+                    let selected = (settingsManager.theme.safeName == theme_list[name].safeName);
                     $option = $(asyncLists({
                         value :  theme_list[name].safeName,
                         selected :  (settingsManager.theme.safeName == theme_list[name].safeName),
@@ -512,6 +526,8 @@ class Dealabs extends EventEmitter{
                     }));
                     $option.data("value", theme_list[name]);
                     $('#plugin_theme').append($option);
+                    if(selected)
+                        $('[data-plugin="actual_theme"]').text(theme_list[name].name);
                 }
               }
             });
@@ -519,14 +535,19 @@ class Dealabs extends EventEmitter{
     }
 
     generateSettingsMenu(){
+        // debugger;
         self.getTemplate("settings/menu", function(tpl){
-            $('#left_profil_param').append(tpl());
-            if(self._getParameterByName('what', location.href) == "plugin")
-                $('#plugin_tab').get(0).click();
+            $('.tabbedInterface-tabs').append(tpl());
+            if(location.hash === "#plugin"){
+                //do a hash change
+                location.hash = "#a";
+                location.hash = "#plugin";
+            }
         });
     }
 
     generateSettingsPage(){
+        // debugger;
         self.getTemplate("settings/body", function(tpl){
             var blacklisted_thread = {};
             var sounded_thread = {};
@@ -539,7 +560,7 @@ class Dealabs extends EventEmitter{
                 sounded_thread[thread] = "https://www.dealabs.com/"+thread_split[0]+"/X/X/X/"+thread_split[1];
             }
 
-            $('#right_profil_param .padding_right_profil_param').append(tpl({
+            $('#tab-follows').after(tpl({
                 extension_version : extension.getManifest().version,
                 smileys : settingsManager.smileys,
                 refresh_list : time_between_refresh_list,
@@ -563,21 +584,21 @@ class Dealabs extends EventEmitter{
             // });
         
             if(settingsManager.imadevelopper){
-                extension.getLogs(function(result){
-                    // if(result == undefined || result.logs == undefined || result.logs.length==0){
-                    //     $(".plugin-debug").hide();
-                    //     return;
-                    // }
-
-                    var logs = result.logs;
-                    var text = "";
-                    for (var i = logs.length - 1; i >= 0; i--) {
-                        text += logs[i].stack
-                        if(i-1>=0)
-                            text+= "=================";
-                    }
-                    this.textarea.innerText = text;
-                }.bind({textarea:document.querySelector("#debug-logs")}))
+                // extension.getLogs(function(result){
+                //     // if(result == undefined || result.logs == undefined || result.logs.length==0){
+                //     //     $(".plugin-debug").hide();
+                //     //     return;
+                //     // }
+                //
+                //     var logs = result.logs;
+                //     var text = "";
+                //     for (var i = logs.length - 1; i >= 0; i--) {
+                //         text += logs[i].stack
+                //         if(i-1>=0)
+                //             text+= "=================";
+                //     }
+                //     this.textarea.innerText = text;
+                // }.bind({textarea:document.querySelector("#debug-logs")}))
             }
             else{
                 var debugElements = document.querySelectorAll(".plugin-debug");
@@ -730,116 +751,116 @@ class Dealabs extends EventEmitter{
                 self.setTheme(value.settings.emoticone_theme, "emoticone_theme_css");
             }, true);
 
-            var dlbs_plugin_init = function dlbs_plugin_init(options){
-                //this function is injected, don't use vars not in the window
-                var extensionId = options.extensionId;
-
-                lang = options.lang;
-
-                //add listener to check tipsy
-                window.onmessage = function(request) {
-                    if (request.data.event == "recheckTipsy"){
-                        $('.reward_tipsy').tipsy({
-                            gravity: 'n',
-                            opacity: 1
-                        });
-                        $('.like_tipsy').tipsy({
-                            gravity: 'n',
-                            opacity: 1
-                        });
-                        $('.pinned_hide').tipsy({
-                            gravity: 'w',
-                            opacity: 1
-                        });
-                        $('.pinned_explain').tipsy({
-                            gravity: 'n',
-                            opacity: 1
-                        });
-                        $('.vote_button_pinned_up').tipsy({
-                            gravity: 'e',
-                            opacity: 1
-                        });
-                        $('.vote_button_pinned_down').tipsy({
-                            gravity: 'e',
-                            opacity: 1
-                        });
-                    }
-                }
-
-                $("form").each(function(){
-                    //check if this form is supported
-                    var formType = null;
-
-                    for(var name in options.forms_matches){
-                        if (this.name.match(new RegExp(options.forms_matches[name],"g")))
-                            formType = name;
-                    }
-
-                    if(null == formType)
-                        return;
-
-                    //continue with supported forms
-                    formError = function(error, event){
-                        // event.stopPropagation();
-                        $('.spinner_validate').hide(0);
-                        console.error(error);
-                        alert(error);
-                    }
-                    
-                    //remove validate listener
-                    submit_btn = $(this).find(".validate_comment, .validate_button_form");
-                    if(submit_btn.length==0)
-                        console.error("submit button not found, design change ?");
-
-                    submit_btn.get(0)._onclick = submit_btn.get(0).onclick;
-                    submit_btn.attr("onclick", null); 
-                    submit_btn.off();
-
-                    submit_btn.on("click", function(event, overrideDisabled){
-                        if(this.disabled && !overrideDisabled)
-                            return;
-                        this.disabled = true;
-                        $(this).find(".spinner_validate").show(0);
-
-                        event.stopPropagation();
-                        $form = $(this).parents("form");
-                        $textarea = $form.find('[name="post_content"]');
-
-                        chrome.runtime.sendMessage(extensionId,{
-                                "event":"content-parse_emoticons", 
-                                "datas" : {
-                                    "text":$textarea.val(),
-                                    "formType":formType
-                                }
-                            },
-                            function(response){
-                                if(response == undefined){
-                                    response = {
-                                        success : false,
-                                        error : "error with extension"
-                                    }
-                                }
-                                this.disabled = false;
-                                if(response.success){
-                                    $textarea.val(response.text);
-                                    $(this).find(".spinner_validate").hide(0);
-                                    //execute normal process
-                                    this._onclick();
-                                }
-                                else if (response.retry){
-                                    submit_btn.trigger("click", {overrideDisabled:true});
-                                    return;
-                                }
-                                else{
-                                    formError(response.error);
-                                    return false;
-                                }
-                            }.bind(this)
-                        );
-                    });
-                });
-            }
-            this.injectScript(dlbs_plugin_init);
+            // var dlbs_plugin_init = function dlbs_plugin_init(options){
+            //     //this function is injected, don't use vars not in the window
+            //     var extensionId = options.extensionId;
+            //
+            //     lang = options.lang;
+            //
+            //     //add listener to check tipsy
+            //     window.onmessage = function(request) {
+            //         if (request.data.event == "recheckTipsy"){
+            //             $('.reward_tipsy').tipsy({
+            //                 gravity: 'n',
+            //                 opacity: 1
+            //             });
+            //             $('.like_tipsy').tipsy({
+            //                 gravity: 'n',
+            //                 opacity: 1
+            //             });
+            //             $('.pinned_hide').tipsy({
+            //                 gravity: 'w',
+            //                 opacity: 1
+            //             });
+            //             $('.pinned_explain').tipsy({
+            //                 gravity: 'n',
+            //                 opacity: 1
+            //             });
+            //             $('.vote_button_pinned_up').tipsy({
+            //                 gravity: 'e',
+            //                 opacity: 1
+            //             });
+            //             $('.vote_button_pinned_down').tipsy({
+            //                 gravity: 'e',
+            //                 opacity: 1
+            //             });
+            //         }
+            //     };
+            //
+            //     $("form").each(function(){
+            //         //check if this form is supported
+            //         var formType = null;
+            //
+            //         for(var name in options.forms_matches){
+            //             if (this.name.match(new RegExp(options.forms_matches[name],"g")))
+            //                 formType = name;
+            //         }
+            //
+            //         if(null === formType)
+            //             return;
+            //
+            //         //continue with supported forms
+            //         formError = function(error, event){
+            //             // event.stopPropagation();
+            //             $('.spinner_validate').hide(0);
+            //             console.error(error);
+            //             alert(error);
+            //         }
+            //
+            //         //remove validate listener
+            //         submit_btn = $(this).find(".validate_comment, .validate_button_form");
+            //         if(submit_btn.length==0)
+            //             console.error("submit button not found, design change ?");
+            //
+            //         submit_btn.get(0)._onclick = submit_btn.get(0).onclick;
+            //         submit_btn.attr("onclick", null);
+            //         submit_btn.off();
+            //
+            //         submit_btn.on("click", function(event, overrideDisabled){
+            //             if(this.disabled && !overrideDisabled)
+            //                 return;
+            //             this.disabled = true;
+            //             $(this).find(".spinner_validate").show(0);
+            //
+            //             event.stopPropagation();
+            //             $form = $(this).parents("form");
+            //             $textarea = $form.find('[name="post_content"]');
+            //
+            //             chrome.runtime.sendMessage(extensionId,{
+            //                     "event":"content-parse_emoticons",
+            //                     "datas" : {
+            //                         "text":$textarea.val(),
+            //                         "formType":formType
+            //                     }
+            //                 },
+            //                 function(response){
+            //                     if(response == undefined){
+            //                         response = {
+            //                             success : false,
+            //                             error : "error with extension"
+            //                         }
+            //                     }
+            //                     this.disabled = false;
+            //                     if(response.success){
+            //                         $textarea.val(response.text);
+            //                         $(this).find(".spinner_validate").hide(0);
+            //                         //execute normal process
+            //                         this._onclick();
+            //                     }
+            //                     else if (response.retry){
+            //                         submit_btn.trigger("click", {overrideDisabled:true});
+            //                         return;
+            //                     }
+            //                     else{
+            //                         formError(response.error);
+            //                         return false;
+            //                     }
+            //                 }.bind(this)
+            //             );
+            //         });
+            //     });
+            // };
+            // this.injectScript(dlbs_plugin_init);
             $(function(){
                 var options = {
                     extensionId : chrome.runtime.id,
@@ -866,335 +887,335 @@ class Dealabs extends EventEmitter{
                     timeout: 5000
                 }); 
                 
-                self.injectScript("$(function(){\n\
-                    var options =  JSON.parse('"+JSON.stringify(options).replace(/'/g, "&#39;")+"');\n\
-                    dlbs_plugin_init(options)\n\
-                })");
+                // self.injectScript("$(function(){\n\
+                //     var options =  JSON.parse('"+JSON.stringify(options).replace(/'/g, "&#39;")+"');\n\
+                //     dlbs_plugin_init(options)\n\
+                // })");
 
-                self.changeClassForSmileyAddByPlugin();
+                // self.changeClassForSmileyAddByPlugin();
 
                 //add the listener for the emoticons
-                $(document).on("click", '[data-role="plugin_emoticone_add"]', function(){
-                    var $textarea = $(this).parents("form").find("textarea");
-                    if ($textarea.length > 0) {
-                        var textarea = $textarea.get(0);
-                    }
-                    else{
-                        return;
-                    }
+                // $(document).on("click", '[data-role="plugin_emoticone_add"]', function(){
+                //     var $textarea = $(this).parents("form").find("textarea");
+                //     if ($textarea.length > 0) {
+                //         var textarea = $textarea.get(0);
+                //     }
+                //     else{
+                //         return;
+                //     }
+                //
+                //     var nom = this.getElementsByTagName('img')[0].getAttribute("title");
+                //     self.pushTextInSelection(":" + nom + ":" ,textarea);
+                // })
 
-                    var nom = this.getElementsByTagName('img')[0].getAttribute("title");
-                    self.pushTextInSelection(":" + nom + ":" ,textarea);
-                })
-
-                var tabIndex = 1;
+                // var tabIndex = 1;
                 //add functions to forms
-                $("form").each(function(){
-                    //check if this form is supported
-                    var formType = null;
-
-                    for(var name in options.forms_matches){
-                        if (this.name.match(new RegExp(options.forms_matches[name],"g")))
-                            formType = name;
-                    }
-
-                    if(null == formType)
-                        return;
-
-
-                    //add formType for other uses
-                    $(this).data("plugin-formType", formType);
-
-                    //add image container
-                    self.getTemplate("UI/imageWaitingUploadContainer", function(tpl){
-                        if(formType != "reply_MP" && formType != "new_MP"){
-                            $(this).find(".validate_form").before(tpl());
-                        }
-                        else{
-                            $(this).find("> .input_left").after(tpl());
-                        }
-                    }.bind(this));
-
-                    //check if emoticons work on this field
-                    var smileys_supported = false;
-                    for(var bbcode of self.BBcodes){
-                        if(bbcode.name == "img" && $.inArray(formType, bbcode.not_supported) < 0){
-                            smileys_supported = true
-                            break;
-                        }
-                    }
-                    if(smileys_supported){
-                        //add the emoticons in the emoticons list
-                        $(this).find(".emoji-content, .third_part_button").each(function(index, value) {
-                            var $this = $(this);
-                            for (var title in settingsManager.smileys){
-                                var emoticon = document.createElement("a");
-                                emoticon.href = "javascript:;";
-                                emoticon.setAttribute("style", 'text-decoration:none');
-                                emoticon.dataset.role = "plugin_emoticone_add";
-                                emoticon.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + settingsManager.smileys[title] + '" alt="' + title + '"/>';
-                                $this.append(emoticon)
-                            }
-                        });
-                    }
-
-                    var textarea = $(this).find("textarea").attr("tabindex", tabIndex++);
-
-
-                    var submit_btn = $(this).find(".validate_comment, .validate_button_form");
-                    submit_btn.attr("tabindex",tabIndex++);
-                    //generate the preview button
-                    var clone = $(submit_btn)
-                        .clone(false)
-                        .attr('onclick', null)
-                        .clone(false)
-                        .data("preview_type", formType)
-                        .attr('accesskey', 'p')
-                        .attr("tabindex", ""+(parseInt(tabIndex++)))
-                        .css("margin-left", "20px")
-                        .text(extension._("preview"));
-
-                    clone.on("click", function(){
-                        var $putContainer, func;
-                        var vars = {}; 
-                        var userData = $('#open_member_parameters');
-                        var formType = $(this).data("preview_type");
-
-
-                        vars.navigator = extension.getNavigator();
-                        vars.plugin_url = extension.getPluginUrl();
-                        switch(formType){
-                            case "add_thread":
-                            case "new_deal":
-                            case "new_comment":
-                            case "edit_comment":
-                            case "new_MP":
-                            case "reply_MP":
-                                vars.userlink = $("#member_parameters a:first").attr('href')
-                                vars.useravatar = userData.find('img').attr('src')
-                                vars.username = $("#member_parameters a:first").text()
-                                vars.commentaire = self._nl2br($(this).parents("form").find("textarea").val());
-                            break;
-                        }
-                        switch(formType){
-                            case "new_comment":
-                                $putContainer = $('#comment_contener');
-                                func = "append";
-                            break;
-                            case "edit_comment":
-                                $putContainer = $(this).parents('.padding_comment_contener');
-                                func = "before";
-                            break;
-                            case "new_deal":
-                                $putContainer = $("body > div.structure")
-                                func = "before";
-
-                                //add vars
-                                var $form = $(this).parents("form");
-                                vars.expiredate = null;
-                                vars.localisation = null;
-                                //get deal_type
-                                vars.deal_type = parseInt($("#type_deal").val())
-                                switch(vars.deal_type){
-                                    case 1:
-                                        vars.deal_type_name = extension._("Deals"); 
-                                    break;
-                                    case 2:                                  
-                                        vars.deal_type_name = extension._("Vouchers"); 
-                                    break;
-                                    case 3:
-                                        vars.deal_type_name = extension._("Freebies");
-                                    break;
-                                }
-                                //get cat
-                                vars.cat = $('[name="category"]').find(":selected").text();
-                                vars.sub_cat = $('[name="subcategory"]').find(":selected").text();
-                                //get img
-                                vars.deal_img = $("#image_deal").attr("src");
-                                vars.title = $form.find('[name="title"]').val();
-                                vars.storename = $form.find('[name="merchant"]').val();
-                                vars.deal_url = $form.find('[name="url"]').val();
-                                vars.shipping_cost = $form.find('[name="shipping_cost"]').val();
-                                if(vars.deal_type == 3){
-                                    vars.price = extension._("Free");
-                                }
-                                else if(vars.deal_type == 2){
-                                    vars.price = $form.find('[name="discount"]').val();
-                                    switch($form.find('[name="discount_type"]').val().toLowerCase()){
-                                        case "percent":
-                                            vars.price += "%";
-                                        break;
-                                        case "euro":
-                                            vars.price += "€";
-                                        break;
-                                        case "port gratuit":
-                                            vars.price = extension._("free delivery");
-                                            vars.shipping_cost = "";
-                                        break;
-                                    }
-                                }
-                                else{
-                                    var price = parseInt($form.find('[name="price"]').val()) || 0;
-                                    vars.price = price+"€";
-                                }
-                                vars.original_cost = $form.find('[name="original_cost"]').val();
-                                if(vars.original_cost != "" && price > 0 ){
-                                    var original_cost = parseInt(vars.original_cost);
-                                    if(original_cost > 0){
-                                        vars.percent_reduc = Math.round((100-(price*100/original_cost))*-10)/10;
-                                        if(vars.percent_reduc > 0)
-                                            vars.percent_reduc = "+"+vars.percent_reduc;
-                                    }
-                                    vars.original_cost = original_cost+"€";
-                                }
-
-
-                                if(vars.shipping_cost != ""){
-                                    vars.shipping_cost = parseInt(vars.shipping_cost)==0?extension._("free"):vars.shipping_cost+"€";
-                                }
-
-                                if(vars.deal_type != 1){
-                                    //remove original_cost percent and shipping
-                                    vars.original_cost = null;
-                                    vars.percent_reduc = null;
-                                    vars.shipping_cost = null;
-                                }
-                                vars.instore = $form.find('[name="online_status"]').val()=="instore";
-                                if(vars.instore){
-                                    vars.localisation = $("#name_select_region").text();
-                                }
-                                else{
-                                    vars.localisation = $form.find('[name="foreign_country"]').val();
-                                }
-                                vars.voucher_code = $form.find('[name="code"]').val();
-                                vars.start_date = $form.find('[name="start_date"]').val();
-                                vars.expiry_date = $form.find('[name="expiry_date"]').val();
-
-                                //convert french date to date
-                                if(vars.start_date != undefined){
-                                    var start_date=vars.start_date.split("/");
-                                    start_date=new Date(start_date[1]+"/"+start_date[0]+"/"+start_date[2]);
-                                }
-                                else
-                                    start_date = new Date(0);
-                                if(vars.expiry_date != undefined){
-                                    //convert french date to date
-                                    var expiry_date=vars.expiry_date.split("/");
-                                    expiry_date=new Date(expiry_date[1]+"/"+expiry_date[0]+"/"+expiry_date[2]);
-                                }
-                                else
-                                    expiry_date = new Date(0);
-                                vars.add_calendar = (start_date > (new Date())) || (expiry_date > (new Date())); 
-
-                                //add the addon element
-                                if(!isNaN(start_date.getTime()) && start_date.getTime() == expiry_date.getTime()){
-                                    vars.addon_element = extension._("only the");
-                                }
-                                else if(start_date > new Date()){
-                                    vars.addon_element = extension._("start the");
-                                }
-                                if(vars.addon_element != undefined && vars.addon_element != "")
-                                    vars.addon_element +=  " " + ('0' + (start_date.getDate())).slice(-2) + "/" + ('0' + (start_date.getMonth()+1)).slice(-2)
-
-                                self.injectCss("https://static.dealabs.com/css/detail_page.css?20170516", "preview_css", true);
-                            break;
-                            case "add_thread":
-                                $putContainer = $('body > div.structure');
-                                func = "before";
-
-                                $form =  $(this).parents("form");
-                                //add vars
-                                vars.title = $form.find('[name="post_title"]').val();
-
-                                vars.cat = $form.find('[name="forum_id"]').find(":checked").text();
-                                vars.sub_cat = $form.find('[name="subforum_id"]').find(":checked").text();
-
-                                self.injectCss("https://static.dealabs.com/css/detail_page.css?20170516", "preview_css", true);
-                            break;
-                            case "new_MP":
-                                $putContainer = $('#all_contener_content_messagerie');
-                                func = "before";
-
-                                //add vars
-                                vars.title = $(this).parents("form").find('[name="thread_subject"]').val();
-                                vars.attachment = basename($(this).parents("form").find('[name="post_attachment"]').val()) || null;
-                            break;
-                            case "reply_MP":
-                                $putContainer = $('#all_contener_messagerie > .content_profil_messagerie:first()');
-                                func = "append";
-                                vars.attachment = basename($(this).parents("form").find('[name="post_attachment"]').val()) || null;
-                            break;
-                            default:
-                                debugger;
-                            break;
-                        }
-
-                        self.generateTemplate(formType, function(commentContainer){
-                            var cb = function(){
-                                //redo check
-                                self.changeClassForSmileyAddByPlugin();
-                                self.reCheckQuotes();
-                                self.checkEmbedInPreview();
-                                // extension.sendMessage("recheckTipsy");
-                                window.postMessage({"event":"recheckTipsy"}, "*");
-                            }
-
-                            var $previewContainer = $('[data-userscript="comment_container"]');
-                            var $content;
-                            if ($previewContainer.length > 0) {
-                                $previewContainer.slideUp({
-                                    "duration":500,
-                                    "always":function(){
-                                        $(this).remove();
-                                        $content = $(self.generatePreview(commentContainer, vars, formType));
-                                        $content.hide(0);
-                                        $putContainer[func]($content);
-                                        $content.slideDown(500, cb);
-                                    }
-                                })    
-                            }
-                            else {
-                                $content = $(self.generatePreview(commentContainer, vars, formType));
-                                $content.hide(0)
-                                $putContainer[func]($content);
-                                $content.slideDown(500, cb);
-                            }
-                        });
-                    });
-
-                    $(submit_btn).after(clone);
-                });
+                // $("form").each(function(){
+                //     //check if this form is supported
+                //     var formType = null;
+                //
+                //     for(var name in options.forms_matches){
+                //         if (this.name.match(new RegExp(options.forms_matches[name],"g")))
+                //             formType = name;
+                //     }
+                //
+                //     if(null == formType)
+                //         return;
+                //
+                //
+                //     //add formType for other uses
+                //     $(this).data("plugin-formType", formType);
+                //
+                //     //add image container
+                //     self.getTemplate("UI/imageWaitingUploadContainer", function(tpl){
+                //         if(formType != "reply_MP" && formType != "new_MP"){
+                //             $(this).find(".validate_form").before(tpl());
+                //         }
+                //         else{
+                //             $(this).find("> .input_left").after(tpl());
+                //         }
+                //     }.bind(this));
+                //
+                //     //check if emoticons work on this field
+                //     var smileys_supported = false;
+                //     for(var bbcode of self.BBcodes){
+                //         if(bbcode.name == "img" && $.inArray(formType, bbcode.not_supported) < 0){
+                //             smileys_supported = true
+                //             break;
+                //         }
+                //     }
+                //     if(smileys_supported){
+                //         //add the emoticons in the emoticons list
+                //         $(this).find(".emoji-content, .third_part_button").each(function(index, value) {
+                //             var $this = $(this);
+                //             for (var title in settingsManager.smileys){
+                //                 var emoticon = document.createElement("a");
+                //                 emoticon.href = "javascript:;";
+                //                 emoticon.setAttribute("style", 'text-decoration:none');
+                //                 emoticon.dataset.role = "plugin_emoticone_add";
+                //                 emoticon.innerHTML = '<img style="max-height:20px" title="' + title + '" src="' + settingsManager.smileys[title] + '" alt="' + title + '"/>';
+                //                 $this.append(emoticon)
+                //             }
+                //         });
+                //     }
+                //
+                //     var textarea = $(this).find("textarea").attr("tabindex", tabIndex++);
+                //
+                //
+                //     var submit_btn = $(this).find(".validate_comment, .validate_button_form");
+                //     submit_btn.attr("tabindex",tabIndex++);
+                //     //generate the preview button
+                //     var clone = $(submit_btn)
+                //         .clone(false)
+                //         .attr('onclick', null)
+                //         .clone(false)
+                //         .data("preview_type", formType)
+                //         .attr('accesskey', 'p')
+                //         .attr("tabindex", ""+(parseInt(tabIndex++)))
+                //         .css("margin-left", "20px")
+                //         .text(extension._("preview"));
+                //
+                //     clone.on("click", function(){
+                //         var $putContainer, func;
+                //         var vars = {};
+                //         var userData = $('#open_member_parameters');
+                //         var formType = $(this).data("preview_type");
+                //
+                //
+                //         vars.navigator = extension.getNavigator();
+                //         vars.plugin_url = extension.getPluginUrl();
+                //         switch(formType){
+                //             case "add_thread":
+                //             case "new_deal":
+                //             case "new_comment":
+                //             case "edit_comment":
+                //             case "new_MP":
+                //             case "reply_MP":
+                //                 vars.userlink = $("#member_parameters a:first").attr('href')
+                //                 vars.useravatar = userData.find('img').attr('src')
+                //                 vars.username = $("#member_parameters a:first").text()
+                //                 vars.commentaire = self._nl2br($(this).parents("form").find("textarea").val());
+                //             break;
+                //         }
+                //         switch(formType){
+                //             case "new_comment":
+                //                 $putContainer = $('#comment_contener');
+                //                 func = "append";
+                //             break;
+                //             case "edit_comment":
+                //                 $putContainer = $(this).parents('.padding_comment_contener');
+                //                 func = "before";
+                //             break;
+                //             case "new_deal":
+                //                 $putContainer = $("body > div.structure")
+                //                 func = "before";
+                //
+                //                 //add vars
+                //                 var $form = $(this).parents("form");
+                //                 vars.expiredate = null;
+                //                 vars.localisation = null;
+                //                 //get deal_type
+                //                 vars.deal_type = parseInt($("#type_deal").val())
+                //                 switch(vars.deal_type){
+                //                     case 1:
+                //                         vars.deal_type_name = extension._("Deals");
+                //                     break;
+                //                     case 2:
+                //                         vars.deal_type_name = extension._("Vouchers");
+                //                     break;
+                //                     case 3:
+                //                         vars.deal_type_name = extension._("Freebies");
+                //                     break;
+                //                 }
+                //                 //get cat
+                //                 vars.cat = $('[name="category"]').find(":selected").text();
+                //                 vars.sub_cat = $('[name="subcategory"]').find(":selected").text();
+                //                 //get img
+                //                 vars.deal_img = $("#image_deal").attr("src");
+                //                 vars.title = $form.find('[name="title"]').val();
+                //                 vars.storename = $form.find('[name="merchant"]').val();
+                //                 vars.deal_url = $form.find('[name="url"]').val();
+                //                 vars.shipping_cost = $form.find('[name="shipping_cost"]').val();
+                //                 if(vars.deal_type == 3){
+                //                     vars.price = extension._("Free");
+                //                 }
+                //                 else if(vars.deal_type == 2){
+                //                     vars.price = $form.find('[name="discount"]').val();
+                //                     switch($form.find('[name="discount_type"]').val().toLowerCase()){
+                //                         case "percent":
+                //                             vars.price += "%";
+                //                         break;
+                //                         case "euro":
+                //                             vars.price += "€";
+                //                         break;
+                //                         case "port gratuit":
+                //                             vars.price = extension._("free delivery");
+                //                             vars.shipping_cost = "";
+                //                         break;
+                //                     }
+                //                 }
+                //                 else{
+                //                     var price = parseInt($form.find('[name="price"]').val()) || 0;
+                //                     vars.price = price+"€";
+                //                 }
+                //                 vars.original_cost = $form.find('[name="original_cost"]').val();
+                //                 if(vars.original_cost != "" && price > 0 ){
+                //                     var original_cost = parseInt(vars.original_cost);
+                //                     if(original_cost > 0){
+                //                         vars.percent_reduc = Math.round((100-(price*100/original_cost))*-10)/10;
+                //                         if(vars.percent_reduc > 0)
+                //                             vars.percent_reduc = "+"+vars.percent_reduc;
+                //                     }
+                //                     vars.original_cost = original_cost+"€";
+                //                 }
+                //
+                //
+                //                 if(vars.shipping_cost != ""){
+                //                     vars.shipping_cost = parseInt(vars.shipping_cost)==0?extension._("free"):vars.shipping_cost+"€";
+                //                 }
+                //
+                //                 if(vars.deal_type != 1){
+                //                     //remove original_cost percent and shipping
+                //                     vars.original_cost = null;
+                //                     vars.percent_reduc = null;
+                //                     vars.shipping_cost = null;
+                //                 }
+                //                 vars.instore = $form.find('[name="online_status"]').val()=="instore";
+                //                 if(vars.instore){
+                //                     vars.localisation = $("#name_select_region").text();
+                //                 }
+                //                 else{
+                //                     vars.localisation = $form.find('[name="foreign_country"]').val();
+                //                 }
+                //                 vars.voucher_code = $form.find('[name="code"]').val();
+                //                 vars.start_date = $form.find('[name="start_date"]').val();
+                //                 vars.expiry_date = $form.find('[name="expiry_date"]').val();
+                //
+                //                 //convert french date to date
+                //                 if(vars.start_date != undefined){
+                //                     var start_date=vars.start_date.split("/");
+                //                     start_date=new Date(start_date[1]+"/"+start_date[0]+"/"+start_date[2]);
+                //                 }
+                //                 else
+                //                     start_date = new Date(0);
+                //                 if(vars.expiry_date != undefined){
+                //                     //convert french date to date
+                //                     var expiry_date=vars.expiry_date.split("/");
+                //                     expiry_date=new Date(expiry_date[1]+"/"+expiry_date[0]+"/"+expiry_date[2]);
+                //                 }
+                //                 else
+                //                     expiry_date = new Date(0);
+                //                 vars.add_calendar = (start_date > (new Date())) || (expiry_date > (new Date()));
+                //
+                //                 //add the addon element
+                //                 if(!isNaN(start_date.getTime()) && start_date.getTime() == expiry_date.getTime()){
+                //                     vars.addon_element = extension._("only the");
+                //                 }
+                //                 else if(start_date > new Date()){
+                //                     vars.addon_element = extension._("start the");
+                //                 }
+                //                 if(vars.addon_element != undefined && vars.addon_element != "")
+                //                     vars.addon_element +=  " " + ('0' + (start_date.getDate())).slice(-2) + "/" + ('0' + (start_date.getMonth()+1)).slice(-2)
+                //
+                //                 self.injectCss("https://static.dealabs.com/css/detail_page.css?20170516", "preview_css", true);
+                //             break;
+                //             case "add_thread":
+                //                 $putContainer = $('body > div.structure');
+                //                 func = "before";
+                //
+                //                 $form =  $(this).parents("form");
+                //                 //add vars
+                //                 vars.title = $form.find('[name="post_title"]').val();
+                //
+                //                 vars.cat = $form.find('[name="forum_id"]').find(":checked").text();
+                //                 vars.sub_cat = $form.find('[name="subforum_id"]').find(":checked").text();
+                //
+                //                 self.injectCss("https://static.dealabs.com/css/detail_page.css?20170516", "preview_css", true);
+                //             break;
+                //             case "new_MP":
+                //                 $putContainer = $('#all_contener_content_messagerie');
+                //                 func = "before";
+                //
+                //                 //add vars
+                //                 vars.title = $(this).parents("form").find('[name="thread_subject"]').val();
+                //                 vars.attachment = basename($(this).parents("form").find('[name="post_attachment"]').val()) || null;
+                //             break;
+                //             case "reply_MP":
+                //                 $putContainer = $('#all_contener_messagerie > .content_profil_messagerie:first()');
+                //                 func = "append";
+                //                 vars.attachment = basename($(this).parents("form").find('[name="post_attachment"]').val()) || null;
+                //             break;
+                //             default:
+                //                 debugger;
+                //             break;
+                //         }
+                //
+                //         self.generateTemplate(formType, function(commentContainer){
+                //             var cb = function(){
+                //                 //redo check
+                //                 self.changeClassForSmileyAddByPlugin();
+                //                 self.reCheckQuotes();
+                //                 self.checkEmbedInPreview();
+                //                 // extension.sendMessage("recheckTipsy");
+                //                 window.postMessage({"event":"recheckTipsy"}, "*");
+                //             }
+                //
+                //             var $previewContainer = $('[data-userscript="comment_container"]');
+                //             var $content;
+                //             if ($previewContainer.length > 0) {
+                //                 $previewContainer.slideUp({
+                //                     "duration":500,
+                //                     "always":function(){
+                //                         $(this).remove();
+                //                         $content = $(self.generatePreview(commentContainer, vars, formType));
+                //                         $content.hide(0);
+                //                         $putContainer[func]($content);
+                //                         $content.slideDown(500, cb);
+                //                     }
+                //                 })
+                //             }
+                //             else {
+                //                 $content = $(self.generatePreview(commentContainer, vars, formType));
+                //                 $content.hide(0)
+                //                 $putContainer[func]($content);
+                //                 $content.slideDown(500, cb);
+                //             }
+                //         });
+                //     });
+                //
+                //     $(submit_btn).after(clone);
+                // });
 
                 //override spoiler
-                $('body').on('click', '[data-userscript="comment_container"] .click_div_spoiler', function(e) {
-                    if ($(this).next().is(":hidden")) {
-                        $(this).parents(".quote").last().children('.quote_message').css('max-height', 'none')
-                    }
-                    $(this).next().slideToggle("fast", function() {
-                        if ($(this).is(":hidden")) {
-                            $(this).parent().children('.click_div_spoiler').html('Ce message a été masqué par son auteur. Cliquez pour l’afficher.')
-                        } else {
-                            $(this).parent().children('.click_div_spoiler').html('Contenu du message :')
-                        }
-                    })
-                });
+                // $('body').on('click', '[data-userscript="comment_container"] .click_div_spoiler', function(e) {
+                //     if ($(this).next().is(":hidden")) {
+                //         $(this).parents(".quote").last().children('.quote_message').css('max-height', 'none')
+                //     }
+                //     $(this).next().slideToggle("fast", function() {
+                //         if ($(this).is(":hidden")) {
+                //             $(this).parent().children('.click_div_spoiler').html('Ce message a été masqué par son auteur. Cliquez pour l’afficher.')
+                //         } else {
+                //             $(this).parent().children('.click_div_spoiler').html('Contenu du message :')
+                //         }
+                //     })
+                // });
 
                 //override long quote
-                $('body').on('click', '[data-userscript="comment_container"] div.quote > div.quote_pseudo > p.pseudo_tag > a.open', function(e) {
-                    var quote_height_max = parseInt($(".quote_message").css("max-height"), 10);
-                    var current_height = $(this).parents(".quote").children('.quote_message').height();
-                    if (current_height <= quote_height_max) {
-                        $(this).parents(".quote").children('.quote_message').css('max-height', 'none');
-                        $(this).text("Masquer la citation")
-                    } else {
-                        $(this).parents(".quote").children('.quote_message').css('max-height', quote_height_max + 'px');
-                        $(this).text("Afficher l'intégralité de la citation")
-                    }
-                });
+                // $('body').on('click', '[data-userscript="comment_container"] div.quote > div.quote_pseudo > p.pseudo_tag > a.open', function(e) {
+                //     var quote_height_max = parseInt($(".quote_message").css("max-height"), 10);
+                //     var current_height = $(this).parents(".quote").children('.quote_message').height();
+                //     if (current_height <= quote_height_max) {
+                //         $(this).parents(".quote").children('.quote_message').css('max-height', 'none');
+                //         $(this).text("Masquer la citation")
+                //     } else {
+                //         $(this).parents(".quote").children('.quote_message').css('max-height', quote_height_max + 'px');
+                //         $(this).text("Afficher l'intégralité de la citation")
+                //     }
+                // });
 
 
                 //init embedManager
-                self.EmbedLinksManager = new Embed($('a.link_a_reduce'));
+                // self.EmbedLinksManager = new Embed($('a.link_a_reduce'));
 
                 //add hour in body for styling
                 var updateHourBody = function(){
@@ -1204,91 +1225,91 @@ class Dealabs extends EventEmitter{
                 }();
 
                 //add menu for sound, and menu for blacklist
-                var linkInfos, blacklist, blacklisted, notifications_with_sound
-                if(linkInfos = location.pathname.match(/^\/([^\/]+)\/.*\/([0-9]+)$/)){
-                    self.getTemplate("UI/yes_no", function(tpl){
-                        blacklisted =  (typeof settingsManager.blacklist[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
-                        $('#bloc_option .bloc_option_white').prepend(tpl({
-                            link_info: linkInfos[1]+'-'+linkInfos[2],
-                            role: "blacklist-notification",
-                            yes: blacklisted,
-                            title: extension._("blacklist notifications"),
-                            description: extension._("blacklist notifications from this thread")
-                        }))
-                    }.bind(this));
-
-                    $(document).on('click', '[data-plugin-role="blacklist-notification"]', function(e){
-                        e.preventDefault();
-                        e.stopPropagation();
-                        blacklist = settingsManager.blacklist
-                        if($(this).find('.yes').length == 0){// => is not already blacklisted
-                            blacklist[$(this).data('plugin-link-info')] = true;
-                        }
-                        else{
-                            delete blacklist[$(this).data('plugin-link-info')];
-                        }
-
-                        settingsManager._updateCb = function(){
-                            extension.sendMessage('update_settings', {});
-                            settingsManager._updateCb = null;
-                        }
-                        settingsManager.blacklist = blacklist;
-                        
-                        self.getTemplate("partials/yes_no", function(tpl){
-                            blacklisted = (typeof settingsManager.blacklist[$(this).data('plugin-link-info')] != "undefined");
-                            $(this).html(tpl({yes:blacklisted}));
-                        }.bind(this));
-
-                        return false;
-                    });
-
-                    self.getTemplate("UI/yes_no", function(tpl){
-                        notifications_with_sound =  (typeof settingsManager.notifications_with_sound[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
-                        $('#bloc_option .bloc_option_white').prepend(tpl({
-                            link_info: linkInfos[1]+'-'+linkInfos[2],
-                            role: "sounded-notification",
-                            yes: notifications_with_sound,
-                            title: extension._("play sound"),
-                            description: extension._("play a sound when you get a new notification for this thread")
-                        }))
-                    });
-                    // $('#bloc_option .bloc_option_white').prepend('\
-                    //     <div class="button_part">\
-                    //         <div class="bouton_contener_border" data-plugin-link-info="'+linkInfos[1]+'-'+linkInfos[2]+'" id="plugin-sounded-notification">\
-                    //             <div class="yes_part '+(notifications_with_sound?'yes':'')+'"></div>\
-                    //             <div class="no_part '+(notifications_with_sound?'':'no')+'"></div>\
-                    //         </div>\
-                    //     </div>\
-                    //     <div class="title_button_part">\
-                    //         <p>Jouer un son</p>\
-                    //         <p>Jouer un son lors d\'une nouvelle réponse</p>\
-                    //     </div>\
-                    // ');
-
-                    $(document).on('click', '[data-plugin-role="sounded-notification"]', function(e){
-                        e.preventDefault();
-                        e.stopPropagation();
-                        notifications_with_sound = settingsManager.notifications_with_sound
-                        if($(this).find('.yes').length == 0){// => is not already notifications_with_sound
-                            notifications_with_sound[$(this).data('plugin-link-info')] = true;
-                        }
-                        else{
-                            delete notifications_with_sound[$(this).data('plugin-link-info')];
-                        }
-
-                        settingsManager._updateCb = function(){
-                            extension.sendMessage('update_settings', {});
-                            settingsManager._updateCb = null;
-                        }
-                        settingsManager.notifications_with_sound = notifications_with_sound;
-                        
-                        self.getTemplate("partials/yes_no", function(tpl){
-                            notifications_with_sound = (typeof settingsManager.notifications_with_sound[$(this).data('plugin-link-info')] != "undefined");
-                            $(this).html(tpl({yes:notifications_with_sound}));
-                        }.bind(this));
-                        return false;
-                    });
-                }
+                // var linkInfos, blacklist, blacklisted, notifications_with_sound
+                // if(linkInfos = location.pathname.match(/^\/([^\/]+)\/.*\/([0-9]+)$/)){
+                //     self.getTemplate("UI/yes_no", function(tpl){
+                //         blacklisted =  (typeof settingsManager.blacklist[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
+                //         $('#bloc_option .bloc_option_white').prepend(tpl({
+                //             link_info: linkInfos[1]+'-'+linkInfos[2],
+                //             role: "blacklist-notification",
+                //             yes: blacklisted,
+                //             title: extension._("blacklist notifications"),
+                //             description: extension._("blacklist notifications from this thread")
+                //         }))
+                //     }.bind(this));
+                //
+                //     $(document).on('click', '[data-plugin-role="blacklist-notification"]', function(e){
+                //         e.preventDefault();
+                //         e.stopPropagation();
+                //         blacklist = settingsManager.blacklist
+                //         if($(this).find('.yes').length == 0){// => is not already blacklisted
+                //             blacklist[$(this).data('plugin-link-info')] = true;
+                //         }
+                //         else{
+                //             delete blacklist[$(this).data('plugin-link-info')];
+                //         }
+                //
+                //         settingsManager._updateCb = function(){
+                //             extension.sendMessage('update_settings', {});
+                //             settingsManager._updateCb = null;
+                //         }
+                //         settingsManager.blacklist = blacklist;
+                //
+                //         self.getTemplate("partials/yes_no", function(tpl){
+                //             blacklisted = (typeof settingsManager.blacklist[$(this).data('plugin-link-info')] != "undefined");
+                //             $(this).html(tpl({yes:blacklisted}));
+                //         }.bind(this));
+                //
+                //         return false;
+                //     });
+                //
+                //     self.getTemplate("UI/yes_no", function(tpl){
+                //         notifications_with_sound =  (typeof settingsManager.notifications_with_sound[linkInfos[1]+'-'+linkInfos[2]] != "undefined");
+                //         $('#bloc_option .bloc_option_white').prepend(tpl({
+                //             link_info: linkInfos[1]+'-'+linkInfos[2],
+                //             role: "sounded-notification",
+                //             yes: notifications_with_sound,
+                //             title: extension._("play sound"),
+                //             description: extension._("play a sound when you get a new notification for this thread")
+                //         }))
+                //     });
+                //     // $('#bloc_option .bloc_option_white').prepend('\
+                //     //     <div class="button_part">\
+                //     //         <div class="bouton_contener_border" data-plugin-link-info="'+linkInfos[1]+'-'+linkInfos[2]+'" id="plugin-sounded-notification">\
+                //     //             <div class="yes_part '+(notifications_with_sound?'yes':'')+'"></div>\
+                //     //             <div class="no_part '+(notifications_with_sound?'':'no')+'"></div>\
+                //     //         </div>\
+                //     //     </div>\
+                //     //     <div class="title_button_part">\
+                //     //         <p>Jouer un son</p>\
+                //     //         <p>Jouer un son lors d\'une nouvelle réponse</p>\
+                //     //     </div>\
+                //     // ');
+                //
+                //     $(document).on('click', '[data-plugin-role="sounded-notification"]', function(e){
+                //         e.preventDefault();
+                //         e.stopPropagation();
+                //         notifications_with_sound = settingsManager.notifications_with_sound
+                //         if($(this).find('.yes').length == 0){// => is not already notifications_with_sound
+                //             notifications_with_sound[$(this).data('plugin-link-info')] = true;
+                //         }
+                //         else{
+                //             delete notifications_with_sound[$(this).data('plugin-link-info')];
+                //         }
+                //
+                //         settingsManager._updateCb = function(){
+                //             extension.sendMessage('update_settings', {});
+                //             settingsManager._updateCb = null;
+                //         }
+                //         settingsManager.notifications_with_sound = notifications_with_sound;
+                //
+                //         self.getTemplate("partials/yes_no", function(tpl){
+                //             notifications_with_sound = (typeof settingsManager.notifications_with_sound[$(this).data('plugin-link-info')] != "undefined");
+                //             $(this).html(tpl({yes:notifications_with_sound}));
+                //         }.bind(this));
+                //         return false;
+                //     });
+                // }
 
                 //add listener for critical errors from background or popup
                 extension.onMessage("criticalError",function(datas, cb){
@@ -1300,164 +1321,164 @@ class Dealabs extends EventEmitter{
                 } ,true)
 
                 //dropzone for image
-                $(document).on('paste drop', 'textarea', function(e){
-                    var reUpload = e.ctrlKey;
-                    var is_image, items, src;
-
-                    if(e.type == "paste"){
-                        items = (e.clipboardData || e.originalEvent.clipboardData).items;
-                    }
-                    else if(e.type == "drop"){
-                        e.stopPropagation();
-                        e.preventDefault();
-                        
-                        items = (e.dataTransfer || e.originalEvent.dataTransfer).items;
-                    }
-                    else{
-                        new Noty({
-                            text:extension._("unknown event type : $type$", e.type),
-                            type:"error",
-                            timeout:false
-                        });
-                    }
-
-                    for (let item of items) {
-                        if (item.type != undefined && item.type.indexOf("image") !== -1) {
-                            var blob = item.getAsFile(); 
-                            self.uploadImage(this, blob, true);
-                        }
-                        if (item.kind === "string"){
-                            item.getAsString(function(str) {
-                                try{
-                                    is_image = $(str).is('img');
-                                }
-                                catch(e){
-                                    is_image = false;
-                                }
-
-                                if(is_image){
-                                    var img = $(str)
-                                    var width = img.get(0).naturalWidth;
-                                    src = img.attr('src');
-
-                                    if(src != undefined){
-                                        if(isDataURL(src)){
-                                            fetch(src)
-                                            .then(res => res.blob())
-                                            .then(blob => self.uploadImage(this, blob, true))
-                                        }
-                                        else{
-                                            self.uploadImage(this, src, reUpload, width);
-                                        }
-                                    }
-                                }
-                            }.bind(this));
-                        }
-                    }
-                })
+                // $(document).on('paste drop', 'textarea', function(e){
+                //     var reUpload = e.ctrlKey;
+                //     var is_image, items, src;
+                //
+                //     if(e.type == "paste"){
+                //         items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                //     }
+                //     else if(e.type == "drop"){
+                //         e.stopPropagation();
+                //         e.preventDefault();
+                //
+                //         items = (e.dataTransfer || e.originalEvent.dataTransfer).items;
+                //     }
+                //     else{
+                //         new Noty({
+                //             text:extension._("unknown event type : $type$", e.type),
+                //             type:"error",
+                //             timeout:false
+                //         });
+                //     }
+                //
+                //     for (let item of items) {
+                //         if (item.type != undefined && item.type.indexOf("image") !== -1) {
+                //             var blob = item.getAsFile();
+                //             self.uploadImage(this, blob, true);
+                //         }
+                //         if (item.kind === "string"){
+                //             item.getAsString(function(str) {
+                //                 try{
+                //                     is_image = $(str).is('img');
+                //                 }
+                //                 catch(e){
+                //                     is_image = false;
+                //                 }
+                //
+                //                 if(is_image){
+                //                     var img = $(str)
+                //                     var width = img.get(0).naturalWidth;
+                //                     src = img.attr('src');
+                //
+                //                     if(src != undefined){
+                //                         if(isDataURL(src)){
+                //                             fetch(src)
+                //                             .then(res => res.blob())
+                //                             .then(blob => self.uploadImage(this, blob, true))
+                //                         }
+                //                         else{
+                //                             self.uploadImage(this, src, reUpload, width);
+                //                         }
+                //                     }
+                //                 }
+                //             }.bind(this));
+                //         }
+                //     }
+                // })
 
                 //add listener for image wait upload
-                extension.onMessage("waitImgUpload", function(datas, cb){
-                    var ids = datas.ids;
-                    var functions = [];
-                    Noty.setMaxVisible(10, 'imgWait');
-                    for(let id of ids){
-                        var c_id = id[1];
-                        if(this.imgUploading[c_id] != undefined){
-                            var uploadInProgressNotification = new Noty({
-                                                                    type: 'warning',
-                                                                    text: extension._('an image is uploading you\'r form will be automatically send after')+' <img src="https://static.dealabs.com/images/smiley/emoji_smiling.png" width="auto" height="auto" alt=":)" title=":)" class="bbcode_smiley">',
-                                                                    timeout:false,
-                                                                    queue:"imgWait"
-                                                                }).show();
-                            functions.push(function(callback){
-                                    this.obj.imgUploading[this.c_id].on("finish", function(){
-                                        uploadInProgressNotification.close();
-                                        callback(null);
-                                    }.bind(this.obj))
-                                }.bind({obj:this,c_id:c_id})
-                            );
-                        }
-                        else{
-                            new Noty({
-                                type: 'error',
-                                text: extension._('unknown error'),
-                                timeout:false,
-                                queue:"imgWait"
-                            }).show();
-                        }
-                    }
-                    async.parallel(functions, function(){
-                        cb();
-                    }.bind(this));
-                    return true;
-                }.bind(self), true)
+                // extension.onMessage("waitImgUpload", function(datas, cb){
+                //     var ids = datas.ids;
+                //     var functions = [];
+                //     Noty.setMaxVisible(10, 'imgWait');
+                //     for(let id of ids){
+                //         var c_id = id[1];
+                //         if(this.imgUploading[c_id] != undefined){
+                //             var uploadInProgressNotification = new Noty({
+                //                                                     type: 'warning',
+                //                                                     text: extension._('an image is uploading you\'r form will be automatically send after')+' <img src="https://static.dealabs.com/images/smiley/emoji_smiling.png" width="auto" height="auto" alt=":)" title=":)" class="bbcode_smiley">',
+                //                                                     timeout:false,
+                //                                                     queue:"imgWait"
+                //                                                 }).show();
+                //             functions.push(function(callback){
+                //                     this.obj.imgUploading[this.c_id].on("finish", function(){
+                //                         uploadInProgressNotification.close();
+                //                         callback(null);
+                //                     }.bind(this.obj))
+                //                 }.bind({obj:this,c_id:c_id})
+                //             );
+                //         }
+                //         else{
+                //             new Noty({
+                //                 type: 'error',
+                //                 text: extension._('unknown error'),
+                //                 timeout:false,
+                //                 queue:"imgWait"
+                //             }).show();
+                //         }
+                //     }
+                //     async.parallel(functions, function(){
+                //         cb();
+                //     }.bind(this));
+                //     return true;
+                // }.bind(self), true)
 
                 //add listener to link account with imgur
-                $(document).on("click", '[data-plugin-role="ask_for_imgur_token"]', function(){
-                    imgurManager.askForToken();
-                })
+                // $(document).on("click", '[data-plugin-role="ask_for_imgur_token"]', function(){
+                //     imgurManager.askForToken();
+                // })
 
                 //add listener to refresh informations about imgur
-                $(document).on("click", '[data-plugin-role="refresh"]', function(){
-                    extension.sendMessage("updateImgurStatus", {}, function(response){
-                        if(response == undefined)
-                            response = {success:false,error:extension._("unknown error")};
-
-                        if(response.success){
-                            new Noty({
-                                text:extension._("imgur status up to date")
-                            }).show();
-                            updateImgurConnectionStatus(response.status);
-                        }
-                        else{
-                            new Noty({
-                                type:"error",
-                                killer:true,
-                                text:response.error
-                            }).show();
-                        }
-                    });
-                })
+                // $(document).on("click", '[data-plugin-role="refresh"]', function(){
+                //     extension.sendMessage("updateImgurStatus", {}, function(response){
+                //         if(response == undefined)
+                //             response = {success:false,error:extension._("unknown error")};
+                //
+                //         if(response.success){
+                //             new Noty({
+                //                 text:extension._("imgur status up to date")
+                //             }).show();
+                //             updateImgurConnectionStatus(response.status);
+                //         }
+                //         else{
+                //             new Noty({
+                //                 type:"error",
+                //                 killer:true,
+                //                 text:response.error
+                //             }).show();
+                //         }
+                //     });
+                // })
 
                 //add informations about imgur
-                function updateImgurConnectionStatus(status){
-                    // console.log(settingsManager.show_imgur_connection_under_form);
-                    if(!settingsManager.show_imgur_connection_under_form && self._getParameterByName('what', location.href) != "plugin")
-                        return;
-
-                    var cb = function(response){
-                        self.getTemplate("UI/imgurStatus", function(tpl){
-
-                            //if no image container return or not in settings page(here to delay a little)
-                            if($('[plugin-role="image_upload_container"]').length == 0)
-                                return;
-
-                            $('[data-plugin-role="imgurStatus"]').remove();
-                            $('[plugin-role="image_upload_container"]').prepend(tpl({
-                                status: response.status,
-                                time : (response.lastTime!=null)?moment.unix(response.lastTime/1000).fromNow():extension._("never")
-                            }));
-                            //if we found one status
-                            
-                            //relaunch in 30 seconds
-                            setTimeout(updateImgurConnectionStatus, 1000*30);
-                        })
-                    }
-
-                    if(status == undefined){
-                        extension.sendMessage("getImgurStatus", {}, function(response){
-                            cb(response);
-                        })
-                    }
-                    else{
-                        cb(status);
-                    }
-                }
-                updateImgurConnectionStatus();
+                // function updateImgurConnectionStatus(status){
+                //     // console.log(settingsManager.show_imgur_connection_under_form);
+                //     if(!settingsManager.show_imgur_connection_under_form && self._getParameterByName('what', location.href) != "plugin")
+                //         return;
+                //
+                //     var cb = function(response){
+                //         self.getTemplate("UI/imgurStatus", function(tpl){
+                //
+                //             //if no image container return or not in settings page(here to delay a little)
+                //             if($('[plugin-role="image_upload_container"]').length == 0)
+                //                 return;
+                //
+                //             $('[data-plugin-role="imgurStatus"]').remove();
+                //             $('[plugin-role="image_upload_container"]').prepend(tpl({
+                //                 status: response.status,
+                //                 time : (response.lastTime!=null)?moment.unix(response.lastTime/1000).fromNow():extension._("never")
+                //             }));
+                //             //if we found one status
+                //
+                //             //relaunch in 30 seconds
+                //             setTimeout(updateImgurConnectionStatus, 1000*30);
+                //         })
+                //     }
+                //
+                //     if(status == undefined){
+                //         extension.sendMessage("getImgurStatus", {}, function(response){
+                //             cb(response);
+                //         })
+                //     }
+                //     else{
+                //         cb(status);
+                //     }
+                // }
+                // updateImgurConnectionStatus();
 
                 //settings
-                if (self._getParameterByName('tab', location.href) == "settings") {
+                if (location.pathname.match(/\/profile\/[^\/]*\/settings/) !==  null) {
                     self.generateSettingsPage();
                     self.initSettingsPageListeners();
                 }

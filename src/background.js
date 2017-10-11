@@ -136,7 +136,7 @@ try{
     function iconState(state){
         switch(state){
             case "connected":
-                extension.browserAction.setPopup({popup:'popup.html'});
+                // extension.browserAction.setPopup({popup:'popup.html'});
             break;
             case "disconnected":
                 //here we are not connected
@@ -185,11 +185,11 @@ try{
                     iconState("connected");
 
                     //profil informations
-                    profil = {
-                        link : $page.find('#member_parameters a:first').attr('href')
+                    let profil = {
+                        link :  "https://www.dealabs.com/profile/"+$page.find(".navDropDown-head-text").last().text().trim()
                     };
                     try{
-                        profilInfos = profil.link.match(/\/([0-9]+)\/(.*)$/);
+                        let profilInfos = profil.link.match(/\/([0-9]+)\/(.*)$/);
                         profil.id = profilInfos[1];
                         profil.name = profilInfos[2];
                     }
@@ -201,8 +201,33 @@ try{
                     extension.setStorage({
                         profil:profil
                     });
-                    
-                    // nbNotifs = parseInt($page.find("#number_notif").text());
+
+
+                    let nbNotifs = parseInt($page.find(".js-notifications-counter").last().text());
+
+                    if(nbNotifs > 0 ){
+                        extension.browserAction.getBadgeText({}, function(result){
+                            if(result != nbNotifs){
+                                extension.browserAction.setTitle({title:nbNotifs+' notification'+(nbNotifs>1?'s':'')});
+                                extension.browserAction.setBadgeText({text:''+nbNotifs});
+                                extension.browserAction.setBadgeBackgroundColor({color:'#0012FF'});
+                            }
+                        });
+                    }
+                    else{
+                        extension.browserAction.setTitle({title:'pas de notifications'});
+                        extension.browserAction.setBadgeText({text:''});
+                        extension.browserAction.setBadgeBackgroundColor({color:'#FFE400'});
+                    }
+
+                    //maintenance mode //remove after tests
+
+                    // extension.browserAction.setTitle({title:"Suite à la mise à jour de dealabs, cette partie est désactivée temporairement"});
+                    // extension.browserAction.setBadgeText({text:'⚠️'});
+                    // extension.browserAction.setBadgeBackgroundColor({color:[255, 0, 0, 10]});
+                    extension.browserAction.setPopup({popup:''});
+                    return;
+
                     //get notifications from webpage, because servlet don't work correctly
                     notification_list = [];
                     $page.find("#notification_box .sub_menu_box_item").each(function(index,item){
@@ -377,7 +402,7 @@ try{
                                     'alertes': {value:0},
                                     'MPs': {value:0},
                                     'forum': {value:0}
-                                }
+                                };
 
                                 tempNotifs = [];
                                 for (let notification of notification_list) {

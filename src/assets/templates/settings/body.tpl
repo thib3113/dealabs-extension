@@ -13,8 +13,77 @@
     - blacklisted_thread
     - sounded_thread
 --}}
-<div id="plugin_tab_content" class="content_profil_param" style="display: none;">
-    <div class="title_tab_contener">
+<div id="tab-plugin" class="tabbedInterface-content hide">
+
+    <section class="userProfile-tabContent" id="pluginTab">
+        <h1 class="userProfile-title">
+            {{_ "extension_settings"}} (<span
+                style="cursor:pointer;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;"
+                data-plugin-role="version">{{extension_version}}</span>)
+        </h1>
+        <!--<div class="profil_param_notification">-->
+            <!--<div class="left_profil_param_champs" style="width:50%;">-->
+                <!--<p>{{_ "Theme"}}&thinsp;:</p>-->
+            <!--</div>-->
+            <!--<div class="content_profil_param_champs">-->
+                <!--<div class="input_left flag">-->
+                    <!--<select name="plugin_theme" data-plugin-option="theme" id="plugin_theme">-->
+                        <!--<option value="">{{_ "loading"}}...</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <h2>{{_ "Theme"}}</h2>
+        <div class="iGrid iGrid--gutter-xs space--mt-3">
+            <div class="iGrid-item width--all-12 width--fromW2-6 space--mb-2 space--fromW2-mb-0">
+                <span class="select width--all-12">
+                    <select class="select-ctrl input" title="{{_ "Theme"}}" required="" name="plugin_theme" data-plugin-option="theme" id="plugin_theme">
+                        <option value="daily-newsletter">
+							{{_ "loading"}}...
+                        </option>
+                    </select>
+                    <span class="select-fake tGrid tGrid--auto width--all-12 hide--js-off">
+                        <span class="select-txt tGrid-cell bRad--r-r input width--all-12" aria-hidden="true">
+                            <span data-plugin="actual_theme" class="js-select-val box--all-b height--ctrl overflow--wrap-break overflow--hidden">
+                                {{_ "loading"}}...
+                            </span>
+                        </span>
+                        <span class="select-arrow tGrid-cell bRad--l-r btn">
+                            <span class="select-ico ico ico--type-dropdown-white ico--reduce size--all-xl">
+
+                            </span>
+                        </span>
+                    </span>
+                </span>
+            </div>
+        </div>
+        <h2>{{_ "smileys"}}</h2>
+        <div class="iGrid iGrid--gutter-xs space--mt-3">
+            <div class="iGrid-item width--all-12 width--fromW2-6 space--mb-2 space--fromW2-mb-0">
+                <span class="select width--all-12">
+                    <select class="select-ctrl input" title="{{_ "Theme"}}" required="" name="emoticone_theme" data-plugin-option="emoticone_theme" id="emoticone_theme">
+                        <option value="daily-newsletter">
+							{{_ "loading"}}...
+                        </option>
+                    </select>
+                    <span class="select-fake tGrid tGrid--auto width--all-12 hide--js-off">
+                        <span class="select-txt tGrid-cell bRad--r-r input width--all-12" aria-hidden="true">
+                            <span data-plugin="actual_emoticone_theme" class="js-select-val box--all-b height--ctrl overflow--wrap-break overflow--hidden">
+                                {{_ "loading"}}...
+                            </span>
+                        </span>
+                        <span class="select-arrow tGrid-cell bRad--l-r btn">
+                            <span class="select-ico ico ico--type-dropdown-white ico--reduce size--all-xl">
+
+                            </span>
+                        </span>
+                    </span>
+                </span>
+            </div>
+        </div>
+    </section>
+
+    {{!--<div class="title_tab_contener">
         <p>{{_ "extension_settings"}} (<span style="cursor:pointer;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;" data-plugin-role="version">{{extension_version}}</span>)</p>
         <p>{{_ "update the extension settings ."}}</p>
     </div>
@@ -47,7 +116,6 @@
             </div>
             <div class="content_profil_param_champs">
                 <div class="input_left flag">
-                    {{!-- {{> yes_no_button yes=desktop role="desktop"}} --}}
                     <label for="plugin_desktop_notifications">
                         <input data-plugin-option="desktop" data-plugin-option-cat="notifications_manage" type="checkbox" {{#if desktop}}checked{{/if}} value="1" id="plugin_desktop_notifications" name="plugin_desktop_notifications">
                         {{_ "yes"}}
@@ -252,5 +320,5 @@
                 <textarea name="" id="debug-logs" style="width:98%">{{_ "loading"}}...</textarea>
             </div>
         </div>
-    </div>
+    </div>--}}
 </div>
