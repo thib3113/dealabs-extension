@@ -1,296 +1,147 @@
 @charset "UTF-8";
-/*============================================*/
-/*      DarkLabs - MonsieurCro - V2.0.61      */
-/*============================================*/
-/*                    INDEX                   */
-/*============================================*/
-
-a#register_green {/* la plupart des boutons*/
-    color: #FFF !important;}
 
 /*============================================*/
-
-#title_contener, #search_page_contener, .content_part_div {
-    background-color: #222 !important;}    
-
-#validate_div {
-    background-color: #333 !important;}    
-
-
-.contener_liste_deal_index .content_div_deal_index .title a { /* texte titre deal*/
-    color: #fff !important;}
-
-.text_color_777777 {/* texte description deal*/
-    color : #fff !important;}
-
-
-#contener_menu, .cat_contener, #contener_menu_padding .subcat_contener, #contener_type #contener_parametre, #contener_plus { /* menu déroulant gauche*/
-    background-color: #222 !important;}
-    
-/*=============Poster un deal ================*/
-    
-.background_color_violet {
-    background-color: #8C071F !important;}
-    
-#post_deal_right div.online_instore_div .selected, #post_deal_right div.picture_div .right a {
-    background: #8C071F !important;}
-    
-div.border_reduction_div a.selected, div.border_reduction_div a:hover {
-    background: #8C071F !important;}
-    
-#post_left .selection_type_div label select, .padding_left_global div#message_magasin {
-    background-color: #333 !important;
-      color: white !important;}    
-
+/*      DarkLabs - MonsieurCro - V3.06        */
 /*============================================*/
 
-
-nav, #menu_white_background,a.button_grey_structure, .input_search {
-    background-color: transparent !important;}
-
-.structure.white {
-    background: none !important;}
-    
-
-/*============================================*/
-
-
-.body_pagination {/* barre numéros page*/
-background: #242424 !important;}
-
-.text_color_333333 {/* membres en ligne etc*/
-    color: #fff !important;}  /* ATTENTION lié aux spoilers et aux topics !!!*/
-
-
-/*==========Accueil blocs de droite============*/
-
-
-.bloc_rightbar div.selection_top a {
-    background: #222 !important;
-    color: #fff !important;}
-
-.bloc_rightbar div.div_liste_alert, .bloc_rightbar div.padding_div_thread, .bloc_rightbar div.padding_div_deal_hot {
-    background: #222 !important;}
-
-.bloc_rightbar, #left_global {
-    background-color: #222 !important;}
-
-/*============================================*/
-
-.body_pagination a.suivant {
-    background: #222 url("https://static.dealabs.com/images/all/icon_pagination_next.png") no-repeat scroll right 11px center !important;}
-
-.body_pagination a.precedent {
-  background: #222 url("https://static.dealabs.com/images/all/icon_pagination_previous.png") no-repeat scroll 11px center !important;}
-
-.body_pagination a.active {
-    background-color: #777 !important;}
-
-.body_pagination a {
-    background-color: #222 !important;}
-
-
-/*============================================*/
-
-
-.departement_div div.list_div label, .departement_div div.list_div p {
-    background-color: #222 !important;}
-
-input[type="text"], input[type="tel"] {
-    background-color: #222 !important;
-    color: #fff !important;}
-
-#post_left .selection_type_div label {
-    background-color: #222 !important;}
-
-.drop_down_list_contener label select {
-    background-color: #222 !important;
-    color: #fff !important;}
-
-
-/*============================================*/
-
-
-.block_notif_contener {
-    background-color: #222 !important;}
-
-a.part_notif {
-    background: #222 !important;}
-
-#custom_tab {
-    background: #222 !important;}
-
-a#top_custom_tab {
-    background-image: url("https://static.dealabs.com/images/all/icon_customtab_settings.png") !important;
-    background: #333 !important;}
-
-#validate_div {
-    background: #222 !important;}
-
-.liste_div div.button a {
-    background: #222 !important;}
-    
-.background_color_button_grey { /* rechercher sur le profil */
-  background-color: #222 !important;}
-    
-
-/*=======REGISTER/CONNEXION POPUP=========*/
-
-.sub_header_popup {
-    background-color: #333 !important;}
-
-.body_login_register {
-    background-color: #222 !important;}
-
-.padding_content_logreg {
-    background: #222 none repeat scroll 0% 0% !important;}
-
-
-/*============================================*/
-/*               FORUM + DEAL                 */
-/*============================================*/
-
-
-a.button_chemin_deal, .center_part_contener h1 {
-    color: #fff !important;}
-    
-.padding_part_contener.no_padding_left_right, .center_part_contener {
-    background-color: #222 !important;}
-
-div.maj_div {
-    background: #666 !important;}
-
-    
-/*============================================*/
-    
-    
-.padding_comment_contener, .comment_text_part {
-    background-color: #222 !important;}
-    
-div.quote {
-    background-color: #333 !important;}
-    
-.commentaire_div, div.quote_message {
-    color: #fff !important;}
-
-/*============================================*/
-/*      DarkLabs - MonsieurCro - V3.02        */
-/*============================================*/
-
-  .logo
-  {
-    background-image: none !important;
-    background: transparent url("https://i.imgur.com/Zcg5s52.png") no-repeat scroll center center !important;
-    margin: 0px 15px 0px 0px !important;
-    width: 150px !important;
-  }
+/*.logo {
+    background-image: none;
+	background: transparent url("https://i.imgur.com/fib3OEq.png") no-repeat scroll center center; 
+	margin: 0px 15px 0px 0px ;
+    width: 150px;} */
 
   .bg--off
   {
-    background-image: url("https://static.dealabs.com/images/all/icon_customtab_settings.png") !important;
-    background: #8f949b !important;
+   /* background-image: url("xxx") ; */
+    background: #8f949b;
   }
 	
-/* ACCUEIL */
+/* ACCUEIL - clair : #8f949b / sombre : #35373B */
 	
   .subNav, .subNav--light
   {
-    background-color: #252525 !important;
+    background-color: #252525;
   }
 
   .subNav-item
   {
  /* adios la petite ligne inutile */
-    border-right: none !important;
+    border-right: none;
   }
 
-  .navMenu-trigger
+  .navMenu-trigger, .navMenu-trigger:focus
   {
-    background-color: transparent !important;
+    background-color: transparent;
   }
 
   .bg--main, .thread--type-card, .thread--type-list, .widget
   {
-    color: white !important;
-    background-color: #252525 !important;
+    color: #eee;
+    background-color: #252525;
+  }
+
+  .navDropDown-head-text
+  {
+ /* titres des onglets de notifs */
+    opacity: 1;
+    color: white;
+  }
+
+  .btn--mode-special
+  {
+ /* bouton poster un deal */
+    background: transparent;
+    border: 1px solid #d1d5db;
   }
 
   .thread-price
   {
  /* retouches liées à l'affichage du prix */
-    color: #F00000 !important; }
-	
+    color: #e00034 !important;
+	font-size: 1.5em;
+	font-weight: bold;}
+
+.thread--expired.thread--type-list .thread-price {
+    color: #5a5d62 !important;}
+
+/* .vote-temp { 			votes
+    font-size: 1.3em;} */
+    
 .thread--expired.thread--type-card, .thread--expired.thread--type-list{
     opacity: 0.6;}
 
+.user {
+    color: #03a5c1 !important;}
+
 .vote-btn:hover, .navDropDown-link:hover, .btn--mode-boxSec:hover { /* survol des votes et des menus moins agressifs */
-    background: #555 !important;}
+    background: #555 ;}
 
 .btn--mode-primary:hover {
-    background: transparent !important;
-	border: 1px solid #d1d5db !important;}
+    background: transparent ;
+	border: 1px solid #d1d5db ;}
 	
 .thread-title {
-	color: #eee !important;}
+	color: #eee ;}
 
-.popover--modal, .popover-content, .popover--menu  { /*pop-up de connexion et les onglets notifs, etc.*/
-		background: #252525 !important;
-	  color: #eee !important;}
+.popover--modal, .popover-content, .popover--menu, .popover--menu .popover-content, .popover--default .popover-content, .popover--modal .popover-content  { /*pop-up de connexion et les onglets notifs, etc.*/
+    background: #252525 ;
+	color: #eee ;}
 	
 .autoSuggest-suggestionsBox, .threadWidget-header, .threadWidget--type-linear, .threadWidget-options--carousel-previous-button {
-	background-color: #252525 !important; /* suggestions de recherche + onglet "les + hot" qd fenêtré */
-	color: #eee !important;}
+	background-color: #252525 ; /* suggestions de recherche + onglet "les + hot" qd fenêtré */
+	color: #eee ;}
 
-#notifications { background: transparent !important;
-    background-color: transparent !important;}
+#notifications { 
+    background: transparent ;
+    background-color: transparent ;}
 
 .conversationList-msg, .notification-item, .notifications-content, .conversationList-msgPreview, .conversationList-senderLine {
-		background-color: #252525 !important;
-	  color: #eee !important;}	
+	background-color: #252525 !important;
+	color: #eee !important;}	
 	
-p {color: #eee !important;}
+p {color: #eee ;}
 
 .redactor-editor, .comments-item--active, .comments-item--in-moderation, .comments-item-inner--edit, .bg--em {
-		 background-color: transparent !important;
-	   color: #eee !important;}	
+	background-color: transparent ;
+	color: #eee ;}	
 
 .input, .inputBox, .toolbar, .voucher-code, .voucher-teaser, .btn--mode-boxSec, .vote-box, .checkbox-box, .tag--deselected, .btn:disabled, .btn--disabled, .subNavMenu-btn, .imgFrame--squircle { /* on vide les boutons */
-	background-color: transparent !important;}
+	background-color: transparent ;}
 	
 .bg--white { /* boutons de navigation */
-		background-color: #121212 !important;
-	  color: #eee !important;}
+    background-color: #121212 ;
+	color: #eee ;}
 	
 .profileHeader { /* adieu l'image floue */
-    background: #252525 !important;
+    background: #252525;
   }
 
   .speechBubble
   {
-    background: black !important;
+    background: black;
   }
 
   .tabbedInterface-tab--horizontal
   {
-    background-color: #363636 !important;
-    color: #eee !important;
+    background-color: #363636;
+    color: #eee;
   }
 
   .subNavMenu--menu .subNavMenu-list
   {
  /* paramètres */
-    background-color: #363636 !important;
+    background-color: #363636;
   }
 
   .tabbedInterface-tab--selected
   {
-    background-color: #484848 !important;
-    color: #ccc !important;
+    background-color: #484848;
+    color: #ccc;
   }
 
   .userProfile-title--sub
   {
-    color: #ccc !important;
+    color: #ccc;
   }
 
 /* .footer { DEGAGER LE FOOTER GIGANTESQUE, à voir en plus light
@@ -338,3 +189,80 @@ p {color: #eee !important;}
   {
     border-top: 5px solid #333333;
   }
+
+/* taille avatar */
+  .avatar--type-m
+  {
+    width: 5em;
+    height: 5em;
+  }
+
+/* placement badge sous avatar */
+  .aGrid-item--b-0
+  {
+    padding-right: 27px;
+    bottom: -18px;
+  }
+
+/* décallage du post par apport a l'avatar */
+.comments-avatarColumn {
+width: 6em;
+box-sizing: content-box; }
+
+/* espace entre commentaire */
+.comments-item-inner, .comments-list article:target .page2-space--h-p {
+border-top: 5px solid #8f949b; }
+
+/* dans la même idée, espace plus grand après le descriptif du topic pour montrer la séparation (moi) */
+nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
+   border-bottom: 10px solid #8f949b; }
+
+/* quote message */
+.userHtml-quote {
+padding: .5em 1.57em;
+border: 1px dashed #454646;
+cursor: default;
+border-radius: 30px; }
+
+/* grossisement nom user */
+.user {
+font-weight: 700;
+font-size: larger;
+color: #35373b; }
+
+/* espacement avatar/message dans les notifications */
+.notification-item-image {
+width: 5.64286em; }
+
+/* espacement avatar/message dans la messagerie ( partie gauche ) */
+.space--h-1, .space--l-1 {
+padding-left: .28571em; }
+
+
+/* adaptation du code de nberdah */
+
+/* ---------- Gestion du prix barré et remise -------- */
+.mute--text.size--all-s{
+font-weight: normal;
+font-size: 10pt;
+}
+/* ---------- Gestion du marchand -------- */
+.cept-merchant-name{
+font-weight: bold;
+font-size: 10pt;
+font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+font-variant: small-caps;
+}
+/* ---------- Gestion du prix du carroussel des + hot -------- */
+.thread-price.thread-price.text--b.vote-temp--burn{
+color: #FF0000;
+font-weight: bold;
+font-size: 9pt;
+background: #ccc;
+}  
+/* ---------- Gestion de la description du deal -------- */
+.cept-description-container{
+color: #ddd;
+font-weight: normal;
+font-size: 10pt;
+}
