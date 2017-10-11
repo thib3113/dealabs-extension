@@ -1,3 +1,7 @@
+3.0.0 :
+    - update settings page to new design
+    - update option link
+    - update notification number
 2.1.5 :
     - stop system because dealabs refactoring (avoid DDOS, and ip ban before tests)   
 2.1.4 : 
