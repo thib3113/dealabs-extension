@@ -1,3 +1,5 @@
+3.0.1 :
+    - improve theme handling 
 3.0.0 :
     - update settings page to new design
     - update option link

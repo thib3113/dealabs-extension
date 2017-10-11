@@ -242,14 +242,14 @@ class Dealabs extends EventEmitter{
             linkObj.rel = "stylesheet";
             linkObj.dataset.pluginRole = role;
             linkObj.media = "screen,print";
-            document.getElementsByTagName("head")[0].appendChild( linkObj );
+            document.getElementsByTagName("html")[0].appendChild( linkObj );
         }        
         else{
             //need to add some css
             var style = document.createElement( "style" );
             style.innerText = css;
             style.dataset.pluginRole = role;
-            document.getElementsByTagName("head")[0].appendChild( style );
+            document.getElementsByTagName("html")[0].appendChild( style );
         }
     }
 
@@ -743,10 +743,11 @@ class Dealabs extends EventEmitter{
         }
 
         if(this.context == "content"){
-            self = this;
+            let self = this;
 
             //update theme on init
             extension.getStorage('settings', function(value){
+                //load fast theme, like black body instead of white, remove flashlight
                 self.setTheme(value.settings.theme, "theme_css");
                 self.setTheme(value.settings.emoticone_theme, "emoticone_theme_css");
             }, true);
@@ -875,7 +876,11 @@ class Dealabs extends EventEmitter{
                     lang: {
                         preview : extension._("preview")
                     }
-                }
+                };
+
+                //reload the theme
+                self.setTheme(value.settings.theme, "theme_css");
+                self.setTheme(value.settings.emoticone_theme, "emoticone_theme_css");
 
                 self.injectCss(extension.extension.getURL("assets/css/noty.css"), "lib_css", true);
                 Noty.overrideDefaults({

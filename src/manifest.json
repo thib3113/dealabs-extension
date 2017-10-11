@@ -3,8 +3,8 @@
     "name": "__MSG_APPNAME__",
     "short_name": "__MSG_APPNAME_SHORT__",
     "description": "__MSG_DESCRIPTION__",
-    "version": "3.0.0",
-    "author": "thib3113 <thib3113@gmail.com>",
+    "version": "3.0.1",
+    "author": "Thibaut severac <thibaut@severac.eu>",
     "icons": {
         "16": "icon_16.png",
         "48": "icon_48.png",

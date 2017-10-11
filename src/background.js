@@ -60,14 +60,14 @@ try {
         extension.sendMessage('update_settings', {});
     })
 
-    extension.onMessage('save_imgur_informations', function (datas) {
-        datas.expires_date = parseInt(Date.now() / 1000) + parseInt(datas.expires_in);
-        settingsManager.imgurAPI = datas;
-        settingsManager._updateCb = function () {
-            extension.sendMessage('update_settings', {});
-            settingsManager._updateCb = null;
-        }
-    });
+    // extension.onMessage('save_imgur_informations', function (datas) {
+    //     datas.expires_date = parseInt(Date.now() / 1000) + parseInt(datas.expires_in);
+    //     settingsManager.imgurAPI = datas;
+    //     settingsManager._updateCb = function () {
+    //         extension.sendMessage('update_settings', {});
+    //         settingsManager._updateCb = null;
+    //     }
+    // });
 
     extension.onMessage('remove_all', function (datas) {
         remove_all();
