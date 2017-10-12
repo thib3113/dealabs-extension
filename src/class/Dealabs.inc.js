@@ -258,6 +258,7 @@ class Dealabs extends EventEmitter{
     }
 
     initSettingsPageListeners(){
+        let self = this;
         //load emoticone themes
         $(document).on('change', '#emoticone_theme', function(){
             let value = $(this).find(":selected").data("value");
@@ -427,7 +428,7 @@ class Dealabs extends EventEmitter{
                     else
                         url = container_url+theme.styles[i].url+(theme.styles[i].version!=undefined? "?v="+theme.styles[i].version:"");
                    
-                    self.injectCss(url, type, true);
+                    this.injectCss(url, type, true);
                 }
             }
         }
@@ -743,7 +744,7 @@ class Dealabs extends EventEmitter{
         }
 
         if(this.context == "content"){
-            const self = this;
+            var self = this;
 
             //update theme on init
             extension.getStorage('settings', function(value){
@@ -879,8 +880,8 @@ class Dealabs extends EventEmitter{
                 };
 
                 //reload the theme
-                self.setTheme(settingsManager.theme, "theme_css");
-                self.setTheme(settingsManager.emoticone_theme, "emoticone_theme_css");
+                // self.setTheme(settingsManager.theme, "theme_css");
+                // self.setTheme(settingsManager.emoticone_theme, "emoticone_theme_css");
 
                 self.injectCss(extension.extension.getURL("assets/css/noty.css"), "lib_css", true);
                 Noty.overrideDefaults({

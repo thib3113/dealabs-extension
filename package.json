@@ -1,6 +1,6 @@
 {
     "name": "dealabs-notifier-extension",
-    "version": "3.0.3",
+    "version": "3.0.4",
     "description": "Thibaut severac <thibaut@severac.eu>",
     "scripts": {
         "test": ".\\node_modules\\.bin\\codeceptjs run",
