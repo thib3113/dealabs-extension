@@ -1,3 +1,5 @@
+# 3.0.4 :
+    - bug with "self" in context
 # 3.0.3 :
     - error with background
 # 3.0.2 :
