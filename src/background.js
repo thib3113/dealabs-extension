@@ -736,7 +736,7 @@ try {
             extension.openTab({url: newURL});
         });
         updateNotifications();
-        checkImgurConnection();
+        // checkImgurConnection();
     })
 }
 catch (e) {
