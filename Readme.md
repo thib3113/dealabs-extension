@@ -26,7 +26,7 @@ Themes émoticones
 
 ---
 
-**v4-emoticone** : crée par  [thib3113)](https://www.dealabs.com/33797/thib3113)
+**v4-emoticone** : crée par  [thib3113](https://www.dealabs.com/33797/thib3113)
 
 
 
