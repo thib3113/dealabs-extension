@@ -434,7 +434,7 @@ class Dealabs extends EventEmitter{
     }
 
     generateThemesLists(){
-        self.getTemplate("settings/list", function(tpl){
+        this.getTemplate("settings/list", function(tpl){
             var asyncLists = tpl;
             $('#emoticone_theme').html("");
             var theme_list = [
@@ -536,7 +536,7 @@ class Dealabs extends EventEmitter{
 
     generateSettingsMenu(){
         // debugger;
-        self.getTemplate("settings/menu", function(tpl){
+        this.getTemplate("settings/menu", function(tpl){
             $('.tabbedInterface-tabs').append(tpl());
             if(location.hash === "#plugin"){
                 //do a hash change
@@ -547,8 +547,8 @@ class Dealabs extends EventEmitter{
     }
 
     generateSettingsPage(){
-        // debugger;
-        self.getTemplate("settings/body", function(tpl){
+
+        this.getTemplate("settings/body", function(tpl){
             var blacklisted_thread = {};
             var sounded_thread = {};
             for(var thread in settingsManager.blacklist){
@@ -607,8 +607,8 @@ class Dealabs extends EventEmitter{
                 }
             }
 
-            self.generateThemesLists();
-            self.generateSettingsMenu();
+            this.generateThemesLists();
+            this.generateSettingsMenu();
         }.bind(this));
 
     }
@@ -743,7 +743,7 @@ class Dealabs extends EventEmitter{
         }
 
         if(this.context == "content"){
-            let self = this;
+            const self = this;
 
             //update theme on init
             extension.getStorage('settings', function(value){
@@ -879,8 +879,8 @@ class Dealabs extends EventEmitter{
                 };
 
                 //reload the theme
-                self.setTheme(value.settings.theme, "theme_css");
-                self.setTheme(value.settings.emoticone_theme, "emoticone_theme_css");
+                self.setTheme(settingsManager.theme, "theme_css");
+                self.setTheme(settingsManager.emoticone_theme, "emoticone_theme_css");
 
                 self.injectCss(extension.extension.getURL("assets/css/noty.css"), "lib_css", true);
                 Noty.overrideDefaults({
