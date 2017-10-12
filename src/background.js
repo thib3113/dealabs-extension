@@ -227,6 +227,7 @@ try {
                     // extension.browserAction.setBadgeText({text:'⚠️'});
                     // extension.browserAction.setBadgeBackgroundColor({color:[255, 0, 0, 10]});
                     extension.browserAction.setPopup({popup: ''});
+                    notificationUpdateTimeout = setTimeout(updateNotifications, settingsManager.settings.time_between_refresh);
                     return;
 
                     //get notifications from webpage, because servlet don't work correctly
@@ -599,7 +600,7 @@ try {
     // },true);
 
 
-    notificationUpdateTimeout = 0;
+    var notificationUpdateTimeout = 0;
 
     extension.removeAllContextMenu(function () {
         extension.addContextMenu({

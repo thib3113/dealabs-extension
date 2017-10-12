@@ -3,7 +3,7 @@
     "name": "__MSG_APPNAME__",
     "short_name": "__MSG_APPNAME_SHORT__",
     "description": "__MSG_DESCRIPTION__",
-    "version": "3.0.3",
+    "version": "3.0.4",
     "author": "Thibaut severac <thibaut@severac.eu>",
     "icons": {
         "16": "icon_16.png",
