@@ -1,3 +1,5 @@
+# 3.0.3 :
+    - error with background
 # 3.0.2 :
     - correct error when setting theme
     - correct bug with settings generation
