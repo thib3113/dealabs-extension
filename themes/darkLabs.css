@@ -1,68 +1,87 @@
 @charset "UTF-8";
 
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V3.06        */
+/*      DarkLabs - MonsieurCro - V3.13        */
 /*============================================*/
 
-/*.logo {
+.logo {
     background-image: none;
-	background: transparent url("https://i.imgur.com/fib3OEq.png") no-repeat scroll center center; 
-	margin: 0px 15px 0px 0px ;
-    width: 150px;} */
+	background: transparent url("https://i.imgur.com/jAYqkmw.png") no-repeat scroll center center; 
+	margin: 0px 20px 0px 0px ;
+    width: 150px;
+	height: 39px;}
 
-  .bg--off
-  {
+/* header { /* bannière fixée * /
+opacity: 1 !important;
+transition: none;}*/
+
+div.btn--move-to-top.zIndex--above{ /* bouton "Back to top" */
+    display:block !important;
+    opacity: 1 !important;
+	font-size: 0.8em;}
+    
+.btn--mode-white--dark, .btn--mode-white--dark:focus, .btn--mode-white--dark:hover {  
+    background-color: #121212;
+    color: #eee;}
+
+Span.ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3 { /* bouton sur l'accueil, argh */
+	position: fixed;
+    bottom: 3em;
+    right: .7em;
+	background-color: #121212;
+    color: #eee;
+	border: 1px solid #d1d5db;
+	border-radius: 5px;
+	padding: .78571em 1.14286em;
+	font-size: 0.8em;
+    text-align: center;
+    vertical-align: top;}
+    
+
+.bg--off {
    /* background-image: url("xxx") ; */
-    background: #8f949b;
-  }
+	background: #8f949b ;}
 	
 /* ACCUEIL - clair : #8f949b / sombre : #35373B */
 	
-  .subNav, .subNav--light
-  {
-    background-color: #252525;
-  }
+.subNav, .subNav--light {
+	background-color: #252525 ;}
 
-  .subNav-item
-  {
- /* adios la petite ligne inutile */
-    border-right: none;
-  }
+.subNav-item { /* adios la petite ligne inutile */
+    border-right: none ;}
 
-  .navMenu-trigger, .navMenu-trigger:focus
-  {
-    background-color: transparent;
-  }
+.navMenu-trigger, .navMenu-trigger:focus {
+	background-color: transparent ;}
 
-  .bg--main, .thread--type-card, .thread--type-list, .widget
-  {
-    color: #eee;
-    background-color: #252525;
-  }
+div.tGrid-cell.space--r-2 { /* un peu plus de texte dans le carroussel */
+padding-right: 0.8em;}
+	
+.bg--main, .thread--type-card, .thread--type-list, .widget {
+	color: #eee ;
+    background-color: #252525 ;}
 
-  .navDropDown-head-text
-  {
- /* titres des onglets de notifs */
+.navDropDown-head-text { /* titres des onglets de notifs */
     opacity: 1;
-    color: white;
-  }
+    color: white ;}
 
-  .btn--mode-special
-  {
- /* bouton poster un deal */
-    background: transparent;
-    border: 1px solid #d1d5db;
-  }
+.btn--mode-special { /* bouton poster un deal */
+	background: transparent ;
+	border: 1px solid #d1d5db ;}
 
-  .thread-price
-  {
- /* retouches liées à l'affichage du prix */
+a.overflow--wrap-off flex--auto-0 { /* retouches liées à l'affichage du prix */
     color: #e00034 !important;
 	font-size: 1.5em;
 	font-weight: bold;}
 
 .thread--expired.thread--type-list .thread-price {
     color: #5a5d62 !important;}
+
+.userHtml a.linkPlain, .userHtml a.thread-link { /* "Afficher plus" */
+    color: #5a5d62 ;}
+
+.userHtml a.linkPlain:hover, .userHtml a.thread-link:hover { /* devient rouge qd on le survole */
+    color: #e00034 !important;}
+
 
 /* .vote-temp { 			votes
     font-size: 1.3em;} */
@@ -74,7 +93,8 @@
     color: #03a5c1 !important;}
 
 .vote-btn:hover, .navDropDown-link:hover, .btn--mode-boxSec:hover { /* survol des votes et des menus moins agressifs */
-    background: #555 ;}
+    background: transparent ;
+	color: #e00034;}
 
 .btn--mode-primary:hover {
     background: transparent ;
@@ -99,7 +119,7 @@
 	background-color: #252525 !important;
 	color: #eee !important;}	
 	
-p {color: #eee ;}
+p, a {color: #eee ;}
 
 .redactor-editor, .comments-item--active, .comments-item--in-moderation, .comments-item-inner--edit, .bg--em {
 	background-color: transparent ;
@@ -113,96 +133,69 @@ p {color: #eee ;}
 	color: #eee ;}
 	
 .profileHeader { /* adieu l'image floue */
-    background: #252525;
-  }
+	background: #252525 ;}	
 
-  .speechBubble
-  {
-    background: black;
-  }
+.speechBubble {
+	background: black ;}
+		
+.tabbedInterface-tab--horizontal {
+	background-color: #363636 ;
+    color: #eee ;}
+	
+.subNavMenu--menu .subNavMenu-list { /* paramètres */
+	background-color: #363636 ;}
+	
+.tabbedInterface-tab--selected { /* catégories des paramètres */
+	background-color: #222 !important ;
+	color: #ccc ;}
 
-  .tabbedInterface-tab--horizontal
-  {
-    background-color: #363636;
-    color: #eee;
-  }
+.tabbedInterface-tab {
+	background-color: #484848 ;
+	color: #ccc ;}
+	
+.userProfile-title--sub {
+	color: #ccc ;}
 
-  .subNavMenu--menu .subNavMenu-list
-  {
- /* paramètres */
-    background-color: #363636;
-  }
-
-  .tabbedInterface-tab--selected
-  {
-    background-color: #484848;
-    color: #ccc;
-  }
-
-  .userProfile-title--sub
-  {
-    color: #ccc;
-  }
-
-/* .footer { DEGAGER LE FOOTER GIGANTESQUE, à voir en plus light
-    display: none !important;} */
+.select-ctrl option {
+background: #000;}
 
 
 /* adaptation du code de leipo159 */
 
-  .text--lineThrough
-  {
- /* espacement entre le prix barré et le prix */
-    padding: 1.57143em;
-  }
+.text--lineThrough { /* espacement entre le prix barré et le prix */
+padding: 1.57143em; }
 
-  .imgFrame-img, .ratioBox-child
-  {
- /* légère réduction de la taille des images sur l'accueil */
+ .imgFrame-img, .ratioBox-child { /* légère réduction de la taille des images sur l'accueil */
     max-width: 90%;
     max-height: 90%;
     margin: auto; }
 
 /* réduction des espaces des box-deals de l'accueil */
-    .comments-list--insideBox .comments-item-inner, .page2-space--h-p, .space--h-3, .space--r-3 { 
-    padding-right: 1em;
-  }
+.comments-list--insideBox .comments-item-inner, .page2-space--h-p, .space--h-3, .space--r-3 { 
+    padding-right: 1em; }
 
-  .space--h-2, .space--r-2
-  {
-    padding-right: 1.57143em;
-  }
+.space--h-2, .space--r-2 {
+    padding-right: 1.57143em; }
 
-  .space--fromW3-t-3
-  {
-    padding-top: 1em;
-  }
+.space--fromW3-t-3 {
+    padding-top: 1em; }
 
-  .thread-list--type-list
-  {
- /* plus de place pour les deals, réduction de la colonne de droite */
+.thread-list--type-list { /* plus de place pour les deals, réduction de la colonne de droite */
     max-width: 90%;
-    margin: auto;
-  }
+    margin: auto; }
 
-  .comments-item-inner, .comments-list article:target .page2-space--h-p
-  {
-    border-top: 5px solid #333333;
-  }
+.comments-item-inner, .comments-list article:target .page2-space--h-p {
+    border-top: 5px solid #333333; }
 
 /* taille avatar */
-  .avatar--type-m
-  {
-    width: 5em;
-    height: 5em;
-  }
+.avatar--type-m {
+width: 5em;
+height: 5em; }
 
 /* placement badge sous avatar */
-  .aGrid-item--b-0
-  {
-    padding-right: 27px;
-    bottom: -18px;
-  }
+.aGrid-item--b-0 {
+padding-right: 27px;
+bottom: -18px;}
 
 /* décallage du post par apport a l'avatar */
 .comments-avatarColumn {
@@ -220,7 +213,7 @@ nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
 /* quote message */
 .userHtml-quote {
 padding: .5em 1.57em;
-border: 1px dashed #454646;
+border: 1px dashed #ccc;
 cursor: default;
 border-radius: 30px; }
 
@@ -238,6 +231,23 @@ width: 5.64286em; }
 .space--h-1, .space--l-1 {
 padding-left: .28571em; }
 
+/* ---------- encadré deal -------- */
+.threadGrid.space--t-2.space--b-2.space--h-2.space--fromW3-h-3.space--fromW3-t-3.space--fromW3-b-3 {
+    position: relative;
+/*    padding-right: 80px;*/
+    margin-bottom: 5px;
+    border: 1px solid #d1d5db;
+/*    border-radius: 10px; */
+}
+
+/* ---------- décalage du quote forum -------- */
+.userHtml-quote, .userHtml-video, .userHtml-videoDummy, .userHtml [data-animated-gif] {
+    display: block;
+    margin-top: .28571em;
+    margin-bottom: .28571em;
+    margin-left: 20px;
+}
+
 
 /* adaptation du code de nberdah */
 
@@ -253,16 +263,45 @@ font-size: 10pt;
 font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 font-variant: small-caps;
 }
-/* ---------- Gestion du prix du carroussel des + hot -------- */
-.thread-price.thread-price.text--b.vote-temp--burn{
-color: #FF0000;
-font-weight: bold;
-font-size: 9pt;
-background: #ccc;
-}  
 /* ---------- Gestion de la description du deal -------- */
 .cept-description-container{
 color: #ddd;
 font-weight: normal;
 font-size: 10pt;
 }
+
+/* .footer { POUR DEGAGER LE FOOTER GIGANTESQUE
+    display: none !important;} */
+
+/* BarreNav */
+
+.subNav-item { /* réduit légèrement la barre du haut */
+height: 3.1em; }
+.subNavMenu .subNavMenu-item {
+height: 3.1em;
+line-height: 3.1em; }
+
+/* Tuiles Deals */
+
+.thread-list--type-list .js-threadList .thread--type-list .threadGrid-image .thread-listImgCell {
+width: 10em; } /* mini image, plus efficace */
+
+/* Header onglet "description" */
+
+.profileHeader .profileHeader-content, .profileHeader > .page-content {
+padding-bottom: 0.6em ;
+padding-top: 0.6em ; }
+
+.grpAvatar {
+width: 4em;
+min-width: 4em; }
+
+.ico--type-left-blue:before { /* pagination - adapté de Trideal */
+content: "\2B9C";
+background-image:none;
+color: #03a5c1;}
+
+.ico--type-right-grey:before {
+content: "\2B9E";
+background-image:none;
+color: #ccc;}
