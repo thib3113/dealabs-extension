@@ -1,12 +1,11 @@
 @charset "UTF-8";
 
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V3.13        */
+/*      DarkLabs - MonsieurCro - V3.15        */
 /*============================================*/
 
 .logo {
-    background-image: none;
-	background: transparent url("https://i.imgur.com/jAYqkmw.png") no-repeat scroll center center; 
+    background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logoV3.svg") no-repeat scroll center center;
 	margin: 0px 20px 0px 0px ;
     width: 150px;
 	height: 39px;}
@@ -23,6 +22,9 @@ div.btn--move-to-top.zIndex--above{ /* bouton "Back to top" */
 .btn--mode-white--dark, .btn--mode-white--dark:focus, .btn--mode-white--dark:hover {  
     background-color: #121212;
     color: #eee;}
+
+.comments-list article:target .comments-item-inner { /* flash qd on arrive sur un commentaire depuis une notification */
+    animation: none;}
 
 Span.ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3 { /* bouton sur l'accueil, argh */
 	position: fixed;
@@ -103,6 +105,10 @@ a.overflow--wrap-off flex--auto-0 { /* retouches liées à l'affichage du prix *
 .thread-title {
 	color: #eee ;}
 
+.voteBar { /* header dans la consultation d'un deal */
+    background-color: #222;
+	border-bottom: 1px solid #d1d5db ;}
+
 .popover--modal, .popover-content, .popover--menu, .popover--menu .popover-content, .popover--default .popover-content, .popover--modal .popover-content  { /*pop-up de connexion et les onglets notifs, etc.*/
     background: #252525 ;
 	color: #eee ;}
@@ -133,10 +139,13 @@ p, a {color: #eee ;}
 	color: #eee ;}
 	
 .profileHeader { /* adieu l'image floue */
-	background: #252525 ;}	
+	background: #252525 !important;}	
 
 .speechBubble {
 	background: black ;}
+
+.speechBubble:after, .speechBubble:before {
+	color: black ;}
 		
 .tabbedInterface-tab--horizontal {
 	background-color: #363636 ;
@@ -270,6 +279,7 @@ font-weight: normal;
 font-size: 10pt;
 }
 
+
 /* .footer { POUR DEGAGER LE FOOTER GIGANTESQUE
     display: none !important;} */
 
@@ -295,6 +305,11 @@ padding-top: 0.6em ; }
 .grpAvatar {
 width: 4em;
 min-width: 4em; }
+
+.textBadge--blue { /* "badge posteur" */
+    background-color: transparent;
+	border: 0.5px solid #d1d5db;}
+
 
 .ico--type-left-blue:before { /* pagination - adapté de Trideal */
 content: "\2B9C";
