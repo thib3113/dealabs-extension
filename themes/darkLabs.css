@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V3.15        */
+/*      DarkLabs - MonsieurCro - V3.16        */
 /*============================================*/
 
 .logo {
@@ -320,3 +320,8 @@ color: #03a5c1;}
 content: "\2B9E";
 background-image:none;
 color: #ccc;}
+
+
+/*21.11*/
+.card {
+    background-color: #333;}
