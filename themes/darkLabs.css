@@ -325,3 +325,7 @@ color: #ccc;}
 /*21.11*/
 .card {
     background-color: #333;}
+
+/*27.11*/
+.overflow--fade::after {
+background: transparent;}
