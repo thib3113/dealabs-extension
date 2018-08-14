@@ -1,5 +1,7 @@
 # dealabs-plugin
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/thib3113/dealabs-extension.svg)](https://greenkeeper.io/)
+
 You can see the changelog [here](https://raw.githubusercontent.com/thib3113/dealabs-extension/master/changelog.md)
 
 To developp the project you need :
