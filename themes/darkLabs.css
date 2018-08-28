@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V3.16        */
+/*      DarkLabs - MonsieurCro - V4           */
 /*============================================*/
 
 .logo {
@@ -10,11 +10,7 @@
     width: 150px;
 	height: 39px;}
 
-/* header { /* bannière fixée * /
-opacity: 1 !important;
-transition: none;}*/
-
-div.btn--move-to-top.zIndex--above{ /* bouton "Back to top" */
+.btn--move-to-top.zIndex--above{ /* bouton "Back to top" */
     display:block !important;
     opacity: 1 !important;
 	font-size: 0.8em;}
@@ -23,44 +19,38 @@ div.btn--move-to-top.zIndex--above{ /* bouton "Back to top" */
     background-color: #121212;
     color: #eee;}
 
-.comments-list article:target .comments-item-inner { /* flash qd on arrive sur un commentaire depuis une notification */
-    animation: none;}
-
-Span.ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3 { /* bouton sur l'accueil, argh */
-	position: fixed;
-    bottom: 3em;
-    right: .7em;
-	background-color: #121212;
+.ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3 { /* bouton sur l'accueil, argh */
+	background-color: #1B2836;
     color: #eee;
-	border: 1px solid #d1d5db;
-	border-radius: 5px;
-	padding: .78571em 1.14286em;
-	font-size: 0.8em;
-    text-align: center;
-    vertical-align: top;}
+	border: 1px solid #d1d5db;}
     
+.bg--off, .nav, .footer, .bg--greyPanel, .popover--mainNav .popover-content, .popover--brandAccent .popover-content {
+	background: #141d26 ;}
 
-.bg--off {
-   /* background-image: url("xxx") ; */
-	background: #8f949b ;}
+.popover--layout-s > .popover-arrow::after {
+    border-bottom-color: #141d26;}
 	
-/* ACCUEIL - clair : #8f949b / sombre : #35373B */
-	
-.subNav, .subNav--light {
-	background-color: #252525 ;}
+.subNav, .subNav--light, .bg--inverted, .listingProfile {
+	background-color: #1B2836 ;}
 
-.subNav-item { /* adios la petite ligne inutile */
+.listingProfile-footer.space--h-3 {
+    color: white;}
+
+.subNav-item {
     border-right: none ;}
 
 .navMenu-trigger, .navMenu-trigger:focus {
 	background-color: transparent ;}
 
-div.tGrid-cell.space--r-2 { /* un peu plus de texte dans le carroussel */
-padding-right: 0.8em;}
+.tGrid-cell.space--r-2 { /* un peu plus de texte dans le carroussel */
+padding-right: 1em;}
+
+.border--color-blue, .border--color-brandPrimary {
+    border-color: #1DA1F2;}
 	
 .bg--main, .thread--type-card, .thread--type-list, .widget {
 	color: #eee ;
-    background-color: #252525 ;}
+    background-color: #1B2836 ;}
 
 .navDropDown-head-text { /* titres des onglets de notifs */
     opacity: 1;
@@ -71,32 +61,38 @@ padding-right: 0.8em;}
 	border: 1px solid #d1d5db ;}
 
 a.overflow--wrap-off flex--auto-0 { /* retouches liées à l'affichage du prix */
-    color: #e00034 !important;
 	font-size: 1.5em;
 	font-weight: bold;}
 
-.thread--expired.thread--type-list .thread-price {
-    color: #5a5d62 !important;}
-
-.userHtml a.linkPlain, .userHtml a.thread-link { /* "Afficher plus" */
-    color: #5a5d62 ;}
+.thread--expired.thread--type-list .thread-price, .userHtml a.linkPlain, .userHtml a.thread-link { /* "Afficher plus" */
+    color: #141d26 !important;}
 
 .userHtml a.linkPlain:hover, .userHtml a.thread-link:hover { /* devient rouge qd on le survole */
-    color: #e00034 !important;}
-
-
-/* .vote-temp { 			votes
-    font-size: 1.3em;} */
+    color: #1DA1F2 !important;}
     
 .thread--expired.thread--type-card, .thread--expired.thread--type-list{
     opacity: 0.6;}
 
-.user {
-    color: #03a5c1 !important;}
+.user, .mute--text2, .text--color-brandPrimary, .subNavMenu-link:hover, .subNavMenu-link:focus, .subNavMenu-link:active, .subNavMenu-link.subNavMenu-link--selected {
+    color: #1DA1F2 !important;}
 
-.vote-btn:hover, .navDropDown-link:hover, .btn--mode-boxSec:hover { /* survol des votes et des menus moins agressifs */
-    background: transparent ;
-	color: #e00034;}
+.subNavMenu--selected .subNavMenu-btn, .subNavMenu--selected .subNavMenu-btn:focus, .subNavMenu--selected .subNavMenu-btn:hover, .btn--mode-special:focus, .btn--mode-special:hover, button:focus .btn--mode-special, button:hover .btn--mode-special {
+    border-color:#1DA1F2;
+    background-color: #1DA1F2; }
+
+.comments--top-header, .subNavMenu-link-badge {
+     background-color: #1DA1F2 !important;}
+
+.comments-list .comments-item {
+    border-bottom: none;}
+
+.vote-btn:hover, .navDropDown-link:hover, .btn--mode-boxSec:focus, .btn--mode-boxSec:hover, .btn--mode-boxSec:active, .btn--mode-primary-inverted { /* survol des votes et des menus moins agressifs */
+    background: transparent !important;
+	color: #1DA1F2 !important;}
+
+.btn--mode-primary {
+    background: #1DA1F2 ;
+	border: none ;}
 
 .btn--mode-primary:hover {
     background: transparent ;
@@ -110,11 +106,11 @@ a.overflow--wrap-off flex--auto-0 { /* retouches liées à l'affichage du prix *
 	border-bottom: 1px solid #d1d5db ;}
 
 .popover--modal, .popover-content, .popover--menu, .popover--menu .popover-content, .popover--default .popover-content, .popover--modal .popover-content  { /*pop-up de connexion et les onglets notifs, etc.*/
-    background: #252525 ;
+    background: #1B2836 ;
 	color: #eee ;}
 	
 .autoSuggest-suggestionsBox, .threadWidget-header, .threadWidget--type-linear, .threadWidget-options--carousel-previous-button {
-	background-color: #252525 ; /* suggestions de recherche + onglet "les + hot" qd fenêtré */
+	background-color: #1B2836 ; /* suggestions de recherche + onglet "les + hot" qd fenêtré */
 	color: #eee ;}
 
 #notifications { 
@@ -122,7 +118,7 @@ a.overflow--wrap-off flex--auto-0 { /* retouches liées à l'affichage du prix *
     background-color: transparent ;}
 
 .conversationList-msg, .notification-item, .notifications-content, .conversationList-msgPreview, .conversationList-senderLine {
-	background-color: #252525 !important;
+	background-color: #1B2836 !important;
 	color: #eee !important;}	
 	
 p, a {color: #eee ;}
@@ -135,11 +131,8 @@ p, a {color: #eee ;}
 	background-color: transparent ;}
 	
 .bg--white { /* boutons de navigation */
-    background-color: #121212 ;
+    background-color: #1B2836 ;
 	color: #eee ;}
-	
-.profileHeader { /* adieu l'image floue */
-	background: #252525 !important;}	
 
 .speechBubble {
 	background: black ;}
@@ -148,18 +141,22 @@ p, a {color: #eee ;}
 	color: black ;}
 		
 .tabbedInterface-tab--horizontal {
-	background-color: #363636 ;
+	background-color: transparent ;
     color: #eee ;}
 	
 .subNavMenu--menu .subNavMenu-list { /* paramètres */
-	background-color: #363636 ;}
+	background-color: #141d26 ;}
+
+.subNavMenu--selected .subNavMenu-btn:focus, .subNavMenu--selected .subNavMenu-btn:hover {
+	border-color: #1DA1F2 ;
+    background-color: #1DA1F2 ;}
 	
 .tabbedInterface-tab--selected { /* catégories des paramètres */
-	background-color: #222 !important ;
+	background-color: #1B2836 !important ;
 	color: #ccc ;}
 
 .tabbedInterface-tab {
-	background-color: #484848 ;
+	background-color:#141d26 ;
 	color: #ccc ;}
 	
 .userProfile-title--sub {
@@ -196,16 +193,6 @@ padding: 1.57143em; }
 .comments-item-inner, .comments-list article:target .page2-space--h-p {
     border-top: 5px solid #333333; }
 
-/* taille avatar */
-.avatar--type-m {
-width: 5em;
-height: 5em; }
-
-/* placement badge sous avatar */
-.aGrid-item--b-0 {
-padding-right: 27px;
-bottom: -18px;}
-
 /* décallage du post par apport a l'avatar */
 .comments-avatarColumn {
 width: 6em;
@@ -213,11 +200,11 @@ box-sizing: content-box; }
 
 /* espace entre commentaire */
 .comments-item-inner, .comments-list article:target .page2-space--h-p {
-border-top: 5px solid #8f949b; }
+border-top: 5px solid #141d26; }
 
 /* dans la même idée, espace plus grand après le descriptif du topic pour montrer la séparation (moi) */
 nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
-   border-bottom: 10px solid #8f949b; }
+   border-bottom: 10px solid #141d26; }
 
 /* quote message */
 .userHtml-quote {
@@ -279,10 +266,6 @@ font-weight: normal;
 font-size: 10pt;
 }
 
-
-/* .footer { POUR DEGAGER LE FOOTER GIGANTESQUE
-    display: none !important;} */
-
 /* BarreNav */
 
 .subNav-item { /* réduit légèrement la barre du haut */
@@ -310,7 +293,6 @@ min-width: 4em; }
     background-color: transparent;
 	border: 0.5px solid #d1d5db;}
 
-
 .ico--type-left-blue:before { /* pagination - adapté de Trideal */
 content: "\2B9C";
 background-image:none;
@@ -321,11 +303,34 @@ content: "\2B9E";
 background-image:none;
 color: #ccc;}
 
-
-/*21.11*/
 .card {
-    background-color: #333;}
+    background-color:  #1B2836;}
 
-/*27.11*/
 .overflow--fade::after {
 background: transparent;}
+
+.badge {
+    background-image: none !important;}
+
+.vote-box, .threadGrid-title {
+    box-shadow: none !important;}
+
+.text--overlay::before {
+    background-image: -webkit-linear-gradient(left, hsla(0, 0%, 0%, 0), #1b2836 90%);
+    background-image: linear-gradient(90deg, hsla(0, 0%, 100%, 0), #1b2836 90%);}
+
+.text--color-white {
+    color: #1B2836}
+
+.thread-title--list::after, .text--overlay.text--lh-1.space--t-1.aGrid-item.aGrid-item--r-0.aGrid-item--b-0.text--color-price::before {
+    background: none !important;}
+
+.page2-center.space--h-3.space--t-3.hide--toW3, .tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--h-4.space--v-1.pagination-page.text--color- {
+    color: white;}
+
+.comments-list--top .comments-item:target .comments-item-inner, .comments-list .comments-list-item:target .comments-item-inner {
+    animation: none !important;
+    border-bottom:none !important;}
+
+.popover--brandAccent .popover-content, .popover--brandPrimary .popover-content, .popover--default .popover-content, .popover--menu .popover-content, .popover--red .popover-content {
+    background-color: #1B2836;}
