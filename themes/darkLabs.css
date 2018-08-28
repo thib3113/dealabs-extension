@@ -19,10 +19,16 @@
     background-color: #121212;
     color: #eee;}
 
-.ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3 { /* bouton sur l'accueil, argh */
+.ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3:active { /* bouton sur l'accueil*/
 	background-color: #1B2836;
-    color: #eee;
+    color: #eee !important;
 	border: 1px solid #d1d5db;}
+
+.ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3:hover {
+    border: 1px solid #1DA1F2;}
+
+.subNavMenu--menu .subNavMenu-roundCounter-text {
+    background-color: #1DA1F2;}
     
 .bg--off, .nav, .footer, .bg--greyPanel, .popover--mainNav .popover-content, .popover--brandAccent .popover-content {
 	background: #141d26 ;}
@@ -45,7 +51,7 @@
 .tGrid-cell.space--r-2 { /* un peu plus de texte dans le carroussel */
 padding-right: 1em;}
 
-.border--color-blue, .border--color-brandPrimary {
+.border--color-blue, .border--color-brandPrimary, .multiSelect-input.tGrid-cell.tGrid-cell--preventOverflow.bRad--r-r.input.width--all-12.tree-select:hover {
     border-color: #1DA1F2;}
 	
 .bg--main, .thread--type-card, .thread--type-list, .widget {
@@ -67,7 +73,7 @@ a.overflow--wrap-off flex--auto-0 { /* retouches liées à l'affichage du prix *
 .thread--expired.thread--type-list .thread-price, .userHtml a.linkPlain, .userHtml a.thread-link { /* "Afficher plus" */
     color: #141d26 !important;}
 
-.userHtml a.linkPlain:hover, .userHtml a.thread-link:hover { /* devient rouge qd on le survole */
+.userHtml a.linkPlain:hover, .userHtml a.thread-link:hover, .text--color-subNavActive, .text--color-subNavActiveLight, .text--color-subNavLayerActive { /* devient rouge qd on le survole */
     color: #1DA1F2 !important;}
     
 .thread--expired.thread--type-card, .thread--expired.thread--type-list{
@@ -76,17 +82,20 @@ a.overflow--wrap-off flex--auto-0 { /* retouches liées à l'affichage du prix *
 .user, .mute--text2, .text--color-brandPrimary, .subNavMenu-link:hover, .subNavMenu-link:focus, .subNavMenu-link:active, .subNavMenu-link.subNavMenu-link--selected {
     color: #1DA1F2 !important;}
 
-.subNavMenu--selected .subNavMenu-btn, .subNavMenu--selected .subNavMenu-btn:focus, .subNavMenu--selected .subNavMenu-btn:hover, .btn--mode-special:focus, .btn--mode-special:hover, button:focus .btn--mode-special, button:hover .btn--mode-special {
+.subNavMenu--selected .subNavMenu-btn, .subNavMenu--selected .subNavMenu-btn:focus, .subNavMenu--selected .subNavMenu-btn:hover, .btn--mode-special:focus, .btn--mode-special:hover, button:focus .btn--mode-special, button:hover .btn--mode-special, .checkbox--brand .checkbox-input:checked ~ .tGrid-cell > .checkbox-box {
     border-color:#1DA1F2;
     background-color: #1DA1F2; }
 
-.comments--top-header, .subNavMenu-link-badge {
-     background-color: #1DA1F2 !important;}
+.subNavMenu-btn:active, .subNavMenu-btn:hover {
+    border-color:#1DA1F2;}
+
+.comments--top-header, .subNavMenu-link-badge, .subNavMenu-link.subNavMenu-link--selected::after, .btn.bRad--l-r {
+    background-color: #1DA1F2 !important;}
 
 .comments-list .comments-item {
     border-bottom: none;}
 
-.vote-btn:hover, .navDropDown-link:hover, .btn--mode-boxSec:focus, .btn--mode-boxSec:hover, .btn--mode-boxSec:active, .btn--mode-primary-inverted { /* survol des votes et des menus moins agressifs */
+.vote-btn:hover, .navDropDown-link:hover, .btn--mode-boxSec:focus, .btn--mode-boxSec:hover, .btn--mode-primary-inverted { /* survol des votes et des menus moins agressifs */
     background: transparent !important;
 	color: #1DA1F2 !important;}
 
@@ -98,7 +107,7 @@ a.overflow--wrap-off flex--auto-0 { /* retouches liées à l'affichage du prix *
     background: transparent ;
 	border: 1px solid #d1d5db ;}
 	
-.thread-title {
+.thread-title, .subNavMenu-btn {
 	color: #eee ;}
 
 .voteBar { /* header dans la consultation d'un deal */
@@ -127,8 +136,11 @@ p, a {color: #eee ;}
 	background-color: transparent ;
 	color: #eee ;}	
 
-.input, .inputBox, .toolbar, .voucher-code, .voucher-teaser, .btn--mode-boxSec, .vote-box, .checkbox-box, .tag--deselected, .btn:disabled, .btn--disabled, .subNavMenu-btn, .imgFrame--squircle { /* on vide les boutons */
+.input, .inputBox, .toolbar, .voucher-code, .voucher-teaser, .btn--mode-boxSec, .checkbox-box, .tag--deselected, .btn:disabled, .btn--disabled, .subNavMenu-btn, .imgFrame--squircle { /* on vide les boutons */
 	background-color: transparent ;}
+
+.vote-box {
+    background-color: #141d26 ;}
 	
 .bg--white { /* boutons de navigation */
     background-color: #1B2836 ;
@@ -296,7 +308,7 @@ min-width: 4em; }
 .ico--type-left-blue:before { /* pagination - adapté de Trideal */
 content: "\2B9C";
 background-image:none;
-color: #03a5c1;}
+color: #1DA1F2;}
 
 .ico--type-right-grey:before {
 content: "\2B9E";
@@ -315,18 +327,18 @@ background: transparent;}
 .vote-box, .threadGrid-title {
     box-shadow: none !important;}
 
-.text--overlay {
-    background-color: #1b2836;}
-
 .text--overlay::before {
     background-image: -webkit-linear-gradient(left, hsla(0, 0%, 0%, 0), #1b2836 90%);
     background-image: linear-gradient(90deg, hsla(0, 0%, 100%, 0), #1b2836 90%);}
 
-.thread-title--list--merchant:after, .thread-title--list:after {
-    background: none;}
+.text--overlay {
+    background-color: #1b2836;}
 
 .text--color-white {
     color: #1B2836}
+
+.thread-title--list::after {
+    background: none !important;}
 
 .page2-center.space--h-3.space--t-3.hide--toW3, .tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--h-4.space--v-1.pagination-page.text--color- {
     color: white;}
@@ -337,3 +349,19 @@ background: transparent;}
 
 .popover--brandAccent .popover-content, .popover--brandPrimary .popover-content, .popover--default .popover-content, .popover--menu .popover-content, .popover--red .popover-content {
     background-color: #1B2836;}
+
+.multiSelect-list {
+    background-color: #1b2836;
+    color: white ;}
+
+.plainSelect-ctrl {
+    background-color: #1b2836;}
+
+.navDropDown-head, .btn--mode-navDropDownPrimary, .navDropDown-trigger--selected {
+    background-color: #1DA1F2 !important; }
+
+.text--color-navDropDownPrimary {
+    color: #1DA1F2; }
+
+.navDropDown-footer {
+    border: 0.8px solid #1DA1F2; }
