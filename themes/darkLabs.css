@@ -315,15 +315,15 @@ background: transparent;}
 .vote-box, .threadGrid-title {
     box-shadow: none !important;}
 
+.text--overlay {
+    background-color: #1b2836;}
+
 .text--overlay::before {
     background-image: -webkit-linear-gradient(left, hsla(0, 0%, 0%, 0), #1b2836 90%);
     background-image: linear-gradient(90deg, hsla(0, 0%, 100%, 0), #1b2836 90%);}
 
 .text--color-white {
     color: #1B2836}
-
-.thread-title--list::after, .text--overlay.text--lh-1.space--t-1.aGrid-item.aGrid-item--r-0.aGrid-item--b-0.text--color-price::before {
-    background: none !important;}
 
 .page2-center.space--h-3.space--t-3.hide--toW3, .tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--h-4.space--v-1.pagination-page.text--color- {
     color: white;}
