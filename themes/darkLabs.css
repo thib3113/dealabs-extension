@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V4           */
+/*      DarkLabs - MonsieurCro - V4.01        */
 /*============================================*/
 
 .logo {
@@ -79,10 +79,10 @@ a.overflow--wrap-off flex--auto-0 { /* retouches liées à l'affichage du prix *
 .thread--expired.thread--type-card, .thread--expired.thread--type-list{
     opacity: 0.6;}
 
-.user, .mute--text2, .text--color-brandPrimary, .subNavMenu-link:hover, .subNavMenu-link:focus, .subNavMenu-link:active, .subNavMenu-link.subNavMenu-link--selected {
+.user, .mute--text2, .text--color-brandPrimary, .subNavMenu-link:hover, .subNavMenu-link:focus, .subNavMenu-link:active, .subNavMenu-link.subNavMenu-link--selected, .lbox--v-2.text--color-blue, .text--color-blue, .link, .linkPrimary, .staticPageHtml.a, .userHtml.a, .linkBlue, .thread-userOptionTeaser {
     color: #1DA1F2 !important;}
 
-.subNavMenu--selected .subNavMenu-btn, .subNavMenu--selected .subNavMenu-btn:focus, .subNavMenu--selected .subNavMenu-btn:hover, .btn--mode-special:focus, .btn--mode-special:hover, button:focus .btn--mode-special, button:hover .btn--mode-special, .checkbox--brand .checkbox-input:checked ~ .tGrid-cell > .checkbox-box {
+.subNavMenu--selected .subNavMenu-btn, .subNavMenu--selected .subNavMenu-btn:focus, .subNavMenu--selected .subNavMenu-btn:hover, .btn--mode-special:focus, .btn--mode-special:hover, button:focus .btn--mode-special, button:hover .btn--mode-special, .checkbox-input:checked ~ .tGrid-cell > .checkbox-box, .toolbar-btn.toolbar-btn--link, .checkbox--brand .checkbox-input:checked ~ .tGrid-cell > .checkbox-box, .btn.btn--mini, .btn.width--all-12 {
     border-color:#1DA1F2;
     background-color: #1DA1F2; }
 
@@ -159,9 +159,15 @@ p, a {color: #eee ;}
 .subNavMenu--menu .subNavMenu-list { /* paramètres */
 	background-color: #141d26 ;}
 
-.subNavMenu--selected .subNavMenu-btn:focus, .subNavMenu--selected .subNavMenu-btn:hover {
+.subNavMenu--selected .subNavMenu-btn:focus, .subNavMenu--selected .subNavMenu-btn:hover, .subNavMenu--light.subNavMenu-btn:focus, .subNavMenu--light.subNavMenu-btn:hover {
 	border-color: #1DA1F2 ;
     background-color: #1DA1F2 ;}
+
+.popover--arrow-navDropDownPrimary .popover-arrow::after, .checkbox-input:checked ~ .tGrid-cell > .checkbox-box {
+    border-bottom-color: #1DA1F2 ;}
+
+.popover--layout-e > .popover-arrow::after {
+    border-right-color: #03a5c1 ;}
 	
 .tabbedInterface-tab--selected { /* catégories des paramètres */
 	background-color: #1B2836 !important ;
@@ -365,3 +371,6 @@ background: transparent;}
 
 .navDropDown-footer {
     border: 0.8px solid #1DA1F2; }
+
+.subNavMenu--light .subNavMenu-btn {
+    background-color: transparent;}
