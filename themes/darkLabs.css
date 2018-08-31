@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V4.03        */
+/*      DarkLabs - MonsieurCro - V4.04        */
 /*============================================*/
 .logo {
 	background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logoV3.svg") no-repeat scroll center center;
@@ -138,7 +138,7 @@ button:hover .btn--mode-special,
 .checkbox-input:checked ~ .tGrid-cell > .checkbox-box,
 .toolbar-btn.toolbar-btn--link,
 .checkbox--brand .checkbox-input:checked ~ .tGrid-cell > .checkbox-box,
-.btn.btn--mini {
+.btn.btn--mini.btn--toW5-square {
 	border-color: #1DA1F2;
 	background-color: #1DA1F2;
 }
@@ -148,8 +148,7 @@ button:hover .btn--mode-special,
 }
 .comments--top-header,
 .subNavMenu-link-badge,
-.subNavMenu-link.subNavMenu-link--selected::after,
-.btn.bRad--l-r {
+.subNavMenu-link.subNavMenu-link--selected::after {
 	background-color: #1DA1F2 !important;
 }
 .comments-list .comments-item {
@@ -205,7 +204,6 @@ button:hover .btn--mode-special,
 }
 .conversationList-msg,
 .notification-item,
-.notifications-content,
 .conversationList-msgPreview,
 .conversationList-senderLine {
 	background-color: #1B2836 !important;
@@ -521,7 +519,8 @@ nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
 .subNavMenu-item.subNavMenu-link.flex--align-c:hover,
 .user,
 .search,
-.text--color-brandPrimary.text--b.btn--mini {
+.text--color-brandPrimary.text--b.btn--mini,
+.icon.icon--bell.space--mr-2 {
 	color: #1DA1F2;
 }
 .navDropDown-footer {
@@ -532,9 +531,18 @@ nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
 }
 svg.icon.icon--mail.text--color-white,
 .space--l-2,
-.icon.icon--bell {
+.icon.icon--bell,
+.icon.icon--bell-off {
 	color: white;
 }
-.text--color-greyShade, .cept-nav-subheadline.box--all-i.space--l-3.vAlign--all-m, .lbox--v-4 {
+.text--color-greyShade,
+.cept-nav-subheadline.box--all-i.space--l-3.vAlign--all-m,
+.lbox--v-4 {
 	color: #aaa;
+}
+.notification-item {
+	background-color: #121212 !important;
+}
+.notification-item--read {
+	background-color: #1b2836 !important;
 }
