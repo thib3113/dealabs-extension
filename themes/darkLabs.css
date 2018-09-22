@@ -520,7 +520,8 @@ nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
 .user,
 .search,
 .text--color-brandPrimary.text--b.btn--mini,
-.icon.icon--bell.space--mr-2 {
+.icon.icon--bell.space--mr-2,
+.text--color-charcoal {
 	color: #1DA1F2;
 }
 .navDropDown-footer {
