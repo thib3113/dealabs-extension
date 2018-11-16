@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V4.04        */
+/*      DarkLabs - MonsieurCro - V4.06        */
 /*============================================*/
 .logo {
 	background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logoV3.svg") no-repeat scroll center center;
@@ -537,8 +537,7 @@ svg.icon.icon--mail.text--color-white,
 	color: white;
 }
 .text--color-greyShade,
-.cept-nav-subheadline.box--all-i.space--l-3.vAlign--all-m,
-.lbox--v-4 {
+.cept-nav-subheadline.box--all-i.space--l-3.vAlign--all-m {
 	color: #aaa;
 }
 .notification-item {
@@ -546,4 +545,17 @@ svg.icon.icon--mail.text--color-white,
 }
 .notification-item--read {
 	background-color: #1b2836 !important;
+}
+
+
+.space--v-3.space--h-3.border.border--color-brandPrimary.text--color-brandPrimary.bRad--a.bg--color-brandPrimaryPale {
+    background-color: #141d26;
+}
+
+nav.comments-pagination.width--all-12.space--v-2.bg--color-greyPanel {
+    background-color: #1DA1F2;
+}
+
+.tGrid-cell.mute--text.hAlign--all-r.vAlign--all-m.space--l-4, .tGrid-cell.mute--text.hAlign--all-l.vAlign--all-m.space--r-4, .cept-previous-page.pagination-previous.lbox--v-4, .cept-next-page.pagination-next.lbox--v-4, .cept-first-page.tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--r-1.pagination-page, .tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--l-1.cept-last-page.pagination-page {
+   color: white !important;
 }
