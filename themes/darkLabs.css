@@ -570,4 +570,5 @@ nav.comments-pagination.width--all-12.space--v-2.bg--color-greyPanel {
 }
 .mc-bg--forest .mc-content {
   background-color: #1B2836;
+  border-radius: 10px;
 }
