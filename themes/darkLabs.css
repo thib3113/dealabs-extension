@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V4.06        */
+/*      DarkLabs - MonsieurCro - V4.07        */
 /*============================================*/
 .logo {
 	background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logoV3.svg") no-repeat scroll center center;
@@ -558,4 +558,16 @@ nav.comments-pagination.width--all-12.space--v-2.bg--color-greyPanel {
 
 .tGrid-cell.mute--text.hAlign--all-r.vAlign--all-m.space--l-4, .tGrid-cell.mute--text.hAlign--all-l.vAlign--all-m.space--r-4, .cept-previous-page.pagination-previous.lbox--v-4, .cept-next-page.pagination-next.lbox--v-4, .cept-first-page.tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--r-1.pagination-page, .tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--l-1.cept-last-page.pagination-page {
    color: white !important;
+}
+
+
+/* Rennes Noël 2018 */
+.mc-bg--forest, .mc-background--page, .mc-background--page {
+  background-color: transparent !important;
+}
+.mc-festiveFont, .mc-festiveFont--giant, .mc-card-counter-child {
+  color: #ffffff;
+}
+.mc-bg--forest .mc-content {
+  background-color: #1B2836;
 }
