@@ -572,3 +572,12 @@ nav.comments-pagination.width--all-12.space--v-2.bg--color-greyPanel {
   background-color: #1B2836;
   border-radius: 10px;
 }
+p.size--all-l.size--fromW3-xl.text--b, p.space--t-4.size--all-m {
+    color: #aaaaaa;
+}
+.mc-card.mc-card--border.space--v-3.space--h-3.mc-card--trade.mc-card--shadow {
+    background-color: #333;
+}
+input.mc-form-search.autoSuggest-input.input.input--icon-l.width--all-12.cept-trading-partner-user-search-suggestions {
+    background-color: #ffffff;
+}
