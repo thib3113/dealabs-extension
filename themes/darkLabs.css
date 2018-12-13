@@ -581,3 +581,6 @@ p.size--all-l.size--fromW3-xl.text--b {
 input.mc-form-search.autoSuggest-input.input.input--icon-l.width--all-12.cept-trading-partner-user-search-suggestions {
     background-color: #ffffff;
 }
+.no-touch .autoSuggest-suggestion.selected {
+    background-color: transparent;
+}
