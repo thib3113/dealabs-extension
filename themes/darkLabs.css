@@ -1,14 +1,19 @@
 @charset "UTF-8";
 
 /*============================================*/
-/*      DarkLabs - MonsieurCro - V4.07        */
+
+/* DarkLabs - MonsieurCro - V4.08 */
+
 /*============================================*/
-.logo {
-	background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logoV3.svg") no-repeat scroll center center;
-	margin: 0px 20px 0px 0px;
-	width: 150px;
-	height: 39px;
+
+/*.logo {
+     background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logoV3.svg") no-repeat scroll center center;
+     margin: 0px 20px 0px 0px;
+     width: 150px;
+     height: 39px;
 }
+ */
+
 .btn--move-to-top.zIndex--above {
 	/* bouton "Back to top" */
 	display: block !important;
@@ -19,12 +24,12 @@
 .btn--mode-white--dark:focus,
 .btn--mode-white--dark:hover {
 	background-color: #121212;
-	color: #eee;
+	color: #eeeeee;
 }
 .ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3:active {
 	/* bouton sur l'accueil*/
 	background-color: #1B2836;
-	color: #eee !important;
+	color: #eeeeee !important;
 	border: 1px solid #d1d5db;
 }
 .ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3:hover {
@@ -51,7 +56,7 @@
 	background-color: #1B2836;
 }
 .listingProfile-footer.space--h-3 {
-	color: white;
+	color: #ffffff;
 }
 .subNav-item {
 	border-right: none;
@@ -61,7 +66,7 @@
 	background-color: transparent;
 }
 .tGrid-cell.space--r-2 {
-	/* un peu plus de texte dans le carroussel */
+	/* un peu plus de texte dans le caroussel */
 	padding-right: 1em;
 }
 .border--color-blue,
@@ -73,20 +78,20 @@
 .thread--type-card,
 .thread--type-list,
 .widget {
-	color: #eee;
+	color: #eeeeee;
 	background-color: #1B2836;
 }
 .navDropDown-head-text {
 	/* titres des onglets de notifs */
 	opacity: 1;
-	color: white;
+	color: #ffffff;
 }
 .btn--mode-special {
 	/* bouton poster un deal */
 	background: transparent;
 	border: 1px solid #d1d5db;
 }
-a.overflow--wrap-off flex--auto-0 {
+.overflow--wrap-off flex--auto-0 {
 	/* retouches liées à l'affichage du prix */
 	font-size: 1.5em;
 	font-weight: bold;
@@ -102,8 +107,8 @@ a.overflow--wrap-off flex--auto-0 {
 .text--color-subNavActive,
 .text--color-subNavActiveLight,
 .text--color-subNavLayerActive,
-.nav-link--selected {
-	/* devient rouge qd on le survole */
+.nav-link--selected,
+.subNavMenu-link.subNavMenu-link--selected {
 	color: #1DA1F2 !important;
 }
 .thread--expired.thread--type-card,
@@ -173,11 +178,11 @@ button:hover .btn--mode-special,
 }
 .thread-title,
 .subNavMenu-btn {
-	color: #eee;
+	color: #eeeeee;
 }
 .voteBar {
 	/* header dans la consultation d'un deal */
-	background-color: #222;
+	background-color: #222222;
 	border-bottom: 1px solid #d1d5db;
 }
 .popover--modal,
@@ -188,7 +193,7 @@ button:hover .btn--mode-special,
 .popover--modal .popover-content {
 	/*pop-up de connexion et les onglets notifs, etc.*/
 	background: #1B2836;
-	color: #eee;
+	color: #eeeeee;
 }
 .autoSuggest-suggestionsBox,
 .threadWidget-header,
@@ -196,7 +201,7 @@ button:hover .btn--mode-special,
 .threadWidget-options--carousel-previous-button {
 	background-color: #1B2836;
 	/* suggestions de recherche + onglet "les + hot" qd fenêtré */
-	color: #eee;
+	color: #eeeeee;
 }
 #notifications {
 	background: transparent;
@@ -207,11 +212,11 @@ button:hover .btn--mode-special,
 .conversationList-msgPreview,
 .conversationList-senderLine {
 	background-color: #1B2836 !important;
-	color: #eee !important;
+	color: #eeeeee !important;
 }
 p,
 a {
-	color: #eee;
+	color: #eeeeee;
 }
 .redactor-editor,
 .comments-item--active,
@@ -219,7 +224,7 @@ a {
 .comments-item-inner--edit,
 .bg--em {
 	background-color: transparent;
-	color: #eee;
+	color: #eeeeee;
 }
 .input,
 .inputBox,
@@ -242,18 +247,18 @@ a {
 .bg--white {
 	/* boutons de navigation */
 	background-color: #1B2836;
-	color: #eee;
+	color: #eeeeee;
 }
 .speechBubble {
-	background: black;
+	background: #000000;
 }
 .speechBubble:after,
 .speechBubble:before {
-	color: black;
+	color: #000000;
 }
 .tabbedInterface-tab--horizontal {
 	background-color: transparent;
-	color: #eee;
+	color: #eeeeee;
 }
 .subNavMenu--menu .subNavMenu-list {
 	/* paramètres */
@@ -276,20 +281,20 @@ a {
 .tabbedInterface-tab--selected {
 	/* catégories des paramètres */
 	background-color: #1B2836 !important;
-	color: #ccc;
+	color: #cccccc;
 }
 .tabbedInterface-tab {
 	background-color: #141d26;
-	color: #ccc;
+	color: #cccccc;
 }
 .userProfile-title--sub {
-	color: #ccc;
+	color: #cccccc;
 }
 .select-ctrl option {
-	background: #000;
+	background: #000000;
 }
-
 /* adaptation du code de leipo159 */
+
 .text--lineThrough {
 	/* espacement entre le prix barré et le prix */
 	padding: 1.57143em;
@@ -301,8 +306,8 @@ a {
 	max-height: 90%;
 	margin: auto;
 }
-
 /* réduction des espaces des box-deals de l'accueil */
+
 .comments-list--insideBox .comments-item-inner,
 .page2-space--h-p,
 .space--h-3,
@@ -325,94 +330,96 @@ a {
 .comments-list article:target .page2-space--h-p {
 	border-top: 5px solid #333333;
 }
-
 /* décallage du post par apport a l'avatar */
+
 .comments-avatarColumn {
 	width: 6em;
 	box-sizing: content-box;
 }
-
 /* espace entre commentaire */
+
 .comments-item-inner,
 .comments-list article:target .page2-space--h-p {
 	border-top: 5px solid #141d26;
 }
-
 /* dans la même idée, espace plus grand après le descriptif du topic pour montrer la séparation (moi) */
+
 nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
 	border-bottom: 10px solid #141d26;
 }
-
 /* quote message */
+
 .userHtml-quote {
 	padding: .5em 1.57em;
-	border: 1px dashed #ccc;
+	border: 1px dashed #cccccc;
 	cursor: default;
 	border-radius: 30px;
 }
-
 /* grossisement nom user */
+
 .user {
 	font-weight: 700;
 	font-size: larger;
 	color: #35373b;
 }
-
 /* espacement avatar/message dans les notifications */
+
 .notification-item-image {
 	width: 5.64286em;
 }
-
 /* espacement avatar/message dans la messagerie ( partie gauche ) */
+
 .space--h-1,
 .space--l-1 {
 	padding-left: .28571em;
 }
-
 /* ---------- encadré deal -------- */
+
 .threadGrid.space--t-2.space--b-2.space--h-2.space--fromW3-h-3.space--fromW3-t-3.space--fromW3-b-3 {
 	position: relative;
-	/*    padding-right: 80px;*/
+	/* padding-right: 80px;
+     */
 	margin-bottom: 5px;
 	border: 1px solid #d1d5db;
-	/*    border-radius: 10px; */
+	/* border-radius: 10px;
+     */
 }
-
 /* ---------- décalage du quote forum -------- */
+
 .userHtml-quote,
 .userHtml-video,
 .userHtml-videoDummy,
-.userHtml [data-animated-gif] {
+.userHtml[data-animated-gif] {
 	display: block;
 	margin-top: .28571em;
 	margin-bottom: .28571em;
 	margin-left: 20px;
 }
-
 /* adaptation du code de nberdah */
 
 /* ---------- Gestion du prix barré et remise -------- */
+
 .mute--text.size--all-s {
 	font-weight: normal;
 	font-size: 10pt;
 }
-
 /* ---------- Gestion du marchand -------- */
+
 .cept-merchant-name {
 	font-weight: bold;
 	font-size: 10pt;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-variant: small-caps;
 }
-
 /* ---------- Gestion de la description du deal -------- */
+
 .cept-description-container {
-	color: #ddd;
+	color: #dddddd;
 	font-weight: normal;
 	font-size: 10pt;
 }
-
 /* BarreNav */
+
 .subNav-item {
 	/* réduit légèrement la barre du haut */
 	height: 3.1em;
@@ -421,15 +428,15 @@ nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
 	height: 3.1em;
 	line-height: 3.1em;
 }
-
 /* Tuiles Deals */
+
 .thread-list--type-list .js-threadList .thread--type-list .threadGrid-image .thread-listImgCell {
 	width: 10em;
 }
-
 /* mini image, plus efficace */
 
 /* Header onglet "description" */
+
 .profileHeader .profileHeader-content,
 .profileHeader > .page-content {
 	padding-bottom: 0.6em;
@@ -453,7 +460,7 @@ nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
 .ico--type-right-grey:before {
 	content: "\2B9E";
 	background-image: none;
-	color: #ccc;
+	color: #cccccc;
 }
 .card {
 	background-color: #1B2836;
@@ -476,14 +483,14 @@ nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
 	background-color: #1b2836;
 }
 .text--color-white {
-	color: #1B2836
+	color: #1B2836;
 }
 .thread-title--list::after {
 	background: none !important;
 }
 .page2-center.space--h-3.space--t-3.hide--toW3,
 .tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--h-4.space--v-1.pagination-page.text--color- {
-	color: white;
+	color: #ffffff;
 }
 .comments-list--top .comments-item:target .comments-item-inner,
 .comments-list .comments-list-item:target .comments-item-inner {
@@ -499,7 +506,7 @@ nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
 }
 .multiSelect-list {
 	background-color: #1b2836;
-	color: white;
+	color: #ffffff;
 }
 .plainSelect-ctrl {
 	background-color: #1b2836;
@@ -534,11 +541,11 @@ svg.icon.icon--mail.text--color-white,
 .space--l-2,
 .icon.icon--bell,
 .icon.icon--bell-off {
-	color: white;
+	color: #ffffff;
 }
 .text--color-greyShade,
 .cept-nav-subheadline.box--all-i.space--l-3.vAlign--all-m {
-	color: #aaa;
+	color: #aaaaaa;
 }
 .notification-item {
 	background-color: #121212 !important;
@@ -546,41 +553,52 @@ svg.icon.icon--mail.text--color-white,
 .notification-item--read {
 	background-color: #1b2836 !important;
 }
-
-
 .space--v-3.space--h-3.border.border--color-brandPrimary.text--color-brandPrimary.bRad--a.bg--color-brandPrimaryPale {
-    background-color: #141d26;
+	background-color: #141d26;
 }
-
 nav.comments-pagination.width--all-12.space--v-2.bg--color-greyPanel {
-    background-color: #1DA1F2;
+	background-color: #1DA1F2;
 }
-
-.tGrid-cell.mute--text.hAlign--all-r.vAlign--all-m.space--l-4, .tGrid-cell.mute--text.hAlign--all-l.vAlign--all-m.space--r-4, .cept-previous-page.pagination-previous.lbox--v-4, .cept-next-page.pagination-next.lbox--v-4, .cept-first-page.tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--r-1.pagination-page, .tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--l-1.cept-last-page.pagination-page {
-   color: white !important;
+.tGrid-cell.mute--text.hAlign--all-r.vAlign--all-m.space--l-4,
+.tGrid-cell.mute--text.hAlign--all-l.vAlign--all-m.space--r-4,
+.cept-previous-page.pagination-previous.lbox--v-4,
+.cept-next-page.pagination-next.lbox--v-4,
+.cept-first-page.tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--r-1.pagination-page,
+.tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--l-1.cept-last-page.pagination-page {
+	color: #ffffff !important;
 }
-
-
 /* Rennes Noël 2018 */
-.mc-bg--forest, .mc-background--page, .mc-background--page {
-  background-color: transparent !important;
+
+.mc-bg--forest,
+.mc-background--page,
+.mc-background--page {
+	background-color: transparent !important;
 }
-.mc-festiveFont, .mc-festiveFont--giant, .mc-card-counter-child {
-  color: #ffffff;
+.mc-festiveFont,
+.mc-festiveFont--giant,
+.mc-card-counter-child {
+	color: #ffffff;
 }
 .mc-bg--forest .mc-content {
-  background-color: #1B2836;
-  border-radius: 10px;
+	background-color: #1B2836;
+	border-radius: 10px;
 }
 p.size--all-l.size--fromW3-xl.text--b {
-    color: #aaaaaa;
+	color: #aaaaaa;
 }
 .mc-card.mc-card--border.space--v-3.space--h-3.mc-card--trade.mc-card--shadow {
-    background-color: #333;
+	background-color: #333333;
 }
 input.mc-form-search.autoSuggest-input.input.input--icon-l.width--all-12.cept-trading-partner-user-search-suggestions {
-    background-color: #ffffff;
+	background-color: #ffffff;
 }
 .no-touch .autoSuggest-suggestion.selected {
-    background-color: transparent;
+	background-color: transparent;
+}
+.conversation-content.iGrid-item.width--all-12.mute--text2.userHtml,
+.lbox--v-4.lbox--f.boxAlign-jc--all-c.bRad--t-a.border.border--b-r {
+	color: #ffffff;
+}
+.imgFrame-img {
+	border-radius: 5px;
 }
