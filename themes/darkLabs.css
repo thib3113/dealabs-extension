@@ -1,27 +1,138 @@
 @charset "UTF-8";
-
 /*============================================*/
-/* DarkLabs - MonsieurCro - V4.08 */
+/*       DarkLabs - MonsieurCro - V4.10       */
 /*============================================*/
 
-/*.logo {
+/* -#MODS (with leipo159, nberdah & Trideal)- */
+@media screen and (min-width: 1px) {
+  /*.logo {
      background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logoV3.svg") no-repeat scroll center center;
      margin: 0px 20px 0px 0px;
      width: 150px;
      height: 39px;
+} */
+.text--lineThrough { /* espacement entre le prix barré et le prix */
+    padding: 1.57143em;
 }
- */
+.imgFrame-img,
+.ratioBox-child { /* légère réduction de la taille des images sur l'accueil */
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+}
+.comments-list--insideBox .comments-item-inner,
+.page2-space--h-p,
+.space--h-3,
+.space--r-3 { /* réduction des espaces des box-deals de l'accueil */
+    padding-right: 1em;
+}
+.space--h-2,
+.space--r-2 {
+    padding-right: 1.57143em;
+}
+.space--fromW3-t-3 {
+    padding-top: 1em;
+}
+.thread-list--type-list { /* plus de place pour les deals, réduction de la colonne de droite */
+    max-width: 90%;
+    margin: auto;
+}
+.comments-avatarColumn { /* décallage du post par apport a l'avatar */
+    width: 6em;
+    box-sizing: content-box;
+}
+.userHtml-quote { /* quote message */
+    padding: .5em 1.57em;
+    border: 1px dashed #cccccc;
+    cursor: default;
+    border-radius: 30px;
+}
+.user { /* grossisement nom user */
+    font-weight: 700;
+    font-size: larger;
+    color: #35373b;
+}
+
+.notification-item-image { /* espacement avatar/message dans les notifications */
+    width: 5.64286em;
+}
+.space--h-1,
+.space--l-1 { /* espacement avatar/message dans la messagerie (partie gauche) */
+    padding-left: .28571em;
+}
+.threadGrid.space--t-2.space--b-2.space--h-2.space--fromW3-h-3.space--fromW3-t-3.space--fromW3-b-3 { /* encadré deal */
+    position: relative;
+    margin-bottom: 5px;
+    border: 1px solid #d1d5db;
+}
+.userHtml-quote,
+.userHtml-video,
+.userHtml-videoDummy,
+.userHtml[data-animated-gif] { /* décalage du quote forum */
+    display: block;
+    margin-top: .28571em;
+    margin-bottom: .28571em;
+    margin-left: 20px;
+}
+  .mute--text.size--all-s { /* Gestion du prix barré et remise */
+    font-weight: normal;
+    font-size: 10pt;
+}
+  .cept-merchant-name { /* Gestion du marchand */
+    font-weight: bold;
+    font-size: 10pt;
+    font-variant: small-caps;
+}
+.cept-description-container { /* Gestion de la description du deal */
+    color: #dddddd;
+    font-weight: normal;
+    font-size: 10pt;
+}
+/* BarreNav */
+.subNav-item  {   /* réduit légèrement la barre du haut */
+    height: 3.1em;
+}
+.subNavMenu .subNavMenu-item {
+    height: 3.1em;
+    line-height: 3.1em;
+}
+.thread-list--type-list .js-threadList .thread--type-list .threadGrid-image .thread-listImgCell { /* Tuiles Deals */
+    width: 10em;
+}
+.profileHeader .profileHeader-content,
+.profileHeader > .page-content { /* Header onglet "description" */
+    padding-bottom: 0.6em;
+    padding-top: 0.6em;
+}
+.grpAvatar {
+    width: 4em;
+    min-width: 4em;
+}
+.ico--type-left-blue:before { /* pagination */
+    content: "\2B9C";
+    background-image: none;
+    color: #1DA1F2;
+}
+
+.ico--type-right-grey:before {
+    content: "\2B9E";
+    background-image: none;
+    color: #cccccc;
+}
+}
+
+/* -----------------#COLOURS----------------- */
 .btn--move-to-top.zIndex--above {
 	/* bouton "Back to top" */
-	display: block !important;
-	opacity: 1 !important;
-	font-size: 0.8em;
+    display: block !important;
+    opacity: 1 !important;
+    font-size: 0.8em;
 }
 .btn--mode-white--dark,
 .btn--mode-white--dark:focus,
 .btn--mode-white--dark:hover {
-	background-color: #121212;
-	color: #eeeeee;
+    background-color: #121212;
+    color: #eeeeee;
 }
 .ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3:active {
 	/* bouton sur l'accueil*/
@@ -32,7 +143,8 @@
 .ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3:hover {
 	border: 1px solid #1DA1F2;
 }
-.subNavMenu--menu .subNavMenu-roundCounter-text {
+.subNavMenu--menu .subNavMenu-roundCounter-text,
+nav.comments-pagination.width--all-12.space--v-2.bg--color-greyPanel {
 	background-color: #1DA1F2;
 }
 .bg--off,
@@ -40,64 +152,80 @@
 .footer,
 .bg--greyPanel,
 .popover--mainNav .popover-content,
-.popover--brandAccent .popover-content {
-	background: #141d26;
+.popover--brandAccent .popover-content,
+.vote-box,
+.subNavMenu--menu .subNavMenu-list,
+.space--v-3.space--h-3.border.border--color-brandPrimary.text--color-brandPrimary.bRad--a.bg--color-brandPrimaryPale {
+	background: #141D26;
 }
 .popover--layout-s > .popover-arrow::after {
-	border-bottom-color: #141d26;
+	border-bottom-color: #141D26;
 }
 .subNav,
 .subNav--light,
 .bg--inverted,
-.listingProfile {
-	background-color: #1B2836;
+.listingProfile,
+.card,
+.text--overlay,
+.bg--white,
+.popover--brandAccent .popover-content,
+.popover--brandPrimary .popover-content,
+.popover--default .popover-content,
+.popover--menu .popover-content,
+.popover--red .popover-content,
+.plainSelect-ctrl {
+    background-color: #1B2836;
 }
-.listingProfile-footer.space--h-3 {
+.listingProfile-footer.space--h-3,
+svg.icon.icon--mail.text--color-white,
+.space--l-2,
+.icon.icon--bell,
+.icon.icon--bell-off,
+.page2-center.space--h-3.space--t-3.hide--toW3,
+.tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--h-4.space--v-1.pagination-page.text--color-,
+.conversation-content.iGrid-item.width--all-12.mute--text2.userHtml,
+.lbox--v-4.lbox--f.boxAlign-jc--all-c.bRad--t-a.border.border--b-r {
 	color: #ffffff;
 }
 .subNav-item {
 	border-right: none;
 }
-.navMenu-trigger,
-.navMenu-trigger:focus {
-	background-color: transparent;
-}
-.tGrid-cell.space--r-2 {
-	/* un peu plus de texte dans le caroussel */
+.tGrid-cell.space--r-2 { /* un peu plus de texte dans le caroussel */
 	padding-right: 1em;
-}
-.border--color-blue,
-.border--color-brandPrimary,
-.multiSelect-input.tGrid-cell.tGrid-cell--preventOverflow.bRad--r-r.input.width--all-12.tree-select:hover {
-	border-color: #1DA1F2;
 }
 .bg--main,
 .thread--type-card,
 .thread--type-list,
-.widget {
+.widget,
+.popover--modal,
+.popover-content,
+.popover--menu,
+.popover--menu .popover-content,
+.popover--default .popover-content,
+.popover--modal .popover-content, /*pop-up de connexion et les onglets notifs, etc.*/
+.autoSuggest-suggestionsBox,
+.threadWidget-header,
+.threadWidget--type-linear,
+.threadWidget-options--carousel-previous-button { /* suggestions de recherche + onglet "les + hot" qd fenêtré */
 	color: #eeeeee;
 	background-color: #1B2836;
 }
-.navDropDown-head-text {
-	/* titres des onglets de notifs */
+.navDropDown-head-text { /* titres des onglets de notifs */
 	opacity: 1;
 	color: #ffffff;
 }
-.btn--mode-special {
-	/* bouton poster un deal */
+.btn--mode-special { /* bouton poster un deal */
 	background: transparent;
 	border: 1px solid #d1d5db;
 }
-.overflow--wrap-off flex--auto-0 {
-	/* retouches liées à l'affichage du prix */
-	font-size: 1.5em;
-	font-weight: bold;
+.overflow--wrap-off flex--auto-0 { /* retouches liées à l'affichage du prix */
+    font-size: 1.5em;
+    font-weight: bold;
 }
 .thread--expired.thread--type-list .thread-price,
 .userHtml a.linkPlain,
-.userHtml a.thread-link {
-	/* "Afficher plus" */
-	color: #141d26 !important;
+.userHtml a.thread-link { /* "Afficher plus" */
+    color: #141D26!important;
 }
 .userHtml a.linkPlain:hover,
 .userHtml a.thread-link:hover,
@@ -106,11 +234,11 @@
 .text--color-subNavLayerActive,
 .nav-link--selected,
 .subNavMenu-link.subNavMenu-link--selected {
-	color: #1DA1F2 !important;
+    color: #1DA1F2!important;
 }
 .thread--expired.thread--type-card,
 .thread--expired.thread--type-list {
-	opacity: 0.6;
+    opacity: 0.6;
 }
 .user,
 .mute--text2,
@@ -127,12 +255,21 @@
 .userHtml.a,
 .linkBlue,
 .thread-userOptionTeaser,
-.userHtml a {
-	color: #1DA1F2;
+.userHtml a,
+.text--color-navDropDownPrimary,
+.thread-username,
+.subNavMenu-item.subNavMenu-link.flex--align-c:hover,
+.search,
+.text--color-brandPrimary.text--b.btn--mini,
+.icon.icon--bell.space--mr-2,
+.text--color-charcoal {
+    color: #1DA1F2;
 }
 .subNavMenu--selected .subNavMenu-btn,
 .subNavMenu--selected .subNavMenu-btn:focus,
 .subNavMenu--selected .subNavMenu-btn:hover,
+.subNavMenu--light.subNavMenu-btn:focus,
+.subNavMenu--light.subNavMenu-btn:hover
 .btn--mode-special:focus,
 .btn--mode-special:hover,
 button:focus .btn--mode-special,
@@ -141,68 +278,49 @@ button:hover .btn--mode-special,
 .toolbar-btn.toolbar-btn--link,
 .checkbox--brand .checkbox-input:checked ~ .tGrid-cell > .checkbox-box,
 .btn.btn--mini.btn--toW5-square {
-	border-color: #1DA1F2;
+    border-color: #1DA1F2;
 	background-color: #1DA1F2;
 }
 .subNavMenu-btn:active,
-.subNavMenu-btn:hover {
-	border-color: #1DA1F2;
+.subNavMenu-btn:hover,
+.border--color-blue,
+.border--color-brandPrimary,
+.multiSelect-input.tGrid-cell.tGrid-cell--preventOverflow.bRad--r-r.input.width--all-12.tree-select:hover {
+    border-color: #1DA1F2;
 }
 .comments--top-header,
 .subNavMenu-link-badge,
 .subNavMenu-link.subNavMenu-link--selected::after {
-	background-color: #1DA1F2 !important;
+    background-color: #1DA1F2!important;
 }
 .comments-list .comments-item {
-	border-bottom: none;
+    border-bottom: none;
 }
 .vote-btn:hover,
 .navDropDown-link:hover,
 .btn--mode-boxSec:focus,
 .btn--mode-boxSec:hover,
-.btn--mode-primary-inverted {
-	/* survol des votes et des menus moins agressifs */
-	background: transparent !important;
-	color: #1DA1F2 !important;
+.btn--mode-primary-inverted { /* survol des votes et des menus moins agressifs */
+    background: transparent !important;
+    color: #1DA1F2!important;
 }
 .btn--mode-primary {
-	background: #1DA1F2;
+    background: #1DA1F2;
 	border: none;
 }
 .btn--mode-primary:hover {
-	background: transparent;
-	border: 1px solid #d1d5db;
+    background: transparent;
+    border: 1px solid #d1d5db;
 }
 .thread-title,
-.subNavMenu-btn {
-	color: #eeeeee;
+.subNavMenu-btn,
+p,
+a {
+    color: #eeeeee;
 }
-.voteBar {
-	/* header dans la consultation d'un deal */
+.voteBar { /* header dans la consultation d'un deal */
 	background-color: #222222;
 	border-bottom: 1px solid #d1d5db;
-}
-.popover--modal,
-.popover-content,
-.popover--menu,
-.popover--menu .popover-content,
-.popover--default .popover-content,
-.popover--modal .popover-content {
-	/*pop-up de connexion et les onglets notifs, etc.*/
-	background: #1B2836;
-	color: #eeeeee;
-}
-.autoSuggest-suggestionsBox,
-.threadWidget-header,
-.threadWidget--type-linear,
-.threadWidget-options--carousel-previous-button {
-	background-color: #1B2836;
-	/* suggestions de recherche + onglet "les + hot" qd fenêtré */
-	color: #eeeeee;
-}
-#notifications {
-	background: transparent;
-	background-color: transparent;
 }
 .conversationList-msg,
 .notification-item,
@@ -211,15 +329,12 @@ button:hover .btn--mode-special,
 	background-color: #1B2836 !important;
 	color: #eeeeee !important;
 }
-p,
-a {
-	color: #eeeeee;
-}
 .redactor-editor,
 .comments-item--active,
 .comments-item--in-moderation,
 .comments-item-inner--edit,
-.bg--em {
+.bg--em,
+.tabbedInterface-tab--horizontal {
 	background-color: transparent;
 	color: #eeeeee;
 }
@@ -234,17 +349,13 @@ a {
 .btn:disabled,
 .btn--disabled,
 .subNavMenu-btn,
-.imgFrame--squircle {
-	/* on vide les boutons */
+.imgFrame--squircle, /* on vide les boutons */
+#notifications,
+.navMenu-trigger,
+.navMenu-trigger:focus,
+.no-touch .autoSuggest-suggestion.selected,
+.subNavMenu--light .subNavMenu-btn {
 	background-color: transparent;
-}
-.vote-box {
-	background-color: #141d26;
-}
-.bg--white {
-	/* boutons de navigation */
-	background-color: #1B2836;
-	color: #eeeeee;
 }
 .speechBubble {
 	background: #000000;
@@ -253,35 +364,19 @@ a {
 .speechBubble:before {
 	color: #000000;
 }
-.tabbedInterface-tab--horizontal {
-	background-color: transparent;
-	color: #eeeeee;
-}
-.subNavMenu--menu .subNavMenu-list {
-	/* paramètres */
-	background-color: #141d26;
-}
-.subNavMenu--selected .subNavMenu-btn:focus,
-.subNavMenu--selected .subNavMenu-btn:hover,
-.subNavMenu--light.subNavMenu-btn:focus,
-.subNavMenu--light.subNavMenu-btn:hover {
-	border-color: #1DA1F2;
-	background-color: #1DA1F2;
-}
 .popover--arrow-navDropDownPrimary .popover-arrow::after,
 .checkbox-input:checked ~ .tGrid-cell > .checkbox-box {
 	border-bottom-color: #1DA1F2;
 }
 .popover--layout-e > .popover-arrow::after {
-	border-right-color: #03a5c1;
+    border-right-color: #03a5c1;
 }
-.tabbedInterface-tab--selected {
-	/* catégories des paramètres */
+.tabbedInterface-tab--selected { /* catégories des paramètres */
 	background-color: #1B2836 !important;
 	color: #cccccc;
 }
 .tabbedInterface-tab {
-	background-color: #141d26;
+	background-color: #141D26;
 	color: #cccccc;
 }
 .userProfile-title--sub {
@@ -290,251 +385,69 @@ a {
 .select-ctrl option {
 	background: #000000;
 }
-/* adaptation du code de leipo159 */
-.text--lineThrough {
-	/* espacement entre le prix barré et le prix */
-	padding: 1.57143em;
-}
-.imgFrame-img,
-.ratioBox-child {
-	/* légère réduction de la taille des images sur l'accueil */
-	max-width: 90%;
-	max-height: 90%;
-	margin: auto;
-}
-/* réduction des espaces des box-deals de l'accueil */
-.comments-list--insideBox .comments-item-inner,
-.page2-space--h-p,
-.space--h-3,
-.space--r-3 {
-	padding-right: 1em;
-}
-.space--h-2,
-.space--r-2 {
-	padding-right: 1.57143em;
-}
-.space--fromW3-t-3 {
-	padding-top: 1em;
-}
-.thread-list--type-list {
-	/* plus de place pour les deals, réduction de la colonne de droite */
-	max-width: 90%;
-	margin: auto;
-}
 .comments-item-inner,
-.comments-list article:target .page2-space--h-p {
-	border-top: 5px solid #333333;
+.comments-list article:target .page2-space--h-p { /* espace entre commentaires */
+    border-top: 5px solid #141D26;
 }
-/* décallage du post par apport a l'avatar */
-.comments-avatarColumn {
-	width: 6em;
-	box-sizing: content-box;
-}
-/* espace entre commentaire */
-.comments-item-inner,
-.comments-list article:target .page2-space--h-p {
-	border-top: 5px solid #141d26;
-}
-/* dans la même idée, espace plus grand après le descriptif du topic pour montrer la séparation (moi) */
-nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
-	border-bottom: 10px solid #141d26;
-}
-/* quote message */
-.userHtml-quote {
-	padding: .5em 1.57em;
-	border: 1px dashed #cccccc;
-	cursor: default;
-	border-radius: 30px;
-}
-/* grossisement nom user */
-.user {
-	font-weight: 700;
-	font-size: larger;
-	color: #35373b;
-}
-/* espacement avatar/message dans les notifications */
-.notification-item-image {
-	width: 5.64286em;
-}
-/* espacement avatar/message dans la messagerie (partie gauche) */
-.space--h-1,
-.space--l-1 {
-	padding-left: .28571em;
-}
-/* ---------- encadré deal -------- */
-.threadGrid.space--t-2.space--b-2.space--h-2.space--fromW3-h-3.space--fromW3-t-3.space--fromW3-b-3 {
-	position: relative;
-	/* padding-right: 80px;
-     */
-	margin-bottom: 5px;
-	border: 1px solid #d1d5db;
-	/* border-radius: 10px;
-     */
-}
-/* ---------- décalage du quote forum -------- */
-.userHtml-quote,
-.userHtml-video,
-.userHtml-videoDummy,
-.userHtml[data-animated-gif] {
-	display: block;
-	margin-top: .28571em;
-	margin-bottom: .28571em;
-	margin-left: 20px;
-}
-/* adaptation du code de nberdah */
-/* ---------- Gestion du prix barré et remise -------- */
-.mute--text.size--all-s {
-	font-weight: normal;
-	font-size: 10pt;
-}
-/* ---------- Gestion du marchand -------- */
-.cept-merchant-name {
-	font-weight: bold;
-	font-size: 10pt;
-	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	font-variant: small-caps;
-}
-/* ---------- Gestion de la description du deal -------- */
-.cept-description-container {
-	color: #dddddd;
-	font-weight: normal;
-	font-size: 10pt;
-}
-/* BarreNav */
-.subNav-item {
-	/* réduit légèrement la barre du haut */
-	height: 3.1em;
-}
-.subNavMenu .subNavMenu-item {
-	height: 3.1em;
-	line-height: 3.1em;
-}
-/* Tuiles Deals */
-.thread-list--type-list .js-threadList .thread--type-list .threadGrid-image .thread-listImgCell {
-	width: 10em;
-}
-/* Header onglet "description" */
-.profileHeader .profileHeader-content,
-.profileHeader > .page-content {
-	padding-bottom: 0.6em;
-	padding-top: 0.6em;
-}
-.grpAvatar {
-	width: 4em;
-	min-width: 4em;
+nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div { /* espace plus grand après le descriptif du topic */
+    border-bottom: 10px solid #141D26;
 }
 .textBadge--blue {
-	/* "badge posteur" */
-	background-color: transparent;
-	border: 0.5px solid #d1d5db;
-}
-.ico--type-left-blue:before {
-	/* pagination - adapté de Trideal */
-	content: "\2B9C";
-	background-image: none;
-	color: #1DA1F2;
-}
-.ico--type-right-grey:before {
-	content: "\2B9E";
-	background-image: none;
-	color: #cccccc;
-}
-.card {
-	background-color: #1B2836;
+    background-color: transparent;
+    border: 0.5px solid #d1d5db;
 }
 .overflow--fade::after {
-	background: transparent;
+    background: transparent;
 }
 .badge {
-	background-image: none !important;
+    background-image: none !important;
 }
 .vote-box,
 .threadGrid-title {
-	box-shadow: none !important;
+    box-shadow: none !important;
 }
 .text--overlay::before {
-	background-image: -webkit-linear-gradient(left, hsla(0, 0%, 0%, 0), #1b2836 90%);
-	background-image: linear-gradient(90deg, hsla(0, 0%, 100%, 0), #1b2836 90%);
-}
-.text--overlay {
-	background-color: #1b2836;
+    background-image: -webkit-linear-gradient(left, hsla(0, 0%, 0%, 0), #1B2836 90%);
+    background-image: linear-gradient(90deg, hsla(0, 0%, 100%, 0), #1B2836 90%);
 }
 .text--color-white {
-	color: #1B2836;
+    color: #1B2836;
 }
 .thread-title--list::after {
-	background: none !important;
-}
-.page2-center.space--h-3.space--t-3.hide--toW3,
-.tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--h-4.space--v-1.pagination-page.text--color- {
-	color: #ffffff;
+    background: none !important;
 }
 .comments-list--top .comments-item:target .comments-item-inner,
 .comments-list .comments-list-item:target .comments-item-inner {
-	animation: none !important;
-	border-bottom: none !important;
-}
-.popover--brandAccent .popover-content,
-.popover--brandPrimary .popover-content,
-.popover--default .popover-content,
-.popover--menu .popover-content,
-.popover--red .popover-content {
-	background-color: #1B2836;
+    animation: none !important;
+    border-bottom: none !important;
 }
 .multiSelect-list {
-	background-color: #1b2836;
+    background-color: #1B2836;
 	color: #ffffff;
-}
-.plainSelect-ctrl {
-	background-color: #1b2836;
 }
 .navDropDown-head,
 .btn--mode-navDropDownPrimary,
 .navDropDown-trigger--selected,
 .comments-marker-down,
 .comments-marker-up {
-	background-color: #1DA1F2 !important;
+    background-color: #1DA1F2!important;
 }
 .comments-marker-down:after {
-	border-top: 1em solid #1DA1F2;
-}
-.text--color-navDropDownPrimary,
-.thread-username,
-.subNavMenu-item.subNavMenu-link.flex--align-c:hover,
-.user,
-.search,
-.text--color-brandPrimary.text--b.btn--mini,
-.icon.icon--bell.space--mr-2,
-.text--color-charcoal {
-	color: #1DA1F2;
+    border-top: 1em solid #1DA1F2;
 }
 .navDropDown-footer {
-	border: 0.8px solid #1DA1F2;
-}
-.subNavMenu--light .subNavMenu-btn {
-	background-color: transparent;
-}
-svg.icon.icon--mail.text--color-white,
-.space--l-2,
-.icon.icon--bell,
-.icon.icon--bell-off {
-	color: #ffffff;
+    border: 0.8px solid #1DA1F2;
 }
 .text--color-greyShade,
-.cept-nav-subheadline.box--all-i.space--l-3.vAlign--all-m {
-	color: #aaaaaa;
+.cept-nav-subheadline.box--all-i.space--l-3.vAlign--all-m,
+p.size--all-l.size--fromW3-xl.text--b {
+    color: #aaaaaa;
 }
 .notification-item {
-	background-color: #121212 !important;
+    background-color: #121212 !important;
 }
 .notification-item--read {
-	background-color: #1b2836 !important;
-}
-.space--v-3.space--h-3.border.border--color-brandPrimary.text--color-brandPrimary.bRad--a.bg--color-brandPrimaryPale {
-	background-color: #141d26;
-}
-nav.comments-pagination.width--all-12.space--v-2.bg--color-greyPanel {
-	background-color: #1DA1F2;
+    background-color: #1B2836!important;
 }
 .tGrid-cell.mute--text.hAlign--all-r.vAlign--all-m.space--l-4,
 .tGrid-cell.mute--text.hAlign--all-l.vAlign--all-m.space--r-4,
@@ -542,39 +455,28 @@ nav.comments-pagination.width--all-12.space--v-2.bg--color-greyPanel {
 .cept-next-page.pagination-next.lbox--v-4,
 .cept-first-page.tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--r-1.pagination-page,
 .tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--l-1.cept-last-page.pagination-page {
-	color: #ffffff !important;
+    color: #ffffff !important;
 }
 /* Rennes Noël 2018 */
 .mc-bg--forest,
-.mc-background--page,
 .mc-background--page {
-	background-color: transparent !important;
+    background-color: transparent !important;
 }
 .mc-festiveFont,
 .mc-festiveFont--giant,
 .mc-card-counter-child {
-	color: #ffffff;
+    color: #ffffff;
 }
 .mc-bg--forest .mc-content {
-	background-color: #1B2836;
+    background-color: #1B2836;
 	border-radius: 10px;
 }
-p.size--all-l.size--fromW3-xl.text--b {
-	color: #aaaaaa;
-}
 .mc-card.mc-card--border.space--v-3.space--h-3.mc-card--trade.mc-card--shadow {
-	background-color: #333333;
+    background-color: #333333;
 }
 input.mc-form-search.autoSuggest-input.input.input--icon-l.width--all-12.cept-trading-partner-user-search-suggestions {
-	background-color: #ffffff;
-}
-.no-touch .autoSuggest-suggestion.selected {
-	background-color: transparent;
-}
-.conversation-content.iGrid-item.width--all-12.mute--text2.userHtml,
-.lbox--v-4.lbox--f.boxAlign-jc--all-c.bRad--t-a.border.border--b-r {
-	color: #ffffff;
+    background-color: #ffffff;
 }
 .imgFrame-img {
-	border-radius: 5px;
+    border-radius: 5px;
 }
