@@ -5,7 +5,7 @@
 
 /* -#MODS (with leipo159, nberdah & Trideal)- */
 @media screen and (min-width: 1px) {
-  /*.logo {
+/*.logo {
      background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logoV3.svg") no-repeat scroll center center;
      margin: 0px 20px 0px 0px;
      width: 150px;
@@ -74,11 +74,11 @@
     margin-bottom: .28571em;
     margin-left: 20px;
 }
-  .mute--text.size--all-s { /* Gestion du prix barré et remise */
+.mute--text.size--all-s { /* Gestion du prix barré et remise */
     font-weight: normal;
     font-size: 10pt;
 }
-  .cept-merchant-name { /* Gestion du marchand */
+.cept-merchant-name { /* Gestion du marchand */
     font-weight: bold;
     font-size: 10pt;
     font-variant: small-caps;
@@ -123,7 +123,7 @@
 
 /* -----------------#COLOURS----------------- */
 .btn--move-to-top.zIndex--above {
-	/* bouton "Back to top" */
+    /* bouton "Back to top" */
     display: block !important;
     opacity: 1 !important;
     font-size: 0.8em;
@@ -135,17 +135,17 @@
     color: #eeeeee;
 }
 .ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3:active {
-	/* bouton sur l'accueil*/
-	background-color: #1B2836;
-	color: #eeeeee !important;
-	border: 1px solid #d1d5db;
+    /* bouton sur l'accueil*/
+    background-color: #1B2836;
+    color: #eeeeee !important;
+    border: 1px solid #d1d5db;
 }
 .ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3:hover {
-	border: 1px solid #1DA1F2;
+    border: 1px solid #1DA1F2;
 }
 .subNavMenu--menu .subNavMenu-roundCounter-text,
 nav.comments-pagination.width--all-12.space--v-2.bg--color-greyPanel {
-	background-color: #1DA1F2;
+    background-color: #1DA1F2;
 }
 .bg--off,
 .nav,
@@ -156,10 +156,10 @@ nav.comments-pagination.width--all-12.space--v-2.bg--color-greyPanel {
 .vote-box,
 .subNavMenu--menu .subNavMenu-list,
 .space--v-3.space--h-3.border.border--color-brandPrimary.text--color-brandPrimary.bRad--a.bg--color-brandPrimaryPale {
-	background: #141D26;
+    background: #141D26;
 }
 .popover--layout-s > .popover-arrow::after {
-	border-bottom-color: #141D26;
+    border-bottom-color: #141D26;
 }
 .subNav,
 .subNav--light,
@@ -185,13 +185,13 @@ svg.icon.icon--mail.text--color-white,
 .tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--h-4.space--v-1.pagination-page.text--color-,
 .conversation-content.iGrid-item.width--all-12.mute--text2.userHtml,
 .lbox--v-4.lbox--f.boxAlign-jc--all-c.bRad--t-a.border.border--b-r {
-	color: #ffffff;
+    color: #ffffff;
 }
 .subNav-item {
-	border-right: none;
+    border-right: none;
 }
 .tGrid-cell.space--r-2 { /* un peu plus de texte dans le caroussel */
-	padding-right: 1em;
+    padding-right: 1em;
 }
 .bg--main,
 .thread--type-card,
@@ -207,16 +207,16 @@ svg.icon.icon--mail.text--color-white,
 .threadWidget-header,
 .threadWidget--type-linear,
 .threadWidget-options--carousel-previous-button { /* suggestions de recherche + onglet "les + hot" qd fenêtré */
-	color: #eeeeee;
-	background-color: #1B2836;
+    color: #eeeeee;
+    background-color: #1B2836;
 }
 .navDropDown-head-text { /* titres des onglets de notifs */
-	opacity: 1;
-	color: #ffffff;
+    opacity: 1;
+    color: #ffffff;
 }
 .btn--mode-special { /* bouton poster un deal */
-	background: transparent;
-	border: 1px solid #d1d5db;
+    background: transparent;
+    border: 1px solid #d1d5db;
 }
 .overflow--wrap-off flex--auto-0 { /* retouches liées à l'affichage du prix */
     font-size: 1.5em;
@@ -279,7 +279,7 @@ button:hover .btn--mode-special,
 .checkbox--brand .checkbox-input:checked ~ .tGrid-cell > .checkbox-box,
 .btn.btn--mini.btn--toW5-square {
     border-color: #1DA1F2;
-	background-color: #1DA1F2;
+    background-color: #1DA1F2;
 }
 .subNavMenu-btn:active,
 .subNavMenu-btn:hover,
@@ -306,7 +306,7 @@ button:hover .btn--mode-special,
 }
 .btn--mode-primary {
     background: #1DA1F2;
-	border: none;
+    border: none;
 }
 .btn--mode-primary:hover {
     background: transparent;
@@ -319,15 +319,15 @@ a {
     color: #eeeeee;
 }
 .voteBar { /* header dans la consultation d'un deal */
-	background-color: #222222;
-	border-bottom: 1px solid #d1d5db;
+    background-color: #222222;
+    border-bottom: 1px solid #d1d5db;
 }
 .conversationList-msg,
 .notification-item,
 .conversationList-msgPreview,
 .conversationList-senderLine {
-	background-color: #1B2836 !important;
-	color: #eeeeee !important;
+    background-color: #1B2836 !important;
+    color: #eeeeee !important;
 }
 .redactor-editor,
 .comments-item--active,
@@ -335,8 +335,8 @@ a {
 .comments-item-inner--edit,
 .bg--em,
 .tabbedInterface-tab--horizontal {
-	background-color: transparent;
-	color: #eeeeee;
+    background-color: transparent;
+    color: #eeeeee;
 }
 .input,
 .inputBox,
@@ -355,35 +355,35 @@ a {
 .navMenu-trigger:focus,
 .no-touch .autoSuggest-suggestion.selected,
 .subNavMenu--light .subNavMenu-btn {
-	background-color: transparent;
+    background-color: transparent;
 }
 .speechBubble {
-	background: #000000;
+    background: #000000;
 }
 .speechBubble:after,
 .speechBubble:before {
-	color: #000000;
+    color: #000000;
 }
 .popover--arrow-navDropDownPrimary .popover-arrow::after,
 .checkbox-input:checked ~ .tGrid-cell > .checkbox-box {
-	border-bottom-color: #1DA1F2;
+    border-bottom-color: #1DA1F2;
 }
 .popover--layout-e > .popover-arrow::after {
     border-right-color: #03a5c1;
 }
 .tabbedInterface-tab--selected { /* catégories des paramètres */
-	background-color: #1B2836 !important;
-	color: #cccccc;
+    background-color: #1B2836 !important;
+    color: #cccccc;
 }
 .tabbedInterface-tab {
-	background-color: #141D26;
-	color: #cccccc;
+    background-color: #141D26;
+    color: #cccccc;
 }
 .userProfile-title--sub {
-	color: #cccccc;
+    color: #cccccc;
 }
 .select-ctrl option {
-	background: #000000;
+    background: #000000;
 }
 .comments-item-inner,
 .comments-list article:target .page2-space--h-p { /* espace entre commentaires */
@@ -423,7 +423,7 @@ nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div { /* espace plus g
 }
 .multiSelect-list {
     background-color: #1B2836;
-	color: #ffffff;
+    color: #ffffff;
 }
 .navDropDown-head,
 .btn--mode-navDropDownPrimary,
@@ -469,7 +469,7 @@ p.size--all-l.size--fromW3-xl.text--b {
 }
 .mc-bg--forest .mc-content {
     background-color: #1B2836;
-	border-radius: 10px;
+    border-radius: 10px;
 }
 .mc-card.mc-card--border.space--v-3.space--h-3.mc-card--trade.mc-card--shadow {
     background-color: #333333;
