@@ -4,7 +4,7 @@
 /*============================================*/
 
 .logo {
-    background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logo.png") no-repeat scroll center center;
+    /* background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logo.png") no-repeat scroll center center; */
     background-size: contain;
     margin: 5px 10px 0px 0px;
 }
@@ -478,6 +478,10 @@ input.mc-form-search.autoSuggest-input.input.input--icon-l.width--all-12.cept-tr
 a.btn.btn--mode-boxSec.mc-notification-shadow.space--h-4.width--all-12 {
     background-color: #333333;
     color: #CCCCCC;
+}
+a.btn.btn--mode-boxSec.mc-notification-shadow.space--h-4.width--all-12:hover {
+    background-color: #555555;
+    color: #EEEEEE;
 }
 .imgFrame-img {
     border-radius: 5px;
