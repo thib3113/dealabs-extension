@@ -3,11 +3,11 @@
 /*       DarkLabs - MonsieurCro - V4.10       */
 /*============================================*/
 
-.logo {
-    /* background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logo.png") no-repeat scroll center center; */
-    background-size: contain;
+/* .logo {
+    background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logo.png") no-repeat scroll center center !important;
+    background-size: contain !important;
     margin: 5px 10px 0px 0px;
-}
+} */
 
 /* -#MODS (with leipo159, nberdah & Trideal)- */
 .text--lineThrough { /* espacement entre le prix barré et le prix */
