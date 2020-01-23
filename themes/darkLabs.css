@@ -1,23 +1,25 @@
 @charset "UTF-8";
+@charset "UTF-8";
+
 /*============================================*/
-/*     DarkLabs - MonsieurCro - V29191213     */
+/*     DarkLabs - MonsieurCro - V20200123     */
 /*============================================*/
 
 /* MODS (merci à leipo159, nberdah & Trideal) */
 /*============================================*/
 
-/* Espacement entre prix barré et prix */
+/*Espacement entre prix barré et prix*/
 .text--lineThrough {
     padding: 1.57143em;
 }
-/* Légère réduction de la taille des images sur l'accueil */
+/*Légère réduction de la taille des images sur l'accueil*/
 .imgFrame-img,
 .ratioBox-child {
     max-width: 90%;
     max-height: 90%;
     margin: auto;
 }
-/* Réduction des espaces des box-deals de l'accueil */
+/*Réduction des espaces des box-deals de l'accueil*/
 .comments-list--insideBox .comments-item-inner,
 .page2-space--h-p, .space--h-3, .space--r-3 {
     padding-right: 1em;
@@ -28,79 +30,79 @@
 .space--fromW3-t-3 {
     padding-top: 1em;
 }
-/* Réduction de la colonne de droite sur l'accueil */
+/*Réduction de la colonne de droite sur l'accueil*/
 .thread-list--type-list {
     max-width: 90%;
     margin: auto;
 }
-/* Décallage du post par apport a l'avatar */
+/*Décallage du post par apport a l'avatar*/
 .comments-avatarColumn {
     width: 6em;
     box-sizing: content-box;
 }
-/* Quote message */
+/*Quote message*/
 .userHtml-quote {
     padding: .5em 1.57em;
     border: 1px dashed #CCC;
     cursor: default;
     border-radius: 30px;
 }
-/* Grossisement nom user */
+/*Grossisement nom user*/
 .user {
     font-weight: 700;
     font-size: larger;
     color: #35373B;
 }
-/* Espacement avatar/message dans les notifications */
+/*Espacement avatar/message dans les notifications*/
 .notification-item-image {
     width: 5.64286em;
 }
-/* Espacement avatar/message dans la messagerie (partie gauche) */
+/*Espacement avatar/message dans la messagerie (partie gauche)*/
 .space--h-1, .space--l-1 {
     padding-left: .28571em;
 }
-/* Encadré deal */
+/*Encadré deal*/
 .threadGrid.space--t-2.space--b-2.space--h-2.space--fromW3-h-3.space--fromW3-t-3.space--fromW3-b-3 {
     position: relative;
     margin-bottom: 5px;
     border: 1px solid #D1D5DB;
 }
-/* Décalage du quote forum */
+/*Décalage du quote forum*/
 .userHtml-quote, .userHtml-video, .userHtml-videoDummy, .userHtml[data-animated-gif] {
     display: block;
     margin-top: .28571em;
     margin-bottom: .28571em;
     margin-left: 20px;
 }
-/* Prix barré et remise */
+/*Prix barré et remise*/
 .mute--text.size--all-s {
     font-weight: normal;
     font-size: 10pt;
 }
-/* Marchand */
+/*Marchand*/
 .cept-merchant-name {
     font-weight: bold;
     font-size: 10pt;
     font-variant: small-caps;
 }
-/* Description du deal */
+/*Description du deal*/
 .cept-description-container {
     color: #DDD;
     font-weight: normal;
     font-size: 10pt;
 }
-/* Barre de navigation - réduit légèrement la barre du haut */
+/*Barre de navigation - réduit légèrement la barre du haut*/
 .subNav-item {
     height: 3.1em;
 }
 .subNavMenu .subNavMenu-item {
     height: 3.1em; line-height: 3.1em;
 }
-/* Tuiles Deals */
+/*Tuiles Deals*/
 .thread-list--type-list .js-threadList .thread--type-list .threadGrid-image .thread-listImgCell {
     width: 10em;
 }
-/* Header onglet "description" */
+/*Header onglet "description"*/
 .profileHeader .profileHeader-content,
 .profileHeader > .page-content {
     padding-bottom: .6em;
@@ -109,7 +111,7 @@
 .grpAvatar {
     width: 4em; min-width: 4em;
 }
-/* Pagination */
+/*Pagination*/
 .ico--type-left-blue:before {
     content: "\2B9C";
     background-image: none;
@@ -121,10 +123,9 @@
     color: #CCC;
 }
 
-/* -----#COULEURS----- */
+/*-----#COULEURS-----*/
 /*============================================*/
-
-/* Bouton "Back to top" */
+/*Bouton "Back to top"*/
 .btn--move-to-top.zIndex--above {
     display: block !important;
     opacity: 1 !important;
@@ -136,7 +137,7 @@
     background-color: #121212;
     color: #EEE;
 }
-/* Bouton sur l'accueil */
+/*Bouton sur l'accueil*/
 .ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3:active {
     background-color: #1B2836;
     color: #EEE !important;
@@ -179,7 +180,9 @@ html,
 .popover--menu .popover-content,
 .popover--red .popover-content,
 .plainSelect-ctrl,
-.softMessages-item {
+.softMessages-item,
+.bg--color-white,
+.listingProfile {
     background-color: #1B2836;
 }
 .listingProfile-footer.space--h-3,
@@ -196,7 +199,7 @@ svg.icon.icon--mail.text--color-white,
 .subNav-item {
     border-right: none;
 }
-/* Un peu plus de texte dans le caroussel */
+/*Un peu plus de texte dans le caroussel*/
 .tGrid-cell.space--r-2 {
     padding-right: 1em;
 }
@@ -209,34 +212,34 @@ svg.icon.icon--mail.text--color-white,
 .popover--menu,
 .popover--menu .popover-content,
 .popover--default .popover-content,
-/* Pop-up de connexion et les onglets notifs, etc. */
+/*Pop-up de connexion et les onglets notifs, etc.*/
 .popover--modal .popover-content,
 .autoSuggest-suggestionsBox,
 .threadWidget-header,
 .threadWidget--type-linear,
-/* Suggestions de recherche + onglet "les + hot" qd fenêtré */
+/*Suggestions de recherche + onglet "les + hot" qd fenêtré*/
 .threadWidget-options--carousel-previous-button {
     color: #EEE;
     background-color: #1B2836;
 }
-/* Titres des onglets de notifs */
+/*Titres des onglets de notifs*/
 .navDropDown-head-text {
     opacity: 1;
     color: white;
 }
-/* Bouton "poster un deal" */
+/*Bouton "poster un deal"*/
 .btn--mode-special {
     background: transparent;
     border: 1px solid #D1D5DB;
 }
-/* Retouches liées à l'affichage du prix */
+/*Retouches liées à l'affichage du prix*/
 .overflow--wrap-off flex--auto-0 {
     font-size: 1.5em;
     font-weight: bold;
 }
 .thread--expired.thread--type-list .thread-price,
 .userHtml a.linkPlain,
-/* "Afficher plus" */
+/*"Afficher plus"*/
 .userHtml a.thread-link {
     color: #141D26 !important;
 }
@@ -310,17 +313,23 @@ button:hover .btn--mode-special,
 .comments-list .comments-item {
     border-bottom: none;
 }
-/* Survol des votes et des menus moins agressifs */
+/*Survol des votes et des menus moins agressifs*/
 .vote-btn:hover,
 .navDropDown-link:hover,
 .btn--mode-boxSec:focus,
 .btn--mode-boxSec:hover,
-.btn--mode-primary-inverted {
+.btn--mode-primary-inverted,
+.navDropDown-link:focus,
+.navDropDown-link:hover,
+button:hover .btn--mode-boxSec,
+.tabbedInterface-tab--primary:not(.tabbedInterface-tab--selected):hover {
     background: transparent !important;
     color: #1DA1F2 !important;
+    border-color: #1DA1F2;
 }
-.btn--mode-primary {
+.btn--mode-primary, .btn.width--all-12 {
     background: #1DA1F2;
+    color: white;
     border: none;
 }
 .btn--mode-primary:hover {
@@ -333,7 +342,7 @@ p,
 a {
     color: #EEE;
 }
-/* Header dans la consultation d'un deal */
+/*Header dans la consultation d'un deal*/
 .voteBar {
     background-color: #222;
     border-bottom: 1px solid #D1D5DB;
@@ -354,7 +363,7 @@ a {
     background-color: transparent;
     color: #EEE;
 }
-/* On vide les boutons */
+/*On vide les boutons*/
 .input,
 .inputBox,
 .toolbar,
@@ -388,7 +397,7 @@ a {
 .popover--layout-e > .popover-arrow::after {
     border-right-color: #03A5C1;
 }
-/* Catégories des paramètres */
+/*Catégories des paramètres*/
 .tabbedInterface-tab--selected {
     background-color: #1B2836 !important;
     color: #CCC;
@@ -403,12 +412,12 @@ a {
 .select-ctrl option {
     background: black;
 }
-/* Espace entre commentaires */
+/*Espace entre commentaires*/
 .comments-item-inner,
 .comments-list article:target .page2-space--h-p {
     border-top: 5px solid #141D26;
 }
-/* Espace plus grand après le descriptif du topic */
+/*Espace plus grand après le descriptif du topic*/
 nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
     border-bottom: 10px solid #141D26;
 }
@@ -460,8 +469,12 @@ nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
 }
 .text--color-greyShade,
 .cept-nav-subheadline.box--all-i.space--l-3.vAlign--all-m,
-p.size--all-l.size--fromW3-xl.text--b {
+p.size--all-l.size--fromW3-xl.text--b,
+.text--lh-1, .text--lh-1 span, .text--lh-1 a {
     color: #AAA;
+}
+.userHtml a.linkPlain, .userHtml a.thread-link {
+    color: #AAA !important;
 }
 .notification-item {
     background-color: #121212 !important;
@@ -477,7 +490,7 @@ p.size--all-l.size--fromW3-xl.text--b {
 .tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--l-1.cept-last-page.pagination-page {
     color: white !important;
 }
-/* Rennes Noël 2018 */
+/*Rennes*/
 .mc-bg--forest,
 .mc-background--page {
     background-color: transparent !important;
