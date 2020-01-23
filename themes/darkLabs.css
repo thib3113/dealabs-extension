@@ -1,141 +1,145 @@
 @charset "UTF-8";
 /*============================================*/
-/*       DarkLabs - MonsieurCro - V4.10       */
+/*     DarkLabs - MonsieurCro - V29191213     */
 /*============================================*/
 
-/* .logo {
-    background: url("https://thib3113.github.io/dealabs-extension/themes/darklabs/logo.png") no-repeat scroll center center !important;
-    background-size: contain !important;
-    margin: 5px 10px 0px 0px;
-} */
+/* MODS (merci à leipo159, nberdah & Trideal) */
+/*============================================*/
 
-/* -#MODS (with leipo159, nberdah & Trideal)- */
-.text--lineThrough { /* espacement entre le prix barré et le prix */
+/* Espacement entre prix barré et prix */
+.text--lineThrough {
     padding: 1.57143em;
 }
+/* Légère réduction de la taille des images sur l'accueil */
 .imgFrame-img,
-.ratioBox-child { /* légère réduction de la taille des images sur l'accueil */
+.ratioBox-child {
     max-width: 90%;
     max-height: 90%;
     margin: auto;
 }
+/* Réduction des espaces des box-deals de l'accueil */
 .comments-list--insideBox .comments-item-inner,
-.page2-space--h-p,
-.space--h-3,
-.space--r-3 { /* réduction des espaces des box-deals de l'accueil */
+.page2-space--h-p, .space--h-3, .space--r-3 {
     padding-right: 1em;
 }
-.space--h-2,
-.space--r-2 {
+.space--h-2, .space--r-2 {
     padding-right: 1.57143em;
 }
 .space--fromW3-t-3 {
     padding-top: 1em;
 }
-.thread-list--type-list { /* plus de place pour les deals, réduction de la colonne de droite */
+/* Réduction de la colonne de droite sur l'accueil */
+.thread-list--type-list {
     max-width: 90%;
     margin: auto;
 }
-.comments-avatarColumn { /* décallage du post par apport a l'avatar */
+/* Décallage du post par apport a l'avatar */
+.comments-avatarColumn {
     width: 6em;
     box-sizing: content-box;
 }
-.userHtml-quote { /* quote message */
+/* Quote message */
+.userHtml-quote {
     padding: .5em 1.57em;
-    border: 1px dashed #CCCCCC;
+    border: 1px dashed #CCC;
     cursor: default;
     border-radius: 30px;
 }
-.user { /* grossisement nom user */
+/* Grossisement nom user */
+.user {
     font-weight: 700;
     font-size: larger;
     color: #35373B;
 }
-
-.notification-item-image { /* espacement avatar/message dans les notifications */
+/* Espacement avatar/message dans les notifications */
+.notification-item-image {
     width: 5.64286em;
 }
-.space--h-1,
-.space--l-1 { /* espacement avatar/message dans la messagerie (partie gauche) */
+/* Espacement avatar/message dans la messagerie (partie gauche) */
+.space--h-1, .space--l-1 {
     padding-left: .28571em;
 }
-.threadGrid.space--t-2.space--b-2.space--h-2.space--fromW3-h-3.space--fromW3-t-3.space--fromW3-b-3 { /* encadré deal */
+/* Encadré deal */
+.threadGrid.space--t-2.space--b-2.space--h-2.space--fromW3-h-3.space--fromW3-t-3.space--fromW3-b-3 {
     position: relative;
     margin-bottom: 5px;
     border: 1px solid #D1D5DB;
 }
-.userHtml-quote,
-.userHtml-video,
-.userHtml-videoDummy,
-.userHtml[data-animated-gif] { /* décalage du quote forum */
+/* Décalage du quote forum */
+.userHtml-quote, .userHtml-video, .userHtml-videoDummy, .userHtml[data-animated-gif] {
     display: block;
     margin-top: .28571em;
     margin-bottom: .28571em;
     margin-left: 20px;
 }
-.mute--text.size--all-s { /* Gestion du prix barré et remise */
+/* Prix barré et remise */
+.mute--text.size--all-s {
     font-weight: normal;
     font-size: 10pt;
 }
-.cept-merchant-name { /* Gestion du marchand */
+/* Marchand */
+.cept-merchant-name {
     font-weight: bold;
     font-size: 10pt;
     font-variant: small-caps;
 }
-.cept-description-container { /* Gestion de la description du deal */
-    color: #DDDDDD;
+/* Description du deal */
+.cept-description-container {
+    color: #DDD;
     font-weight: normal;
     font-size: 10pt;
 }
-/* BarreNav */
-.subNav-item  {   /* réduit légèrement la barre du haut */
+/* Barre de navigation - réduit légèrement la barre du haut */
+.subNav-item {
     height: 3.1em;
 }
 .subNavMenu .subNavMenu-item {
-    height: 3.1em;
-    line-height: 3.1em;
+    height: 3.1em; line-height: 3.1em;
 }
-.thread-list--type-list .js-threadList .thread--type-list .threadGrid-image .thread-listImgCell { /* Tuiles Deals */
+/* Tuiles Deals */
+.thread-list--type-list .js-threadList .thread--type-list .threadGrid-image .thread-listImgCell {
     width: 10em;
 }
+/* Header onglet "description" */
 .profileHeader .profileHeader-content,
-.profileHeader > .page-content { /* Header onglet "description" */
-    padding-bottom: 0.6em;
-    padding-top: 0.6em;
+.profileHeader > .page-content {
+    padding-bottom: .6em;
+    padding-top: .6em;
 }
 .grpAvatar {
-    width: 4em;
-    min-width: 4em;
+    width: 4em; min-width: 4em;
 }
-.ico--type-left-blue:before { /* pagination */
+/* Pagination */
+.ico--type-left-blue:before {
     content: "\2B9C";
     background-image: none;
     color: #1DA1F2;
 }
-
 .ico--type-right-grey:before {
     content: "\2B9E";
     background-image: none;
-    color: #CCCCCC;
+    color: #CCC;
 }
 
-/* -----------------#COLOURS----------------- */
+/* -----#COULEURS----- */
+/*============================================*/
+
+/* Bouton "Back to top" */
 .btn--move-to-top.zIndex--above {
-    /* bouton "Back to top" */
     display: block !important;
     opacity: 1 !important;
-    font-size: 0.8em;
+    font-size: .8em;
 }
 .btn--mode-white--dark,
 .btn--mode-white--dark:focus,
 .btn--mode-white--dark:hover {
     background-color: #121212;
-    color: #EEEEEE;
+    color: #EEE;
 }
+/* Bouton sur l'accueil */
 .ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3:active {
-    /* bouton sur l'accueil*/
     background-color: #1B2836;
-    color: #EEEEEE !important;
+    color: #EEE !important;
     border: 1px solid #D1D5DB;
 }
 .ico.ico--type-up-brandPrimary.ico--pos-l.hide--toW3:hover {
@@ -147,18 +151,21 @@ nav.comments-pagination.width--all-12.space--v-2.bg--color-greyPanel {
 }
 .bg--off,
 .nav,
+.nav-banner,
 .footer,
 .bg--greyPanel,
 .popover--mainNav .popover-content,
 .popover--brandAccent .popover-content,
 .vote-box,
 .subNavMenu--menu .subNavMenu-list,
-.space--v-3.space--h-3.border.border--color-brandPrimary.text--color-brandPrimary.bRad--a.bg--color-brandPrimaryPale {
+.space--v-3.space--h-3.border.border--color-brandPrimary.text--color-brandPrimary.bRad--a.bg--color-brandPrimaryPale,
+.bg--color-greyPanel {
     background: #141D26;
 }
 .popover--layout-s > .popover-arrow::after {
     border-bottom-color: #141D26;
 }
+html,
 .subNav,
 .subNav--light,
 .bg--inverted,
@@ -171,7 +178,8 @@ nav.comments-pagination.width--all-12.space--v-2.bg--color-greyPanel {
 .popover--default .popover-content,
 .popover--menu .popover-content,
 .popover--red .popover-content,
-.plainSelect-ctrl {
+.plainSelect-ctrl,
+.softMessages-item {
     background-color: #1B2836;
 }
 .listingProfile-footer.space--h-3,
@@ -183,12 +191,13 @@ svg.icon.icon--mail.text--color-white,
 .tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--h-4.space--v-1.pagination-page.text--color-,
 .conversation-content.iGrid-item.width--all-12.mute--text2.userHtml,
 .lbox--v-4.lbox--f.boxAlign-jc--all-c.bRad--t-a.border.border--b-r {
-    color: #FFFFFF;
+    color: white;
 }
 .subNav-item {
     border-right: none;
 }
-.tGrid-cell.space--r-2 { /* un peu plus de texte dans le caroussel */
+/* Un peu plus de texte dans le caroussel */
+.tGrid-cell.space--r-2 {
     padding-right: 1em;
 }
 .bg--main,
@@ -200,29 +209,35 @@ svg.icon.icon--mail.text--color-white,
 .popover--menu,
 .popover--menu .popover-content,
 .popover--default .popover-content,
-.popover--modal .popover-content, /*pop-up de connexion et les onglets notifs, etc.*/
+/* Pop-up de connexion et les onglets notifs, etc. */
+.popover--modal .popover-content,
 .autoSuggest-suggestionsBox,
 .threadWidget-header,
 .threadWidget--type-linear,
-.threadWidget-options--carousel-previous-button { /* suggestions de recherche + onglet "les + hot" qd fenêtré */
-    color: #EEEEEE;
+/* Suggestions de recherche + onglet "les + hot" qd fenêtré */
+.threadWidget-options--carousel-previous-button {
+    color: #EEE;
     background-color: #1B2836;
 }
-.navDropDown-head-text { /* titres des onglets de notifs */
+/* Titres des onglets de notifs */
+.navDropDown-head-text {
     opacity: 1;
-    color: #FFFFFF;
+    color: white;
 }
-.btn--mode-special { /* bouton poster un deal */
+/* Bouton "poster un deal" */
+.btn--mode-special {
     background: transparent;
     border: 1px solid #D1D5DB;
 }
-.overflow--wrap-off flex--auto-0 { /* retouches liées à l'affichage du prix */
+/* Retouches liées à l'affichage du prix */
+.overflow--wrap-off flex--auto-0 {
     font-size: 1.5em;
     font-weight: bold;
 }
 .thread--expired.thread--type-list .thread-price,
 .userHtml a.linkPlain,
-.userHtml a.thread-link { /* "Afficher plus" */
+/* "Afficher plus" */
+.userHtml a.thread-link {
     color: #141D26 !important;
 }
 .userHtml a.linkPlain:hover,
@@ -236,7 +251,7 @@ svg.icon.icon--mail.text--color-white,
 }
 .thread--expired.thread--type-card,
 .thread--expired.thread--type-list {
-    opacity: 0.6;
+    opacity: .6;
 }
 .user,
 .mute--text2,
@@ -275,7 +290,8 @@ button:hover .btn--mode-special,
 .checkbox-input:checked ~ .tGrid-cell > .checkbox-box,
 .toolbar-btn.toolbar-btn--link,
 .checkbox--brand .checkbox-input:checked ~ .tGrid-cell > .checkbox-box,
-.btn.btn--mini.btn--toW5-square {
+.btn.btn--mini.btn--toW5-square,
+.bg--color-brandPrimary {
     border-color: #1DA1F2;
     background-color: #1DA1F2;
 }
@@ -294,11 +310,12 @@ button:hover .btn--mode-special,
 .comments-list .comments-item {
     border-bottom: none;
 }
+/* Survol des votes et des menus moins agressifs */
 .vote-btn:hover,
 .navDropDown-link:hover,
 .btn--mode-boxSec:focus,
 .btn--mode-boxSec:hover,
-.btn--mode-primary-inverted { /* survol des votes et des menus moins agressifs */
+.btn--mode-primary-inverted {
     background: transparent !important;
     color: #1DA1F2 !important;
 }
@@ -314,10 +331,11 @@ button:hover .btn--mode-special,
 .subNavMenu-btn,
 p,
 a {
-    color: #EEEEEE;
+    color: #EEE;
 }
-.voteBar { /* header dans la consultation d'un deal */
-    background-color: #222222;
+/* Header dans la consultation d'un deal */
+.voteBar {
+    background-color: #222;
     border-bottom: 1px solid #D1D5DB;
 }
 .conversationList-msg,
@@ -325,7 +343,7 @@ a {
 .conversationList-msgPreview,
 .conversationList-senderLine {
     background-color: #1B2836 !important;
-    color: #EEEEEE !important;
+    color: #EEE !important;
 }
 .redactor-editor,
 .comments-item--active,
@@ -334,8 +352,9 @@ a {
 .bg--em,
 .tabbedInterface-tab--horizontal {
     background-color: transparent;
-    color: #EEEEEE;
+    color: #EEE;
 }
+/* On vide les boutons */
 .input,
 .inputBox,
 .toolbar,
@@ -347,7 +366,7 @@ a {
 .btn:disabled,
 .btn--disabled,
 .subNavMenu-btn,
-.imgFrame--squircle, /* on vide les boutons */
+.imgFrame--squircle,
 #notifications,
 .navMenu-trigger,
 .navMenu-trigger:focus,
@@ -356,11 +375,11 @@ a {
     background-color: transparent;
 }
 .speechBubble {
-    background: #000000;
+    background: black;
 }
 .speechBubble:after,
 .speechBubble:before {
-    color: #000000;
+    color: black;
 }
 .popover--arrow-navDropDownPrimary .popover-arrow::after,
 .checkbox-input:checked ~ .tGrid-cell > .checkbox-box {
@@ -369,30 +388,33 @@ a {
 .popover--layout-e > .popover-arrow::after {
     border-right-color: #03A5C1;
 }
-.tabbedInterface-tab--selected { /* catégories des paramètres */
+/* Catégories des paramètres */
+.tabbedInterface-tab--selected {
     background-color: #1B2836 !important;
-    color: #CCCCCC;
+    color: #CCC;
 }
 .tabbedInterface-tab {
     background-color: #141D26;
-    color: #CCCCCC;
+    color: #CCC;
 }
 .userProfile-title--sub {
-    color: #CCCCCC;
+    color: #CCC;
 }
 .select-ctrl option {
-    background: #000000;
+    background: black;
 }
+/* Espace entre commentaires */
 .comments-item-inner,
-.comments-list article:target .page2-space--h-p { /* espace entre commentaires */
+.comments-list article:target .page2-space--h-p {
     border-top: 5px solid #141D26;
 }
-nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div { /* espace plus grand après le descriptif du topic */
+/* Espace plus grand après le descriptif du topic */
+nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div {
     border-bottom: 10px solid #141D26;
 }
 .textBadge--blue {
     background-color: transparent;
-    border: 0.5px solid #D1D5DB;
+    border: .5px solid #D1D5DB;
 }
 .overflow--fade::after {
     background: transparent;
@@ -421,7 +443,7 @@ nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div { /* espace plus g
 }
 .multiSelect-list {
     background-color: #1B2836;
-    color: #FFFFFF;
+    color: white;
 }
 .navDropDown-head,
 .btn--mode-navDropDownPrimary,
@@ -434,12 +456,12 @@ nav.space--h-3.space--fromW3-h-4.space--v-2.bg--em.boxSec-div { /* espace plus g
     border-top: 1em solid #1DA1F2;
 }
 .navDropDown-footer {
-    border: 0.8px solid #1DA1F2;
+    border: .8px solid #1DA1F2;
 }
 .text--color-greyShade,
 .cept-nav-subheadline.box--all-i.space--l-3.vAlign--all-m,
 p.size--all-l.size--fromW3-xl.text--b {
-    color: #AAAAAA;
+    color: #AAA;
 }
 .notification-item {
     background-color: #121212 !important;
@@ -453,7 +475,7 @@ p.size--all-l.size--fromW3-xl.text--b {
 .cept-next-page.pagination-next.lbox--v-4,
 .cept-first-page.tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--r-1.pagination-page,
 .tGrid-cell.tGrid-cell--shrink.vAlign--all-m.space--l-1.cept-last-page.pagination-page {
-    color: #FFFFFF !important;
+    color: white !important;
 }
 /* Rennes Noël 2018 */
 .mc-bg--forest,
@@ -463,25 +485,25 @@ p.size--all-l.size--fromW3-xl.text--b {
 .mc-festiveFont,
 .mc-festiveFont--giant,
 .mc-card-counter-child {
-    color: #FFFFFF;
+    color: white;
 }
 .mc-bg--forest .mc-content {
     background-color: #1B2836;
     border-radius: 10px;
 }
 .mc-card.mc-card--border.space--v-3.space--h-3.mc-card--trade.mc-card--shadow {
-    background-color: #333333;
+    background-color: #333;
 }
 input.mc-form-search.autoSuggest-input.input.input--icon-l.width--all-12.cept-trading-partner-user-search-suggestions {
-    background-color: #FFFFFF;
+    background-color: white;
 }
 a.btn.btn--mode-boxSec.mc-notification-shadow.space--h-4.width--all-12 {
-    background-color: #333333;
-    color: #CCCCCC;
+    background-color: #333;
+    color: #CCC;
 }
 a.btn.btn--mode-boxSec.mc-notification-shadow.space--h-4.width--all-12:hover {
-    background-color: #555555;
-    color: #EEEEEE;
+    background-color: #555;
+    color: #EEE;
 }
 .imgFrame-img {
     border-radius: 5px;
